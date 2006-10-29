@@ -1,5 +1,4 @@
 = jpmobile: A Rails plugin for Japanese mobile-phones
-http://jpmobile.rubyforge.org
 
 == jpmobileとは
 携帯電話特有の機能を Rails で利用するためのプラグイン。
@@ -13,7 +12,8 @@ http://jpmobile.rubyforge.org
 == インストール
 
 svnレポジトリからインストールする場合
- % ./script/plugin install http://rubyforge.org/var/svn/jpmobile/trunk/jpmobile
+
+% ./script/plugin install svn://rubyforge.org/var/svn/jpmobile/trunk/jpmobile
 
 == 使用例
 
@@ -109,6 +109,11 @@ svnレポジトリからインストールする場合
 === IPの検証
 キャリアが公開しているIPアドレス帯域からのアクセスか判定する。
   request.mobile.valid_ip?
+
+== リンク
+* Project Website: http://jpmobile.rubyforge.org
+* RubyForge Project Page: http://rubyforge.org/projects/jpmobile
+* SVN Repository Browser: http://rubyforge.org/cgi-bin/viewvc.cgi/?root=jpmobile
 
 == 作者
 

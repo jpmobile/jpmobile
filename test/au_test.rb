@@ -1,0 +1,70 @@
+require 'test/helper'
+
+class AuTest < Test::Unit::TestCase
+  # au, 端末種別の識別
+  def test_au_ca32
+    req = request_with_ua("KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0",
+                          "HTTP_X_UP_SUBNO"=>"00000000000000_mj.ezweb.ne.jp")
+    assert_equal(true, req.mobile?)
+    assert_instance_of(Jpmobile::Mobile::Au, req.mobile)
+    assert_equal("00000000000000_mj.ezweb.ne.jp", req.mobile.subno)
+    assert_equal("00000000000000_mj.ezweb.ne.jp", req.mobile.ident)
+    assert_equal(nil, req.mobile.position)
+  end
+
+  # au, gps, degree, wgs84
+  def test_au_gps_degree
+    req = request_with_ua("KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0",
+                          {"QUERY_STRING"=>"ver=1&datum=0&unit=1&lat=%2b43.07772&lon=%2b141.34114&alt=64&time=20061016192415&smaj=69&smin=18&vert=21&majaa=115&fm=1"})
+    assert_equal(43.07772, req.mobile.position.lat)
+    assert_equal(141.34114, req.mobile.position.lon)
+  end
+
+  # au, gps, dms, wgs84
+  # これが一番端末を選ばないようだ
+  # http://hiyuzawa.jpn.org/blog/2006/09/gps1_augps_1.html
+  def test_au_gps_dms
+    req = request_with_ua("KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0",
+                          {"QUERY_STRING"=>"ver=1&datum=0&unit=0&lat=%2b43.05.08.95&lon=%2b141.20.25.99&alt=155&time=20060521010328&smaj=76&smin=62&vert=65&majaa=49&fm=1"})
+    assert_in_delta(43.08581944, req.mobile.position.lat, 1e-7)
+    assert_in_delta(141.3405528, req.mobile.position.lon, 1e-7)
+  end
+
+  # au, gps, degree, tokyo
+  def test_au_gps_degree_tokyo
+    req = request_with_ua("KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0",
+                          {"QUERY_STRING"=>"ver=1&datum=1&unit=1&lat=%2b43.07475&lon=%2b141.34259&alt=8&time=20061017182825&smaj=113&smin=76&vert=72&majaa=108&fm=1"})
+    assert_in_delta(43.07719289, req.mobile.position.lat, 1e-4)
+    assert_in_delta(141.3389013, req.mobile.position.lon, 1e-4)
+  end
+
+  # au, gps, dms, tokyo
+  def test_au_gps_dms_tokyo
+    req = request_with_ua("KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0",
+                          {"QUERY_STRING"=>"ver=1&datum=1&unit=0&lat=%2b43.04.28.26&lon=%2b141.20.33.15&alt=-5&time=20061017183807&smaj=52&smin=36&vert=31&majaa=101&fm=1"})
+    assert_in_delta(43.07695833, req.mobile.position.lat, 1e-4)
+    assert_in_delta(141.3388528, req.mobile.position.lon, 1e-4)
+  end
+
+  # au, antenna, dms (au簡易位置情報)
+  def test_au_antenna
+    req = request_with_ua("KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0",
+                          {"QUERY_STRING"=>"datum=tokyo&unit=dms&lat=43.04.55.00&lon=141.20.50.75"})
+    assert_in_delta(43.08194444, req.mobile.position.lat, 1e-7)
+    assert_in_delta(141.3474306, req.mobile.position.lon, 1e-7)
+  end
+
+  # 正しいIPアドレス空間からのアクセスを判断できるか。
+  def test_au_valid_ip_address
+    req = request_with_ua("KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0",
+                          {"REMOTE_ADDR"=>"210.169.40.1"})
+    assert_equal(req.mobile.valid_ip?, true)
+  end
+
+  # 正しくないIPアドレス空間からのアクセスを判断できるか。
+  def test_au_invalid_ip_address
+    req = request_with_ua("KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0",
+                          {"REMOTE_ADDR"=>"127.0.0.1"})
+    assert_equal(req.mobile.valid_ip?, false)
+  end
+end

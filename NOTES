@@ -1,0 +1,21 @@
+=参考になる情報など
+
+==DoCoMo
+* FOMA位置情報: http://www.nttdocomo.co.jp/service/imode/make/content/html/outline/gps.html
+* オープンiエリア: http://www.nttdocomo.co.jp/service/imode/make/content/iarea/index.html
+* IPアドレス帯域: http://www.nttdocomo.co.jp/service/imode/make/content/ip/about/
+
+==au
+* 簡易位置情報: http://www.au.kddi.com/ezfactory/tec/spec/eznavi.html
+* IPアドレス帯域: http://www.au.kddi.com/ezfactory/tec/spec/ezsava_ip.html
+
+==SoftBank
+http://developers.softbankmobile.co.jp/dp/tool_dl/download.php?docid=120
+* J-PHONEの位置情報->70ページ
+* Vodafone 3G/Softbank携帯の位置情報->71ページ
+* ユーザエージェントについて: http://developers.softbankmobile.co.jp/dp/tool_dl/web/useragent.php
+* IPアドレス帯域: http://developers.softbankmobile.co.jp/dp/tech_svc/web/ip.php
+
+==Willcom
+* 位置情報: http://www.willcom-inc.com/ja/biz/service/location/index.html
+* IPアドレス帯域: http://www.willcom-inc.com/ja/service/contents_service/club_air_edge/for_phone/ip/index.html

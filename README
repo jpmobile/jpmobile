@@ -1,0 +1,119 @@
+= jpmobile: A Rails plugin for Japanese mobile-phones
+http://jpmobile.rubyforge.org
+
+== jpmobileとは
+携帯電話特有の機能を Rails で利用するためのプラグイン。
+以下の機能を備える。
+
+* 携帯電話のキャリア判別
+* 端末位置情報の取得
+* 端末製造番号、契約者番号等の取得
+* IPアドレスの検証(キャリアが公開しているIPアドレス帯域からのアクセスか判定)
+
+== インストール
+
+svnレポジトリからインストールする場合
+ % ./script/plugin install http://rubyforge.org/var/svn/jpmobile/trunk/jpmobile
+
+== 使用例
+
+=== 携帯電話の識別
+
+==== Viewの中で一部を切替える例
+  <% if request.mobile? %>
+    携帯電話からのアクセスです。
+  <% else %>
+    携帯電話からのアクセスではありません。
+  <% end %>
+
+==== 別に用意した携帯電話用コントローラへリダイレクトする例
+  class PcController < ApplicationController
+    before_filter :redirect_if_mobile
+
+    def index
+    end
+
+    private
+    def redirect_if_mobile
+      if request.mobile?
+        redirect_to :controller=>"/mobile"
+      end
+    end
+  end
+
+  class MobileController < ApplicationController
+    after_filter :to_sjis
+
+    def index
+    end
+
+    private
+    def to_sjis
+      @headers["Content-Type"] = "text/html; charset=Shift_JIS"
+      response.body = response.body.tosjis
+    end
+  end
+
+==== キャリアの識別
+
+  case request.mobile
+  when Jpmobile::Mobile::Docomo
+    # for DoCoMo
+  when Jpmobile::Mobile::Au
+    # for au
+  when Jpmobile::Mobile::Softbank
+    # for SoftBank
+  when Jpmobile::Mobile::Willcom
+    # for Willcom
+  else
+    # for PC
+  end
+
+あるいは
+  if request.mobile.is_a?(Jpmobile::Mobile::Docomo)
+    # for DoCoMo
+  end
+
+=== 位置情報の取得
+
+==== 取得用リンクの生成
+
+以下のようなコードで、端末に位置情報を要求するリンクを出力する。
+  <%= link_to_get_position(:action=>:gps) %>
+
+==== 位置情報の取得
+
+  class MobileController < ApplicationController
+    def gps
+      if request.mobile && pos = request.mobile.position
+        @latitude = pos.lat
+        @longuitude = pos.lon
+      end
+    end
+  end
+
+
+=== 端末情報の取得
+
+端末側から通知されている場合、
+契約に固有の識別子もしくは端末の製造番号を取得できる。
+両方存在する場合は契約に固有のIDが優先される。
+
+* 契約に固有のID
+  * au: EZ番号(サブスクライバ番号)
+  * DoCoMo: FOMAカード製造番号
+* 端末製造番号
+  * DoCoMo: 端末製造番号(FOMA, MOVA)
+  * SoftBank: 製造番号
+
+=== IPの検証
+キャリアが公開しているIPアドレス帯域からのアクセスか判定する。
+  request.mobile.valid_ip?
+
+== 作者
+
+Copyright 2006 (c) Yohji Shidara, under MIT License.
+
+Yohji Shidara <dara@shidara.net>
+
+http://d.hatena.ne.jp/darashi

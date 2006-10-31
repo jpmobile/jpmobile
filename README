@@ -13,7 +13,7 @@
 
 svnレポジトリからインストールする場合
 
-% ./script/plugin install svn://rubyforge.org/var/svn/jpmobile/trunk/jpmobile
+  % ./script/plugin install svn://rubyforge.org/var/svn/jpmobile/trunk/jpmobile
 
 == 使用例
 
@@ -36,7 +36,9 @@ svnレポジトリからインストールする場合
     private
     def redirect_if_mobile
       if request.mobile?
-        redirect_to :controller=>"/mobile"
+        pa = params.dup
+        pa[:controller] = "/mobile"
+        redirect_to pa
       end
     end
   end

@@ -66,6 +66,9 @@ class SoftbankTest < Test::Unit::TestCase
                           {"QUERY_STRING"=>"pos=N43.3.18.42E141.21.1.88&geo=wgs84&x-acr=1"})
     assert_in_delta(43.05511667, req.mobile.position.lat, 1e-7)
     assert_in_delta(141.3505222, req.mobile.position.lon, 1e-7)
+    assert_equal("N43.3.18.42E141.21.1.88", req.mobile.position.options["pos"])
+    assert_equal("wgs84", req.mobile.position.options["geo"])
+    assert_equal("1", req.mobile.position.options["x-acr"])
   end
 
   # 正しいIPアドレス空間からのアクセスを判断できるか。

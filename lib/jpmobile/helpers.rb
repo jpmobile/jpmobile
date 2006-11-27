@@ -11,20 +11,20 @@ module Jpmobile
       show_all = options.delete(:show_all)
 
       s = []
-      if show_all ||@request.mobile.instance_of?(Mobile::Docomo)
+      if show_all || request.mobile.instance_of?(Mobile::Docomo)
         s << docomo_foma_gps_link_to("DoCoMo FOMA(GPS)", options)
       end
-      if show_all || @request.mobile.instance_of?(Mobile::Au)
+      if show_all || request.mobile.instance_of?(Mobile::Au)
         s << au_gps_link_to("au(GPS)", options)
         s << au_location_link_to("au(antenna)", options)
       end
-      if show_all || @request.mobile.instance_of?(Mobile::Jphone)
+      if show_all || request.mobile.instance_of?(Mobile::Jphone)
         s << jphone_location_link_to("Softbank(antenna)", options)
       end
-      if show_all || @request.mobile.instance_of?(Mobile::Vodafone)
+      if show_all || request.mobile.instance_of?(Mobile::Vodafone)
         s << softbank_location_link_to("Softbank 3G(GPS)", options)
       end
-      if show_all || @request.mobile.instance_of?(Mobile::Willcom)
+      if show_all || request.mobile.instance_of?(Mobile::Willcom)
         s << willcom_location_link_to("Willcom", options)
       end
       return s.join("<br />\n")

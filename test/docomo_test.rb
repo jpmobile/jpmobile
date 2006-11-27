@@ -34,7 +34,7 @@ class DocomoTest < Test::Unit::TestCase
 
   # DoCoMo, gps
   # http://www.nttdocomo.co.jp/service/imode/make/content/html/outline/gps.html
-  def test_docomo_gps
+  def test_docomo_gps_sa702i
     req = request_with_ua("DoCoMo/2.0 SA702i(c100;TB;W30H15)",
                           {"QUERY_STRING"=>"lat=%2B35.00.35.600&lon=%2B135.41.35.600&geo=wgs84&x-acc=3"})
     assert_in_delta(35.00988889, req.mobile.position.lat, 1e-7)
@@ -44,7 +44,7 @@ class DocomoTest < Test::Unit::TestCase
   # DoCoMo, 903i, GPS
   # "WGS84"が大文字。altで高度が取得できているようだ。どちらも仕様書には記述がない。
   # http://www.nttdocomo.co.jp/service/imode/make/content/html/outline/gps.html
-  def test_docomo_gps
+  def test_docomo_gps_sh903i
     req = request_with_ua("DoCoMo/2.0 SH903i(c100;TB;W24H16)",
                           {"QUERY_STRING"=>
                            "lat=%2B35.00.35.600&lon=%2B135.41.35.600&geo=WGS84&alt=%2B64.000&x-acc=1"})

@@ -29,7 +29,7 @@ module Jpmobile
         Mobile::Jphone.new(self)
       when /^Vodafone/
         Mobile::Vodafone.new(self)
-      when /^Softbank/
+      when /^SoftBank/
         Mobile::Softbank.new(self)
       when /^Mozilla\/3.0\(DDIPOCKET/
         Mobile::Ddipocket.new(self)

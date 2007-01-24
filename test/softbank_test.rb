@@ -1,6 +1,16 @@
 require 'test/helper'
 
 class SoftbankTest < Test::Unit::TestCase
+  # SoftBank, 端末種別の識別
+  def test_softbank_910t
+    req = request_with_ua("SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1")
+    assert_equal(true, req.mobile?)
+    assert_instance_of(Jpmobile::Mobile::Softbank, req.mobile)
+    assert_kind_of(Jpmobile::Mobile::Softbank, req.mobile)
+    assert_equal(nil, req.mobile.position)
+    assert_equal("000000000000000", req.mobile.ident)
+  end
+
   # Vodafone, 端末種別の識別
   def test_vodafone_v903t
     req = request_with_ua("Vodafone/1.0/V903T/TJ001 Browser/VF-Browser/1.0 Profile/MIDP-2.0 Configuration/CLDC-1.1 Ext-J-Profile/JSCL-1.2.2 Ext-V-Profile/VSCL-2.0.0")

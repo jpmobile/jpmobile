@@ -4,7 +4,7 @@
 # 2006/09現在
 # == au
 # http://www.au.kddi.com/ezfactory/tec/spec/ezsava_ip.html
-# 2006/08/14現在
+# 2006/12/01現在
 # == SoftBank
 # http://developers.softbankmobile.co.jp/dp/tech_svc/web/ip.php
 # 2006/11/17現在
@@ -44,6 +44,7 @@ Jpmobile::Mobile::Au::IP_ADDRESSES=<<EOF
 222.5.62.128/25
 222.7.57.0/24
 59.135.38.128/25
+219.108.157.0/25
 EOF
 
 Jpmobile::Mobile::Softbank::IP_ADDRESSES=<<EOF

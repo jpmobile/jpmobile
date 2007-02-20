@@ -1,21 +1,9 @@
-#= セッションIDの付与
+# = セッションIDの付与
 #
 # based on http://moriq.tdiary.net/20070209.html#p01
 # by moriq <moriq@moriq.com>
-#
-# 使いかた
-#
-# 携帯だけに付与する
-# class MyController
-#   transit_sid
-# end
-# 
-# PCにも付与する
-# class MyController
-#   transit_sid :always
-# end
 
-class ActionController::Base
+class ActionController::Base #:nodoc:
   cattr_accessor :transit_sid_mode
   def self.transit_sid(mode=:mobile)
     include Jpmobile::TransSid
@@ -23,7 +11,7 @@ class ActionController::Base
   end
 end
 
-module Jpmobile::TransSid
+module Jpmobile::TransSid #:nodoc:
   def self.included(controller)
     controller.after_filter(:append_session_id_parameter)
   end

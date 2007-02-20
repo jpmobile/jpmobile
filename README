@@ -8,6 +8,7 @@
 * 端末位置情報の取得
 * 端末製造番号、契約者番号等の取得
 * IPアドレスの検証(キャリアが公開しているIPアドレス帯域からのアクセスか判定)
+* セッションIDをフォーム／リンクに付与(Transit SID)
 
 == インストール
 
@@ -111,6 +112,18 @@ svnレポジトリからインストールする場合
 === IPの検証
 キャリアが公開しているIPアドレス帯域からのアクセスか判定する。
   request.mobile.valid_ip?
+
+=== セッションIDの付与(Transit SID)
+==== 携帯だけに付与する
+  class MyController
+    transit_sid
+  end
+ 
+==== PCにも付与する
+  class MyController
+    transit_sid :always
+  end
+
 
 == リンク
 * Project Website: http://jpmobile.rubyforge.org

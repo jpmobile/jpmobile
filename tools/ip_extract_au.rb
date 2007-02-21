@@ -11,4 +11,9 @@ src.scan(/(\d+[.．]\d+[.．]\d+[.．]\d+).*?(\/\d+)/m) {|a,b|
   ips << a.gsub(/．/,".") + b
 }
 
-puts ips
+# 書き出し
+open("lib/jpmobile/mobile/z_ip_addresses_au.rb","w") do |f|
+  f.puts "Jpmobile::Mobile::Au::IP_ADDRESSES = ["
+  f.puts ips.map {|x| '"'+x+'"'}.join(",\n")
+  f.puts "]"
+end

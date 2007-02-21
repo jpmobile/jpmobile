@@ -11,4 +11,9 @@ src =~ /削除IPアドレス/
 s = $`
 ips = s.scan(/(\d+\.\d+\.\d+\.\d+\/\d+)/).flatten
 
-puts ips
+# 書き出し
+open("lib/jpmobile/mobile/z_ip_addresses_willcom.rb","w") do |f|
+  f.puts "Jpmobile::Mobile::Willcom::IP_ADDRESSES = ["
+  f.puts ips.map {|x| '"'+x+'"'}.join(",\n")
+  f.puts "]"
+end

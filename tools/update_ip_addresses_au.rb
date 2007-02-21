@@ -3,6 +3,7 @@
 
 require 'kconv'
 require 'open-uri'
+require 'pp'
 
 src = open("http://www.au.kddi.com/ezfactory/tec/spec/ezsava_ip.html").read.toutf8
 
@@ -13,7 +14,6 @@ src.scan(/(\d+[.．]\d+[.．]\d+[.．]\d+).*?(\/\d+)/m) {|a,b|
 
 # 書き出し
 open("lib/jpmobile/mobile/z_ip_addresses_au.rb","w") do |f|
-  f.puts "Jpmobile::Mobile::Au::IP_ADDRESSES = ["
-  f.puts ips.map {|x| '"'+x+'"'}.join(",\n")
-  f.puts "]"
+  f.puts "Jpmobile::Mobile::Au::IP_ADDRESSES = "
+  f.puts ips.pretty_inspect
 end

@@ -72,13 +72,31 @@ class DocomoTest < Test::Unit::TestCase
   def test_docomo_valid_ip_address
     req = request_with_ua("DoCoMo/2.0 SH902i(c100;TB;W24H12)",
                           {"REMOTE_ADDR"=>"210.153.84.1"})
-    assert_equal(req.mobile.valid_ip?, true)
+    assert_equal(true, req.mobile.valid_ip?)
   end
 
   # 正しくないIPアドレス空間からのアクセスを判断できるか。
   def test_docomo_invalid_ip_address
     req = request_with_ua("DoCoMo/2.0 SH902i(c100;TB;W24H12)",
                           {"REMOTE_ADDR"=>"127.0.0.1"})
-    assert_equal(req.mobile.valid_ip?, false)
+    assert_equal(false, req.mobile.valid_ip?)
+  end
+
+  # 端末の画面サイズを正しく取得できるか。
+  def test_docomo_so506ic_display_size
+    req = request_with_ua("DoCoMo/1.0/SO506iC/c20/TB/W20H10")
+    assert_equal(240, req.mobile.browser_width)
+    assert_equal(256, req.mobile.browser_height)
+    assert_equal(true, req.mobile.display_color?)
+    assert_equal(262144, req.mobile.display_depth)
+  end
+
+  # 端末の画面サイズを正しく取得できるか。
+  def test_docomo_sh902i_display_size
+    req = request_with_ua("DoCoMo/2.0 SH902i(c100;TB;W24H12)")
+    assert_equal(240, req.mobile.browser_width)
+    assert_equal(240, req.mobile.browser_height)
+    assert_equal(true, req.mobile.display_color?)
+    assert_equal(262144, req.mobile.display_depth)
   end
 end

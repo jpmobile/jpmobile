@@ -42,5 +42,36 @@ module Jpmobile::Mobile
     def ident
       icc || serial_number
     end
+    # ブラウザ画面の幅を返す。
+    def browser_width
+      display_info[:browser_width]
+    end
+    # ブラウザ画面の高さを返す。
+    def browser_height
+      display_info[:browser_height]
+    end
+    # カラー端末の場合は +true+、白黒端末の場合は +false+ を返す。
+    def display_color?
+      display_info[:color_p]
+    end
+    # 端末の色数(白黒端末の場合は階調数)を返す。
+    def display_depth
+      display_info[:depth]
+    end
+
+    private
+    # モデル名を返す。
+    def model_name
+      if @request.user_agent =~ /^DoCoMo\/2.0 (.+)\(/
+        return $1
+      elsif @request.user_agent =~ /^DoCoMo\/1.0\/(.+?)\//
+        return $1
+      end
+      return nil
+    end
+    # 画面の情報を含むハッシュを返す。
+    def display_info
+      DISPLAY_INFO[model_name] || {}
+    end
   end
 end

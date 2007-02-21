@@ -106,3 +106,10 @@ desc "Publish the API documentation"
 task :pdoc => [:rdoc] do 
   Rake::SshDirPublisher.new("dara@rubyforge.org", "/var/www/gforge-projects/jpmobile/", "doc").upload
 end
+
+desc "Update misc tables"
+task :update do
+  Dir.glob("tools/update_*.rb").each do |path|
+    ruby path
+  end
+end

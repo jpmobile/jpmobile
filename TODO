@@ -7,6 +7,7 @@
 
 == 全般
 * A Position#optionsをテストするコード
+* B Transit SIDのテストコード(書けるかな)
 
 == 位置情報取得未実装
 * C Vodafone3Gのwgs84以外(仕様書によるとitrf,tokyoが返りうるらしい)
@@ -14,9 +15,5 @@
 == 位置情報取得ヘルパー
 * C link_to_get_positionのテストコードをもう少しまじめに書く
 * B FORMタグ用のヘルパーも作成する
-
-== 実機テスト
-* DoCoMo FOMA gps
-* Willcom
 
 == ドキュメントの整備

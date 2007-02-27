@@ -1,4 +1,4 @@
-require 'test/helper'
+require File.dirname(__FILE__)+'/helper'
 
 class DocomoTest < Test::Unit::TestCase
   # DoCoMo, 端末種別の識別

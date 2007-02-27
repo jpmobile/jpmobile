@@ -2,7 +2,7 @@ require 'test/unit'
 require 'rubygems'
 require 'action_controller'
 
-require 'init'
+require File.dirname(__FILE__)+'/../lib/jpmobile'
 
 class FakeCgi < CGI
   attr_accessor :stdinput, :stdoutput, :env_table

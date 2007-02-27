@@ -1,4 +1,4 @@
-require 'test/helper'
+require File.dirname(__FILE__)+'/helper'
 require 'hpricot'
 
 class FakeView

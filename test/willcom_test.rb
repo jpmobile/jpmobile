@@ -1,4 +1,4 @@
-require 'test/helper'
+require File.dirname(__FILE__)+'/helper'
 
 class WillcomTest < Test::Unit::TestCase
   # willcom, 端末種別の識別

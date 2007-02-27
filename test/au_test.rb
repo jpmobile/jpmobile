@@ -1,4 +1,4 @@
-require 'test/helper'
+require File.dirname(__FILE__)+'/helper'
 
 class AuTest < Test::Unit::TestCase
   # au, 端末種別の識別

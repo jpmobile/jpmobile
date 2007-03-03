@@ -8,6 +8,7 @@
 == 全般
 * A Position#optionsをテストするコード
 * B Transit SIDのテストコード(書けるかな)
+* B View振分けのテストコード(書けるかな)
 
 == 位置情報取得未実装
 * C Vodafone3Gのwgs84以外(仕様書によるとitrf,tokyoが返りうるらしい)

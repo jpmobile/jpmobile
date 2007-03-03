@@ -9,6 +9,7 @@
 * 端末製造番号、契約者番号等の取得
 * IPアドレスの検証(キャリアが公開しているIPアドレス帯域からのアクセスか判定)
 * セッションIDをフォーム／リンクに付与(Transit SID)
+* 携帯電話ビューへの自動振分け
 
 == インストール
 
@@ -56,6 +57,15 @@ svnレポジトリからインストールする場合
       response.body = response.body.tosjis
     end
   end
+
+
+=== 携帯電話viewの自動振分け
+DoCoMo携帯電話からのアクセスすると、
+index_mobile_docomo.rhtml
+index_mobile.rhtml
+index.rhtml
+の順でテンプレートを検索し、最初に見付かったテンプレートが利用されます。
+Auの場合は、index_mobile_au.rhtml、Softbankの場合はindex_mobile_softbank.rhtmlです。
 
 ==== キャリアの識別
 

@@ -60,12 +60,12 @@ svnレポジトリからインストールする場合
 
 
 === 携帯電話viewの自動振分け
-DoCoMo携帯電話からのアクセスすると、
-index_mobile_docomo.rhtml
-index_mobile.rhtml
-index.rhtml
+DoCoMo携帯電話からアクセスすると、
+* index_mobile_docomo.rhtml
+* index_mobile.rhtml
+* index.rhtml
 の順でテンプレートを検索し、最初に見付かったテンプレートが利用されます。
-Auの場合は、index_mobile_au.rhtml、Softbankの場合はindex_mobile_softbank.rhtmlです。
+Auの場合は、index_mobile_au.rhtml、Softbankの場合はindex_mobile_softbank.rhtmlが最初に検索されます。
 
 ==== キャリアの識別
 

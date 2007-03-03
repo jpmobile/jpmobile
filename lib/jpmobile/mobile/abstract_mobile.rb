@@ -7,6 +7,9 @@ module Jpmobile::Mobile
       @request = request
     end
 
+    # 対応するuser-agentの正規表現
+    USER_AGENT_REGEXP = nil
+
     # 緯度経度があれば Position のインスタンスを返す。
     def position; return nil; end
 

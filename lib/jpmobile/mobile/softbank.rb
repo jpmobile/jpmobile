@@ -7,6 +7,9 @@ module Jpmobile::Mobile
   # ==Softbank携帯電話
   # Vodafone, Jphoneのスーパクラス。
   class Softbank < AbstractMobile
+    # 対応するuser-agentの正規表現
+    USER_AGENT_REGEXP = /^SoftBank/
+
     # 製造番号を返す。無ければ +nil+ を返す。
     def serial_number
       @request.user_agent =~ /SN(.+?) /
@@ -30,10 +33,15 @@ module Jpmobile::Mobile
   # ==Vodafone 3G携帯電話(J-PHONE, SoftBank含まず)
   # スーパクラスはSoftbank。
   class Vodafone < Softbank
+    # 対応するUser-Agentの正規表現
+    USER_AGENT_REGEXP = /^Vodafone/
   end
   # ==SoftBank 2G携帯電話(J-PHONE/Vodafone 2G)
   # スーパクラスはVodafone。
   class Jphone < Vodafone
+    # 対応するUser-Agentの正規表現
+    USER_AGENT_REGEXP = /^J-PHONE/
+
     # 位置情報があれば Position のインスタンスを返す。無ければ +nil+ を返す。
     def position
       str = @request.env["HTTP_X_JPHONE_GEOCODE"]

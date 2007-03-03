@@ -5,6 +5,9 @@ module Jpmobile::Mobile
   # ==Willcom携帯電話
   # Ddipocketのスーパクラス。
   class Willcom < AbstractMobile
+    # 対応するUser-Agentの正規表現
+    USER_AGENT_REGEXP = /^Mozilla\/3.0\(WILLCOM/
+
     # 位置情報があれば Position のインスタンスを返す。無ければ +nil+ を返す。
     def position
       return nil if params["pos"].blank?
@@ -18,5 +21,8 @@ module Jpmobile::Mobile
   end
   # ==DDI-POCKET
   # スーパクラスはWillcom。
-  class Ddipocket < Willcom; end
+  class Ddipocket < Willcom
+    # 対応するUser-Agentの正規表現
+    USER_AGENT_REGEXP = /^Mozilla\/3.0\(DDIPOCKET/
+  end
 end

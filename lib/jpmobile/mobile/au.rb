@@ -6,6 +6,9 @@ module Jpmobile::Mobile
   # ==au携帯電話
   # CDMA 1X, CDMA 1X WINを含む。
   class Au < AbstractMobile
+    # 対応するUser-Agentの正規表現
+    USER_AGENT_REGEXP = /^KDDI-/
+
     # EZ番号(サブスクライバID)があれば返す。無ければ +nil+ を返す。
     def subno
       @request.env["HTTP_X_UP_SUBNO"]

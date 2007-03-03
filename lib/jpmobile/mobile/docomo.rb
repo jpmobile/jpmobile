@@ -3,6 +3,9 @@
 module Jpmobile::Mobile
   # ==DoCoMo携帯電話
   class Docomo < AbstractMobile
+    # 対応するUser-Agentの正規表現
+    USER_AGENT_REGEXP = /^DoCoMo/
+
     # オープンiエリアがあればエリアコードを +String+ で返す。無ければ +nil+ を返す。
     def areacode
       if params["ACTN"] == "OK"

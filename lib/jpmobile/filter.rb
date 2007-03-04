@@ -21,7 +21,7 @@ module Jpmobile
         @counter += 1
         return unless @counter == 1
         if respond_to?(:to_internal) && apply_incoming?(controller)
-          deep_each(controller.params) do |value|
+          deep_each(controller.request.params) do |value|
             value = to_internal(value)
           end
         end
@@ -64,7 +64,7 @@ module Jpmobile
         NKF.nkf('-m0 -Sw', str)
       end
       def after_after(controller)
-        controller.headers['Content-Type'] = 'text/html; charset=Shift_JIS'
+        controller.response.charset = "Shift_JIS"
       end
       def apply_incoming?(controller)
         # Vodafone 3G/Softbank(Shift-JISにすると絵文字で不具合が生じる)以外の

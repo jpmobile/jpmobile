@@ -8,7 +8,7 @@
 class ActionView::Base #:nodoc:
   alias render_file_without_mobile render_file #:nodoc:
   def render_file(template_path, use_full_path = true, local_assigns = {})
-    if m = controller.request.mobile
+    if controller.is_a?(ActionController::Base) && m = controller.request.mobile
       vals = []
       c = m.class
       while c != Jpmobile::Mobile::AbstractMobile

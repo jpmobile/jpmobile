@@ -21,7 +21,7 @@ module Jpmobile
         @counter += 1
         return unless @counter == 1
         if respond_to?(:to_internal) && apply_incoming?(controller)
-          deep_each(controller.request.params) do |value|
+          deep_each(controller.params) do |value|
             value = to_internal(value)
           end
         end

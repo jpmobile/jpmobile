@@ -297,6 +297,8 @@ Jpmobile::Mobile::Docomo::DISPLAY_INFO =
   {:browser_width=>240, :browser_height=>269, :color_p=>true, :depth=>65536},
  "F210i"=>
   {:browser_width=>96, :browser_height=>113, :color_p=>true, :depth=>256},
+ "SH903iTV"=>
+  {:browser_width=>240, :browser_height=>320, :color_p=>true, :depth=>262144},
  "D702iBCL"=>
   {:browser_width=>230, :browser_height=>240, :color_p=>true, :depth=>262144},
  "N902iS"=>

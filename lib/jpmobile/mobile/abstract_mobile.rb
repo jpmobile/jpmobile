@@ -41,7 +41,6 @@ module Jpmobile::Mobile
     # 端末の色数(白黒端末の場合は階調数)を返す。
     def display_depth; nil; end
 
-
     private
     # リクエストのパラメータ。
     def params

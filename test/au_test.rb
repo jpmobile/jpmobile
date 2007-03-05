@@ -67,4 +67,17 @@ class AuTest < Test::Unit::TestCase
                           {"REMOTE_ADDR"=>"127.0.0.1"})
     assert_equal(req.mobile.valid_ip?, false)
   end
+
+  # 端末の画面サイズを正しく取得できるか。
+  def test_au_w41ca_display_size
+    req = request_with_ua("KDDI-CA33 UP.Browser/6.2.0.10.4 (GUI) MMP/2.0",
+                          "HTTP_X_UP_DEVCAP_SCREENDEPTH"=>"16,RGB565",
+                          "HTTP_X_UP_DEVCAP_SCREENPIXELS"=>"240,346",
+                          "HTTP_X_UP_DEVCAP_ISCOLOR"=>"1"
+                          )
+    assert_equal(240, req.mobile.browser_width)
+    assert_equal(346, req.mobile.browser_height)
+    assert_equal(true, req.mobile.display_color?)
+    assert_equal(65536, req.mobile.display_depth)
+  end
 end

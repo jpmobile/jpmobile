@@ -57,16 +57,16 @@ module Jpmobile::Mobile
     end
     # カラー端末の場合は +true+、白黒端末の場合は +false+、不明の場合は +nil+ を返す。
     def display_color?
-      if @request.env['HTTP_X_UP_DEVCAP_ISCOLOR']
-        @request.env['HTTP_X_UP_DEVCAP_ISCOLOR'] == '1'
+      if r = @request.env['HTTP_X_UP_DEVCAP_ISCOLOR']
+        r == '1'
       else
         nil
       end
     end
     # 端末の色数(白黒端末の場合は階調数)を返す。
     def display_depth
-      if @request.env['HTTP_X_UP_DEVCAP_SCREENDEPTH']
-        a = @request.env['HTTP_X_UP_DEVCAP_SCREENDEPTH'].split(/,/)
+      if r = @request.env['HTTP_X_UP_DEVCAP_SCREENDEPTH']
+        a = r.split(/,/)
         2 ** a[0].to_i
       else
         nil

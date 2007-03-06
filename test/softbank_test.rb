@@ -101,4 +101,15 @@ class SoftbankTest < Test::Unit::TestCase
                           {"REMOTE_ADDR"=>"127.0.0.1"})
     assert_equal(req.mobile.valid_ip?, false)
   end
+
+  # 端末の画面サイズを正しく取得できるか。
+  def test_softbank_v903t_display_size
+    req = request_with_ua("Vodafone/1.0/V903T/TJ001 Browser/VF-Browser/1.0 Profile/MIDP-2.0 Configuration/CLDC-1.1 Ext-J-Profile/JSCL-1.2.2 Ext-V-Profile/VSCL-2.0.0",
+                          "HTTP_X_JPHONE_DISPLAY"=>"240*320",
+                          "HTTP_X_JPHONE_COLOR"=>"C262144" )
+    assert_equal(240, req.mobile.browser_width)
+    assert_equal(320, req.mobile.browser_height)
+    assert_equal(true, req.mobile.display_color?)
+    assert_equal(262144, req.mobile.display_depth)
+  end
 end

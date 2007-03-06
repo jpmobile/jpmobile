@@ -103,13 +103,28 @@ class SoftbankTest < Test::Unit::TestCase
   end
 
   # 端末の画面サイズを正しく取得できるか。
-  def test_softbank_v903t_display_size
+  def test_softbank_v903t_display
     req = request_with_ua("Vodafone/1.0/V903T/TJ001 Browser/VF-Browser/1.0 Profile/MIDP-2.0 Configuration/CLDC-1.1 Ext-J-Profile/JSCL-1.2.2 Ext-V-Profile/VSCL-2.0.0",
                           "HTTP_X_JPHONE_DISPLAY"=>"240*320",
                           "HTTP_X_JPHONE_COLOR"=>"C262144" )
-    assert_equal(240, req.mobile.browser_width)
-    assert_equal(320, req.mobile.browser_height)
-    assert_equal(true, req.mobile.display_color?)
-    assert_equal(262144, req.mobile.display_depth)
+    assert_equal(240, req.mobile.display.width)
+    assert_equal(320, req.mobile.display.height)
+    assert_equal(240, req.mobile.display.physical_width)
+    assert_equal(320, req.mobile.display.physical_height)
+    assert_equal(true, req.mobile.display.color?)
+    assert_equal(262144, req.mobile.display.colors)
+  end
+
+  # 端末の画面情報が渡ってない場合に正しく動作するか。
+  def test_softbank_v903t_display_information_omitted
+    req = request_with_ua("Vodafone/1.0/V903T/TJ001 Browser/VF-Browser/1.0 Profile/MIDP-2.0 Configuration/CLDC-1.1 Ext-J-Profile/JSCL-1.2.2 Ext-V-Profile/VSCL-2.0.0")
+    assert_equal(nil, req.mobile.display.width)
+    assert_equal(nil, req.mobile.display.height)
+    assert_equal(nil, req.mobile.display.browser_width)
+    assert_equal(nil, req.mobile.display.browser_height)
+    assert_equal(nil, req.mobile.display.physical_width)
+    assert_equal(nil, req.mobile.display.physical_height)
+    assert_equal(nil, req.mobile.display.color?)
+    assert_equal(nil, req.mobile.display.colors)
   end
 end

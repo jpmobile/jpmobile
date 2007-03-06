@@ -83,20 +83,24 @@ class DocomoTest < Test::Unit::TestCase
   end
 
   # 端末の画面サイズを正しく取得できるか。
-  def test_docomo_so506ic_display_size
+  def test_docomo_so506ic_display
     req = request_with_ua("DoCoMo/1.0/SO506iC/c20/TB/W20H10")
-    assert_equal(240, req.mobile.browser_width)
-    assert_equal(256, req.mobile.browser_height)
-    assert_equal(true, req.mobile.display_color?)
-    assert_equal(262144, req.mobile.display_depth)
+    assert_equal(240, req.mobile.display.browser_width)
+    assert_equal(256, req.mobile.display.browser_height)
+    assert_equal(240, req.mobile.display.width)
+    assert_equal(256, req.mobile.display.height)
+    assert_equal(true, req.mobile.display.color?)
+    assert_equal(262144, req.mobile.display.colors)
   end
 
   # 端末の画面サイズを正しく取得できるか。
-  def test_docomo_sh902i_display_size
+  def test_docomo_sh902i_display
     req = request_with_ua("DoCoMo/2.0 SH902i(c100;TB;W24H12)")
-    assert_equal(240, req.mobile.browser_width)
-    assert_equal(240, req.mobile.browser_height)
-    assert_equal(true, req.mobile.display_color?)
-    assert_equal(262144, req.mobile.display_depth)
+    assert_equal(240, req.mobile.display.browser_width)
+    assert_equal(240, req.mobile.display.browser_height)
+    assert_equal(240, req.mobile.display.width)
+    assert_equal(240, req.mobile.display.height)
+    assert_equal(true, req.mobile.display.color?)
+    assert_equal(262144, req.mobile.display.colors)
   end
 end

@@ -31,15 +31,11 @@ module Jpmobile::Mobile
       end
       return false
     end
-
-    # ブラウザ画面の幅を返す。
-    def browser_width; nil; end
-    # ブラウザ画面の高さを返す。
-    def browser_height; nil; end
-    # カラー端末の場合は +true+、白黒端末の場合は +false+ を返す。
-    def display_color?; nil; end
-    # 端末の色数(白黒端末の場合は階調数)を返す。
-    def display_depth; nil; end
+    
+    # 画面情報を +Display+ クラスのインスタンスで返す。
+    def display
+      Jpmobile::Display.new
+    end
 
     private
     # リクエストのパラメータ。

@@ -39,38 +39,21 @@ module Jpmobile::Mobile
       end
       return l
     end
-    # ブラウザ画面の幅を返す。
-    def browser_width
+
+    # 画面情報を +Display+ クラスのインスタンスで返す。
+    def display
+      p_w = p_h = col_p = cols = nil
       if r = @request.env['HTTP_X_UP_DEVCAP_SCREENPIXELS']
-        r.split(/,/,2)[0].to_i
-      else
-        nil
+        p_w, p_h = r.split(/,/,2).map {|x| x.to_i}
       end
-    end
-    # ブラウザ画面の高さを返す。
-    def browser_height
-      if r = @request.env['HTTP_X_UP_DEVCAP_SCREENPIXELS']
-        r.split(/,/,2)[1].to_i
-      else
-        nil
-      end
-    end
-    # カラー端末の場合は +true+、白黒端末の場合は +false+、不明の場合は +nil+ を返す。
-    def display_color?
       if r = @request.env['HTTP_X_UP_DEVCAP_ISCOLOR']
-        r == '1'
-      else
-        nil
+        col_p = (r == '1')
       end
-    end
-    # 端末の色数(白黒端末の場合は階調数)を返す。
-    def display_depth
       if r = @request.env['HTTP_X_UP_DEVCAP_SCREENDEPTH']
         a = r.split(/,/)
-        2 ** a[0].to_i
-      else
-        nil
+        cols = 2 ** a[0].to_i
       end
+      Jpmobile::Display.new(p_w, p_h, nil, nil, col_p, cols)
     end
   end
 end

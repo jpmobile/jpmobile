@@ -10,6 +10,7 @@
 * IPアドレスの検証(キャリアが公開しているIPアドレス帯域からのアクセスか判定)
 * セッションIDをフォーム／リンクに付与(Transit SID)
 * 携帯電話ビューへの自動振分け
+* ディスプレイ情報(画面サイズ、ブラウザ画面サイズ、カラー・白黒、色数)の取得
 
 == インストール
 
@@ -134,6 +135,10 @@ Auの場合は、index_mobile_au.rhtml、Softbankの場合はindex_mobile_softba
     transit_sid :always
   end
 
+=== 端末の画面サイズ
+request.mobile.display で Jpmobile::Display クラスのインスタンスが返る。
+  画面幅 <%= request.mobile.display.width %>
+  画面高さ <%= request.mobile.display.height %> 
 
 == リンク
 * Project Website: http://jpmobile.rubyforge.org

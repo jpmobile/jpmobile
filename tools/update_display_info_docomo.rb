@@ -27,15 +27,15 @@ user_agents = {}
 
     case a[5]
     when /^カラー\s*(\d+)色$/
-      color = true
-      depth = $1.to_i
+      color_p = true
+      colors = $1.to_i
     when /^白黒(\d+)階調$/
-      color = false
-      depth = $1.to_i
+      color_p = false
+      colors = $1.to_i
     else
       raise "something is wrong (in detecting colors)"
     end
-    user_agents[a[0]] = {:browser_width=>width, :browser_height=>height, :color_p=>color, :depth=>depth}
+    user_agents[a[0]] = {:browser_width=>width, :browser_height=>height, :color_p=>color_p, :colors=>colors}
   end
 end
 

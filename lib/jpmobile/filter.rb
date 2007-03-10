@@ -1,9 +1,13 @@
 # = 文字コードフィルタ
 # thanks to masuidrive <masuidrive (at) masuidrive.jp>
 
+require 'scanf'
+
 class ActionController::Base #:nodoc:
   def self.mobile_filter(options={})
+    #around_filter Jpmobile::Filter::Emoji::Outer.new
     around_filter Jpmobile::Filter::Sjis.new
+    #around_filter Jpmobile::Filter::Emoji::Inner.new
     around_filter Jpmobile::Filter::HankakuKana.new
   end
 end
@@ -102,6 +106,49 @@ module Jpmobile
         controller.request.mobile?
       end
       alias apply_outgoing? apply_incoming?
+    end
+
+    module Emoji
+      DOCOMO_EMOJI_SJIS_REGEXP = /\xf8[\x9f-\xfc]|\xf9[\x40-\x49\x50-\x52\x55-\x57\x5b-\x5e\x72-\x7e\x80-\xfc]/.freeze
+      DOCOMO_EMOJI_UNICODE_REGEXP = /\xe6[\x3e-\xa5\xac-\xae\xb1-\xb3\xb7-\xba\xce-\xff]|\xe7[\x00-\x57]/.freeze
+
+      # 絵文字Outer
+      # TODO: 機種依存の変換コードはここに載せる
+      class Outer < Base
+        def to_internal(str)
+          # DoCoMo Shift_JISバイナリ絵文字 を DoCoMo Unicode絵文字実体参照 に変換
+          str.gsub(DOCOMO_EMOJI_SJIS_REGEXP) do |match|
+            sjis = match.unpack('n').first
+            unicode = DOCOMO_SJIS_TO_UNICODE[sjis]
+            unicode ? ("&#x%04x;"%unicode) : match
+          end
+        end
+        def to_external(str)
+          # DoCoMo Unicode絵文字実体参照 を DoCoMo Shift_JISバイナリ絵文字 に変換
+          str.gsub(/&#x([0-9a-fA-F]{4});/) do |match|
+            unicode = $1.scanf("%x").first
+            sjis = DOCOMO_UNICODE_TO_SJIS[unicode]
+            sjis ? [sjis].pack('n') : match
+          end
+        end
+      end
+      
+      # 絵文字Inner
+      class Inner < Base
+        def to_internal(str)
+          # DoCoMo Unicode絵文字実体参照 を DoCoMo Unicode絵文字バイナリ に置換
+          str.gsub(/&#x([0-9a-fA-F]{4});/) do |match|
+            unicode = $1.scanf("%x").first
+            unicode =~ DOCOMO_EMOJI_UNICODE_REGEXP ? [unicode].pack('n') : match
+          end
+        end
+        def to_external(str)
+          # DoCoMo Unicode絵文字バイナリ を DoCoMo Unicode絵文字実体参照 に置換
+          str.gsub(DOCOMO_EMOJI_UNICODE_REGEXP) do |match|
+            "&#x%04x;" % match.unpack('n')
+          end
+        end
+      end
     end
   end
 end

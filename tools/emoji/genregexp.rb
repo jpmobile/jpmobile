@@ -39,6 +39,9 @@ ARGF.each do |l|
   h[a.first] << a.last
 end
 
+re = []
 h.sort.each do |k,v|
+  re << "\\x%02x"%k + '['+ranges_to_regexp(to_ranges(v))+']'
   p ["\\x%02x"%k, to_ranges(v), ranges_to_regexp(to_ranges(v))]
 end
+puts re.join('|')

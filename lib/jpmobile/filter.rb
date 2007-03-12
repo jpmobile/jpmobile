@@ -109,9 +109,14 @@ module Jpmobile
     end
 
     module Emoji
-      DOCOMO_EMOJI_SJIS_REGEXP = /\xf8[\x9f-\xfc]|\xf9[\x40-\x49\x50-\x52\x55-\x57\x5b-\x5e\x72-\x7e\x80-\xfc]/.freeze
-      DOCOMO_EMOJI_UNICODE_REGEXP = /\xe6[\x3e-\xa5\xac-\xae\xb1-\xb3\xb7-\xba\xce-\xff]|\xe7[\x00-\x57]/.freeze
-      DOCOMO_EMOJI_UTF8_REGEXP = /\xee(\x98[\xbe-\xbf]|\x99[\x80-\xbf]|\x9a[\x80-\xa5\xac-\xae\xb1-\xb3\xb7-\xba]|\x9b[\x8e-\xbf]|\x9c[\x80-\xbf]|\x9d[\x80-\x97])/.freeze
+      DOCOMO_EMOJI_SJIS_REGEXP = /\xf8[\x9f-\xfc]|
+             \xf9[\x40-\x49\x50-\x52\x55-\x57\x5b-\x5e\x72-\x7e\x80-\xfc]/x.freeze
+      DOCOMO_EMOJI_UTF8_REGEXP = /\xee(?:\x98[\xbe-\xbf]|
+                                         \x99[\x80-\xbf]|
+                                         \x9a[\x80-\xa5\xac-\xae\xb1-\xb3\xb7-\xba]|
+                                         \x9b[\x8e-\xbf]|
+                                         \x9c[\x80-\xbf]|
+                                         \x9d[\x80-\x97])/x.freeze
 
       # 絵文字Outer
       # TODO: 機種依存の変換コードはここに載せる

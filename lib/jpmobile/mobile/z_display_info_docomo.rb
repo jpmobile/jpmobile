@@ -283,6 +283,8 @@ Jpmobile::Mobile::Docomo::DISPLAY_INFO =
   {:color_p=>true, :colors=>65536, :browser_width=>240, :browser_height=>266},
  "NM502i"=>
   {:color_p=>false, :colors=>2, :browser_width=>111, :browser_height=>106},
+ "F903iBSC"=>
+  {:color_p=>true, :colors=>262144, :browser_width=>230, :browser_height=>240},
  "D702iF"=>
   {:color_p=>true, :colors=>262144, :browser_width=>230, :browser_height=>240},
  "P702iD"=>

@@ -193,6 +193,8 @@ Jpmobile::Mobile::Docomo::DISPLAY_INFO =
   {:color_p=>true, :colors=>262144, :browser_width=>176, :browser_height=>144},
  "P503iS"=>
   {:color_p=>true, :colors=>256, :browser_width=>120, :browser_height=>130},
+ "F883i"=>
+  {:color_p=>true, :colors=>65536, :browser_width=>240, :browser_height=>256},
  "SO702i"=>
   {:color_p=>true, :colors=>262144, :browser_width=>240, :browser_height=>256},
  "SO506iC"=>

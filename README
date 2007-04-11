@@ -11,6 +11,7 @@
 * セッションIDをフォーム／リンクに付与(Transit SID)
 * 携帯電話ビューへの自動振分け
 * ディスプレイ情報(画面サイズ、ブラウザ画面サイズ、カラー・白黒、色数)の取得
+* GeoKit(http://geokit.rubyforge.org)との連携
 
 == インストール
 
@@ -65,8 +66,8 @@ DoCoMo携帯電話からアクセスすると、
 * index_mobile_docomo.rhtml
 * index_mobile.rhtml
 * index.rhtml
-の順でテンプレートを検索し、最初に見付かったテンプレートが利用されます。
-Auの場合は、index_mobile_au.rhtml、Softbankの場合はindex_mobile_softbank.rhtmlが最初に検索されます。
+の順でテンプレートを検索し、最初に見付かったテンプレートが利用される。
+Auの場合は、index_mobile_au.rhtml、Softbankの場合はindex_mobile_softbank.rhtmlが最初に検索される。
 
 ==== キャリアの識別
 
@@ -139,6 +140,14 @@ Auの場合は、index_mobile_au.rhtml、Softbankの場合はindex_mobile_softba
 request.mobile.display で Jpmobile::Display クラスのインスタンスが返る。
   画面幅 <%= request.mobile.display.width %>
   画面高さ <%= request.mobile.display.height %> 
+
+=== GeoKit(http://geokit.rubyforge.org)との連携
+
+vandor/plugins/geokit以下にGeoKitがインストールされていると、Jpmobile::PositionにGeoKit::Mappableがincludeされる。したがって、
+
+  request.mobile.position.distance_to('札幌駅')
+
+とすることで、端末と「札幌駅」との距離を求めることができる。詳細は http://geokit.rubyforge.org/api/index.html 参照。
 
 == リンク
 * Project Website: http://jpmobile.rubyforge.org

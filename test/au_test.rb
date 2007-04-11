@@ -93,4 +93,17 @@ class AuTest < Test::Unit::TestCase
     assert_equal(nil, req.mobile.display.color?)
     assert_equal(nil, req.mobile.display.colors)
   end
+
+  # for GeoKit::Mappable
+  def test_au_gps_degree_geokit
+    req = request_with_ua("KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0",
+                          {"QUERY_STRING"=>"ver=1&datum=0&unit=1&lat=%2b43.07772&lon=%2b141.34114&alt=64&time=20061016192415&smaj=69&smin=18&vert=21&majaa=115&fm=1"})
+    assert_equal(43.07772, req.mobile.position.lat)
+    assert_equal(141.34114, req.mobile.position.lng)
+    assert_equal("43.07772,141.34114", req.mobile.position.ll)
+    assert_equal(req.mobile.position, req.mobile.position)
+    if req.mobile.position.respond_to?(:distance_to) # GeoKitがインストールされている場合
+      assert_equal(0, req.mobile.position.distance_to(req.mobile.position))
+    end
+  end
 end

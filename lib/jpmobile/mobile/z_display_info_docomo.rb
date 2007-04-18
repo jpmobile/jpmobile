@@ -399,6 +399,8 @@ Jpmobile::Mobile::Docomo::DISPLAY_INFO =
   {:color_p=>true, :colors=>65536, :browser_width=>120, :browser_height=>112},
  "N506i"=>
   {:color_p=>true, :colors=>262144, :browser_width=>240, :browser_height=>295},
+ "P903iX"=>
+  {:color_p=>true, :colors=>262144, :browser_width=>240, :browser_height=>270},
  "P700i"=>
   {:color_p=>true, :colors=>65536, :browser_width=>240, :browser_height=>270},
  "SO506iS"=>

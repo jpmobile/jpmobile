@@ -73,7 +73,8 @@ module Jpmobile
       def apply_incoming?(controller)
         # Vodafone 3G/Softbank(Shift-JISにすると絵文字で不具合が生じる)以外の
         # 携帯電話の場合に適用する。
-        controller.request.mobile? && !controller.request.mobile.is_a?(Jpmobile::Mobile::Vodafone)
+        mobile = controller.request.mobile
+        mobile && !(mobile.instance_of?(Jpmobile::Mobile::Vodafone)||mobile.instance_of?(Jpmobile::Mobile::Softbank))
       end
       alias apply_outgoing? apply_incoming?
     end

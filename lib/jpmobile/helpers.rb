@@ -21,7 +21,7 @@ module Jpmobile
       if show_all || request.mobile.instance_of?(Mobile::Jphone)
         s << jphone_location_link_to("Softbank(antenna)", options)
       end
-      if show_all || request.mobile.instance_of?(Mobile::Vodafone)
+      if show_all || request.mobile.instance_of?(Mobile::Vodafone) || request.mobile.instance_of?(Mobile::Softbank)
         s << softbank_location_link_to("Softbank 3G(GPS)", options)
       end
       if show_all || request.mobile.instance_of?(Mobile::Willcom)

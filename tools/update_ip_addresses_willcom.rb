@@ -7,10 +7,7 @@ require 'pp'
 
 src = open("http://www.willcom-inc.com/ja/service/contents_service/club_air_edge/for_phone/ip/index.html").read.toutf8
 
-src =~ /削除IPアドレス/
-
-s = $`
-ips = s.scan(/(\d+\.\d+\.\d+\.\d+\/\d+)/).flatten
+ips = src.scan(/(\d+\.\d+\.\d+\.\d+\/\d+)/).flatten
 
 # 書き出し
 open("lib/jpmobile/mobile/z_ip_addresses_willcom.rb","w") do |f|

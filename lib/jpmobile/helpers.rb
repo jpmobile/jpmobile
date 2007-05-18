@@ -6,26 +6,37 @@ module Jpmobile
     # 位置情報(緯度経度がとれるもの。オープンiエリアをのぞく)要求するリンクを作成する。
     # 位置情報を受け取るページを +url_for+ に渡す引数の形式で +options+ に指定する。
     # :show_all => +true+ とするとキャリア判別を行わず全てキャリアのリンクを返す。
-    def get_position_link_to(options={})
+    # 第1引数に文字列を与えるとその文字列をアンカーテキストにする。
+    # 第1引数がHashの場合はデフォルトのアンカーテキストを出力する。
+    def get_position_link_to(str=nil, options={})
+      if str.is_a?(Hash)
+        options = str
+        str = nil
+      end
       options = options.symbolize_keys
       show_all = options.delete(:show_all)
 
+      # TODO: コード汚い
       s = []
       if show_all || request.mobile.instance_of?(Mobile::Docomo)
-        s << docomo_foma_gps_link_to("DoCoMo FOMA(GPS)", options)
+        s << docomo_foma_gps_link_to(str||"DoCoMo FOMA(GPS)", options)
       end
       if show_all || request.mobile.instance_of?(Mobile::Au)
-        s << au_gps_link_to("au(GPS)", options)
-        s << au_location_link_to("au(antenna)", options)
+        if show_all || request.mobile.supports_gps?
+          s << au_gps_link_to(str||"au(GPS)", options)
+        end
+        if show_all || (!(request.mobile.supports_gps?) && request.mobile.supports_location?)
+          s << au_location_link_to(str||"au(antenna)", options)
+        end
       end
       if show_all || request.mobile.instance_of?(Mobile::Jphone)
-        s << jphone_location_link_to("Softbank(antenna)", options)
+        s << jphone_location_link_to(str||"Softbank(antenna)", options)
       end
       if show_all || request.mobile.instance_of?(Mobile::Vodafone) || request.mobile.instance_of?(Mobile::Softbank)
-        s << softbank_location_link_to("Softbank 3G(GPS)", options)
+        s << softbank_location_link_to(str||"Softbank 3G(GPS)", options)
       end
       if show_all || request.mobile.instance_of?(Mobile::Willcom)
-        s << willcom_location_link_to("Willcom", options)
+        s << willcom_location_link_to(str||"Willcom", options)
       end
       return s.join("<br />\n")
     end

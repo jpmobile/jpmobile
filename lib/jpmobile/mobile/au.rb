@@ -7,7 +7,7 @@ module Jpmobile::Mobile
   # CDMA 1X, CDMA 1X WINを含む。
   class Au < AbstractMobile
     # 対応するUser-Agentの正規表現
-    USER_AGENT_REGEXP = /^KDDI-/
+    USER_AGENT_REGEXP = /^(?:KDDI|UP.Browser\/.+?)-(.+?) /
     # 簡易位置情報取得に対応していないデバイスID
     # http://www.au.kddi.com/ezfactory/tec/spec/eznavi.html
     LOCATION_UNSUPPORTED_DEVICE_ID = ["PT21", "TS25", "KCTE", "TST9", "KCU1", "SYT5", "KCTD", "TST8", "TST7", "KCTC", "SYT4", "KCTB", "KCTA", "TST6", "KCT9", "TST5", "TST4", "KCT8", "SYT3", "KCT7", "MIT1", "MAT3", "KCT6", "TST3", "KCT5", "KCT4", "SYT2", "MAT1", "MAT2", "TST2", "KCT3", "KCT2", "KCT1", "TST1", "SYT1"]
@@ -19,6 +19,7 @@ module Jpmobile::Mobile
       @request.env["HTTP_X_UP_SUBNO"]
     end
     alias :ident :subno
+
     # 位置情報があれば Position のインスタンスを返す。無ければ +nil+ を返す。
     def position
       return nil if params["lat"].blank? || params["lon"].blank?
@@ -60,5 +61,25 @@ module Jpmobile::Mobile
       end
       Jpmobile::Display.new(p_w, p_h, nil, nil, col_p, cols)
     end
+
+    # デバイスIDを返す
+    def device_id
+      if @request.user_agent =~ USER_AGENT_REGEXP
+        return $1
+      else
+        nil
+      end
+    end
+    
+    # 簡易位置情報取得に対応している場合は +true+ を返す。
+    def supports_location?
+      ! LOCATION_UNSUPPORTED_DEVICE_ID.include?(device_id)
+    end
+    
+    # GPS位置情報取得に対応している場合は +true+ を返す。
+    def supports_gps?
+      ! GPS_UNSUPPORTED_DEVICE_ID.include?(device_id)
+    end
+    
   end
 end

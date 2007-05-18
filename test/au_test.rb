@@ -12,6 +12,13 @@ class AuTest < Test::Unit::TestCase
     assert_equal(nil, req.mobile.position)
   end
 
+  # TuKa, 端末種別の識別
+  def test_tuka_tk22
+    req = request_with_ua("UP.Browser/3.04-KCTA UP.Link/3.4.5.9")
+    assert_equal(true, req.mobile?)
+    assert_instance_of(Jpmobile::Mobile::Au, req.mobile)
+  end
+
   # au, gps, degree, wgs84
   def test_au_gps_degree
     req = request_with_ua("KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0",
@@ -105,5 +112,29 @@ class AuTest < Test::Unit::TestCase
     if req.mobile.position.respond_to?(:distance_to) # GeoKitがインストールされている場合
       assert_equal(0, req.mobile.position.distance_to(req.mobile.position))
     end
+  end
+  
+  # 位置情報取得機能の有無, W31CA
+  def test_au_location_capability_w31ca
+    req = request_with_ua("KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0")
+    assert_equal("CA32", req.mobile.device_id)
+    assert_equal(true, req.mobile.supports_location?)
+    assert_equal(true, req.mobile.supports_gps?)
+  end
+
+  # 位置情報取得機能の有無, A1402S
+  def test_au_location_capability_a1402s
+    req = request_with_ua("KDDI-SN26 UP.Browser/6.2.0.6.2 (GUI) MMP/2.0")
+    assert_equal("SN26", req.mobile.device_id)
+    assert_equal(true, req.mobile.supports_location?)
+    assert_equal(false, req.mobile.supports_gps?)
+  end
+
+  # 位置情報取得機能の有無, TK22
+  def test_au_location_capability_tk22
+    req = request_with_ua("UP.Browser/3.04-KCTA UP.Link/3.4.5.9")
+    assert_equal("KCTA", req.mobile.device_id)
+    assert_equal(false, req.mobile.supports_location?)
+    assert_equal(false, req.mobile.supports_gps?)
   end
 end

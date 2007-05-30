@@ -1,5 +1,5 @@
-# ActionController::CgiRequest を拡張して jpmobile の各機能を提供する。
-class ActionController::CgiRequest
+# ActionController::AbstractRequest を拡張して jpmobile の各機能を提供する。
+class ActionController::AbstractRequest
   # 環境変数 HTTP_USER_AGENT を返す。
   def user_agent
     env['HTTP_USER_AGENT']

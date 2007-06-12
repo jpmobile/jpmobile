@@ -4,7 +4,7 @@
 # by moriq <moriq@moriq.com>
 
 class ActionController::Base #:nodoc:
-  cattr_accessor :transit_sid_mode
+  class_inheritable_accessor :transit_sid_mode
   def self.transit_sid(mode=:mobile)
     include Jpmobile::TransSid
     self.transit_sid_mode = mode

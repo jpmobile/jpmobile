@@ -4,6 +4,10 @@ require 'action_controller'
 
 require File.dirname(__FILE__)+'/../lib/jpmobile'
 
+# ActionPackのTestのためのrequire
+action_pack_full_path = Gem.cache.search('actionpack').sort_by { |g| g.version.version }.last
+require File.join(action_pack_full_path.full_gem_path,'test/abstract_unit')
+
 class FakeCgi < CGI
   attr_accessor :stdinput, :stdoutput, :env_table
   def initialize(user_agent, env={})
@@ -16,3 +20,27 @@ def request_with_ua(user_agent, env={})
   fake_cgi = FakeCgi.new(user_agent, env)
   ActionController::CgiRequest.new(fake_cgi)
 end
+
+## add helper methods to rails testing framework
+module ActionController
+  class TestRequest < AbstractRequest
+    attr_accessor :user_agent
+  end
+end
+
+module Jpmobile::TestHelper
+  def user_agent(str)
+    @request.user_agent = str
+  end
+  def init(c)
+    @controller = c.new
+    @controller.logger = Logger.new(nil)
+    @request = ActionController::TestRequest.new
+    @response = ActionController::TestResponse.new
+    @request.host = "www.example.jp"
+    @request.session.session_id = "mysessionid"
+    @request.session_options = {}
+    @request.session_options[:session_key] = "mysessionkey"
+  end
+end
+Test::Unit::TestCase.class_eval{ include Jpmobile::TestHelper }

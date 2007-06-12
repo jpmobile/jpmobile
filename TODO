@@ -7,7 +7,6 @@
 
 == 全般
 * A Position#optionsをテストするコード
-* B Transit SIDのテストコード(書けるかな)
 * B View振分けのテストコード(書けるかな)
 * B get_position_link_toのテストが汚い
 

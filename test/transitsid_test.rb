@@ -1,6 +1,7 @@
 require File.dirname(__FILE__)+'/helper'
 
 class TestBaseController < ActionController::Base
+  session :session_key => '_session_id'
   def form
     render :inline=>%{<% form_tag do %>Hello<% end %>}
   end

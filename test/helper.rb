@@ -39,8 +39,6 @@ module Jpmobile::TestHelper
     @response = ActionController::TestResponse.new
     @request.host = "www.example.jp"
     @request.session.session_id = "mysessionid"
-    @request.session_options = {}
-    @request.session_options[:session_key] = "mysessionkey"
   end
 end
 Test::Unit::TestCase.class_eval{ include Jpmobile::TestHelper }

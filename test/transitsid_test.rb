@@ -10,7 +10,7 @@ class TestBaseController < ActionController::Base
   end
 end
 
-class DefaultController < TestBaseController;
+class DefaultController < TestBaseController
 end
 
 class AlwaysController < TestBaseController
@@ -53,6 +53,7 @@ class TransitSidTest < Test::Unit::TestCase
     test_transit_sid_enabled
   end
   private
+  # transit_sidが無効化されているかテストする
   def test_transit_sid_disabled
     get :form
     assert_response :success
@@ -61,6 +62,7 @@ class TransitSidTest < Test::Unit::TestCase
     assert_response :success
     assert_match %r{<a href="/.+?/link">linkto</a>}, @response.body
   end
+  # transit_sidが無効化されているかテストする
   def test_transit_sid_enabled
     get :form
     assert_response :success

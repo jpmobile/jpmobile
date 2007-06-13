@@ -44,7 +44,7 @@ class TransitSidTest < Test::Unit::TestCase
     init AlwaysController
     test_transit_sid_enabled
   end
-  def test_transit_sid_always
+  def test_transit_sid_mobile
     init MobileController
     # 普通のブラウザからは無効
     test_transit_sid_disabled

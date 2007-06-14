@@ -11,6 +11,7 @@ class DocomoTest < Test::Unit::TestCase
     assert_equal(nil, req.mobile.serial_number)
     assert_equal(nil, req.mobile.icc)
     assert_equal(nil, req.mobile.ident)
+    assert(!req.mobile.supports_cookie?)
   end
 
   # DoCoMo, 端末種別の識別

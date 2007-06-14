@@ -8,6 +8,7 @@ class WillcomTest < Test::Unit::TestCase
     assert_instance_of(Jpmobile::Mobile::Willcom, req.mobile)
     assert_equal(nil, req.mobile.position)
     assert_equal(nil, req.mobile.ident)
+    assert(req.mobile.supports_cookie?)
   end
 
   # DDI-POCKET, 端末種別の識別
@@ -18,6 +19,7 @@ class WillcomTest < Test::Unit::TestCase
     assert_kind_of(Jpmobile::Mobile::Willcom, req.mobile)
     assert_equal(nil, req.mobile.position)
     assert_equal(nil, req.mobile.ident)
+    assert(req.mobile.supports_cookie?)
   end
 
   # willcom, antenna

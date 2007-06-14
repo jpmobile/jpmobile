@@ -18,6 +18,10 @@ module Jpmobile::Mobile
       pos.tokyo2wgs84!
       return pos
     end
+    # cookieに対応しているか？
+    def supports_cookie?
+      true
+    end
   end
   # ==DDI-POCKET
   # スーパクラスはWillcom。

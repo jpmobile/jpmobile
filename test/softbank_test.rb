@@ -9,6 +9,7 @@ class SoftbankTest < Test::Unit::TestCase
     assert_kind_of(Jpmobile::Mobile::Softbank, req.mobile)
     assert_equal(nil, req.mobile.position)
     assert_equal("000000000000000", req.mobile.ident)
+    assert(req.mobile.supports_cookie?)
   end
 
   # Vodafone, 端末種別の識別
@@ -19,6 +20,7 @@ class SoftbankTest < Test::Unit::TestCase
     assert_kind_of(Jpmobile::Mobile::Softbank, req.mobile)
     assert_equal(nil, req.mobile.position)
     assert_equal(nil, req.mobile.ident)
+    assert(req.mobile.supports_cookie?)
   end
 
   # Vodafone, 端末種別の識別
@@ -30,6 +32,7 @@ class SoftbankTest < Test::Unit::TestCase
     assert_equal("000000000000000", req.mobile.serial_number)
     assert_equal("000000000000000", req.mobile.ident)
     assert_equal(nil, req.mobile.position)
+    assert(req.mobile.supports_cookie?)
   end
 
   # J-PHONE, 端末種別の識別
@@ -41,6 +44,7 @@ class SoftbankTest < Test::Unit::TestCase
     assert_equal("XXXX0000000", req.mobile.serial_number)
     assert_equal("XXXX0000000", req.mobile.ident)
     assert_equal(nil, req.mobile.position)
+    assert(!req.mobile.supports_cookie?)
   end
 
   # J-PHONE, 端末種別の識別
@@ -51,6 +55,7 @@ class SoftbankTest < Test::Unit::TestCase
     assert_kind_of(Jpmobile::Mobile::Softbank, req.mobile)
     assert_equal(nil, req.mobile.serial_number)
     assert_equal(nil, req.mobile.position)
+    assert(!req.mobile.supports_cookie?)
   end
 
   # J-PHONE

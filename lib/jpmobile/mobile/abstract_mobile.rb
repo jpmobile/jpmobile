@@ -37,6 +37,11 @@ module Jpmobile::Mobile
       Jpmobile::Display.new
     end
 
+    # クッキーをサポートしているか。
+    def supports_cookie?
+      return false
+    end
+
     private
     # リクエストのパラメータ。
     def params

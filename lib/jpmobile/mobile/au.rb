@@ -80,6 +80,10 @@ module Jpmobile::Mobile
     def supports_gps?
       ! GPS_UNSUPPORTED_DEVICE_ID.include?(device_id)
     end
-    
+
+    # cookieに対応しているか？
+    def supports_cookie?
+      true
+    end
   end
 end

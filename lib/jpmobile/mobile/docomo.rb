@@ -14,6 +14,7 @@ module Jpmobile::Mobile
         return nil
       end
     end
+
     # 位置情報があれば Position のインスタンスを返す。無ければ +nil+ を返す。
     def position
       return nil if params["lat"].blank? || params["lon"].blank?
@@ -25,6 +26,7 @@ module Jpmobile::Mobile
       pos.lon = Jpmobile::Position.dms2deg($1,$2,$3)
       return pos
     end
+
     # 端末製造番号があれば返す。無ければ +nil+ を返す。
     def serial_number
       case @request.user_agent
@@ -36,11 +38,13 @@ module Jpmobile::Mobile
         return nil
       end
     end
+
     # FOMAカード製造番号があれば返す。無ければ +nil+ を返す。
     def icc
       @request.user_agent =~ /icc([0-9a-zA-Z]{20})\)/
       return $1
     end
+
     # Docomo#icc、Docomo#serial_number の順で有効なものが有れば返す。無ければ +nil+ を返す。
     def ident
       icc || serial_number
@@ -55,6 +59,10 @@ module Jpmobile::Mobile
                             display_info[:colors])
     end
 
+    # cookieに対応しているか？
+    def supports_cookie?
+      false
+    end
     private
     # モデル名を返す。
     def model_name
@@ -65,6 +73,7 @@ module Jpmobile::Mobile
       end
       return nil
     end
+
     # 画面の情報を含むハッシュを返す。
     def display_info
       DISPLAY_INFO[model_name] || {}

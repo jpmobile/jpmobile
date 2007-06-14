@@ -10,6 +10,7 @@ class AuTest < Test::Unit::TestCase
     assert_equal("00000000000000_mj.ezweb.ne.jp", req.mobile.subno)
     assert_equal("00000000000000_mj.ezweb.ne.jp", req.mobile.ident)
     assert_equal(nil, req.mobile.position)
+    assert(req.mobile.supports_cookie?)
   end
 
   # TuKa, 端末種別の識別

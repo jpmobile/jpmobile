@@ -48,12 +48,22 @@ module Jpmobile::Mobile
       Jpmobile::Display.new(p_w, p_h, nil, nil, col_p, cols)
     end
     alias :ident :serial_number
+
+    # cookieに対応しているか？
+    def supports_cookie?
+      true
+    end
   end
   # ==Vodafone 3G携帯電話(J-PHONE, SoftBank含まず)
   # スーパクラスはSoftbank。
   class Vodafone < Softbank
     # 対応するUser-Agentの正規表現
     USER_AGENT_REGEXP = /^Vodafone/
+
+    # cookieに対応しているか？
+    def supports_cookie?
+      true
+    end
   end
   # ==SoftBank 2G携帯電話(J-PHONE/Vodafone 2G)
   # スーパクラスはVodafone。
@@ -72,6 +82,11 @@ module Jpmobile::Mobile
       pos.options = {"address"=>CGI.unescape($7).toutf8}
       pos.tokyo2wgs84!
       return pos
+    end
+
+    # cookieに対応しているか？
+    def supports_cookie?
+      false
     end
   end
 end

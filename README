@@ -126,7 +126,7 @@ Auの場合は、index_mobile_au.rhtml、Softbankの場合はindex_mobile_softba
   request.mobile.valid_ip?
 
 === セッションIDの付与(Transit SID)
-==== 携帯だけに付与する
+==== Cookie非対応携帯だけに付与する
   class MyController
     transit_sid
   end

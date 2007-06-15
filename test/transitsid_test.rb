@@ -66,21 +66,21 @@ class TransitSidTest < Test::Unit::TestCase
   def test_transit_sid_disabled
     get :form
     assert_response :success
-    assert_match %r{<form action="/.+?/form" method="post">Hello</form>}, @response.body, "Expected to be transit_sid disabled" 
+    assert_match %r{^<form action="/.+?/form" method="post">Hello</form>$}, @response.body, "Expected to be transit_sid disabled" 
 
     get :link
     assert_response :success
-    assert_match %r{<a href="/.+?/link">linkto</a>}, @response.body, "Expected to be transit_sid disabled" 
+    assert_match %r{^<a href="/.+?/link">linkto</a>$}, @response.body, "Expected to be transit_sid disabled" 
 
   end
   # transit_sidが無効化されているかテストする
   def test_transit_sid_enabled
     get :form
     assert_response :success
-    assert_match %r{<form action="/.+?/form\?_session_id=mysessionid" method="post">Hello<input type='hidden' name='_session_id' value='mysessionid'></form>}, @response.body, "Expected to be transit_sid enabled" 
+    assert_match %r{^<form action="/.+?/form\?_session_id=mysessionid" method="post">Hello<input type='hidden' name='_session_id' value='mysessionid'></form>$}, @response.body, "Expected to be transit_sid enabled" 
     get :link
     assert_response :success
-    assert_match %r{<a href="/.+?/link\?_session_id=mysessionid">linkto</a>}, @response.body, "Expected to be transit_sid enabled"
+    assert_match %r{^<a href="/.+?/link\?_session_id=mysessionid">linkto</a>$}, @response.body, "Expected to be transit_sid enabled"
 
   end
 end

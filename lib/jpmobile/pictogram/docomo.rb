@@ -1,4 +1,4 @@
-Jpmobile::Filter::Emoji::DOCOMO_UNICODE_TO_SJIS = {
+Jpmobile::Pictogram::DOCOMO_UNICODE_TO_SJIS = {
   0xE63E=>0xF89F, 
   0xE63F=>0xF8A0, 
   0xE640=>0xF8A1, 
@@ -252,7 +252,7 @@ Jpmobile::Filter::Emoji::DOCOMO_UNICODE_TO_SJIS = {
   0xE756=>0xF9FB, 
   0xE757=>0xF9FC, 
 }
-Jpmobile::Filter::Emoji::DOCOMO_SJIS_TO_UNICODE = {
+Jpmobile::Pictogram::DOCOMO_SJIS_TO_UNICODE = {
   0xF89F=>0xE63E, 
   0xF8A0=>0xE63F, 
   0xF8A1=>0xE640, 

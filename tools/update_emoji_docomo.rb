@@ -24,13 +24,13 @@ table = []
 end
 
 
-open("lib/jpmobile/mobile/z_emoji_docomo.rb","w") do |f|
-  f.puts "Jpmobile::Filter::Emoji::DOCOMO_UNICODE_TO_SJIS = {"
+open("lib/jpmobile/pictogram/docomo.rb","w") do |f|
+  f.puts "Jpmobile::Pictogram::DOCOMO_UNICODE_TO_SJIS = {"
   table.each do |row|
     f.puts "  0x%s=>0x%s, "%[row[3], row[1]]
   end
   f.puts "}"
-  f.puts "Jpmobile::Filter::Emoji::DOCOMO_SJIS_TO_UNICODE = {"
+  f.puts "Jpmobile::Pictogram::DOCOMO_SJIS_TO_UNICODE = {"
   table.each do |row|
     f.puts "  0x%s=>0x%s, "%[row[1], row[3]]
   end

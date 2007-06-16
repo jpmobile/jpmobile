@@ -49,6 +49,7 @@ Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.options << '--line-numbers' << '--inline-source' << '-c UTF-8'
   rdoc.rdoc_files.include('README')
   rdoc.rdoc_files.include('TODO')
+  rdoc.rdoc_files.include('CHANGELOG')
   rdoc.rdoc_files.include('NOTES')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
@@ -112,4 +113,10 @@ task :update do
   Dir.glob("tools/update_*.rb").each do |path|
     ruby path
   end
+end
+
+desc "Release helper"
+task :rel do
+  puts "svn copy svn+ssh://dara@rubyforge.org/var/svn/jpmobile/trunk " +
+       "svn+ssh://dara@rubyforge.org/var/svn/jpmobile/tags/rel-#{VERS} -m 'Tagged #{VERS}' "
 end

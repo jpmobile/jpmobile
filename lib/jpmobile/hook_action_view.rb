@@ -1,3 +1,8 @@
+#:stopdoc:
+# helperを追加
+ActionView::Base.class_eval { include Jpmobile::Helpers }
+#:startdoc:
+
 # ActionView::Base を拡張して携帯からのアクセスの場合に携帯向けビューを優先表示する。
 # Vodafone携帯(request.mobile == Jpmobile::Mobile::Vodafone)の場合、
 #   index_mobile_vodafone.rhtml

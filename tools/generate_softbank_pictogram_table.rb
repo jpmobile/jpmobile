@@ -23,10 +23,10 @@ for i in 1..6
 end
 
 open(File.dirname(__FILE__)+"/../lib/jpmobile/pictogram/softbank.rb","w") do |f|
-  f.puts "Jpmobile::Pictogram::SOFTBANK_UNICODE_TO_CODE = {"
+  f.puts "Jpmobile::Pictogram::SOFTBANK_UNICODE_TO_WEBCODE = {"
   table.each do |a|
     f.puts %{  0x%s => %p,} % a
   end
   f.puts "}"
-  f.puts "Jpmobile::Pictogram::SOFTBANK_CODE_TO_UNICODE = Jpmobile::Pictogram::SOFTBANK_UNICODE_TO_CODE.invert"
+  f.puts "Jpmobile::Pictogram::SOFTBANK_WEBCODE_TO_UNICODE = Jpmobile::Pictogram::SOFTBANK_UNICODE_TO_WEBCODE.invert"
 end

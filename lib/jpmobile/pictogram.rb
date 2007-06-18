@@ -19,10 +19,10 @@ module Jpmobile
       Regexp.union(*AU_UNICODE_TO_SJIS.keys.map{|x| [x].pack('U')})
     end
     def self.softbank_utf8_regexp
-      Regexp.union(*SOFTBANK_UNICODE_TO_CODE.keys.map{|x| [x].pack('U')})
+      Regexp.union(*SOFTBANK_UNICODE_TO_WEBCODE.keys.map{|x| [x].pack('U')})
     end
     def self.softbank_code_regexp
-      Regexp.union(*SOFTBANK_CODE_TO_UNICODE.keys.map{|x| "\x1b\x24#{x}\x0f"})
+      Regexp.union(*SOFTBANK_WEBCODE_TO_UNICODE.keys.map{|x| "\x1b\x24#{x}\x0f"})
     end
     # DoCoMo Shift_JISバイナリ絵文字 を DoCoMo Unicode絵文字文字参照 に変換
     def self.docomo_sjis_cr(str)
@@ -85,32 +85,39 @@ module Jpmobile
       end
     end
     #
+    # SoftBank用変換メソッド群
+    # shiftパラメータにtrueを与えるとU+F000以降にマッピングをシフトする(auとの重複を防ぐ)。
     #
-    def self.softbank_code_cr(str)
+    def self.softbank_code_cr(str, shift=false)
       str.gsub(softbank_code_regexp) do |match|
-        unicode = SOFTBANK_CODE_TO_UNICODE[match[2,2]]
+        unicode = SOFTBANK_WEBCODE_TO_UNICODE[match[2,2]]
+        unicode += 0x1000 if shift
         unicode ? ("&#x%04x;"%unicode) : match
       end
     end
     #
-    def self.softbank_cr_code(str)
+    def self.softbank_cr_code(str, shift=false)
       str.gsub(/&#x([0-9a-f]{4});/i) do |match|
         unicode = $1.scanf("%x").first
-        code = SOFTBANK_UNICODE_TO_CODE[unicode]
+        unicode -= 0x1000 if shift
+        code = SOFTBANK_UNICODE_TO_WEBCODE[unicode]
         code ? "\x1b\x24#{code}\x0f" : match
       end
     end
     #
-    def self.softbank_cr_utf8(str)
+    def self.softbank_cr_utf8(str, shift=false)
       str.gsub(/&#x([0-9a-f]{4});/i) do |match|
         unicode = $1.scanf("%x").first
-        SOFTBANK_UNICODE_TO_CODE[unicode] ? [unicode].pack('U') : match
+        unicode -= 0x1000 if shift
+        SOFTBANK_UNICODE_TO_WEBCODE[unicode] ? [unicode].pack('U') : match
       end
     end
     # 
-    def self.softbank_utf8_cr(str)
+    def self.softbank_utf8_cr(str, shift=false)
       str.gsub(softbank_utf8_regexp) do |match|
-        "&#x%04x;" % match.unpack('U').first
+        unicode = match.unpack('U').first
+        unicode += 0x1000 if shift
+        "&#x%04x;" % unicode
       end
     end
   end

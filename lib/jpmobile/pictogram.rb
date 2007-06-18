@@ -89,7 +89,12 @@ module Jpmobile
     # shiftパラメータにtrueを与えるとU+F000以降にマッピングをシフトする(auとの重複を防ぐ)。
     #
     def self.softbank_code_cr(str, shift=false)
-      str.gsub(softbank_code_regexp) do |match|
+      s = str.clone
+      s.gsub!(/\x1b\x24(.)(.+?)\x0f/) do |match|
+        a = $1
+        $2.split(//).map{|x| "\x1b\x24#{a}#{x}\x0f"}.join('')
+      end
+      s.gsub(softbank_code_regexp) do |match|
         unicode = SOFTBANK_WEBCODE_TO_UNICODE[match[2,2]]
         unicode += 0x1000 if shift
         unicode ? ("&#x%04x;"%unicode) : match

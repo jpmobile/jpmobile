@@ -33,6 +33,7 @@ end
 class SoftbankPictogramTest < Test::Unit::TestCase
   def test_softbank_code_cr
     assert_equal "&#xe001;", Jpmobile::Pictogram::softbank_code_cr("\x1b$G!\x0f")
+    assert_equal "&#xe001;&#xe001;", Jpmobile::Pictogram::softbank_code_cr("\x1b$G!!\x0f")
     assert_equal "&#xf001;", Jpmobile::Pictogram::softbank_code_cr("\x1b$G!\x0f", true)
   end
   def test_softbank_cr_code

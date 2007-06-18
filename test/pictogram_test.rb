@@ -29,3 +29,18 @@ class AuPictogramTest < Test::Unit::TestCase
     assert_equal "&#xe481;", Jpmobile::Pictogram::au_utf8_cr("\356\222\201")
   end
 end
+
+class SoftbankPictogramTest < Test::Unit::TestCase
+  def test_softbank_code_cr
+    assert_equal "&#xe001;", Jpmobile::Pictogram::softbank_code_cr("\x1b$G!\x0f")
+  end
+  def test_softbank_cr_code
+    assert_equal "\x1b$G!\x0f", Jpmobile::Pictogram::softbank_cr_code("&#xe001;")
+  end
+  def test_softbank_cr_utf8
+    assert_equal "\xee\x80\x81", Jpmobile::Pictogram::softbank_cr_utf8("&#xe001;")
+  end
+  def test_softbank_utf8_cr
+    assert_equal "&#xe001;", Jpmobile::Pictogram::softbank_utf8_cr("\xee\x80\x81")
+  end
+end

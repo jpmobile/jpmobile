@@ -10,7 +10,7 @@ module Jpmobile
                                          \x9b[\x8e-\xbf]|
                                          \x9c[\x80-\xbf]|
                                          \x9d[\x80-\x97])/x.freeze
-    # au絵文字にマッチする正規表現
+    # 絵文字にマッチする正規表現
     # TODO: 展開して最適化する
     def self.au_sjis_regexp
       Regexp.union(*AU_SJIS_TO_UNICODE.keys.map{|x| [x].pack('n')})
@@ -18,7 +18,13 @@ module Jpmobile
     def self.au_utf8_regexp
       Regexp.union(*AU_UNICODE_TO_SJIS.keys.map{|x| [x].pack('U')})
     end
-   # DoCoMo Shift_JISバイナリ絵文字 を DoCoMo Unicode絵文字文字参照 に変換
+    def self.softbank_utf8_regexp
+      Regexp.union(*SOFTBANK_UNICODE_TO_CODE.keys.map{|x| [x].pack('U')})
+    end
+    def self.softbank_code_regexp
+      Regexp.union(*SOFTBANK_CODE_TO_UNICODE.keys.map{|x| "\x1b\x24#{x}\x0f"})
+    end
+    # DoCoMo Shift_JISバイナリ絵文字 を DoCoMo Unicode絵文字文字参照 に変換
     def self.docomo_sjis_cr(str)
       str.gsub(DOCOMO_SJIS_REGEXP) do |match|
         sjis = match.unpack('n').first
@@ -30,15 +36,15 @@ module Jpmobile
     def self.docomo_cr_sjis(str)
       str.gsub(/&#x([0-9a-f]{4});/i) do |match|
         unicode = $1.scanf("%x").first
-        sjis = DOCOMO_UNICODE_TO_SJIS[unicode]
-        sjis ? [sjis].pack('n') : match
+      sjis = DOCOMO_UNICODE_TO_SJIS[unicode]
+      sjis ? [sjis].pack('n') : match
       end
     end
     # DoCoMo Unicode絵文字文字参照 を DoCoMo UTF-8絵文字バイナリ に置換
     def self.docomo_cr_utf8(str)
       str.gsub(/&#x([0-9a-f]{4});/i) do |match|
         unicode = $1.scanf("%x").first
-        DOCOMO_UNICODE_TO_SJIS[unicode] ? [unicode].pack('U') : match
+      DOCOMO_UNICODE_TO_SJIS[unicode] ? [unicode].pack('U') : match
       end
     end
     # DoCoMo UTF-8絵文字バイナリ を DoCoMo Unicode絵文字文字参照 に置換
@@ -47,6 +53,8 @@ module Jpmobile
         "&#x%04x;" % match.unpack('U').first
       end
     end
+    #
+    #
     # au Shift_JISバイナリ絵文字 を au Unicode絵文字文字参照 に変換
     def self.au_sjis_cr(str)
       str.gsub(au_sjis_regexp) do |match|
@@ -59,20 +67,49 @@ module Jpmobile
     def self.au_cr_sjis(str)
       str.gsub(/&#x([0-9a-f]{4});/i) do |match|
         unicode = $1.scanf("%x").first
-        sjis = AU_UNICODE_TO_SJIS[unicode]
-        sjis ? [sjis].pack('n') : match
+      sjis = AU_UNICODE_TO_SJIS[unicode]
+      sjis ? [sjis].pack('n') : match
       end
     end
     # au Unicode絵文字文字参照 を au UTF-8絵文字バイナリ に置換
     def self.au_cr_utf8(str)
       str.gsub(/&#x([0-9a-f]{4});/i) do |match|
         unicode = $1.scanf("%x").first
-        AU_UNICODE_TO_SJIS[unicode] ? [unicode].pack('U') : match
+      AU_UNICODE_TO_SJIS[unicode] ? [unicode].pack('U') : match
       end
     end
     # au UTF-8絵文字バイナリ を au Unicode絵文字文字参照 に置換
     def self.au_utf8_cr(str)
       str.gsub(au_utf8_regexp) do |match|
+        "&#x%04x;" % match.unpack('U').first
+      end
+    end
+    #
+    #
+    def self.softbank_code_cr(str)
+      str.gsub(softbank_code_regexp) do |match|
+        unicode = SOFTBANK_CODE_TO_UNICODE[match[2,2]]
+        unicode ? ("&#x%04x;"%unicode) : match
+      end
+    end
+    #
+    def self.softbank_cr_code(str)
+      str.gsub(/&#x([0-9a-f]{4});/i) do |match|
+        unicode = $1.scanf("%x").first
+        code = SOFTBANK_UNICODE_TO_CODE[unicode]
+        code ? "\x1b\x24#{code}\x0f" : match
+      end
+    end
+    #
+    def self.softbank_cr_utf8(str)
+      str.gsub(/&#x([0-9a-f]{4});/i) do |match|
+        unicode = $1.scanf("%x").first
+        SOFTBANK_UNICODE_TO_CODE[unicode] ? [unicode].pack('U') : match
+      end
+    end
+    # 
+    def self.softbank_utf8_cr(str)
+      str.gsub(softbank_utf8_regexp) do |match|
         "&#x%04x;" % match.unpack('U').first
       end
     end

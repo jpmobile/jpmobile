@@ -1,5 +1,7 @@
 #!/usr/bin/ruby
 
+# http://www.au.kddi.com/ezfactory/tec/spec/pdf/typeD.pdf から生成
+
 table = []
 open("au.txt") do |f|
   f.each do |l|

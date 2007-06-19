@@ -8,6 +8,12 @@ class PictogramTestController < ActionController::Base
   def docomo_utf8
     render :text=>"\xee\x98\xbe"
   end
+  def au_cr
+    render :text=>"&#xE488;"
+  end
+  def au_utf8
+    render :text=>[0xe488].pack("U")
+  end
   def query
     @q = params[:q]
     render :text=>@q
@@ -15,9 +21,10 @@ class PictogramTestController < ActionController::Base
 end
 
 class PictogramFunctionalTest < Test::Unit::TestCase
-  def test_docomo
+  def setup
     init PictogramTestController
-    
+  end
+  def test_docomo
     # PCから
     get :docomo_cr
     assert_equal "&#xE63E;", @response.body
@@ -33,5 +40,29 @@ class PictogramFunctionalTest < Test::Unit::TestCase
     get :query, :q=>"\xf8\x9f"
     assert_equal "\xee\x98\xbe", assigns["q"]
     assert_equal "\xf8\x9f", @response.body
+
+    # Au携帯電話から
+    #user_agent "KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0"
+    #get :docomo_cr
+    #assert_equal "\xf6\xf0", @response.body
+    #get :docomo_utf8
+    #assert_equal "\xf6\xf0", @response.body
+  end
+  def test_au
+    # PCから
+    get :au_cr
+    assert_equal "&#xE488;", @response.body
+    get :au_utf8
+    assert_equal [0xe488].pack("U"), @response.body
+
+    # Au携帯電話から
+    user_agent "KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0"
+    get :au_cr
+    assert_equal "\xf6\x60", @response.body
+    get :au_utf8
+    assert_equal "\xf6\x60", @response.body
+    get :query, :q=>"\xf6\x60"
+    assert_equal [0xe488].pack("U"), assigns["q"]
+    assert_equal "\xf6\x60", @response.body
   end
 end

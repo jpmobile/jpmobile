@@ -8,7 +8,7 @@ class PictogramTestController < ActionController::Base
   def docomo_utf8
     render :text=>"\xee\x98\xbe"
   end
-  def docomo_query
+  def query
     @q = params[:q]
     render :text=>@q
   end
@@ -30,7 +30,7 @@ class PictogramFunctionalTest < Test::Unit::TestCase
     assert_equal "\xf8\x9f", @response.body
     get :docomo_utf8
     assert_equal "\xf8\x9f", @response.body
-    get :docomo_query, :q=>"\xf8\x9f"
+    get :query, :q=>"\xf8\x9f"
     assert_equal "\xee\x98\xbe", assigns["q"]
     assert_equal "\xf8\x9f", @response.body
   end

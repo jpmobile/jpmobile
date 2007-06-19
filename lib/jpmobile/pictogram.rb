@@ -21,7 +21,7 @@ module Jpmobile
     def self.softbank_utf8_regexp
       Regexp.union(*SOFTBANK_UNICODE_TO_WEBCODE.keys.map{|x| [x].pack('U')})
     end
-    def self.softbank_code_regexp
+    def self.softbank_webcode_regexp
       Regexp.union(*SOFTBANK_WEBCODE_TO_UNICODE.keys.map{|x| "\x1b\x24#{x}\x0f"})
     end
     # DoCoMo Shift_JISバイナリ絵文字 を DoCoMo Unicode絵文字文字参照 に変換
@@ -88,20 +88,20 @@ module Jpmobile
     # SoftBank用変換メソッド群
     # shiftパラメータにtrueを与えるとU+F000以降にマッピングをシフトする(auとの重複を防ぐ)。
     #
-    def self.softbank_code_cr(str, shift=false)
+    def self.softbank_webcode_cr(str, shift=false)
       s = str.clone
       s.gsub!(/\x1b\x24(.)(.+?)\x0f/) do |match|
         a = $1
         $2.split(//).map{|x| "\x1b\x24#{a}#{x}\x0f"}.join('')
       end
-      s.gsub(softbank_code_regexp) do |match|
+      s.gsub(softbank_webcode_regexp) do |match|
         unicode = SOFTBANK_WEBCODE_TO_UNICODE[match[2,2]]
         unicode += 0x1000 if shift
         unicode ? ("&#x%04x;"%unicode) : match
       end
     end
     #
-    def self.softbank_cr_code(str, shift=false)
+    def self.softbank_cr_webcode(str, shift=false)
       str.gsub(/&#x([0-9a-f]{4});/i) do |match|
         unicode = $1.scanf("%x").first
         unicode -= 0x1000 if shift

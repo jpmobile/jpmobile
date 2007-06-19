@@ -5,9 +5,9 @@ require 'scanf'
 
 class ActionController::Base #:nodoc:
   def self.mobile_filter(options={})
-    # around_filter Jpmobile::Filter::Pictogram::Outer.new
+    around_filter Jpmobile::Filter::Pictogram::Outer.new
     around_filter Jpmobile::Filter::Sjis.new
-    # around_filter Jpmobile::Filter::Pictogram::Inner.new
+    around_filter Jpmobile::Filter::Pictogram::Inner.new
     around_filter Jpmobile::Filter::HankakuKana.new
   end
 end

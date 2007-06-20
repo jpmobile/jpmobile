@@ -17,6 +17,11 @@
 
 svnレポジトリからインストールする場合
 
+リリース版:
+  % ./script/plugin install svn://rubyforge.org/var/svn/jpmobile/tags/rel-x.x.x/jpmobile
+  (x.x.xはバージョン)
+
+開発版:
   % ./script/plugin install svn://rubyforge.org/var/svn/jpmobile/trunk/jpmobile
 
 == 使用例

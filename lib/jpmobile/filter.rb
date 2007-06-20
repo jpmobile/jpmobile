@@ -121,24 +121,20 @@ module Jpmobile
       class Outer < Base
       include ApplyOnlyForMobile
         def to_internal(str)
-          str = Jpmobile::Pictogram::docomo_sjis_cr(str)
-          Jpmobile::Pictogram::au_sjis_cr(str)
+          Jpmobile::Pictogram::sjis_to_unicodecr(str)
         end
         def to_external(str)
-          str = Jpmobile::Pictogram::docomo_cr_sjis(str)
-          Jpmobile::Pictogram::au_cr_sjis(str)
+          Jpmobile::Pictogram::unicodecr_to_sjis(str)
         end
       end
       # 絵文字Inner
       class Inner < Base
         include ApplyOnlyForMobile
         def to_internal(str)
-          str = Jpmobile::Pictogram::docomo_cr_utf8(str)
-          Jpmobile::Pictogram::au_cr_utf8(str)
+          Jpmobile::Pictogram::unicodecr_to_utf8(str)
         end
         def to_external(str)
-          str = Jpmobile::Pictogram::docomo_utf8_cr(str)
-          Jpmobile::Pictogram::au_utf8_cr(str)
+          Jpmobile::Pictogram::utf8_to_unicodecr(str)
         end
       end
     end

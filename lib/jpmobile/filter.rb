@@ -121,10 +121,10 @@ module Jpmobile
       class Outer < Base
       include ApplyOnlyForMobile
         def to_internal(str)
-          Jpmobile::Pictogram::sjis_to_unicodecr(str)
+          Jpmobile::Pictogram::external_to_unicodecr(str)
         end
         def to_external(str)
-          Jpmobile::Pictogram::unicodecr_to_sjis(str)
+          Jpmobile::Pictogram::unicodecr_to_external(str)
         end
       end
       # 絵文字Inner

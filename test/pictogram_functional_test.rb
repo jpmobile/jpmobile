@@ -6,13 +6,19 @@ class PictogramTestController < ActionController::Base
     render :text=>"&#xE63E;"
   end
   def docomo_utf8
-    render :text=>"\xee\x98\xbe"
+    render :text=>[0xe63e].pack("U")
   end
   def au_cr
     render :text=>"&#xE488;"
   end
   def au_utf8
     render :text=>[0xe488].pack("U")
+  end
+  def softbank_cr
+    render :text=>"&#xF04A;"
+  end
+  def softbank_utf8
+    render :text=>[0xf04a].pack("U")
   end
   def query
     @q = params[:q]
@@ -64,5 +70,22 @@ class PictogramFunctionalTest < Test::Unit::TestCase
     get :query, :q=>"\xf6\x60"
     assert_equal [0xe488].pack("U"), assigns["q"]
     assert_equal "\xf6\x60", @response.body
+  end
+  def test_softbank
+    # PCから
+    get :softbank_cr
+    assert_equal "&#xF04A;", @response.body
+    get :softbank_utf8
+    assert_equal [0xf04a].pack("U"), @response.body
+
+    # SoftBank携帯電話から
+    user_agent "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1"
+    get :softbank_cr
+    assert_equal "\e$Gj\x0f", @response.body
+    get :softbank_utf8
+    assert_equal "\e$Gj\x0f", @response.body
+    get :query, :q=>"\e$Gj\x0f"
+    assert_equal [0xf04a].pack("U"), assigns["q"]
+    assert_equal "\e$Gj\x0f", @response.body
   end
 end

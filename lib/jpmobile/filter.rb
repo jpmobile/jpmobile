@@ -132,7 +132,14 @@ module Jpmobile
           when Jpmobile::Mobile::Softbank
             table = Jpmobile::Pictogram::CONVERSION_TABLE_TO_SOFTBANK
           end
-          Jpmobile::Pictogram::unicodecr_to_external(str, table)
+
+          to_sjis = nil
+          if controller.response.charset == "Shift_JIS"
+            to_sjis = true
+          else
+            to_sjis = false
+          end
+          Jpmobile::Pictogram::unicodecr_to_external(str, table, to_sjis)
         end
       end
       # 絵文字Inner

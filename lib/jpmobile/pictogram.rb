@@ -22,7 +22,7 @@ module Jpmobile
       end
     end
     #
-    def self.unicodecr_to_external(str, conversion_table=nil)
+    def self.unicodecr_to_external(str, conversion_table=nil, to_sjis=true)
       # NOTE このメソッドだけがUser-Agentに依存して挙動を変える必要がある。
       str.gsub(/&#x([0-9a-f]{4});/i) do |match|
         unicode = $1.scanf("%x").first
@@ -44,7 +44,7 @@ module Jpmobile
             match
           end
         when String
-          converted
+          to_sjis ? Kconv::kconv(converted, Kconv::SJIS, Kconv::UTF8) : converted
         when nil
           match
         end

@@ -79,6 +79,9 @@ class PictogramFunctionalTest < Test::Unit::TestCase
     assert_equal [0xf04a].pack("U"), @response.body
 
     # SoftBank携帯電話から
+    # SoftBank端末から絵文字を送った場合に必ずWebコードで来るのか確認が必要。
+    # UTF-8で来るとまずいことが起るので対処が必要。
+    # (現状ではフィルタを素通りしてAuの絵文字UTF-8コードと重なってしまうはず)。
     user_agent "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1"
     get :softbank_cr
     assert_equal "\e$Gj\x0f", @response.body

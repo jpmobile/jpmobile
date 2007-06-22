@@ -4,9 +4,6 @@ module Jpmobile
     def self.external_to_unicodecr(str)
       # NOTE 現状ではキャリア間で端末が送ってくる絵文字のコード領域が重なっていないので、
       # このメソッドはUser-agentによって挙動を変更する必要は無い。
-      # SoftBank端末から絵文字を送った場合に必ずWebコードで来るのか確認が必要。
-      # UTF-8で来るとまずいことが起るので対処が必要。
-      # (現状ではフィルタを素通りしてAuの絵文字UTF-8コードと重なってしまうはず)。
       s = str.dup
       # DoCoMo, Au
       s.gsub!(SJIS_REGEXP) do |match|

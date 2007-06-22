@@ -26,7 +26,7 @@ module Jpmobile
         return unless @counter == 1
         if respond_to?(:to_internal) && apply_incoming?(controller)
           deep_each(controller.params) do |value|
-            value = to_internal(value)
+            value = to_internal(value, controller)
           end
         end
       end
@@ -35,7 +35,7 @@ module Jpmobile
         @counter -= 1
         return unless @counter.zero?
         if respond_to?(:to_external) && apply_outgoing?(controller)
-          controller.response.body = to_external(controller.response.body)
+          controller.response.body = to_external(controller.response.body, controller)
           after_after(controller) if respond_to? :after_after
         end
       end
@@ -71,10 +71,10 @@ module Jpmobile
 
     # Shift_JISとUnicodeのフィルタ(NKFを使用)
     class Sjis < Base
-      def to_external(str)
+      def to_external(str, controller)
         NKF.nkf('-m0 -x -Ws', str)
       end
-      def to_internal(str)
+      def to_internal(str, controller)
         NKF.nkf('-m0 -Sw', str)
       end
       def after_after(controller)
@@ -92,10 +92,10 @@ module Jpmobile
     # テーブルに基づくフィルタ
     class FilterTable < Base
       cattr_reader :internal, :external
-      def to_internal(str)
+      def to_internal(str, controller)
         filter(str, external, internal)
       end
-      def to_external(str)
+      def to_external(str, controller)
         filter(str, internal, external)
       end
       private
@@ -117,23 +117,31 @@ module Jpmobile
 
     module Pictogram
       # 絵文字Outer
-      # TODO: 機種依存の変換コードはここに載せる
       class Outer < Base
       include ApplyOnlyForMobile
-        def to_internal(str)
+        def to_internal(str, controller)
           Jpmobile::Pictogram::external_to_unicodecr(str)
         end
-        def to_external(str)
-          Jpmobile::Pictogram::unicodecr_to_external(str)
+        def to_external(str, controller)
+          table = nil
+          case controller.request.mobile
+          when Jpmobile::Mobile::Docomo
+            table = Jpmobile::Pictogram::CONVERSION_TABLE_TO_DOCOMO
+          when Jpmobile::Mobile::Au
+            table = Jpmobile::Pictogram::CONVERSION_TABLE_TO_AU
+          when Jpmobile::Mobile::Softbank
+            table = Jpmobile::Pictogram::CONVERSION_TABLE_TO_SOFTBANK
+          end
+          Jpmobile::Pictogram::unicodecr_to_external(str, table)
         end
       end
       # 絵文字Inner
       class Inner < Base
         include ApplyOnlyForMobile
-        def to_internal(str)
+        def to_internal(str, controller)
           Jpmobile::Pictogram::unicodecr_to_utf8(str)
         end
-        def to_external(str)
+        def to_external(str, controller)
           Jpmobile::Pictogram::utf8_to_unicodecr(str)
         end
       end

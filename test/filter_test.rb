@@ -18,19 +18,19 @@ class FilterTest < Test::Unit::TestCase
   end
   def test_filter_sjis
     filter = Jpmobile::Filter::Sjis.new
-    assert_equal(@aiu_sjis, filter.to_external(@aiu_utf8))
-    assert_equal(@aiu_utf8, filter.to_internal(@aiu_sjis))
+    assert_equal(@aiu_sjis, filter.to_external(@aiu_utf8, nil))
+    assert_equal(@aiu_utf8, filter.to_internal(@aiu_sjis, nil))
   end
   def test_filter_hankaku
     filter = Jpmobile::Filter::HankakuKana.new
 
-    assert_equal(@aiu_zzz, filter.to_internal(@aiu_zhz))
-    assert_equal(@aiu_zzz, filter.to_internal(@aiu_zzz))
-    assert_equal(@aiu_zhh, filter.to_external(@aiu_zhz))
-    assert_equal(@aiu_zhh, filter.to_external(@aiu_zzz))
+    assert_equal(@aiu_zzz, filter.to_internal(@aiu_zhz, nil))
+    assert_equal(@aiu_zzz, filter.to_internal(@aiu_zzz, nil))
+    assert_equal(@aiu_zhh, filter.to_external(@aiu_zhz, nil))
+    assert_equal(@aiu_zhh, filter.to_external(@aiu_zzz, nil))
 
-    assert_equal(@abracadabra_z_utf8, filter.to_internal(@abracadabra_h_utf8))
-    assert_equal(@abracadabra_h_utf8, filter.to_external(@abracadabra_z_utf8))
+    assert_equal(@abracadabra_z_utf8, filter.to_internal(@abracadabra_h_utf8, nil))
+    assert_equal(@abracadabra_h_utf8, filter.to_external(@abracadabra_z_utf8, nil))
   end
   def test_sjis_filter_for_docomo
     @controller.request = request_with_ua("DoCoMo/2.0 SH902i(c100;TB;W24H12)", "QUERY_STRING"=>"test=test&abra=%83A%83u%83%89%83J%83_%83u%83%89") # アブラカダブラ, Shift_JIS, urlencoded

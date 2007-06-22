@@ -22,18 +22,30 @@ module Jpmobile
       end
     end
     #
-    # NOTE このメソッドだけがUser-Agentに依存して挙動を変える必要がある。
-    def self.unicodecr_to_external(str)
+    def self.unicodecr_to_external(str, conversion_table=nil)
+      # NOTE このメソッドだけがUser-Agentに依存して挙動を変える必要がある。
       str.gsub(/&#x([0-9a-f]{4});/i) do |match|
         unicode = $1.scanf("%x").first
-        #
-        # TODO ここにキャリア間の相互変換コードを入れる(Unicode-Unicode)
-        #
-        if sjis = UNICODE_TO_SJIS[unicode]
-          [sjis].pack('n')
-        elsif webcode = SOFTBANK_UNICODE_TO_WEBCODE[unicode-0x1000]
-          "\x1b\x24#{webcode}\x0f"
+        if conversion_table
+          # 出力先キャリアにあわせて絵文字を変換する
+          converted = conversion_table[unicode]
         else
+          converted = unicode
+        end
+
+        # 出力エンコーディングに変換する
+        case converted
+        when Integer
+          if sjis = UNICODE_TO_SJIS[converted]
+            [sjis].pack('n')
+          elsif webcode = SOFTBANK_UNICODE_TO_WEBCODE[converted-0x1000]
+          "\x1b\x24#{webcode}\x0f"
+          else
+            match
+          end
+        when String
+          converted
+        when nil
           match
         end
       end

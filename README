@@ -12,6 +12,7 @@
 * 携帯電話ビューへの自動振分け
 * ディスプレイ情報(画面サイズ、ブラウザ画面サイズ、カラー・白黒、色数)の取得
 * GeoKit(http://geokit.rubyforge.org)との連携
+* 文字コード変換機能／絵文字のキャリア間相互変換
 
 == インストール
 
@@ -154,10 +155,35 @@ vandor/plugins/geokit以下にGeoKitがインストールされていると、Jp
 
 とすることで、端末と「札幌駅」との距離を求めることができる。詳細は http://geokit.rubyforge.org/api/index.html 参照。
 
+=== 文字コード変換機能／絵文字のキャリア間相互変換
+
+JpmobileではControllerにmobile_filterを指定することで
+DoCoMo、Au、SoftBankの絵文字を透過的に扱うことができる。
+また、キャリアに応じて文字コードが自動で変換され、
+携帯電話とのやり取りには半角カナが用いられるようになる。
+
+ class MyController
+   mobile_filter
+ end
+
+Jpmobile内では、各キャリアの絵文字はUnicode私的領域上にマッピングされ、管理される。
+このとき、DoCoMo、Auは公式サイト記載のマッピングが使用される。
+ただしSoftBankはAuとの重複を避けるため、公式のマッピングに0x1000加算しU+F001以降に割り当てる。
+テンプレート内ではUTF-8でエンコードするか、数値文字参照の&#xHHHH;形式で指定する。
+
+絵文字は送出時に内蔵の変換表に基づいて変換され、携帯電話のエンコーディングにあわせて送出される。
+携帯電話から受信した絵文字は上記マッピングに基づいてUTF-8でparamsに渡される。
+
+mobile_filterを有効にすると以下の処理が自動で行われる。
+* DoCoMo、Auとの通信時にはShift_JIS、SoftBankとの通信時にはUTF-8が使用される。
+* カタカナは半角カナに変換されて送出される。携帯電話から送られた半角カナは全角カナに変換される。
+* 絵文字はキャリアにあわせて変換されて送出される。
+* 携帯電話からの絵文字はUnicode私的領域にマップされ、UTF-8でparamsに格納される。
+
 == リンク
 * Project Website: http://jpmobile.rubyforge.org
 * RubyForge Project Page: http://rubyforge.org/projects/jpmobile
-* SVN Repository Browser: http://rubyforge.org/cgi-bin/viewvc.cgi/?root=jpmobile
+* SVN Repository Browser: http://viewvc.rubyforge.mmmultiworks.com/cgi/viewvc.cgi/?root=jpmobile
 
 == 作者
 

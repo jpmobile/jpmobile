@@ -5,9 +5,9 @@ require 'scanf'
 
 class ActionController::Base #:nodoc:
   def self.mobile_filter(options={})
-    around_filter Jpmobile::Filter::Pictogram::Outer.new
+    around_filter Jpmobile::Filter::Pictogram::Outer.new # 外部エンコーディング<->数値文字参照
     around_filter Jpmobile::Filter::Sjis.new
-    around_filter Jpmobile::Filter::Pictogram::Inner.new
+    around_filter Jpmobile::Filter::Pictogram::Inner.new # 数値文字参照<->UTF-8
     around_filter Jpmobile::Filter::HankakuKana.new
   end
 end
@@ -71,15 +71,19 @@ module Jpmobile
 
     # Shift_JISとUnicodeのフィルタ(NKFを使用)
     class Sjis < Base
+      # UTF-8からShift_JISに変換する。
       def to_external(str, controller)
         NKF.nkf('-m0 -x -Ws', str)
       end
+      # Shift_JISからUTF-8に変換する。
       def to_internal(str, controller)
         NKF.nkf('-m0 -Sw', str)
       end
+      # afterfilterを実行した後に実行する。
       def after_after(controller)
         controller.response.charset = "Shift_JIS"
       end
+      # to_internalを適用するべきかどうかを返す。
       def apply_incoming?(controller)
         # Vodafone 3G/Softbank(Shift-JISにすると絵文字で不具合が生じる)以外の
         # 携帯電話の場合に適用する。
@@ -115,14 +119,17 @@ module Jpmobile
       @@external = %w(ｶﾞ ｷﾞ ｸﾞ ｹﾞ ｺﾞ ｻﾞ ｼﾞ ｽﾞ ｾﾞ ｿﾞ ﾀﾞ ﾁﾞ ﾂﾞ ﾃﾞ ﾄﾞ ﾊﾞ ﾋﾞ ﾌﾞ ﾍﾞ ﾎﾞ ﾊﾟ ﾋﾟ ﾌﾟ ﾍﾟ ﾎﾟ ｳﾞ ｱ ｲ ｳ ｴ ｵ ｶ ｷ ｸ ｹ ｺ ｻ ｼ ｽ ｾ ｿ ﾀ ﾁ ﾂ ﾃ ﾄ ﾅ ﾆ ﾇ ﾈ ﾉ ﾊ ﾋ ﾌ ﾍ ﾎ ﾏ ﾐ ﾑ ﾒ ﾓ ﾔ ﾕ ﾖ ﾗ ﾘ ﾙ ﾚ ﾛ ﾜ ｦ ﾝ ｬ ｭ ｮ ｧ ｨ ｩ ｪ ｫ ｯ ﾞ ﾟ ｰ).freeze
     end
 
+    # 絵文字変換フィルタ
     module Pictogram
       # 絵文字Outer
+      # 外部エンコーディング(携帯電話側)とUnicode数値文字参照を相互に変換。
       class Outer < Base
       include ApplyOnlyForMobile
         def to_internal(str, controller)
           Jpmobile::Pictogram::external_to_unicodecr(str)
         end
         def to_external(str, controller)
+          # 使用する変換テーブルの決定
           table = nil
           case controller.request.mobile
           when Jpmobile::Mobile::Docomo
@@ -133,16 +140,13 @@ module Jpmobile
             table = Jpmobile::Pictogram::CONVERSION_TABLE_TO_SOFTBANK
           end
 
-          to_sjis = nil
-          if controller.response.charset == "Shift_JIS"
-            to_sjis = true
-          else
-            to_sjis = false
-          end
+          to_sjis = (controller.response.charset == "Shift_JIS")
+
           Jpmobile::Pictogram::unicodecr_to_external(str, table, to_sjis)
         end
       end
       # 絵文字Inner
+      # Unicode数値文字参照とUTF-8を相互に変換
       class Inner < Base
         include ApplyOnlyForMobile
         def to_internal(str, controller)

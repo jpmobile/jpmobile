@@ -70,6 +70,16 @@ class PictogramFunctionalTest < Test::Unit::TestCase
     assert_equal "\e$Gj\x0f", @response.body
     get :docomo_docomopoint
     assert_equal "［ドコモポイント］", @response.body
+ 
+    # J-PHONE携帯電話での閲覧
+    user_agent "J-PHONE/3.0/V301D"
+    get :docomo_cr
+    assert_equal "\e$Gj\x0f", @response.body
+    get :docomo_utf8
+    assert_equal "\e$Gj\x0f", @response.body
+    get :docomo_docomopoint
+    assert_equal "Shift_JIS", @response.charset
+    assert_equal "［ドコモポイント］".tosjis, @response.body
   end
   def test_au
     # PC

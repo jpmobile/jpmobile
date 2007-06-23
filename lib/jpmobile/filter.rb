@@ -139,6 +139,9 @@ module Jpmobile
           when Jpmobile::Mobile::Au
             table = Jpmobile::Pictogram::CONVERSION_TABLE_TO_AU
             to_sjis = true
+          when Jpmobile::Mobile::Jphone
+            table = Jpmobile::Pictogram::CONVERSION_TABLE_TO_SOFTBANK
+            to_sjis = true
           when Jpmobile::Mobile::Softbank
             table = Jpmobile::Pictogram::CONVERSION_TABLE_TO_SOFTBANK
           end

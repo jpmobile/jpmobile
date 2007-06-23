@@ -5,9 +5,9 @@ require 'scanf'
 
 class ActionController::Base #:nodoc:
   def self.mobile_filter(options={})
-    around_filter Jpmobile::Filter::Pictogram::Outer.new # 外部エンコーディング<->数値文字参照
+    around_filter Jpmobile::Filter::Emoticon::Outer.new # 外部エンコーディング<->数値文字参照
     around_filter Jpmobile::Filter::Sjis.new
-    around_filter Jpmobile::Filter::Pictogram::Inner.new # 数値文字参照<->UTF-8
+    around_filter Jpmobile::Filter::Emoticon::Inner.new # 数値文字参照<->UTF-8
     around_filter Jpmobile::Filter::HankakuKana.new
   end
 end
@@ -120,13 +120,13 @@ module Jpmobile
     end
 
     # 絵文字変換フィルタ
-    module Pictogram
+    module Emoticon
       # 絵文字Outer
       # 外部エンコーディング(携帯電話側)とUnicode数値文字参照を相互に変換。
       class Outer < Base
       include ApplyOnlyForMobile
         def to_internal(str, controller)
-          Jpmobile::Pictogram::external_to_unicodecr(str)
+          Jpmobile::Emoticon::external_to_unicodecr(str)
         end
         def to_external(str, controller)
           # 使用する変換テーブルの決定
@@ -134,19 +134,19 @@ module Jpmobile
           to_sjis = false
           case controller.request.mobile
           when Jpmobile::Mobile::Docomo
-            table = Jpmobile::Pictogram::CONVERSION_TABLE_TO_DOCOMO
+            table = Jpmobile::Emoticon::CONVERSION_TABLE_TO_DOCOMO
             to_sjis = true
           when Jpmobile::Mobile::Au
-            table = Jpmobile::Pictogram::CONVERSION_TABLE_TO_AU
+            table = Jpmobile::Emoticon::CONVERSION_TABLE_TO_AU
             to_sjis = true
           when Jpmobile::Mobile::Jphone
-            table = Jpmobile::Pictogram::CONVERSION_TABLE_TO_SOFTBANK
+            table = Jpmobile::Emoticon::CONVERSION_TABLE_TO_SOFTBANK
             to_sjis = true
           when Jpmobile::Mobile::Softbank
-            table = Jpmobile::Pictogram::CONVERSION_TABLE_TO_SOFTBANK
+            table = Jpmobile::Emoticon::CONVERSION_TABLE_TO_SOFTBANK
           end
 
-          Jpmobile::Pictogram::unicodecr_to_external(str, table, to_sjis)
+          Jpmobile::Emoticon::unicodecr_to_external(str, table, to_sjis)
         end
       end
       # 絵文字Inner
@@ -154,10 +154,10 @@ module Jpmobile
       class Inner < Base
         include ApplyOnlyForMobile
         def to_internal(str, controller)
-          Jpmobile::Pictogram::unicodecr_to_utf8(str)
+          Jpmobile::Emoticon::unicodecr_to_utf8(str)
         end
         def to_external(str, controller)
-          Jpmobile::Pictogram::utf8_to_unicodecr(str)
+          Jpmobile::Emoticon::utf8_to_unicodecr(str)
         end
       end
     end

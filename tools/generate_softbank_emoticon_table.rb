@@ -22,11 +22,11 @@ for i in 1..6
   end
 end
 
-open(File.dirname(__FILE__)+"/../lib/jpmobile/pictogram/softbank.rb","w") do |f|
-  f.puts "Jpmobile::Pictogram::SOFTBANK_UNICODE_TO_WEBCODE = {"
+open(File.dirname(__FILE__)+"/../lib/jpmobile/emoticon/softbank.rb","w") do |f|
+  f.puts "Jpmobile::Emoticon::SOFTBANK_UNICODE_TO_WEBCODE = {"
   table.each do |a|
     f.puts %{  0x%s => %p,} % a
   end
   f.puts "}"
-  f.puts "Jpmobile::Pictogram::SOFTBANK_WEBCODE_TO_UNICODE = Jpmobile::Pictogram::SOFTBANK_UNICODE_TO_WEBCODE.invert"
+  f.puts "Jpmobile::Emoticon::SOFTBANK_WEBCODE_TO_UNICODE = Jpmobile::Emoticon::SOFTBANK_UNICODE_TO_WEBCODE.invert"
 end

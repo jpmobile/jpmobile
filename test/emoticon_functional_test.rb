@@ -1,6 +1,6 @@
 require File.dirname(__FILE__)+'/helper'
 
-class PictogramTestController < ActionController::Base
+class EmoticonTestController < ActionController::Base
   mobile_filter
   def docomo_cr
     render :text=>"&#xE63E;"
@@ -29,9 +29,9 @@ class PictogramTestController < ActionController::Base
   end
 end
 
-class PictogramFunctionalTest < Test::Unit::TestCase
+class EmoticonFunctionalTest < Test::Unit::TestCase
   def setup
-    init PictogramTestController
+    init EmoticonTestController
   end
   def test_docomo
     # PC

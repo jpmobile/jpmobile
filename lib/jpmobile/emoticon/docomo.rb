@@ -1,4 +1,4 @@
-Jpmobile::Pictogram::DOCOMO_SJIS_TO_UNICODE = {
+Jpmobile::Emoticon::DOCOMO_SJIS_TO_UNICODE = {
   0xF89F=>0xE63E, 
   0xF8A0=>0xE63F, 
   0xF8A1=>0xE640, 
@@ -252,4 +252,4 @@ Jpmobile::Pictogram::DOCOMO_SJIS_TO_UNICODE = {
   0xF9FB=>0xE756, 
   0xF9FC=>0xE757, 
 }.freeze
-Jpmobile::Pictogram::DOCOMO_UNICODE_TO_SJIS = Jpmobile::Pictogram::DOCOMO_SJIS_TO_UNICODE.invert.freeze
+Jpmobile::Emoticon::DOCOMO_UNICODE_TO_SJIS = Jpmobile::Emoticon::DOCOMO_SJIS_TO_UNICODE.invert.freeze

@@ -1,4 +1,4 @@
-Jpmobile::Pictogram::CONVERSION_TABLE_TO_DOCOMO = {
+Jpmobile::Emoticon::CONVERSION_TABLE_TO_DOCOMO = {
   0xE63E=>0xE63E,
   0xE63F=>0xE63F,
   0xE640=>0xE640,
@@ -1200,7 +1200,7 @@ Jpmobile::Pictogram::CONVERSION_TABLE_TO_DOCOMO = {
   0xF536=>0xE698,
   0xF537=>0xE732,
 }
-Jpmobile::Pictogram::CONVERSION_TABLE_TO_AU = {
+Jpmobile::Emoticon::CONVERSION_TABLE_TO_AU = {
   0xE63E=>0xE488,
   0xE63F=>0xE48D,
   0xE640=>0xE48C,
@@ -2550,7 +2550,7 @@ Jpmobile::Pictogram::CONVERSION_TABLE_TO_AU = {
   0xF536=>0xEB2A,
   0xF537=>0xE54E,
 }
-Jpmobile::Pictogram::CONVERSION_TABLE_TO_SOFTBANK = {
+Jpmobile::Emoticon::CONVERSION_TABLE_TO_SOFTBANK = {
   0xE63E=>0xF04A,
   0xE63F=>0xF049,
   0xE640=>0xF04B,

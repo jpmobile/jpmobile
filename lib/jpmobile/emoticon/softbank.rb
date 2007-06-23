@@ -1,4 +1,4 @@
-Jpmobile::Pictogram::SOFTBANK_UNICODE_TO_WEBCODE = {
+Jpmobile::Emoticon::SOFTBANK_UNICODE_TO_WEBCODE = {
   0xE001 => "G!",
   0xE002 => "G\"",
   0xE003 => "G#",
@@ -474,4 +474,4 @@ Jpmobile::Pictogram::SOFTBANK_UNICODE_TO_WEBCODE = {
   0xE536 => "QV",
   0xE537 => "QW",
 }
-Jpmobile::Pictogram::SOFTBANK_WEBCODE_TO_UNICODE = Jpmobile::Pictogram::SOFTBANK_UNICODE_TO_WEBCODE.invert
+Jpmobile::Emoticon::SOFTBANK_WEBCODE_TO_UNICODE = Jpmobile::Emoticon::SOFTBANK_UNICODE_TO_WEBCODE.invert

@@ -1,6 +1,6 @@
 module Jpmobile
   # 絵文字関連処理
-  module Pictogram
+  module Emoticon
     # +str+ のなかで携帯電話側エンコーディングで表記された絵文字をUnicode数値文字参照に置換する。
     def self.external_to_unicodecr(str)
       # NOTE 現状ではキャリア間で端末が送ってくる絵文字のコード領域が重なっていないので、

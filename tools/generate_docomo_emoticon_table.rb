@@ -24,11 +24,11 @@ table = []
 end
 
 
-open(File.dirname(__FILE__)+"/../lib/jpmobile/pictogram/docomo.rb","w") do |f|
-  f.puts "Jpmobile::Pictogram::DOCOMO_SJIS_TO_UNICODE = {"
+open(File.dirname(__FILE__)+"/../lib/jpmobile/emoticon/docomo.rb","w") do |f|
+  f.puts "Jpmobile::Emoticon::DOCOMO_SJIS_TO_UNICODE = {"
   table.each do |row|
     f.puts "  0x%s=>0x%s, "%[row[1], row[3]]
   end
   f.puts "}.freeze"
-  f.puts "Jpmobile::Pictogram::DOCOMO_UNICODE_TO_SJIS = Jpmobile::Pictogram::DOCOMO_SJIS_TO_UNICODE.invert.freeze"
+  f.puts "Jpmobile::Emoticon::DOCOMO_UNICODE_TO_SJIS = Jpmobile::Emoticon::DOCOMO_SJIS_TO_UNICODE.invert.freeze"
 end

@@ -8,11 +8,11 @@ require 'scanf'
 
 # Jpmobileのテーブルを拝借
 module Jpmobile
-  module Pictogram
+  module Emoticon
   end
 end
 for c in %w(au docomo softbank)
-  require File.dirname(__FILE__)+"/../lib/jpmobile/pictogram/#{c}.rb"
+  require File.dirname(__FILE__)+"/../lib/jpmobile/emoticon/#{c}.rb"
 end
 
 class Table
@@ -72,13 +72,13 @@ class Tables
     case src[1,1]
     when "i"
       sjis = tables["i"].code[src]
-      return Jpmobile::Pictogram::DOCOMO_SJIS_TO_UNICODE[sjis.to_i(16)]
+      return Jpmobile::Emoticon::DOCOMO_SJIS_TO_UNICODE[sjis.to_i(16)]
     when "e"
       sjis = tables["e"].code[src]
-      return Jpmobile::Pictogram::AU_SJIS_TO_UNICODE[sjis.to_i(16)]
+      return Jpmobile::Emoticon::AU_SJIS_TO_UNICODE[sjis.to_i(16)]
     when "s"
       webcode = tables["s"].code[src]
-      unicode = Jpmobile::Pictogram::SOFTBANK_WEBCODE_TO_UNICODE[webcode]
+      unicode = Jpmobile::Emoticon::SOFTBANK_WEBCODE_TO_UNICODE[webcode]
       return nil unless unicode
       return unicode + 0x1000
     end
@@ -89,9 +89,9 @@ end
 t = Tables.new
 ident = {'i'=>'DOCOMO', 'e'=>'AU', 's'=>'SOFTBANK'}
 
-open(File.dirname(__FILE__)+"/../lib/jpmobile/pictogram/conversion_table.rb","w") do |f|
+open(File.dirname(__FILE__)+"/../lib/jpmobile/emoticon/conversion_table.rb","w") do |f|
   for dest_type in %w(i e s)
-    f.puts "Jpmobile::Pictogram::CONVERSION_TABLE_TO_#{ident[dest_type]} = {"
+    f.puts "Jpmobile::Emoticon::CONVERSION_TABLE_TO_#{ident[dest_type]} = {"
     for src in t.chars
       dest = t.conv(src, dest_type)
       src_unicode = t.id_to_unicode(src)

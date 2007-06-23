@@ -131,16 +131,17 @@ module Jpmobile
         def to_external(str, controller)
           # 使用する変換テーブルの決定
           table = nil
+          to_sjis = false
           case controller.request.mobile
           when Jpmobile::Mobile::Docomo
             table = Jpmobile::Pictogram::CONVERSION_TABLE_TO_DOCOMO
+            to_sjis = true
           when Jpmobile::Mobile::Au
             table = Jpmobile::Pictogram::CONVERSION_TABLE_TO_AU
+            to_sjis = true
           when Jpmobile::Mobile::Softbank
             table = Jpmobile::Pictogram::CONVERSION_TABLE_TO_SOFTBANK
           end
-
-          to_sjis = (controller.response.charset == "Shift_JIS")
 
           Jpmobile::Pictogram::unicodecr_to_external(str, table, to_sjis)
         end

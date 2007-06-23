@@ -8,6 +8,9 @@ class PictogramTestController < ActionController::Base
   def docomo_utf8
     render :text=>[0xe63e].pack("U")
   end
+  def docomo_docomopoint
+    render :text=>"&#xE6D5;"
+  end
   def au_cr
     render :text=>"&#xE488;"
   end
@@ -47,12 +50,17 @@ class PictogramFunctionalTest < Test::Unit::TestCase
     assert_equal "\xee\x98\xbe", assigns["q"]
     assert_equal "\xf8\x9f", @response.body
 
+    get :docomo_docomopoint
+    assert_equal "\xf9\x79", @response.body
+
     # Au携帯電話での閲覧
     user_agent "KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0"
     get :docomo_cr
     assert_equal "\xf6\x60", @response.body
     get :docomo_utf8
     assert_equal "\xf6\x60", @response.body
+    get :docomo_docomopoint
+    assert_equal "［ドコモポイント］".tosjis, @response.body
 
     # SoftBank携帯電話での閲覧
     user_agent "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1"
@@ -60,6 +68,8 @@ class PictogramFunctionalTest < Test::Unit::TestCase
     assert_equal "\e$Gj\x0f", @response.body
     get :docomo_utf8
     assert_equal "\e$Gj\x0f", @response.body
+    get :docomo_docomopoint
+    assert_equal "［ドコモポイント］", @response.body
   end
   def test_au
     # PC

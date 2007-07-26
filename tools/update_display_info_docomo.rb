@@ -5,8 +5,8 @@ require 'kconv'
 require 'hpricot'
 require 'pp'
 
-src = URI("http://www.nttdocomo.co.jp/service/imode/make/content/spec/screen_area/index.html").read.toutf8
-
+src = URI("http://www.nttdocomo.co.jp/service/imode/make/content/spec/screen_area/index.html").read.toutf8 
+src.gsub!(/&mu;/,"myu")
 user_agents = {}
 
 (Hpricot(src)/"//div[@id='maincol']//table//table").each do |table|
@@ -18,7 +18,6 @@ user_agents = {}
     elsif a.size != 6
       raise "something is wrong"
     end
-    a[0].sub!(/&mu;/,"myu")
     a[0].sub!(/（.*）/,"")
     a[0].sub!(/\(.+\)/,"")
 

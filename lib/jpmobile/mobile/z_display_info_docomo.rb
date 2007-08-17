@@ -401,6 +401,8 @@ Jpmobile::Mobile::Docomo::DISPLAY_INFO =
   {:color_p=>true, :colors=>256, :browser_width=>120, :browser_height=>126},
  "P503i"=>
   {:color_p=>true, :colors=>256, :browser_width=>120, :browser_height=>130},
+ "F883iES"=>
+  {:color_p=>true, :colors=>65536, :browser_width=>240, :browser_height=>256},
  "P900i"=>
   {:color_p=>true, :colors=>65536, :browser_width=>240, :browser_height=>266},
  "P251iS"=>

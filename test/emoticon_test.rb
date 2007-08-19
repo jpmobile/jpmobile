@@ -44,3 +44,9 @@ class SoftbankEmoticonTest < Test::Unit::TestCase
     assert_equal "&#xf001;", Jpmobile::Emoticon::utf8_to_unicodecr("\xef\x80\x81")
   end
 end
+
+class KoukaiEmoticonTest < Test::Unit::TestCase
+  def test_koukai_sjis
+    assert_equal "\x8c\xf6\x8a\x4a", Jpmobile::Emoticon::external_to_unicodecr("\x8c\xf6\x8a\x4a")
+  end
+end

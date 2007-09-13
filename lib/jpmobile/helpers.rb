@@ -45,7 +45,7 @@ module Jpmobile
     def docomo_foma_gps_link_to(str, options={})
       options = options.symbolize_keys
       options[:only_path] = false
-      return %{<a href="#{url_for(options)}" lcs>#{CGI.escapeHTML(str)}</a>}
+      return %{<a href="#{url_for(options)}" lcs>#{str}</a>}
     end
 
     # DoCoMoでオープンiエリアを取得するためのURLを返す。
@@ -64,7 +64,7 @@ module Jpmobile
     def docomo_utn_link_to(str, options={})
       options = options.symbolize_keys
       options[:only_path] = false
-      return %{<a href="#{url_for(options)}" utn>#{CGI.escapeHTML(str)}</a>}
+      return %{<a href="#{url_for(options)}" utn>#{str}</a>}
     end
 
     # au GPS位置情報を取得するためのURLを返す。
@@ -97,7 +97,7 @@ module Jpmobile
     def jphone_location_link_to(str,options={})
       options = options.symbolize_keys
       options[:only_path] = false
-      return %{<a z href="#{url_for(options)}">#{CGI.escapeHTML(str)}</a>}
+      return %{<a z href="#{url_for(options)}">#{str}</a>}
     end
 
     # Softbank(含むVodafone 3G)で位置情報を取得するためのURLを返す。
@@ -128,7 +128,7 @@ module Jpmobile
     private
     # 外部へのリンク
     def link_to_url(str, url)
-      %{<a href="#{url}">#{CGI.escapeHTML(str)}</a>}
+      %{<a href="#{url}">#{str}</a>}
     end
   end
 end

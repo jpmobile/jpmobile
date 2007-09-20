@@ -1,6 +1,6 @@
 # = IPアドレス帯域テーブル(手動更新分)
 # == DoCoMo
-# http://www.nttdocomo.co.jp/service/imode/make/content/ip/about/
+# http://www.nttdocomo.co.jp/service/imode/make/content/ip/index.html
 # 2006/09現在
 # == SoftBank
 # http://developers.softbankmobile.co.jp/dp/tech_svc/web/ip.php

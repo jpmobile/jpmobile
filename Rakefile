@@ -50,7 +50,6 @@ Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.rdoc_files.include('README')
   rdoc.rdoc_files.include('TODO')
   rdoc.rdoc_files.include('CHANGELOG')
-  rdoc.rdoc_files.include('NOTES')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
 
@@ -105,7 +104,7 @@ end
 
 desc "Publish the API documentation"
 task :pdoc => [:rdoc] do 
-  Rake::SshDirPublisher.new("dara@rubyforge.org", "/var/www/gforge-projects/jpmobile/", "doc").upload
+  Rake::SshDirPublisher.new("dara@rubyforge.org", "/var/www/gforge-projects/jpmobile/rdoc", "doc").upload
 end
 
 desc "Update misc tables"

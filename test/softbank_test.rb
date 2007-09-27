@@ -8,7 +8,17 @@ class SoftbankTest < Test::Unit::TestCase
     assert_instance_of(Jpmobile::Mobile::Softbank, req.mobile)
     assert_kind_of(Jpmobile::Mobile::Softbank, req.mobile)
     assert_equal(nil, req.mobile.position)
+    assert_equal("000000000000000", req.mobile.serial_number)
     assert_equal("000000000000000", req.mobile.ident)
+    assert(req.mobile.supports_cookie?)
+  end
+
+  # SoftBank, X_JPHONE_UID付き
+  def test_softbank_910t_x_jphone_uid
+    req = request_with_ua("SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1", "HTTP_X_JPHONE_UID"=>"aaaaaaaaaaaaaaaa")
+    assert_equal("000000000000000", req.mobile.serial_number)
+    assert_equal("aaaaaaaaaaaaaaaa", req.mobile.x_jphone_uid)
+    assert_equal("aaaaaaaaaaaaaaaa", req.mobile.ident)
     assert(req.mobile.supports_cookie?)
   end
 

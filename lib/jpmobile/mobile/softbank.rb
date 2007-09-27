@@ -15,6 +15,13 @@ module Jpmobile::Mobile
       @request.user_agent =~ /SN(.+?) /
       return $1
     end
+
+    # UIDを返す。
+    def x_jphone_uid
+      @request.env["HTTP_X_JPHONE_UID"]
+    end
+    alias :subno :x_jphone_uid
+
     # 位置情報があれば Position のインスタンスを返す。無ければ +nil+ を返す。
     def position
       if params["pos"] =~ /^([NS])(\d+)\.(\d+)\.(\d+\.\d+)([WE])(\d+)\.(\d+)\.(\d+\.\d+)$/
@@ -28,6 +35,7 @@ module Jpmobile::Mobile
         return nil
       end
     end
+
     # 画面情報を +Display+ クラスのインスタンスで返す。
     def display
       p_w = p_h = col_p = cols = nil
@@ -47,7 +55,12 @@ module Jpmobile::Mobile
       end
       Jpmobile::Display.new(p_w, p_h, nil, nil, col_p, cols)
     end
-    alias :ident :serial_number
+
+    # Softbank#x_jphone_uid、Softbank#serial_number の順で有効なものが有れば返す。
+    # 無ければ +nil+ を返す。
+    def ident
+      x_jphone_uid || serial_number
+    end
 
     # cookieに対応しているか？
     def supports_cookie?

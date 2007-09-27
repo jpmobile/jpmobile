@@ -39,7 +39,7 @@ class EmoticonFunctionalTest < Test::Unit::TestCase
     assert_equal "&#xE63E;", @response.body
     get :docomo_utf8
     assert_equal "\xee\x98\xbe", @response.body
-    
+
     # DoCoMo携帯
     user_agent "DoCoMo/2.0 SH902i(c100;TB;W24H12)"
     get :docomo_cr
@@ -70,7 +70,7 @@ class EmoticonFunctionalTest < Test::Unit::TestCase
     assert_equal "\e$Gj\x0f", @response.body
     get :docomo_docomopoint
     assert_equal "［ドコモポイント］", @response.body
- 
+
     # J-PHONE携帯電話での閲覧
     user_agent "J-PHONE/3.0/V301D"
     get :docomo_cr
@@ -120,15 +120,32 @@ class EmoticonFunctionalTest < Test::Unit::TestCase
     assert_equal [0xf04a].pack("U"), @response.body
 
     # SoftBank携帯電話から
-    # SoftBank端末から絵文字を送った場合に必ずWebコードで来るのか確認が必要。
-    # UTF-8で来るとまずいことが起るので対処が必要。
-    # (現状ではフィルタを素通りしてAuの絵文字UTF-8コードと重なってしまうはず)。
     user_agent "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1"
     get :softbank_cr
     assert_equal "\e$Gj\x0f", @response.body
     get :softbank_utf8
     assert_equal "\e$Gj\x0f", @response.body
-    get :query, :q=>"\e$Gj\x0f"
+    get :query, :q=>[0xe04A].pack("U") # 3G端末はUTF-8で絵文字を送ってくる
+    assert_equal [0xf04a].pack("U"), assigns["q"]
+    assert_equal "\e$Gj\x0f", @response.body
+
+    # Vodafone3G携帯電話から
+    user_agent "Vodafone/1.0/V705SH/SHJ001/SN000000000000000 Browser/VF-NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1"
+    get :softbank_cr
+    assert_equal "\e$Gj\x0f", @response.body
+    get :softbank_utf8
+    assert_equal "\e$Gj\x0f", @response.body
+    get :query, :q=>[0xe04A].pack("U") # 3G端末はUTF-8で絵文字を送ってくる
+    assert_equal [0xf04a].pack("U"), assigns["q"]
+    assert_equal "\e$Gj\x0f", @response.body
+
+    # J-PHONE携帯電話から
+    user_agent "J-PHONE/3.0/V301D"
+    get :softbank_cr
+    assert_equal "\e$Gj\x0f", @response.body
+    get :softbank_utf8
+    assert_equal "\e$Gj\x0f", @response.body
+    get :query, :q=>"\e$Gj\x0f" # J-PHONE端末はWebcodeで絵文字を送ってくる
     assert_equal [0xf04a].pack("U"), assigns["q"]
     assert_equal "\e$Gj\x0f", @response.body
 
@@ -138,7 +155,7 @@ class EmoticonFunctionalTest < Test::Unit::TestCase
     assert_equal "\xf8\x9f", @response.body
     get :softbank_utf8
     assert_equal "\xf8\x9f", @response.body
-   
+
     # Au携帯電話での閲覧
     user_agent "KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0"
     get :softbank_cr

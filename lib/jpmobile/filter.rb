@@ -126,7 +126,13 @@ module Jpmobile
       class Outer < Base
       include ApplyOnlyForMobile
         def to_internal(str, controller)
-          Jpmobile::Emoticon::external_to_unicodecr(str)
+          method_name = "external_to_unicodecr_" +
+            controller.request.mobile.class.name[/::(\w*)$/, 1].downcase
+          if Jpmobile::Emoticon.respond_to?(method_name)
+            Jpmobile::Emoticon.send(method_name, str)
+          else
+            str # 対応する変換メソッドが定義されていない場合は素通し
+          end
         end
         def to_external(str, controller)
           # 使用する変換テーブルの決定

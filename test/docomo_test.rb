@@ -11,6 +11,8 @@ class DocomoTest < Test::Unit::TestCase
     assert_equal(nil, req.mobile.serial_number)
     assert_equal(nil, req.mobile.icc)
     assert_equal(nil, req.mobile.ident)
+    assert_equal(nil, req.mobile.ident_device)
+    assert_equal(nil, req.mobile.ident_subscriber)
     assert(!req.mobile.supports_cookie?)
   end
 
@@ -24,6 +26,8 @@ class DocomoTest < Test::Unit::TestCase
     assert_equal(nil, req.mobile.serial_number)
     assert_equal(nil, req.mobile.icc)
     assert_equal(nil, req.mobile.ident)
+    assert_equal(nil, req.mobile.ident_device)
+    assert_equal(nil, req.mobile.ident_subscriber)
   end
 
   # DoCoMo, iarea
@@ -59,6 +63,8 @@ class DocomoTest < Test::Unit::TestCase
     assert_equal("XXXXX000000", req.mobile.serial_number)
     assert_equal("XXXXX000000", req.mobile.ident)
     assert_equal(nil, req.mobile.icc)
+    assert_equal("XXXXX000000", req.mobile.ident_device)
+    assert_equal(nil, req.mobile.ident_subscriber)
   end
 
   # DoCoMo, utn, foma
@@ -67,6 +73,8 @@ class DocomoTest < Test::Unit::TestCase
     assert_equal("999999999999999", req.mobile.serial_number)
     assert_equal("0000000000000000000f", req.mobile.icc)
     assert_equal("0000000000000000000f", req.mobile.ident)
+    assert_equal("999999999999999", req.mobile.ident_device)
+    assert_equal("0000000000000000000f", req.mobile.ident_subscriber)
   end
 
   # 正しいIPアドレス空間からのアクセスを判断できるか。

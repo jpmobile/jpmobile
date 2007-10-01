@@ -10,6 +10,8 @@ class SoftbankTest < Test::Unit::TestCase
     assert_equal(nil, req.mobile.position)
     assert_equal("000000000000000", req.mobile.serial_number)
     assert_equal("000000000000000", req.mobile.ident)
+    assert_equal("000000000000000", req.mobile.ident_device)
+    assert_equal(nil, req.mobile.ident_subscriber)
     assert(req.mobile.supports_cookie?)
   end
 
@@ -19,6 +21,8 @@ class SoftbankTest < Test::Unit::TestCase
     assert_equal("000000000000000", req.mobile.serial_number)
     assert_equal("aaaaaaaaaaaaaaaa", req.mobile.x_jphone_uid)
     assert_equal("aaaaaaaaaaaaaaaa", req.mobile.ident)
+    assert_equal("000000000000000", req.mobile.ident_device)
+    assert_equal("aaaaaaaaaaaaaaaa", req.mobile.ident_subscriber)
     assert(req.mobile.supports_cookie?)
   end
 
@@ -41,6 +45,8 @@ class SoftbankTest < Test::Unit::TestCase
     assert_kind_of(Jpmobile::Mobile::Softbank, req.mobile)
     assert_equal("000000000000000", req.mobile.serial_number)
     assert_equal("000000000000000", req.mobile.ident)
+    assert_equal("000000000000000", req.mobile.ident_device)
+    assert_equal(nil, req.mobile.ident_subscriber)
     assert_equal(nil, req.mobile.position)
     assert(req.mobile.supports_cookie?)
   end
@@ -53,6 +59,8 @@ class SoftbankTest < Test::Unit::TestCase
     assert_kind_of(Jpmobile::Mobile::Softbank, req.mobile)
     assert_equal("XXXX0000000", req.mobile.serial_number)
     assert_equal("XXXX0000000", req.mobile.ident)
+    assert_equal("XXXX0000000", req.mobile.ident_device)
+    assert_equal(nil, req.mobile.ident_subscriber)
     assert_equal(nil, req.mobile.position)
     assert(!req.mobile.supports_cookie?)
   end

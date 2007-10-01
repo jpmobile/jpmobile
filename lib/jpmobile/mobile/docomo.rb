@@ -38,17 +38,14 @@ module Jpmobile::Mobile
         return nil
       end
     end
+    alias :ident_device :serial_number
 
     # FOMAカード製造番号があれば返す。無ければ +nil+ を返す。
     def icc
       @request.user_agent =~ /icc([0-9a-zA-Z]{20})\)/
       return $1
     end
-
-    # Docomo#icc、Docomo#serial_number の順で有効なものが有れば返す。無ければ +nil+ を返す。
-    def ident
-      icc || serial_number
-    end
+    alias :ident_subscriber :icc
 
     # 画面情報を +Display+ クラスのインスタンスで返す。
     def display

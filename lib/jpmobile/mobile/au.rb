@@ -18,7 +18,7 @@ module Jpmobile::Mobile
     def subno
       @request.env["HTTP_X_UP_SUBNO"]
     end
-    alias :ident :subno
+    alias :ident_subscriber :subno
 
     # 位置情報があれば Position のインスタンスを返す。無ければ +nil+ を返す。
     def position

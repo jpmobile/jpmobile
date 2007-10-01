@@ -15,12 +15,13 @@ module Jpmobile::Mobile
       @request.user_agent =~ /SN(.+?) /
       return $1
     end
+    alias :ident_device :serial_number
 
     # UIDを返す。
     def x_jphone_uid
       @request.env["HTTP_X_JPHONE_UID"]
     end
-    alias :subno :x_jphone_uid
+    alias :ident_subscriber :x_jphone_uid
 
     # 位置情報があれば Position のインスタンスを返す。無ければ +nil+ を返す。
     def position
@@ -54,12 +55,6 @@ module Jpmobile::Mobile
         end
       end
       Jpmobile::Display.new(p_w, p_h, nil, nil, col_p, cols)
-    end
-
-    # Softbank#x_jphone_uid、Softbank#serial_number の順で有効なものが有れば返す。
-    # 無ければ +nil+ を返す。
-    def ident
-      x_jphone_uid || serial_number
     end
 
     # cookieに対応しているか？

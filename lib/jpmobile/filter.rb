@@ -77,7 +77,7 @@ module Jpmobile
       end
       # Shift_JISからUTF-8に変換する。
       def to_internal(str, controller)
-        NKF.nkf('-m0 -Sw', str)
+        NKF.nkf('-m0 -x -Sw', str)
       end
       # afterfilterを実行した後に実行する。
       def after_after(controller)

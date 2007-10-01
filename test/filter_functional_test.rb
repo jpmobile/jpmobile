@@ -1,7 +1,6 @@
 require File.dirname(__FILE__)+'/helper'
 
-class FilterTestController < ActionController::Base
-  mobile_filter
+class FilterTestControllerBase < ActionController::Base
   def abracadabra
     render :text=>"アブラカダブラ"
   end
@@ -11,9 +10,29 @@ class FilterTestController < ActionController::Base
   end
 end
 
+class FilterTestController < FilterTestControllerBase
+  mobile_filter
+end
+
+class HankakuFilterTestController < FilterTestControllerBase
+  mobile_filter :hankaku=>true
+end
+
 class FilterFunctionalTestOutput < Test::Unit::TestCase
   def setup
     init FilterTestController
+  end
+  def test_docomo
+    user_agent "DoCoMo/2.0 SH902i(c100;TB;W24H12)"
+    get :abracadabra
+    assert_equal "Shift_JIS", @response.charset
+    assert_equal "\203A\203u\203\211\203J\203_\203u\203\211", @response.body # "アブラカダブラ", 全角, Shift_JIS
+  end
+end
+
+class HankakuFilterFunctionalTestOutput < Test::Unit::TestCase
+  def setup
+    init HankakuFilterTestController
   end
   def test_pc
     get :abracadabra
@@ -55,6 +74,19 @@ end
 class FilterFunctionalTestInput < Test::Unit::TestCase
   def setup
     init FilterTestController
+  end
+  def test_docomo
+    user_agent "DoCoMo/2.0 SH902i(c100;TB;W24H12)"
+    get :query, :q=>"アブラカダブラ".tosjis
+    assert_equal "アブラカダブラ", assigns["q"]
+    get :query, :q=>"\261\314\336\327\266\300\336\314\336\327"
+    assert_equal "ｱﾌﾞﾗｶﾀﾞﾌﾞﾗ", assigns["q"]
+  end
+end
+
+class HankakuFilterFunctionalTestInput < Test::Unit::TestCase
+  def setup
+    init HankakuFilterTestController
   end
   def test_pc
     get :query, :q=>"アブラカダブラ"

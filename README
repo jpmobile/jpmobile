@@ -136,7 +136,7 @@ Auの場合は、index_mobile_au.rhtml、Softbankの場合はindex_mobile_softba
   class MyController
     transit_sid
   end
- 
+
 ==== PCにも付与する
   class MyController
     transit_sid :always
@@ -159,12 +159,16 @@ vandor/plugins/geokit以下にGeoKitがインストールされていると、Jp
 
 JpmobileではControllerにmobile_filterを指定することで
 DoCoMo、Au、SoftBankの絵文字を透過的に扱うことができる。
-また、キャリアに応じて文字コードが自動で変換され、
-携帯電話とのやり取りには半角カナが用いられるようになる。
 
  class MyController
    mobile_filter
  end
+
+また、半角・全角の自動変換を用いる場合は
+ class MyController
+   mobile_filter :hankaku=>true
+ end
+と指定する。
 
 Jpmobile内では、各キャリアの絵文字はUnicode私的領域上にマッピングされ、管理される。
 このとき、DoCoMo、Auは公式サイト記載のマッピングが使用される。
@@ -176,7 +180,7 @@ Jpmobile内では、各キャリアの絵文字はUnicode私的領域上にマ�
 
 mobile_filterを有効にすると以下の処理が自動で行われる。
 * DoCoMo、Auとの通信時にはShift_JIS、SoftBankとの通信時にはUTF-8が使用される。
-* カタカナは半角カナに変換されて送出される。携帯電話から送られた半角カナは全角カナに変換される。
+* :hankaku=>true指定時は、カタカナは半角カナに変換されて送出される。携帯電話から送られた半角カナは全角カナに変換される。
 * 絵文字はキャリアにあわせて変換されて送出される。
 * 携帯電話からの絵文字はUnicode私的領域にマップされ、UTF-8でparamsに格納される。
 

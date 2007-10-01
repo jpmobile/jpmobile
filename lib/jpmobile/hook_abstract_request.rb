@@ -4,12 +4,12 @@ class ActionController::AbstractRequest
   def user_agent
     env['HTTP_USER_AGENT']
   end
-  
+
   # 携帯電話からであれば +true+を、そうでなければ +false+ を返す。
   def mobile?
     mobile != nil
   end
-  
+
   # 携帯電話の機種に応じて Mobile::xxx を返す。
   # 携帯電話でない場合はnilを返す。
   def mobile

@@ -8,6 +8,9 @@ class FilterTestControllerBase < ActionController::Base
     @q = params[:q]
     render :text=>@q
   end
+  def binary
+    send_data "アブラカダブラ"
+  end
 end
 
 class FilterTestController < FilterTestControllerBase
@@ -37,6 +40,11 @@ class HankakuFilterFunctionalTestOutput < Test::Unit::TestCase
   def test_pc
     get :abracadabra
     assert_equal "utf-8", @response.charset
+    assert_equal "アブラカダブラ", @response.body
+  end
+  def test_docomo_binary
+    user_agent "DoCoMo/2.0 SH902i(c100;TB;W24H12)"
+    get :binary
     assert_equal "アブラカダブラ", @response.body
   end
   def test_docomo

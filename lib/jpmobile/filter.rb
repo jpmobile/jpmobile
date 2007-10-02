@@ -73,7 +73,7 @@ module Jpmobile
         controller.request.mobile?
       end
       def apply_outgoing?(controller)
-        controller.request.mobile?
+        (controller.response.content_type.nil? || controller.response.content_type == "text/html") && controller.request.mobile?
       end
     end
 
@@ -98,7 +98,9 @@ module Jpmobile
         mobile = controller.request.mobile
         mobile && !(mobile.instance_of?(Jpmobile::Mobile::Vodafone)||mobile.instance_of?(Jpmobile::Mobile::Softbank))
       end
-      alias apply_outgoing? apply_incoming?
+      def apply_outgoing?(controller)
+        (controller.response.content_type.nil? || controller.response.content_type == "text/html") && apply_incoming?(controller)
+      end
     end
 
     # テーブルに基づくフィルタ

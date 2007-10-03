@@ -73,7 +73,8 @@ module Jpmobile
         controller.request.mobile?
       end
       def apply_outgoing?(controller)
-        (controller.response.content_type.nil? || controller.response.content_type == "text/html") && controller.request.mobile?
+        [nil, "text/html", "application/xhtml+xml"].include?(controller.response.content_type) &&
+          controller.request.mobile?
       end
     end
 
@@ -99,7 +100,8 @@ module Jpmobile
         mobile && !(mobile.instance_of?(Jpmobile::Mobile::Vodafone)||mobile.instance_of?(Jpmobile::Mobile::Softbank))
       end
       def apply_outgoing?(controller)
-        (controller.response.content_type.nil? || controller.response.content_type == "text/html") && apply_incoming?(controller)
+        [nil, "text/html", "application/xhtml+xml"].include?(controller.response.content_type) &&
+          apply_incoming?(controller)
       end
     end
 

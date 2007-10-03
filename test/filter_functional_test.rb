@@ -11,6 +11,10 @@ class FilterTestControllerBase < ActionController::Base
   def binary
     send_data "アブラカダブラ"
   end
+  def xhtml
+    response.content_type = "application/xhtml+xml"
+    render :text=>"アブラカダブラ"
+  end
 end
 
 class FilterTestController < FilterTestControllerBase
@@ -46,6 +50,12 @@ class HankakuFilterFunctionalTestOutput < Test::Unit::TestCase
     user_agent "DoCoMo/2.0 SH902i(c100;TB;W24H12)"
     get :binary
     assert_equal "アブラカダブラ", @response.body
+  end
+  def test_docomo_xhtml
+    user_agent "DoCoMo/2.0 SH902i(c100;TB;W24H12)"
+    get :xhtml
+    assert_equal "Shift_JIS", @response.charset
+    assert_equal "\261\314\336\327\266\300\336\314\336\327", @response.body # "アブラカダブラ", 半角, Shift_JIS
   end
   def test_docomo
     user_agent "DoCoMo/2.0 SH902i(c100;TB;W24H12)"

@@ -10,6 +10,7 @@ require 'fileutils'
 include FileUtils
 require File.join(File.dirname(__FILE__), 'lib', 'jpmobile', 'version')
 
+#
 AUTHOR = "dara"
 EMAIL = "dara@shidara.net"
 DESCRIPTION = "A Rails plugin for Japanese mobile-phones"
@@ -17,14 +18,13 @@ RUBYFORGE_PROJECT = "jpmobile"
 HOMEPATH = "http://#{RUBYFORGE_PROJECT}.rubyforge.org"
 BIN_FILES = %w(  )
 
-
 NAME = "jpmobile"
 REV = File.read(".svn/entries")[/committed-rev="(d+)"/, 1] rescue nil
 VERS = ENV['VERSION'] || (Jpmobile::VERSION::STRING + (REV ? ".#{REV}" : ""))
 CLEAN.include ['**/.*.sw?', '*.gem', '.config']
 RDOC_OPTS = ['--quiet', '--title', "jpmobile documentation",
     "--opname", "index.html",
-    "--line-numbers", 
+    "--line-numbers",
     "--main", "README",
     "--inline-source"]
 
@@ -79,11 +79,11 @@ spec =
         #s.required_ruby_version = '>= 1.8.2'
 
         s.files = %w(README CHANGELOG Rakefile) +
-          Dir.glob("{bin,doc,test,lib,templates,generator,extras,website,script}/**/*") + 
+          Dir.glob("{bin,doc,test,lib,templates,generator,extras,website,script}/**/*") +
           Dir.glob("ext/**/*.{h,c,rb}") +
           Dir.glob("examples/**/*.rb") +
           Dir.glob("tools/*.rb")
-        
+
         # s.extensions = FileList["ext/**/extconf.rb"].to_a
     end
 
@@ -103,7 +103,7 @@ task :uninstall => [:clean] do
 end
 
 desc "Publish the API documentation"
-task :pdoc => [:rdoc] do 
+task :pdoc => [:rdoc] do
   Rake::SshDirPublisher.new("dara@rubyforge.org", "/var/www/gforge-projects/jpmobile/rdoc", "doc").upload
 end
 
@@ -119,3 +119,7 @@ task :rel do
   puts "svn copy svn+ssh://dara@rubyforge.org/var/svn/jpmobile/trunk " +
        "svn+ssh://dara@rubyforge.org/var/svn/jpmobile/tags/rel-#{VERS} -m 'Tagged #{VERS}' "
 end
+
+# setup RSpec tasks
+RAILS_ROOT = '.'
+load 'vendor/plugins/rspec_on_rails/tasks/rspec.rake'

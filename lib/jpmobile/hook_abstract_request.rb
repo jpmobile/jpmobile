@@ -4,6 +4,10 @@ class ActionController::AbstractRequest
   def user_agent
     env['HTTP_USER_AGENT']
   end
+  # 環境変数 HTTP_USER_AGENT を設定する。
+  def user_agent=(str)
+    self.env["HTTP_USER_AGENT"] = str
+  end
 
   # 携帯電話からであれば +true+を、そうでなければ +false+ を返す。
   def mobile?

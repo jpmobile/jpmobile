@@ -15,12 +15,17 @@ unless Spec.const_defined?(:Rails)
   Dependencies.load_paths.unshift rspec_base
   Dependencies.load_once_paths.unshift rspec_base
 
-  # setup controllers
-  controller_base = "#{dir}/../spec_resources/controllers"
-  $LOAD_PATH.unshift controller_base
-  Dependencies.load_paths.unshift controller_base
-  Dependencies.load_once_paths.unshift controller_base
+  # setup resources
+  $LOAD_PATH.unshift "#{dir}/../spec_resources/controllers" # application.rb を先に読ませる
+  Dir.glob("#{dir}/../spec_resources/*/*.rb").each do |file|
+    require file
+  end
 
-  require 'spec/rails'
+  # setup routes
+  ActionController::Routing::Routes.draw do |map|
+    map.connect ':controller/:action/:id.:format'
+    map.connect ':controller/:action/:id'
+  end
 
+    require 'spec/rails'
 end

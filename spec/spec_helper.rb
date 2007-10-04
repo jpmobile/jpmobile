@@ -15,9 +15,12 @@ unless Spec.const_defined?(:Rails)
   Dependencies.load_paths.unshift rspec_base
   Dependencies.load_once_paths.unshift rspec_base
 
+  # application.rb を先に読ませる
+  $LOAD_PATH.unshift "#{dir}/../spec_resources/controllers" 
+  require 'application'
+
   # setup resources
-  $LOAD_PATH.unshift "#{dir}/../spec_resources/controllers" # application.rb を先に読ませる
-  Dir.glob("#{dir}/../spec_resources/*/*.rb").each do |file|
+  Dir[File.expand_path("#{dir}/../spec_resources/**/*.rb")].sort.each do |file|
     require file
   end
 
@@ -27,5 +30,5 @@ unless Spec.const_defined?(:Rails)
     map.connect ':controller/:action/:id'
   end
 
-    require 'spec/rails'
+  require 'spec/rails'
 end

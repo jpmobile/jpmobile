@@ -21,7 +21,7 @@ module Jpmobile::TransSid #:nodoc:
   protected
   # URLにsession_idを追加する。
   def default_url_options(options)
-    return unless request # for test process 
+    return unless request # for test process
     return unless apply_transit_sid?
     { session_key => session.session_id }
   end
@@ -29,7 +29,9 @@ module Jpmobile::TransSid #:nodoc:
   private
   # session_keyを返す。
   def session_key
-    session_key = request.session_options[:session_key] || '_session_id'
+    if session_enabled?
+      session_key = request.session_options[:session_key] || '_session_id'
+    end
   end
   # session_idを埋め込むためのhidden fieldを出力する。
   def sid_hidden_field_tag
@@ -43,6 +45,7 @@ module Jpmobile::TransSid #:nodoc:
   end
   # transit_sidを適用すべきかを返す。
   def apply_transit_sid?
+    return false unless session_enabled?
     return false if transit_sid_mode == :none
     return true if transit_sid_mode == :always
     if transit_sid_mode == :mobile

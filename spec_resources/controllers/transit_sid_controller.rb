@@ -19,3 +19,8 @@ end
 class TransitSidMobileController < TransitSidBaseController
   transit_sid :mobile
 end
+
+class TransitSidAlwaysAndSessionOffController < TransitSidBaseController
+  transit_sid :always
+  session :off
+end

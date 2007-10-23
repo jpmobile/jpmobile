@@ -5,13 +5,12 @@ require 'kconv'
 require 'hpricot'
 require 'pp'
 
-src = URI("http://www.nttdocomo.co.jp/service/imode/make/content/spec/screen_area/index.html").read.toutf8 
+src = URI("http://www.nttdocomo.co.jp/service/imode/make/content/spec/screen_area/index.html").read.toutf8
 src.gsub!(/&mu;/,"myu")
 user_agents = {}
 
-(Hpricot(src)/"//div[@id='maincol']//table//table").each do |table|
-#  puts table.to_html
-  (table/"tr[@bgcolor='#FFFFFF']").each do |tr|
+(Hpricot(src)/"//div[@id='maincol']//table").each do |table|
+  (table/"tr[@class='acenter']").each do |tr|
     a = (tr/:td).map {|x| x.inner_text }
     if a.size == 7
       a.shift # remove rowspan

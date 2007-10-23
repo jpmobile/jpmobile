@@ -10,6 +10,8 @@ ActionView::Base.class_eval { include Jpmobile::Helpers }
 #   index_mobile.rhtml
 #   index.rhtml
 # の順にテンプレートが検索される。
+# BUG: 現状、上記の例では index.rhtml が存在しない場合に振り分けが行われない
+# (ダミーファイルを置くことで回避可能)。
 class ActionView::Base #:nodoc:
   alias render_file_without_mobile render_file #:nodoc:
   def render_file(template_path, use_full_path = true, local_assigns = {})

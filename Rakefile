@@ -48,7 +48,6 @@ Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.title    = 'Jpmobile'
   rdoc.options << '--line-numbers' << '--inline-source' << '-c UTF-8'
   rdoc.rdoc_files.include('README')
-  rdoc.rdoc_files.include('TODO')
   rdoc.rdoc_files.include('CHANGELOG')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
@@ -59,7 +58,7 @@ spec =
         s.version = VERS
         s.platform = Gem::Platform::RUBY
         s.has_rdoc = true
-        s.extra_rdoc_files = ["README", "CHANGELOG", "TODO", "NOTES"]
+        s.extra_rdoc_files = ["README", "CHANGELOG"]
         s.rdoc_options += RDOC_OPTS + ['--exclude', '^(examples|extras)/']
         s.summary = DESCRIPTION
         s.description = DESCRIPTION

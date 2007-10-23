@@ -75,6 +75,8 @@ DoCoMo携帯電話からアクセスすると、
 の順でテンプレートを検索し、最初に見付かったテンプレートが利用される。
 Auの場合は、index_mobile_au.rhtml、Softbankの場合はindex_mobile_softbank.rhtmlが最初に検索される。
 
+BUG: 現状、上記の例では index.rhtml が存在しない場合に振り分けが行われない(ダミーファイルを置くことで回避可能)。
+
 ==== キャリアの識別
 
   case request.mobile

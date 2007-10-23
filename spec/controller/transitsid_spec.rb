@@ -21,7 +21,7 @@ describe "transit_sid が起動するとき", :shared => true do
   end
   it "で form の自動書き換えが行われる" do
     get :form
-    response.body.should =~ %r{^<form action="/.+?/form\?_session_id=mysessionid" method="post">Hello<input type='hidden' name='_session_id' value='mysessionid'></form>$}
+    response.body.should =~ %r{^<form action="/.+?/form\?_session_id=mysessionid" method="post">Hello<input type="hidden" name="_session_id" value="mysessionid" /></form>$}
   end
 end
 

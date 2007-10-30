@@ -8,7 +8,7 @@ module Jpmobile::Mobile
   # Vodafone, Jphoneのスーパクラス。
   class Softbank < AbstractMobile
     # 対応するuser-agentの正規表現
-    USER_AGENT_REGEXP = /^SoftBank/
+    USER_AGENT_REGEXP = /^(SoftBank|Semulator)/
 
     # 製造番号を返す。無ければ +nil+ を返す。
     def serial_number
@@ -66,7 +66,7 @@ module Jpmobile::Mobile
   # スーパクラスはSoftbank。
   class Vodafone < Softbank
     # 対応するUser-Agentの正規表現
-    USER_AGENT_REGEXP = /^Vodafone/
+    USER_AGENT_REGEXP = /^(Vodafone|Vemulator)/
 
     # cookieに対応しているか？
     def supports_cookie?
@@ -77,7 +77,7 @@ module Jpmobile::Mobile
   # スーパクラスはVodafone。
   class Jphone < Vodafone
     # 対応するUser-Agentの正規表現
-    USER_AGENT_REGEXP = /^J-PHONE/
+    USER_AGENT_REGEXP = /^(J-PHONE|J-EMULATOR)/
 
     # 位置情報があれば Position のインスタンスを返す。無ければ +nil+ を返す。
     def position

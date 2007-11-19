@@ -102,7 +102,7 @@ BUG: 現状、上記の例では index.rhtml が存在しない場合に振り�
 ==== 取得用リンクの生成
 
 以下のようなコードで、端末に位置情報を要求するリンクを出力する。
-  <%= link_to_get_position(:action=>:gps) %>
+  <%= get_position_link_to(:action=>:gps) %>
 
 ==== 位置情報の取得
 

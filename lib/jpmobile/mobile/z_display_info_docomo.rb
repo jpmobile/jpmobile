@@ -39,6 +39,8 @@ Jpmobile::Mobile::Docomo::DISPLAY_INFO =
   {:color_p=>true, :colors=>4096, :browser_width=>118, :browser_height=>128},
  "SH821i"=>
   {:color_p=>true, :colors=>256, :browser_width=>96, :browser_height=>78},
+ "N905iBiz"=>
+  {:color_p=>true, :colors=>262144, :browser_width=>240, :browser_height=>320},
  "F901iC"=>
   {:color_p=>true, :colors=>262144, :browser_width=>230, :browser_height=>240},
  "N2002"=>
@@ -400,6 +402,8 @@ Jpmobile::Mobile::Docomo::DISPLAY_INFO =
   {:color_p=>true, :colors=>65536, :browser_width=>160, :browser_height=>180},
  "D800iDS"=>
   {:color_p=>true, :colors=>262144, :browser_width=>230, :browser_height=>240},
+ "F801i"=>
+  {:color_p=>true, :colors=>65536, :browser_width=>240, :browser_height=>352},
  "F704i"=>
   {:color_p=>true, :colors=>262144, :browser_width=>230, :browser_height=>240},
  "D211i"=>

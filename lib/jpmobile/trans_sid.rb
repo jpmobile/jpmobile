@@ -10,6 +10,7 @@ class ActionController::Base #:nodoc:
   def self.transit_sid(mode=:mobile)
     include Jpmobile::TransSid
     self.transit_sid_mode = mode
+    session :cookie_only => false unless mode == :none
   end
 end
 
@@ -39,7 +40,7 @@ module Jpmobile::TransSid #:nodoc:
   end
   # formにsession_idを追加する。
   def append_session_id_parameter
-    return unless request # for test process 
+    return unless request # for test process
     return unless apply_transit_sid?
     response.body.gsub!(%r{(</form>)}i, sid_hidden_field_tag+'\1')
   end

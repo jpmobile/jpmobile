@@ -16,7 +16,7 @@ class HelpersTest < Test::Unit::TestCase
   def setup
     @view = FakeView.new
   end
-  
+
   # get_position_link_to_がエラー無く終わるか。
   def test_get_position_link_to_show_all
     assert_nothing_raised {
@@ -52,7 +52,7 @@ class HelpersTest < Test::Unit::TestCase
     assert_equal("device:location", path)
     assert_equal("http://example.jp", params["url"])
   end
-  
+
   # get_position_link_to(自動判別), au, gps
   def test_get_position_link_to_au_gps
     @view.request = request_with_ua("KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0")
@@ -68,7 +68,7 @@ class HelpersTest < Test::Unit::TestCase
     assert_equal("0", params["unit"])
     assert_equal("0", params["datum"])
   end
-  
+
   # get_position_link_to(自動判別), J-PHONE
   def test_get_position_link_to_jphone
     @view.request = request_with_ua("J-PHONE/4.3/V603SH/SNXXXX0000000 SH/0007aa Profile/MIDP-1.0 Configuration/CLDC-1.0 Ext-Profile/JSCL-1.3.2")
@@ -131,6 +131,7 @@ class HelpersTest < Test::Unit::TestCase
     assert_equal("http://w1m.docomo.ne.jp/cp/iarea", path)
     assert_equal("OPENAREACODE", params["ecode"])
     assert_equal("OPENAREAKEY", params["msn"])
+    assert_equal("1", params["posinfo"])
     assert_equal("http://example.jp", params["nl"])
   end
 
@@ -187,7 +188,7 @@ class HelpersTest < Test::Unit::TestCase
     assert_equal("STRING", text)
     assert_equal("location:auto", path)
   end
-  
+
   # Willcom 位置情報取得用のリンクが正しく出力されるか。
   def test_willcom_location_link_to
     links = get_href_and_texts(@view.willcom_location_link_to("STRING"))

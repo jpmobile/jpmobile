@@ -17,12 +17,15 @@ module Jpmobile::Mobile
 
     # 位置情報があれば Position のインスタンスを返す。無ければ +nil+ を返す。
     def position
-      return nil if params["lat"].blank? || params["lon"].blank?
-      raise "Unsuppoted datum" if params["geo"].downcase != "wgs84"
+      lat = params["lat"] || params["LAT"]
+      lon = params["lon"] || params["LON"]
+      geo = params["geo"] || params["GEO"]
+      return nil if lat.blank? || lon.blank?
+      raise "Unsuppoted datum" if geo.downcase != "wgs84"
       pos = Jpmobile::Position.new
-      raise "Unsuppoted" unless params["lat"] =~ /^([+-]\d+)\.(\d+)\.(\d+\.\d+)/
+      raise "Unsuppoted" unless lat =~ /^([+-]\d+)\.(\d+)\.(\d+\.\d+)/
       pos.lat = Jpmobile::Position.dms2deg($1,$2,$3)
-      raise "Unsuppoted" unless params["lon"] =~ /^([+-]\d+)\.(\d+)\.(\d+\.\d+)/
+      raise "Unsuppoted" unless lon =~ /^([+-]\d+)\.(\d+)\.(\d+\.\d+)/
       pos.lon = Jpmobile::Position.dms2deg($1,$2,$3)
       return pos
     end

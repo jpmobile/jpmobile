@@ -37,6 +37,15 @@ class DocomoTest < Test::Unit::TestCase
     assert_equal("00100", req.mobile.areacode)
   end
 
+  # DoCoMo, iarea
+  def test_docomo_iarea_with_posinfo
+    req = request_with_ua("DoCoMo/1.0/SO506iC/c20/TB/W20H10",
+                          {"QUERY_STRING"=>"LAT=%2B35.00.35.600&LON=%2B135.41.35.600&GEO=wgs84&POSINFO=2&AREACODE=00100&ACTN=OK"})
+    assert_equal("00100", req.mobile.areacode)
+    assert_in_delta(35.00988889, req.mobile.position.lat, 1e-7)
+    assert_in_delta(135.6932222, req.mobile.position.lon, 1e-7)
+  end
+
   # DoCoMo, gps
   # http://www.nttdocomo.co.jp/service/imode/make/content/html/outline/gps.html
   def test_docomo_gps_sa702i

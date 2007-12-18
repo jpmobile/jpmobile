@@ -52,7 +52,8 @@ module Jpmobile
     def docomo_openiarea_url_for(options={})
       options = options.symbolize_keys
       options[:only_path] = false
-      "http://w1m.docomo.ne.jp/cp/iarea?ecode=OPENAREACODE&msn=OPENAREAKEY&nl=#{CGI.escape(url_for(options))}"
+      posinfo = options.delete(:posinfo) || "1" # 基地局情報を元に測位した緯度経度情報を要求　
+      "http://w1m.docomo.ne.jp/cp/iarea?ecode=OPENAREACODE&msn=OPENAREAKEY&posinfo=#{posinfo}&nl=#{CGI.escape(url_for(options))}"
     end
 
     # DoCoMoでオープンiエリアを取得するためのリンクを返す。

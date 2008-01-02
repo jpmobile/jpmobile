@@ -2,8 +2,8 @@
 
 # plugins/以下にgeokitがインストールされている場合は読み込む
 begin
-  require File.dirname(__FILE__) + '/../../../geokit/lib/geo_kit/mappable'
-rescue MissingSourceFile
+  require RAILS_ROOT + '/vendor/plugins/geokit/lib/geo_kit/mappable'
+rescue MissingSourceFile, NameError
 end
 
 module Jpmobile

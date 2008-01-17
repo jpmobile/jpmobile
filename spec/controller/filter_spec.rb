@@ -1,5 +1,13 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
+describe "文字コードフィルタが動作しているとき", :shared => true do
+  it "はhtml以外は変換しない" do
+    get :rawdata
+    response.charset.should be_nil
+    response.body.should == "あいう"
+  end
+end
+
 describe "Shift_JISで通信する端末との通信", :shared => true do
   it "はShift_JISで携帯に送出されること" do
     get :aiu_utf8
@@ -10,6 +18,7 @@ describe "Shift_JISで通信する端末との通信", :shared => true do
     get :index, :q => "アブラカダブラ".tosjis
     assigns[:q].should == "アブラカダブラ"
   end
+  it_should_behave_like "文字コードフィルタが動作しているとき"
 end
 
 describe "UTF-8で通信する端末との通信", :shared => true do
@@ -22,6 +31,7 @@ describe "UTF-8で通信する端末との通信", :shared => true do
     get :index, :q => "アブラカダブラ"
     assigns[:q].should == "アブラカダブラ"
   end
+  it_should_behave_like "文字コードフィルタが動作しているとき"
 end
 
 describe FilterController, "DoCoMo SH902i からのアクセス" do

@@ -4,14 +4,14 @@ describe "文字コードフィルタが動作しているとき", :shared => tr
   it "はhtml以外は変換しない" do
     get :rawdata
     response.charset.should be_nil
-    response.body.should == "あいう"
+    response.body.should == "アブラカダブラ"
   end
 end
 
 describe "Shift_JISで通信する端末との通信", :shared => true do
   it "はShift_JISで携帯に送出されること" do
-    get :aiu_utf8
-    response.body.should == "あいう".tosjis
+    get :abracadabra_utf8
+    response.body.should == "アブラカダブラ".tosjis
     response.charset.should == "Shift_JIS"
   end
   it "はShift_JISで渡されたパラメタがparamsにUTF-8に変換されて格納されること" do
@@ -23,8 +23,8 @@ end
 
 describe "UTF-8で通信する端末との通信", :shared => true do
   it "はUTF-8で携帯に送出されること" do
-    get :aiu_utf8
-    response.body.should == "あいう"
+    get :abracadabra_utf8
+    response.body.should == "アブラカダブラ"
     response.charset.should == "utf-8"
   end
   it "はparamsにUTF-8のまま格納されること" do

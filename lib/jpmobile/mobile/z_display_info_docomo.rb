@@ -243,6 +243,8 @@ Jpmobile::Mobile::Docomo::DISPLAY_INFO =
   {:color_p=>false, :colors=>4, :browser_width=>96, :browser_height=>87},
  "P703i"=>
   {:color_p=>true, :colors=>262144, :browser_width=>240, :browser_height=>270},
+ "F705i"=>
+  {:color_p=>true, :colors=>262144, :browser_width=>240, :browser_height=>352},
  "SH904i"=>
   {:color_p=>true, :colors=>262144, :browser_width=>240, :browser_height=>320},
  "SH902iSL"=>

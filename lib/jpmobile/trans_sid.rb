@@ -18,19 +18,18 @@ class ActionController::Base #:nodoc:
       session :cookie_only => false
       # url/postからsession_keyを取得できるようhookを追加する
       unless ::CGI::Session.private_method_defined?(:initialize_without_session_key_fixation)
-        ::CGI::Session.class_eval <<-end_eval
+        ::CGI::Session.class_eval do
           alias_method :initialize_without_session_key_fixation, :initialize
           def initialize(cgi, options = {})
             key = options['session_key']
             if cgi.cookies[key].empty?
-              session_id_post = CGI.parse(ENV['RAW_POST_DATA'])[key] rescue nil
-              session_id_query = CGI.parse(cgi.query_string)[key] rescue nil
-              session_id = session_id_post || session_id_query
+              session_id = (CGI.parse(ENV['RAW_POST_DATA'])[key] rescue nil)
+              || (CGI.parse(cgi.query_string)[key] rescue nil)
               cgi.params[key] = session_id unless session_id.blank?
             end
             initialize_without_session_key_fixation(cgi, options)
           end
-        end_eval
+        end
       end
     end
   end

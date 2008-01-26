@@ -4,13 +4,35 @@
 # by moriq <moriq@moriq.com>
 #
 # cookie support detection inspired by takai http://recompile.net/
+#
+# Rails 2.0.2 support is based on the code contributed
+# by masuidrive <masuidrive (at) masuidrive.jp>
 
 class ActionController::Base #:nodoc:
   class_inheritable_accessor :transit_sid_mode
   def self.transit_sid(mode=:mobile)
     include Jpmobile::TransSid
     self.transit_sid_mode = mode
-    session :cookie_only => false unless mode == :none
+    unless mode == :none
+      # CSRF対策への対策
+      session :cookie_only => false
+      # url/postからsession_keyを取得できるようhookを追加する
+      unless ::CGI::Session.private_method_defined?(:initialize_without_session_key_fixation)
+        ::CGI::Session.class_eval <<-end_eval
+          alias_method :initialize_without_session_key_fixation, :initialize
+          def initialize(cgi, options = {})
+            key = options['session_key']
+            if cgi.cookies[key].empty?
+              session_id_post = CGI.parse(ENV['RAW_POST_DATA'])[key] rescue nil
+              session_id_query = CGI.parse(cgi.query_string)[key] rescue nil
+              session_id = session_id_post || session_id_query
+              cgi.params[key] = session_id unless session_id.blank?
+            end
+            initialize_without_session_key_fixation(cgi, options)
+          end
+        end_eval
+      end
+    end
   end
 end
 

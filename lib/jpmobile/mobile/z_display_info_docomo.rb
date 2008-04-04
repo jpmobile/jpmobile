@@ -335,6 +335,8 @@ Jpmobile::Mobile::Docomo::DISPLAY_INFO =
   {:color_p=>true, :colors=>262144, :browser_width=>176, :browser_height=>198},
  "SH505i"=>
   {:color_p=>true, :colors=>262144, :browser_width=>240, :browser_height=>252},
+ "SH705iII"=>
+  {:color_p=>true, :colors=>262144, :browser_width=>240, :browser_height=>320},
  "D704i"=>
   {:color_p=>true, :colors=>262144, :browser_width=>230, :browser_height=>240},
  "SO704i"=>

@@ -8,6 +8,18 @@
 # Rails 2.0.2 support is based on the code contributed
 # by masuidrive <masuidrive (at) masuidrive.jp>
 
+# FastCGI環境では(どういうわけか) cgi.query_string でクエリ文字列を取得できないので
+# ENV['QUERY_STRING'] に代入しておく。
+module ActionController
+  class CgiRequest
+    alias_method :initialize_without_ext, :initialize
+    def initialize(cgi, options = {})
+      initialize_without_ext(cgi, options)
+      ENV['QUERY_STRING'] = query_string
+    end
+  end
+end
+
 class ActionController::Base #:nodoc:
   class_inheritable_accessor :transit_sid_mode
   def self.transit_sid(mode=:mobile)
@@ -24,7 +36,7 @@ class ActionController::Base #:nodoc:
             key = options['session_key']
             if cgi.cookies[key].empty?
               session_id = (CGI.parse(cgi.env_table['RAW_POST_DATA'])[key] rescue nil) ||
-                (CGI.parse(cgi.query_string)[key] rescue nil)
+                (CGI.parse(ENV['QUERY_STRING'] || cgi.query_string)[key] rescue nil)
               cgi.params[key] = session_id unless session_id.blank?
             end
             initialize_without_session_key_fixation(cgi, options)

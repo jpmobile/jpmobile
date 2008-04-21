@@ -5,6 +5,9 @@
 # == SoftBank
 # http://developers.softbankmobile.co.jp/dp/tech_svc/web/ip.php
 # 2007/10/09現在
+# == EMOBILE
+# http://developer.emnet.ne.jp/ipaddress.html
+# 2008/02/26現在
 
 #:enddoc:
 Jpmobile::Mobile::Docomo::IP_ADDRESSES = <<EOF
@@ -25,4 +28,8 @@ Jpmobile::Mobile::Softbank::IP_ADDRESSES=<<EOF
 210.175.1.128/25
 210.228.189.0/24
 211.8.159.128/25
+EOF
+
+Jpmobile::Mobile::Emobile::IP_ADDRESSES=<<EOF
+117.55.1.224/27
 EOF

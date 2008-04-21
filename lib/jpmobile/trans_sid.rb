@@ -23,7 +23,7 @@ class ActionController::Base #:nodoc:
           def initialize(cgi, options = {})
             key = options['session_key']
             if cgi.cookies[key].empty?
-              session_id = (CGI.parse(ENV['RAW_POST_DATA'])[key] rescue nil) ||
+              session_id = (CGI.parse(cgi.env_table['RAW_POST_DATA'])[key] rescue nil) ||
                 (CGI.parse(cgi.query_string)[key] rescue nil)
               cgi.params[key] = session_id unless session_id.blank?
             end

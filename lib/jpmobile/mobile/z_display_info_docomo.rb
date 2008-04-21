@@ -361,6 +361,8 @@ Jpmobile::Mobile::Docomo::DISPLAY_INFO =
   {:color_p=>true, :colors=>262144, :browser_width=>240, :browser_height=>267},
  "F212i"=>
   {:color_p=>true, :colors=>65536, :browser_width=>132, :browser_height=>136},
+ "F883iESS"=>
+  {:color_p=>true, :colors=>65536, :browser_width=>240, :browser_height=>256},
  "SH700iS"=>
   {:color_p=>true, :colors=>262144, :browser_width=>240, :browser_height=>252},
  "N900iG"=>

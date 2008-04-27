@@ -21,28 +21,32 @@ module ActionController
 end
 
 class ActionController::Base #:nodoc:
-  class_inheritable_accessor :transit_sid_mode
-  def self.transit_sid(mode=:mobile)
-    include Jpmobile::TransSid
-    self.transit_sid_mode = mode
-    unless mode == :none
-      # CSRF対策への対策
-      session :cookie_only => false
-      # url/postからsession_keyを取得できるようhookを追加する
-      unless ::CGI::Session.private_method_defined?(:initialize_without_session_key_fixation)
-        ::CGI::Session.class_eval do
-          alias_method :initialize_without_session_key_fixation, :initialize
-          def initialize(cgi, options = {})
-            key = options['session_key']
-            if cgi.cookies[key].empty?
-              session_id = (CGI.parse(cgi.env_table['RAW_POST_DATA'])[key] rescue nil) ||
-                (CGI.parse(ENV['QUERY_STRING'] || cgi.query_string)[key] rescue nil)
-              cgi.params[key] = session_id unless session_id.blank?
+  class_inheritable_accessor :trans_sid_mode
+  alias :transit_sid_mode :trans_sid_mode
+  class << self
+    def trans_sid(mode=:mobile)
+      include Jpmobile::TransSid
+      self.trans_sid_mode = mode
+      unless mode == :none
+        # CSRF対策への対策
+        session :cookie_only => false
+        # url/postからsession_keyを取得できるようhookを追加する
+        unless ::CGI::Session.private_method_defined?(:initialize_without_session_key_fixation)
+          ::CGI::Session.class_eval do
+            alias_method :initialize_without_session_key_fixation, :initialize
+            def initialize(cgi, options = {})
+              key = options['session_key']
+              if cgi.cookies[key].empty?
+                session_id = (CGI.parse(cgi.env_table['RAW_POST_DATA'])[key] rescue nil) ||
+                  (CGI.parse(ENV['QUERY_STRING'] || cgi.query_string)[key] rescue nil)
+                cgi.params[key] = session_id unless session_id.blank?
+              end
+              initialize_without_session_key_fixation(cgi, options)
             end
-            initialize_without_session_key_fixation(cgi, options)
           end
         end
       end
+      alias :transit_sid :trans_sid
     end
   end
 end
@@ -56,7 +60,7 @@ module Jpmobile::TransSid #:nodoc:
   # URLにsession_idを追加する。
   def default_url_options(options)
     return unless request # for test process
-    return unless apply_transit_sid?
+    return unless apply_trans_sid?
     { session_key => session.session_id }
   end
 
@@ -74,15 +78,15 @@ module Jpmobile::TransSid #:nodoc:
   # formにsession_idを追加する。
   def append_session_id_parameter
     return unless request # for test process
-    return unless apply_transit_sid?
+    return unless apply_trans_sid?
     response.body.gsub!(%r{(</form>)}i, sid_hidden_field_tag+'\1')
   end
-  # transit_sidを適用すべきかを返す。
-  def apply_transit_sid?
+  # trans_sidを適用すべきかを返す。
+  def apply_trans_sid?
     return false unless session_enabled?
-    return false if transit_sid_mode == :none
-    return true if transit_sid_mode == :always
-    if transit_sid_mode == :mobile
+    return false if trans_sid_mode == :none
+    return true if trans_sid_mode == :always
+    if trans_sid_mode == :mobile
       if request.mobile?
         return !request.mobile.supports_cookie?
       else

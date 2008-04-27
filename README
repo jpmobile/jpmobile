@@ -139,12 +139,12 @@ BUG: 現状、上記の例では index.rhtml が存在しない場合に振り�
 === セッションIDの付与(Transit SID)
 ==== Cookie非対応携帯だけに付与する
   class MyController
-    transit_sid
+    trans_sid
   end
 
 ==== PCにも付与する
   class MyController
-    transit_sid :always
+    trans_sid :always
   end
 
 === 端末の画面サイズ

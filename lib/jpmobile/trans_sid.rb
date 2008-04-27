@@ -46,8 +46,8 @@ class ActionController::Base #:nodoc:
           end
         end
       end
-      alias :transit_sid :trans_sid
     end
+    alias :transit_sid :trans_sid
   end
 end
 

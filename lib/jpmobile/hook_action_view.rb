@@ -26,7 +26,7 @@ class ActionView::Base #:nodoc:
 
       vals.each do |v|
         mobile_path = "#{template_path}_#{v}"
-        if file_exists?(mobile_path)
+        if finder.file_exists?(mobile_path)
           return render_file_without_mobile(mobile_path, use_full_path, local_assigns)
         end
       end

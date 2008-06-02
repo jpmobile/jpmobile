@@ -121,4 +121,4 @@ end
 
 # setup RSpec tasks
 RAILS_ROOT = '.'
-load 'vendor/plugins/rspec_on_rails/tasks/rspec.rake'
+load 'vendor/plugins/rspec-rails/tasks/rspec.rake'

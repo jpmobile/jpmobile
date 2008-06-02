@@ -4,13 +4,14 @@ unless Spec.const_defined?(:Rails)
   # jpmobileの読み込み
   require 'rubygems'
   require 'action_controller'
+  require 'initializer'
   require dir+'/../lib/jpmobile'
 
   # set (dummy) RAILS_ROOT
   RAILS_ROOT=dir+"/.."
 
   # load RSpec on Rails
-  rspec_base = dir + '/../vendor/plugins/rspec_on_rails/lib'
+  rspec_base = dir + '/../vendor/plugins/rspec-rails/lib'
   $LOAD_PATH.unshift rspec_base
   Dependencies.load_paths.unshift rspec_base
   Dependencies.load_once_paths.unshift rspec_base

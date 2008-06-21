@@ -72,7 +72,6 @@ spec =
         s.autorequire = "jpmobile"
 
 	s.add_dependency('actionpack', '>=1.12.5')
-	s.add_dependency('hpricot', '>=0.4')
 
         #s.add_dependency('activesupport', '>=1.3.1')
         #s.required_ruby_version = '>= 1.8.2'

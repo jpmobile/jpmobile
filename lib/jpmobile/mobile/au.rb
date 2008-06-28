@@ -64,7 +64,7 @@ module Jpmobile::Mobile
 
     # デバイスIDを返す
     def device_id
-      if @request.user_agent =~ USER_AGENT_REGEXP
+      if @request.env['HTTP_USER_AGENT'] =~ USER_AGENT_REGEXP
         return $1
       else
         nil

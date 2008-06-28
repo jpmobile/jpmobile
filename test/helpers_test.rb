@@ -26,7 +26,7 @@ class HelpersTest < Test::Unit::TestCase
 
   # get_position_link_to(自動判別), DoCoMo
   def test_get_position_link_to_docomo
-    @view.request = request_with_ua("DoCoMo/2.0 SH903i(c100;TB;W24H16)")
+    @view.request = request_with_ua("DoCoMo/2.0 SH903i(c100;TB;W24H16)").first
     links = get_href_and_texts(@view.get_position_link_to("STRING"))
     assert_equal(1, links.size)
     text,attrs,path,params = links.first
@@ -37,14 +37,14 @@ class HelpersTest < Test::Unit::TestCase
 
   # get_position_link_to(自動判別), TUKA
   def test_get_position_link_to_tuka
-    @view.request = request_with_ua("UP.Browser/3.04-KCTA UP.Link/3.4.5.9")
+    @view.request = request_with_ua("UP.Browser/3.04-KCTA UP.Link/3.4.5.9").first
     links = get_href_and_texts(@view.get_position_link_to("STRING"))
     assert(links.empty?)
   end
 
   # get_position_link_to(自動判別), au, location only
   def test_get_position_link_to_au_location_only
-    @view.request = request_with_ua("KDDI-SN26 UP.Browser/6.2.0.6.2 (GUI) MMP/2.0")
+    @view.request = request_with_ua("KDDI-SN26 UP.Browser/6.2.0.6.2 (GUI) MMP/2.0").first
     links = get_href_and_texts(@view.get_position_link_to("STRING"))
     assert_equal(1, links.size)
     text,attrs,path,params = links.first
@@ -55,7 +55,7 @@ class HelpersTest < Test::Unit::TestCase
 
   # get_position_link_to(自動判別), au, gps
   def test_get_position_link_to_au_gps
-    @view.request = request_with_ua("KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0")
+    @view.request = request_with_ua("KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0").first
     links = get_href_and_texts(@view.get_position_link_to("STRING"))
     assert_equal(1, links.size)
     text,attrs,path,params = links.first
@@ -71,7 +71,7 @@ class HelpersTest < Test::Unit::TestCase
 
   # get_position_link_to(自動判別), J-PHONE
   def test_get_position_link_to_jphone
-    @view.request = request_with_ua("J-PHONE/4.3/V603SH/SNXXXX0000000 SH/0007aa Profile/MIDP-1.0 Configuration/CLDC-1.0 Ext-Profile/JSCL-1.3.2")
+    @view.request = request_with_ua("J-PHONE/4.3/V603SH/SNXXXX0000000 SH/0007aa Profile/MIDP-1.0 Configuration/CLDC-1.0 Ext-Profile/JSCL-1.3.2").first
     links = get_href_and_texts(@view.get_position_link_to("STRING"))
     assert_equal(1, links.size)
     text,attrs,path,params = links.first
@@ -82,7 +82,7 @@ class HelpersTest < Test::Unit::TestCase
 
   # get_position_link_to(自動判別), Vodafone
   def test_get_position_link_to_vodafone
-    @view.request = request_with_ua("Vodafone/1.0/V903T/TJ001 Browser/VF-Browser/1.0 Profile/MIDP-2.0 Configuration/CLDC-1.1 Ext-J-Profile/JSCL-1.2.2 Ext-V-Profile/VSCL-2.0.0")
+    @view.request = request_with_ua("Vodafone/1.0/V903T/TJ001 Browser/VF-Browser/1.0 Profile/MIDP-2.0 Configuration/CLDC-1.1 Ext-J-Profile/JSCL-1.2.2 Ext-V-Profile/VSCL-2.0.0").first
     links = get_href_and_texts(@view.get_position_link_to("STRING"))
     assert_equal(1, links.size)
     text,attrs,path,params = links.first
@@ -92,7 +92,7 @@ class HelpersTest < Test::Unit::TestCase
 
   # get_position_link_to(自動判別), Softbank
   def test_get_position_link_to_softbank
-    @view.request = request_with_ua("SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1")
+    @view.request = request_with_ua("SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1").first
     links = get_href_and_texts(@view.get_position_link_to("STRING"))
     assert_equal(1, links.size)
     text,attrs,path,params = links.first
@@ -102,7 +102,7 @@ class HelpersTest < Test::Unit::TestCase
 
   # get_position_link_to(自動判別), Willcom
   def test_get_position_link_to_willcom
-    @view.request = request_with_ua("Mozilla/3.0(WILLCOM;KYOCERA/WX310K/2;1.2.2.16.000000/0.1/C100) Opera 7.0")
+    @view.request = request_with_ua("Mozilla/3.0(WILLCOM;KYOCERA/WX310K/2;1.2.2.16.000000/0.1/C100) Opera 7.0").first
     links = get_href_and_texts(@view.get_position_link_to("STRING"))
     assert_equal(1, links.size)
     text,attrs,path,params = links.first

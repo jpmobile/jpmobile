@@ -32,7 +32,7 @@ module Jpmobile::Mobile
 
     # 端末製造番号があれば返す。無ければ +nil+ を返す。
     def serial_number
-      case @request.user_agent
+      case @request.env["HTTP_USER_AGENT"]
       when /ser([0-9a-zA-Z]{11})$/ # mova
         return $1
       when /ser([0-9a-zA-Z]{15});/ # FOMA
@@ -45,7 +45,7 @@ module Jpmobile::Mobile
 
     # FOMAカード製造番号があれば返す。無ければ +nil+ を返す。
     def icc
-      @request.user_agent =~ /icc([0-9a-zA-Z]{20})\)/
+      @request.env['HTTP_USER_AGENT'] =~ /icc([0-9a-zA-Z]{20})\)/
       return $1
     end
     alias :ident_subscriber :icc
@@ -66,9 +66,9 @@ module Jpmobile::Mobile
     private
     # モデル名を返す。
     def model_name
-      if @request.user_agent =~ /^DoCoMo\/2.0 (.+)\(/
+      if @request.env["HTTP_USER_AGENT"] =~ /^DoCoMo\/2.0 (.+)\(/
         return $1
-      elsif @request.user_agent =~ /^DoCoMo\/1.0\/(.+?)\//
+      elsif @request.env["HTTP_USER_AGENT"] =~ /^DoCoMo\/1.0\/(.+?)\//
         return $1
       end
       return nil

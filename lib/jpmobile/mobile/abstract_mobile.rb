@@ -29,7 +29,7 @@ module Jpmobile::Mobile
     def valid_ip?
       addrs = self.class::IP_ADDRESSES
       return nil if addrs.nil?
-      remote = IPAddr.new(@request.remote_ip)
+      remote = IPAddr.new(@request.env['REMOTE_ADDR'])
       addrs.each do |s|
         return true if IPAddr.new(s.chomp).include?(remote)
       end
@@ -49,7 +49,11 @@ module Jpmobile::Mobile
     private
     # リクエストのパラメータ。
     def params
-      @request.parameters
+      if @request.respond_to? :parameters
+        @request.parameters
+      else
+        @request.params
+      end
     end
   end
 end

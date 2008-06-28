@@ -20,15 +20,16 @@ module Jpmobile::Mobile
     # 端末を識別する文字列があれば返す。
     def ident_device; nil; end
 
-    # IPアドレスデータ
-    IP_ADDRESSES = nil
-    
     # 当該キャリアのIPアドレス帯域からのアクセスであれば +true+ を返す。
     # そうでなければ +false+ を返す。
     # IP空間が定義されていない場合は +nil+ を返す。
     def valid_ip?
-      addrs = self.class::IP_ADDRESSES
-      return nil if addrs.nil?
+      addrs = nil
+      begin
+        addrs = self.class::IP_ADDRESSES
+      rescue NameError => e
+        return nil
+      end
       remote = IPAddr.new(@request.remote_addr)
       addrs.each do |s|
         return true if IPAddr.new(s.chomp).include?(remote)

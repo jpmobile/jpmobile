@@ -7,6 +7,8 @@ module Jpmobile::Mobile
   # ==Softbank携帯電話
   # Vodafone, Jphoneのスーパクラス。
   class Softbank < AbstractMobile
+    autoload :IP_ADDRESSES, 'jpmobile/mobile/z_ip_addresses_softbank'
+
     # 対応するuser-agentの正規表現
     USER_AGENT_REGEXP = /^(SoftBank|Semulator)/
 

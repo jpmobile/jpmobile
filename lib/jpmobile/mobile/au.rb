@@ -6,6 +6,8 @@ module Jpmobile::Mobile
   # ==au携帯電話
   # CDMA 1X, CDMA 1X WINを含む。
   class Au < AbstractMobile
+    autoload :IP_ADDRESSES, 'jpmobile/mobile/z_ip_addresses_au'
+
     # 対応するUser-Agentの正規表現
     USER_AGENT_REGEXP = /^(?:KDDI|UP.Browser\/.+?)-(.+?) /
     # 簡易位置情報取得に対応していないデバイスID

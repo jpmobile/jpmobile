@@ -127,7 +127,7 @@ class SoftbankTest < Test::Unit::TestCase
     reqs = request_with_ua("Vodafone/1.0/V903T/TJ001 Browser/VF-Browser/1.0 Profile/MIDP-2.0 Configuration/CLDC-1.1 Ext-J-Profile/JSCL-1.2.2 Ext-V-Profile/VSCL-2.0.0",
                           {"REMOTE_ADDR"=>"202.179.204.1"})
     reqs.each do |req|
-      assert_equal(req.mobile.valid_ip?, true)
+      assert_equal(true, req.mobile.valid_ip?)
     end
   end
 
@@ -136,7 +136,7 @@ class SoftbankTest < Test::Unit::TestCase
     reqs = request_with_ua("J-PHONE/3.0/V301D",
                           {"REMOTE_ADDR"=>"202.179.204.1"})
     reqs.each do |req|
-      assert_equal(req.mobile.valid_ip?, true)
+      assert_equal(true, req.mobile.valid_ip?)
     end
   end
 
@@ -145,7 +145,7 @@ class SoftbankTest < Test::Unit::TestCase
     reqs = request_with_ua("Vodafone/1.0/V903T/TJ001 Browser/VF-Browser/1.0 Profile/MIDP-2.0 Configuration/CLDC-1.1 Ext-J-Profile/JSCL-1.2.2 Ext-V-Profile/VSCL-2.0.0",
                           {"REMOTE_ADDR"=>"127.0.0.1"})
     reqs.each do |req|
-      assert_equal(req.mobile.valid_ip?, false)
+      assert_equal(false, req.mobile.valid_ip?)
     end
   end
 

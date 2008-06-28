@@ -36,7 +36,7 @@ module Jpmobile::Mobile
     
     # 画面情報を +Display+ クラスのインスタンスで返す。
     def display
-      Jpmobile::Display.new
+      @__displlay ||= Jpmobile::Display.new
     end
 
     # クッキーをサポートしているか。

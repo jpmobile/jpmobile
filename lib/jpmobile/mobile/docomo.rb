@@ -55,7 +55,7 @@ module Jpmobile::Mobile
 
     # 画面情報を +Display+ クラスのインスタンスで返す。
     def display
-      Jpmobile::Display.new(nil,nil,
+      @__display ||= Jpmobile::Display.new(nil,nil,
                             display_info[:browser_width],
                             display_info[:browser_height],
                             display_info[:color_p],

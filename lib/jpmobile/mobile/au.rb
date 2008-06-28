@@ -50,6 +50,8 @@ module Jpmobile::Mobile
 
     # 画面情報を +Display+ クラスのインスタンスで返す。
     def display
+      return @__display if @__display
+
       p_w = p_h = col_p = cols = nil
       if r = @request.env['HTTP_X_UP_DEVCAP_SCREENPIXELS']
         p_w, p_h = r.split(/,/,2).map {|x| x.to_i}
@@ -61,7 +63,7 @@ module Jpmobile::Mobile
         a = r.split(/,/)
         cols = 2 ** a[0].to_i
       end
-      Jpmobile::Display.new(p_w, p_h, nil, nil, col_p, cols)
+      @__display = Jpmobile::Display.new(p_w, p_h, nil, nil, col_p, cols)
     end
 
     # デバイスIDを返す

@@ -41,6 +41,7 @@ module Jpmobile::Mobile
 
     # 画面情報を +Display+ クラスのインスタンスで返す。
     def display
+      return @__display if @__display
       p_w = p_h = col_p = cols = nil
       if r = @request.env['HTTP_X_JPHONE_DISPLAY']
         p_w, p_h = r.split(/\*/,2).map {|x| x.to_i}
@@ -56,7 +57,7 @@ module Jpmobile::Mobile
           cols = $1.to_i
         end
       end
-      Jpmobile::Display.new(p_w, p_h, nil, nil, col_p, cols)
+      @__display = Jpmobile::Display.new(p_w, p_h, nil, nil, col_p, cols)
     end
 
     # cookieに対応しているか？

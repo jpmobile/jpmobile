@@ -29,7 +29,7 @@ module Jpmobile::Mobile
     def valid_ip?
       addrs = self.class::IP_ADDRESSES
       return nil if addrs.nil?
-      remote = IPAddr.new(@request.env['REMOTE_ADDR'])
+      remote = IPAddr.new(@request.remote_addr)
       addrs.each do |s|
         return true if IPAddr.new(s.chomp).include?(remote)
       end

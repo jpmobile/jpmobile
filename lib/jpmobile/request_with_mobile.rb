@@ -12,7 +12,7 @@ module Jpmobile
     # for reverse proxy.
     def remote_addr
       if respond_to? :remote_ip
-        return __send__ :remote_ip
+        return __send__(:remote_ip)
       else
         return ( env["HTTP_X_FORWARDED_FOR"] ? env["HTTP_X_FORWARDED_FOR"].split(',').pop : env["REMOTE_ADDR"] )
       end

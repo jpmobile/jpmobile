@@ -1,6 +1,24 @@
 module Jpmobile
   # 絵文字関連処理
   module Emoticon
+    %w( DOCOMO_SJIS_TO_UNICODE DOCOMO_UNICODE_TO_SJIS ).each do |const|
+      autoload const, 'jpmobile/emoticon/docomo'
+    end
+    autoload :AU_SJIS_TO_UNICODE,           'jpmobile/emoticon/au'
+    %w( SOFTBANK_UNICODE_TO_WEBCODE SOFTBANK_WEBCODE_TO_UNICODE ).each do |const|
+      autoload const, 'jpmobile/emoticon/softbank'
+    end
+    %w( CONVERSION_TABLE_TO_DOCOMO CONVERSION_TABLE_TO_AU CONVERSION_TABLE_TO_SOFTBANK ).each do |const|
+      autoload const, 'jpmobile/emoticon/conversion_table'
+    end
+    %w( 
+      SJIS_TO_UNICODE UNICODE_TO_SJIS 
+      SJIS_REGEXP SOFTBANK_WEBCODE_REGEXP DOCOMO_SJIS_REGEXP AU_SJIS_REGEXP SOFTBANK_UNICODE_REGEXP 
+      EMOTICON_UNICODES UTF8_REGEXP 
+    ).each do |const|
+      autoload const, 'jpmobile/emoticon/z_combine'
+    end
+
     # +str+ のなかでDoCoMo絵文字をUnicode数値文字参照に置換した文字列を返す。
     def self.external_to_unicodecr_docomo(str)
       str.gsub(DOCOMO_SJIS_REGEXP) do |match|

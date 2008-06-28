@@ -20,7 +20,6 @@ end
 end
 
 if ENV["RAILS_ENV"]
-  p 'called!'
   Dir[File.join(File.dirname(__FILE__), 'jpmobile/*.rb')].sort.each { |lib| 
     require lib 
   }

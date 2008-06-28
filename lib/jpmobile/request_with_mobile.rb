@@ -31,9 +31,11 @@ module Jpmobile
     # 携帯電話の機種に応じて Mobile::xxx を返す。
     # 携帯電話でない場合はnilを返す。
     def mobile
+      return @__mobile if @__mobile
+
       Jpmobile::Mobile.constants.each do |const|
         c = Jpmobile::Mobile.const_get(const)
-        return c.new(self) if c::USER_AGENT_REGEXP && user_agent =~ c::USER_AGENT_REGEXP
+        return @__mobile = c.new(self) if c::USER_AGENT_REGEXP && user_agent =~ c::USER_AGENT_REGEXP
       end
       nil
     end

@@ -14,4 +14,4 @@ Jpmobile::Mobile::Softbank::IP_ADDRESSES = %w(
 210.175.1.128/25
 210.228.189.0/24
 211.8.159.128/25
-)
+).map {|ip| IPAddr.new(ip) }

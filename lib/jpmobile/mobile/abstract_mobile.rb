@@ -31,10 +31,7 @@ module Jpmobile::Mobile
         return nil
       end
       remote = IPAddr.new(@request.remote_addr)
-      addrs.each do |s|
-        return true if IPAddr.new(s.chomp).include?(remote)
-      end
-      return false
+      addrs.any? {|ip| ip.include? remote }
     end
     
     # 画面情報を +Display+ クラスのインスタンスで返す。

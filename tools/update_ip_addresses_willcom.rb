@@ -12,5 +12,5 @@ ips = src.scan(/(\d+\.\d+\.\d+\.\d+\/\d+)/).flatten
 # 書き出し
 open("lib/jpmobile/mobile/z_ip_addresses_willcom.rb","w") do |f|
   f.puts "Jpmobile::Mobile::Willcom::IP_ADDRESSES ="
-  f.puts ips.pretty_inspect
+  f.puts "#{ips.pretty_inspect.chomp }.map {|ip| IPAddr.new(ip) }"
 end

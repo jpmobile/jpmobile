@@ -7,4 +7,4 @@
 
 Jpmobile::Mobile::Emobile::IP_ADDRESSES = %w(
 117.55.1.224/27
-)
+).map {|ip| IPAddr.new(ip) }

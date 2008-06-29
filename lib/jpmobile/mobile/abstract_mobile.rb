@@ -24,14 +24,15 @@ module Jpmobile::Mobile
     # そうでなければ +false+ を返す。
     # IP空間が定義されていない場合は +nil+ を返す。
     def valid_ip?
+      return @__valid_ip_p if @__valid_ip_p
       addrs = nil
       begin
         addrs = self.class::IP_ADDRESSES
       rescue NameError => e
-        return nil
+        return @__valid_ip_p = nil
       end
       remote = IPAddr.new(@request.remote_addr)
-      addrs.any? {|ip| ip.include? remote }
+      @__valid_ip_p = addrs.any? {|ip| ip.include? remote }
     end
     
     # 画面情報を +Display+ クラスのインスタンスで返す。

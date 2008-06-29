@@ -22,11 +22,11 @@ end
   jpmobile/mobile/abstract_mobile.rb
   jpmobile/mobile/display.rb
 ).each do |lib|
-  require File.join(File.dirname(__FILE__), lib)
+  require File.expand_path(File.join(File.dirname(__FILE__), lib))
 end
 
 if defined? RAILS_ENV
-  Dir[File.join(File.dirname(__FILE__), 'jpmobile/*.rb')].sort.each { |lib| 
+  Dir[File.expand_path(File.join(File.dirname(__FILE__), 'jpmobile/*.rb'))].sort.each { |lib| 
     require lib 
   }
 end

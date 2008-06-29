@@ -1,5 +1,8 @@
 module Jpmobile
   autoload :Emoticon, 'jpmobile/emoticon'
+  autoload :Position, 'jpmobile/position'
+  autoload :RequestWithMobile, 'jpmobile/request_with_mobile'
+
   module Mobile
     autoload :Docomo,    'jpmobile/mobile/docomo'
     autoload :Au,        'jpmobile/mobile/au'
@@ -13,6 +16,7 @@ module Jpmobile
 end
 
 %w(
+  jpmobile/version.rb
   jpmobile/mobile/abstract_mobile.rb
   jpmobile/mobile/display.rb
 ).each do |lib|

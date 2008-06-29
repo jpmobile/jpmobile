@@ -1,3 +1,5 @@
+$LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__)))
+
 module Jpmobile
   autoload :Emoticon, 'jpmobile/emoticon'
   autoload :Position, 'jpmobile/position'
@@ -23,7 +25,7 @@ end
   require File.join(File.dirname(__FILE__), lib)
 end
 
-if ENV["RAILS_ENV"]
+if defined? RAILS_ENV
   Dir[File.join(File.dirname(__FILE__), 'jpmobile/*.rb')].sort.each { |lib| 
     require lib 
   }

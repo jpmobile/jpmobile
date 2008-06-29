@@ -3,7 +3,7 @@ require 'rubygems'
 require 'action_controller'
 require 'rack'
 
-ENV["RAILS_ENV"] = 'test'
+RAILS_ENV = "test"
 require File.dirname(__FILE__)+'/../lib/jpmobile'
 
 # ActionPackのTestのためのrequire

@@ -20,17 +20,18 @@ module Jpmobile::Mobile
 
     # 位置情報があれば Position のインスタンスを返す。無ければ +nil+ を返す。
     def position
+      return @__position if defined? @__position
       lat = params["lat"] || params["LAT"]
       lon = params["lon"] || params["LON"]
       geo = params["geo"] || params["GEO"]
-      return nil if lat.blank? || lon.blank?
+      return @__position = nil if lat.blank? || lon.blank?
       raise "Unsuppoted datum" if geo.downcase != "wgs84"
       pos = Jpmobile::Position.new
       raise "Unsuppoted" unless lat =~ /^([+-]\d+)\.(\d+)\.(\d+\.\d+)/
       pos.lat = Jpmobile::Position.dms2deg($1,$2,$3)
       raise "Unsuppoted" unless lon =~ /^([+-]\d+)\.(\d+)\.(\d+\.\d+)/
       pos.lon = Jpmobile::Position.dms2deg($1,$2,$3)
-      return pos
+      return @__position = pos
     end
 
     # 端末製造番号があれば返す。無ければ +nil+ を返す。

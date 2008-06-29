@@ -24,7 +24,8 @@ module Jpmobile::Mobile
 
     # 位置情報があれば Position のインスタンスを返す。無ければ +nil+ を返す。
     def position
-      return nil if params["lat"].blank? || params["lon"].blank?
+      return @__posotion if defined? @__posotion
+      return @__posotion = nil if params["lat"].blank? || params["lon"].blank?
       l = Jpmobile::Position.new
       l.options = params.reject {|x,v| !["ver", "datum", "unit", "lat", "lon", "alt", "time", "smaj", "smin", "vert", "majaa", "fm"].include?(x) }
       case params["unit"]
@@ -37,7 +38,7 @@ module Jpmobile::Mobile
         raise "Invalid dms form" unless params["lon"] =~ /^([+-]?\d+)\.(\d+)\.(\d+\.\d+)$/
         l.lon = Jpmobile::Position.dms2deg($1,$2,$3)
       else
-        return nil
+        return @__posotion = nil
       end
       if params["datum"] == "1"
         # ただし、params["datum"]=="tokyo"のとき(簡易位置情報)のときは、
@@ -45,7 +46,7 @@ module Jpmobile::Mobile
         # http://www.au.kddi.com/ezfactory/tec/spec/eznavi.html
         l.tokyo2wgs84!
       end
-      return l
+      return @__posotion = l
     end
 
     # 画面情報を +Display+ クラスのインスタンスで返す。

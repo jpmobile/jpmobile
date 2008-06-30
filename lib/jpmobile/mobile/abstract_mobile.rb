@@ -23,16 +23,19 @@ module Jpmobile::Mobile
     # 当該キャリアのIPアドレス帯域からのアクセスであれば +true+ を返す。
     # そうでなければ +false+ を返す。
     # IP空間が定義されていない場合は +nil+ を返す。
-    def valid_ip?
-      return @__valid_ip_p if @__valid_ip_p
+    def self.valid_ip? remote_addr
       addrs = nil
       begin
-        addrs = self.class::IP_ADDRESSES
+        addrs = self::IP_ADDRESSES
       rescue NameError => e
-        return @__valid_ip_p = nil
+        return nil
       end
-      remote = IPAddr.new(@request.remote_addr)
-      @__valid_ip_p = addrs.any? {|ip| ip.include? remote }
+      remote = IPAddr.new(remote_addr)
+      addrs.any? {|ip| ip.include? remote }
+    end
+
+    def valid_ip?
+      self.class.valid_ip? @request.remote_addr
     end
     
     # 画面情報を +Display+ クラスのインスタンスで返す。

@@ -1,3 +1,8 @@
+# = viewの自動切り替え
+#
+# Rails 2.0.1 対応 http://d.hatena.ne.jp/kusakari/20080620/1213931903
+# thanks to id:kusakari
+#
 #:stopdoc:
 # helperを追加
 ActionView::Base.class_eval { include Jpmobile::Helpers }
@@ -13,8 +18,34 @@ ActionView::Base.class_eval { include Jpmobile::Helpers }
 # BUG: 現状、上記の例では index.rhtml が存在しない場合に振り分けが行われない
 # (ダミーファイルを置くことで回避可能)。
 class ActionView::Base #:nodoc:
-  alias render_file_without_mobile render_file #:nodoc:
+  alias render_file_without_jpmobile render_file #:nodoc:
+  alias render_partial_without_jpmobile render_partial #:nodoc:
+
   def render_file(template_path, use_full_path = true, local_assigns = {})
+    mobile_path = mobile_template_path(template_path)
+    return mobile_path.nil? ? render_file_without_jpmobile(template_path, use_full_path, local_assigns) :
+                              render_file_without_jpmobile(mobile_path, use_full_path, local_assigns)
+  end
+
+  def render_partial(partial_path, object_assigns = nil, local_assigns = {}) #:nodoc:
+    mobile_path = mobile_template_path(partial_path, true) if partial_path.class === "String"
+    return mobile_path.nil? ? render_partial_without_jpmobile(partial_path, object_assigns, local_assigns) :
+                              render_partial_without_jpmobile(mobile_path, object_assigns, local_assigns)
+  end
+
+  def mobile_template_path(template_path, partial=false)
+    if controller.is_a?(ActionController::Base) && m = controller.ender_file_without_jpmobile(template_path, use_full_path, local_assigns) :
+      render_file_without_jpmobile(mobile_path, use_full_path, local_assigns)
+    end
+  end
+
+  def render_partial(partial_path, object_assigns = nil, local_assigns = {}) #:nodoc:
+    mobile_path = mobile_template_path(partial_path, true) if partial_path.class === "String"
+    return mobile_path.nil? ? render_partial_without_jpmobile(partial_path, object_assigns, local_assigns) :
+    render_partial_without_jpmobile(mobile_path, object_assigns, local_assigns)
+  end
+
+  def mobile_template_path(template_path, partial=false)
     if controller.is_a?(ActionController::Base) && m = controller.request.mobile
       vals = []
       c = m.class
@@ -26,11 +57,13 @@ class ActionView::Base #:nodoc:
 
       vals.each do |v|
         mobile_path = "#{template_path}_#{v}"
-        if finder.file_exists?(mobile_path)
-          return render_file_without_mobile(mobile_path, use_full_path, local_assigns)
+        full_path = partial ? "#{self.controller.class.controller_path}/_#{mobile_path}" : mobile_path
+        if finder.file_exists?(full_path)
+          return mobile_path
         end
       end
     end
-    render_file_without_mobile(template_path, use_full_path, local_assigns)
+    return nil
   end
 end
+

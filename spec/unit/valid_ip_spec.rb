@@ -22,7 +22,7 @@ describe 'Jpmobile::Mobile::valid_ip?' do
       [ '61.198.142.1'    => :Ddipocket ],
       [ '61.198.142.254'  => :Ddipocket ],
       [ '117.55.1.224'    => :Emobile   ],
-      [ '117.55.1.255'    => :Emobile   ],
+      [ '117.55.1.254'    => :Emobile   ],
     ])
   end.run
 
@@ -55,7 +55,6 @@ describe 'Jpmobile::Mobile::valid_ip?' do
       [ '61.198.144.254'  => :Ddipocket ],
       [ '127.0.0.1'       => :Emobile  ],
       [ '117.55.1.223'    => :Emobile   ],
-      [ '117.55.1.256'    => :Emobile   ],
     ])
   end.run
 end

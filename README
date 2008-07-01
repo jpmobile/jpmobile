@@ -189,6 +189,13 @@ mobile_filterを有効にすると以下の処理が自動で行われる。
 * 絵文字はキャリアにあわせて変換されて送出される。
 * 携帯電話からの絵文字はUnicode私的領域にマップされ、UTF-8でparamsに格納される。
 
+== テストに必要なgemパッケージ
+テストを実行するためには以下のgemパッケージが必要です。
+* rails
+* rack
+* hpricot
+* spec-fixtures
+
 == リンク
 * Project Website: http://jpmobile-rails.org
 * RDoc Documentation: http://jpmobile.rubyforge.org/rdoc

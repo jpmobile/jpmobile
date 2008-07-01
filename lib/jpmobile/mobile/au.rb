@@ -9,6 +9,7 @@ module Jpmobile::Mobile
     autoload :IP_ADDRESSES, 'jpmobile/mobile/z_ip_addresses_au'
 
     # 対応するUser-Agentの正規表現
+    # User-Agent文字列中に "UP.Browser" を含むVodafoneの端末があるので注意が必要
     USER_AGENT_REGEXP = /^(?:KDDI|UP.Browser\/.+?)-(.+?) /
     # 簡易位置情報取得に対応していないデバイスID
     # http://www.au.kddi.com/ezfactory/tec/spec/eznavi.html

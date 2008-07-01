@@ -26,7 +26,7 @@ module Jpmobile::Mobile
     # 位置情報があれば Position のインスタンスを返す。無ければ +nil+ を返す。
     def position
       return @__posotion if defined? @__posotion
-      return @__posotion = nil if params["lat"].blank? || params["lon"].blank?
+      return @__posotion = nil if ( params["lat"].nil? || params['lat'] == '' || params["lon"].nil? || params["lon"] == '' )
       l = Jpmobile::Position.new
       l.options = params.reject {|x,v| !["ver", "datum", "unit", "lat", "lon", "alt", "time", "smaj", "smin", "vert", "majaa", "fm"].include?(x) }
       case params["unit"]

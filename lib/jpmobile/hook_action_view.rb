@@ -30,18 +30,6 @@ class ActionView::Base #:nodoc:
   def render_partial(partial_path, object_assigns = nil, local_assigns = {}) #:nodoc:
     mobile_path = mobile_template_path(partial_path, true) if partial_path.class === "String"
     return mobile_path.nil? ? render_partial_without_jpmobile(partial_path, object_assigns, local_assigns) :
-                              render_partial_without_jpmobile(mobile_path, object_assigns, local_assigns)
-  end
-
-  def mobile_template_path(template_path, partial=false)
-    if controller.is_a?(ActionController::Base) && m = controller.ender_file_without_jpmobile(template_path, use_full_path, local_assigns) :
-      render_file_without_jpmobile(mobile_path, use_full_path, local_assigns)
-    end
-  end
-
-  def render_partial(partial_path, object_assigns = nil, local_assigns = {}) #:nodoc:
-    mobile_path = mobile_template_path(partial_path, true) if partial_path.class === "String"
-    return mobile_path.nil? ? render_partial_without_jpmobile(partial_path, object_assigns, local_assigns) :
     render_partial_without_jpmobile(mobile_path, object_assigns, local_assigns)
   end
 

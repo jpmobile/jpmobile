@@ -24,7 +24,7 @@ module Jpmobile::Mobile
       lat = params["lat"] || params["LAT"]
       lon = params["lon"] || params["LON"]
       geo = params["geo"] || params["GEO"]
-      return @__position = nil if lat.blank? || lon.blank?
+      return @__position = nil if ( lat.nil? || lat == '' || lon.nil? || lon == '' ) 
       raise "Unsuppoted datum" if geo.downcase != "wgs84"
       pos = Jpmobile::Position.new
       raise "Unsuppoted" unless lat =~ /^([+-]\d+)\.(\d+)\.(\d+\.\d+)/

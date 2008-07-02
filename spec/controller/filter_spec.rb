@@ -6,6 +6,10 @@ describe "文字コードフィルタが動作しているとき", :shared => tr
     response.charset.should be_nil
     response.body.should == "アブラカダブラ"
   end
+  it "response.bodyが空のときは文字コードを変更しないこと" do
+    get :empty
+    response.charset.should_not == "Shift_JIS"
+  end
 end
 
 describe "Shift_JISで通信する端末との通信", :shared => true do

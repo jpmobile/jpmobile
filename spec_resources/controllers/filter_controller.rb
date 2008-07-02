@@ -9,6 +9,9 @@ class FilterControllerBase < ApplicationController
   def index
     @q = params[:q]
   end
+  def empty
+    render :text => ""
+  end
   def rawdata
     send_data "アブラカダブラ", :type => 'application/octet-stream'
   end

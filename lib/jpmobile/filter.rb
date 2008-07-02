@@ -90,7 +90,11 @@ module Jpmobile
       end
       # afterfilterを実行した後に実行する。
       def after_after(controller)
-        controller.response.charset = "Shift_JIS"
+        unless controller.response.body.blank?
+          # 500.htmlなどをUTF-8で書いたとき、docomoで文字化けするのを防ぐため
+          # response_bodyが空の場合はShift_JISを指定しない
+          controller.response.charset = "Shift_JIS"
+        end
       end
       # to_internalを適用するべきかどうかを返す。
       def apply_incoming?(controller)

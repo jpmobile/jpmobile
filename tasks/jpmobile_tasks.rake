@@ -8,7 +8,7 @@ begin
   namespace :spec do
     desc 'run unit testing ( core test )'
     Spec::Rake::SpecTask.new(:unit) do |t|
-      t.spec_opts = 'spec/spec.opts'
+      t.spec_opts = File.read('spec/spec.opts').split
       t.spec_files = FileList['spec/unit/**/*_spec.rb']
     end
   end

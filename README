@@ -23,7 +23,7 @@ svnレポジトリからインストールする場合
   (x.x.xはバージョン)
 
 開発版:
-  % ./script/plugin install http://jpmobile.rubyforge.org/svn/trunk/jpmobile
+  % ./script/plugin install git://github.com/darashi/jpmobile.git
 
 == 使用例
 

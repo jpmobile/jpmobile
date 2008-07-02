@@ -29,7 +29,7 @@ RDOC_OPTS = ['--quiet', '--title', "jpmobile documentation",
     "--inline-source"]
 
 desc "Packages up jpmobile gem."
-task :default => [:test]
+task :default => [:test, 'spec:unit']
 task :package => [:clean]
 
 desc 'Default: run unit tests.'
@@ -121,3 +121,4 @@ end
 # setup RSpec tasks
 RAILS_ROOT = '.'
 load 'vendor/plugins/rspec-rails/tasks/rspec.rake'
+load 'tasks/jpmobile_tasks.rake'

@@ -68,6 +68,13 @@ module Jpmobile
       return %{<a href="#{url_for(options)}" utn>#{str}</a>}
     end
 
+    # DoCoMoでiモードIDを取得するためのリンクを返す。
+    def docomo_guid_link_to(str, options={})
+      options = options.symbolize_keys
+      options[:guid] = "ON"
+      link_to_url(str, url_for(options))
+    end
+
     # au GPS位置情報を取得するためのURLを返す。
     def au_gps_url_for(options={})
       options = options.symbolize_keys

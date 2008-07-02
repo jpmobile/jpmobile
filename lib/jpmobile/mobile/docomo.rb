@@ -54,6 +54,11 @@ module Jpmobile::Mobile
     end
     alias :ident_subscriber :icc
 
+    # iモードIDを返す。
+    def guid
+      @request.env['HTTP_X_DCMGUID']
+    end
+
     # 画面情報を +Display+ クラスのインスタンスで返す。
     def display
       @__display ||= Jpmobile::Display.new(nil,nil,

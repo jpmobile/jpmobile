@@ -22,4 +22,7 @@ describe "DoCoMo SH902i からguid付きのアクセス" do
   it "guidを正しく取得できること" do
     request.mobile.guid.should == "000000a"
   end
+  it "ident_subscriberでも正しく取得できること" do
+    request.mobile.ident_subscriber.should == "000000a"
+  end
 end

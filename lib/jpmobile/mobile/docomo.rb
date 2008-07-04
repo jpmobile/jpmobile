@@ -52,11 +52,15 @@ module Jpmobile::Mobile
       @request.env['HTTP_USER_AGENT'] =~ /icc([0-9a-zA-Z]{20})\)/
       return $1
     end
-    alias :ident_subscriber :icc
 
     # iモードIDを返す。
     def guid
       @request.env['HTTP_X_DCMGUID']
+    end
+
+    # iモードID, FOMAカード製造番号の順で調べ、あるものを返す。なければ +nil+ を返す。
+    def ident_subscriber
+      guid || icc
     end
 
     # 画面情報を +Display+ クラスのインスタンスで返す。

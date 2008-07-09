@@ -58,7 +58,7 @@ module Jpmobile::TransSid #:nodoc:
 
   protected
   # URLにsession_idを追加する。
-  def default_url_options(options)
+  def default_url_options(options=nil)
     return unless request # for test process
     return unless apply_trans_sid?
     { session_key => session.session_id }

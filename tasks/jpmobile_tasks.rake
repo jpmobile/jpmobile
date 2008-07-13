@@ -5,11 +5,13 @@
 
 begin
   require 'spec'
+  require 'spec/rake/spectask'
   namespace :spec do
     desc 'run unit testing ( core test )'
     Spec::Rake::SpecTask.new(:unit) do |t|
-      t.spec_opts = File.read('spec/spec.opts').split
-      t.spec_files = FileList['spec/unit/**/*_spec.rb']
+      spec_dir = File.join(File.dirname(__FILE__), '..', 'spec')
+      t.spec_opts = File.read(File.join(spec_dir, 'spec.opts')).split
+      t.spec_files = FileList[File.join(spec_dir, 'unit', '**', '*_spec.rb')]
     end
   end
 rescue LoadError

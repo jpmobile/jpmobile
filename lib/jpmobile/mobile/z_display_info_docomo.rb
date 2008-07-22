@@ -228,6 +228,8 @@ Jpmobile::Mobile::Docomo::DISPLAY_INFO =
   {:color_p=>true, :colors=>262144, :browser_width=>240, :browser_height=>320},
  "F209i"=>
   {:color_p=>true, :colors=>256, :browser_width=>96, :browser_height=>91},
+ "P706imyu"=>
+  {:color_p=>true, :colors=>262144, :browser_width=>240, :browser_height=>350},
  "F703i"=>
   {:color_p=>true, :colors=>262144, :browser_width=>230, :browser_height=>240},
  "SH902i"=>

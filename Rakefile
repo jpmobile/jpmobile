@@ -69,9 +69,8 @@ spec =
         s.rubyforge_project = RUBYFORGE_PROJECT
         s.bindir = "bin"
         s.require_path = "lib"
-        s.autorequire = "jpmobile"
 
-	s.add_dependency('actionpack', '>=1.12.5')
+        s.add_dependency('actionpack', '>=2.1.0')
 
         #s.add_dependency('activesupport', '>=1.3.1')
         #s.required_ruby_version = '>= 1.8.2'
@@ -102,7 +101,7 @@ end
 
 desc "Publish the API documentation"
 task :pdoc => [:rdoc] do
-  Rake::SshDirPublisher.new("dara@rubyforge.org", "/var/www/gforge-projects/jpmobile/rdoc", "doc").upload
+  sh "rsync -azv --delete doc/ dara@rubyforge.org:/var/www/gforge-projects/jpmobile/rdoc/"
 end
 
 desc "Update misc tables"
@@ -113,9 +112,10 @@ task :update do
 end
 
 desc "Release helper"
-task :rel do
-  puts "svn copy svn+ssh://dara@rubyforge.org/var/svn/jpmobile/trunk " +
-       "svn+ssh://dara@rubyforge.org/var/svn/jpmobile/tags/rel-#{VERS} -m 'Tagged #{VERS}' "
+task :rel => [:gem] do
+  puts "-"*40
+  puts "rubyforge add_release #{NAME} #{NAME} #{VERS} pkg/#{NAME}-#{VERS}.gem"
+  puts "git tag #{VERS}"
 end
 
 # setup RSpec tasks

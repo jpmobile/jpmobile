@@ -60,7 +60,7 @@ module Jpmobile
           end
         elsif obj.is_a? Array
           obj.collect!{|value| deep_each(value, &proc)}
-        elsif not (obj==nil || obj.is_a?(TrueClass) || obj.is_a?(FalseClass))
+        elsif not (obj==nil || obj.is_a?(TrueClass) || obj.is_a?(FalseClass) || obj.is_a?(Tempfile) || obj.is_a?(StringIO))
           obj = obj.to_param if obj.respond_to?(:to_param)
           proc.call(obj)
         end

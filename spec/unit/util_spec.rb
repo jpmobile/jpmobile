@@ -17,6 +17,7 @@ describe Jpmobile::Util, ".deep_apply" do
     temp = Tempfile.new('test')
     Jpmobile::Util.deep_apply(temp) {|obj| obj}.object_id.should equal(temp.object_id)
     # 本来 Jpmobile::Util.deep_apply(temp) {|obj| obj }.should equal(temp) が通るべきのような。
+    # 参考 http://blade.nagaokaut.ac.jp/cgi-bin/scat.rb/ruby/ruby-list/41720
   end
 
   it 'StringIOのインスタンスのときはそのまま値を返すこと' do

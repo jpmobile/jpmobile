@@ -48,6 +48,16 @@ module Jpmobile::Mobile
       return false
     end
 
+    #XXX: lib/jpmobile.rbのautoloadで先に各キャリアの定数を定義しているから動くのです
+    Jpmobile::Mobile.constants.each do |career|
+      career_class = Jpmobile::Mobile.const_get(career)
+      next if career_class == self
+
+      define_method "#{career.downcase}?" do
+        self.is_a?(career_class)
+      end
+    end
+
     private
     # リクエストのパラメータ。
     def params

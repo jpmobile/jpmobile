@@ -15,6 +15,14 @@ module Jpmobile
     autoload :Emobile,   'jpmobile/mobile/emobile'
     autoload :Willcom,   'jpmobile/mobile/willcom'
     autoload :Ddipocket, 'jpmobile/mobile/willcom'
+
+    def self.careers
+      @careers ||= constants
+    end
+
+    def self.careers=(ary)
+      @careers = ary
+    end
   end
 end
 

@@ -49,7 +49,7 @@ module Jpmobile::Mobile
     end
 
     #XXX: lib/jpmobile.rbのautoloadで先に各キャリアの定数を定義しているから動くのです
-    Jpmobile::Mobile.constants.each do |career|
+    Jpmobile::Mobile.careers.each do |career|
       career_class = Jpmobile::Mobile.const_get(career)
       next if career_class == self
 

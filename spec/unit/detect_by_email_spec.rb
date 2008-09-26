@@ -9,14 +9,22 @@ describe 'Jpmobile::Email' do
     end
 
     set_fixtures([
-      ['test@docomo.ne.jp'      => Jpmobile::Mobile::Docomo ],
-      ['a(--)l@ezweb.ne.jp'     => Jpmobile::Mobile::Au ],
+      ['test@docomo.ne.jp'      => Jpmobile::Mobile::Docomo   ],
+      ['test@docomo.ne.jp.jp'   => nil                        ],
+      ['a(--)l@ezweb.ne.jp'     => Jpmobile::Mobile::Au       ],
+      ['a(--)l@ezweb.ne.jp.jp'  => nil                        ],
       ['dadaea@pdx.ne.jp'       => Jpmobile::Mobile::Willcom  ],
+      ['dadaea@pdx.ne.jp.jp'    => nil                        ],
       ['xxxe@dj.pdx.ne.jp'      => Jpmobile::Mobile::Willcom  ],
+      ['xxxe@dj.pdx.ne.jp.jp'   => nil                        ],
       ['oeeikx@softbank.ne.jp'  => Jpmobile::Mobile::Softbank ],
+      ['oeeikx@softbank.ne.jp.jp' => nil                      ],
       ['eaae@disney.ne.jp'      => Jpmobile::Mobile::Softbank ],
+      ['eaae@disney.ne.jp.jp'   => nil                        ],
       ['iiiaa@r.vodafone.ne.jp' => Jpmobile::Mobile::Vodafone ],
-      ['aaaaa.aaaa@jp-h.ne.jp' => Jpmobile::Mobile::Jphone    ],
+      ['iiiaa@r.vodafone.ne.jp.jp' => nil                     ],
+      ['aaaaa.aaaa@jp-h.ne.jp'  => Jpmobile::Mobile::Jphone    ],
+      ['aaaaa.aaaa@jp-h.ne.jp.jp' => nil                      ],
     ])
   end.run
 end

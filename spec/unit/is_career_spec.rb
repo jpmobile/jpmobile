@@ -1,19 +1,19 @@
 require File.join(File.dirname(__FILE__), 'spec_helper')
 
 describe 'Jpmobile::Mobile' do
-  Spec::Fixture::Base.new self, [ :klass, :career ] => :expected do
+  Spec::Fixture::Base.new self, [ :klass, :carrier ] => :expected do
     filters({
       :klass => proc {|val| Jpmobile::Mobile.const_get(val) },
-      :career => proc {|val| "#{val}?" },
+      :carrier => proc {|val| "#{val}?" },
     })
 
     desc_filters({
       :klass => proc {|val| "::#{val.to_s}" },
-      :career => proc {|val| "#{val}?" },
+      :carrier => proc {|val| "#{val}?" },
     })
 
-    it ":klass#:career should be return :expected" do |input, expected|
-      input[:klass].new({}).__send__(input[:career]).should == expected
+    it ":klass#:carrier should be return :expected" do |input, expected|
+      input[:klass].new({}).__send__(input[:carrier]).should == expected
     end
 
     set_fixtures([

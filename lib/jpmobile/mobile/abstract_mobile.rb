@@ -51,12 +51,12 @@ module Jpmobile::Mobile
     end
 
     #XXX: lib/jpmobile.rbのautoloadで先に各キャリアの定数を定義しているから動くのです
-    Jpmobile::Mobile.careers.each do |career|
-      career_class = Jpmobile::Mobile.const_get(career)
-      next if career_class == self
+    Jpmobile::Mobile.carriers.each do |carrier|
+      carrier_class = Jpmobile::Mobile.const_get(carrier)
+      next if carrier_class == self
 
-      define_method "#{career.downcase}?" do
-        self.is_a?(career_class)
+      define_method "#{carrier.downcase}?" do
+        self.is_a?(carrier_class)
       end
     end
 

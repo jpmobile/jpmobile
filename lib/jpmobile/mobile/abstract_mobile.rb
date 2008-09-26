@@ -9,7 +9,9 @@ module Jpmobile::Mobile
 
     # 対応するuser-agentの正規表現
     USER_AGENT_REGEXP = nil
-
+    # 対応するメールアドレスの正規表現
+    MAIL_ADDRESS_REGEXP = nil
+    
     # 緯度経度があれば Position のインスタンスを返す。
     def position; return nil; end
 

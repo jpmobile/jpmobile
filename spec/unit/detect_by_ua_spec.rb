@@ -16,10 +16,10 @@ describe 'Jpmobile::RequestWithMobile' do
     end
   end
 
-  Spec::Fixture::Base.new self, :career => :user_agent do
+  Spec::Fixture::Base.new self, :carrier => :user_agent do
 
-    it '#mobile should return :career when take :user_agent as UserAgent' do |career, user_agent|
-      ReqClass.new(user_agent).mobile.class.should == career
+    it '#mobile should return :carrier when take :user_agent as UserAgent' do |carrier, user_agent|
+      ReqClass.new(user_agent).mobile.class.should == carrier
     end
 
     set_fixtures([

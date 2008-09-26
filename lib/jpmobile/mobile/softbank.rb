@@ -12,7 +12,7 @@ module Jpmobile::Mobile
     # 対応するuser-agentの正規表現
     USER_AGENT_REGEXP = /^(SoftBank|Semulator)/
     # 対応するメールアドレスの正規表現　ディズニーモバイル対応
-    MAIL_ADDRESS_REGEXP = /.*@softbank\.ne\.jp|.*@disney\.ne\.jp/
+    MAIL_ADDRESS_REGEXP = /.*@(?:softbank\.ne\.jp|disney\.ne\.jp)\z/
     
     # 製造番号を返す。無ければ +nil+ を返す。
     def serial_number
@@ -74,7 +74,7 @@ module Jpmobile::Mobile
     # 対応するUser-Agentの正規表現
     USER_AGENT_REGEXP = /^(Vodafone|Vemulator)/
     # 対応するメールアドレスの正規表現
-    MAIL_ADDRESS_REGEXP = /.*@[d|h|t|c|r|k|n|s|q]\.vodafone\.ne\.jp/
+    MAIL_ADDRESS_REGEXP = /.*@[d|h|t|c|r|k|n|s|q]\.vodafone\.ne\.jp\z/
     
     # cookieに対応しているか？
     def supports_cookie?
@@ -87,7 +87,7 @@ module Jpmobile::Mobile
     # 対応するUser-Agentの正規表現
     USER_AGENT_REGEXP = /^(J-PHONE|J-EMULATOR)/
     # 対応するメールアドレスの正規表現
-    MAIL_ADDRESS_REGEXP = /.*@jp-[d|h|t|c|r|k|n|s|q]\.ne\.jp/
+    MAIL_ADDRESS_REGEXP = /.*@jp-[d|h|t|c|r|k|n|s|q]\.ne\.jp\z/
     
     # 位置情報があれば Position のインスタンスを返す。無ければ +nil+ を返す。
     def position

@@ -1,9 +1,9 @@
 require File.join(File.dirname(__FILE__), 'spec_helper')
 
 describe 'Jpmobile::Mobile::valid_ip?' do
-  Spec::Fixture::Base.new self, :remote_ip => :career do
-    it 'should be return true if :remote_ip is in :career address' do |remote_ip, career|
-      Jpmobile::Mobile.const_get(career).valid_ip?(remote_ip).should == true
+  Spec::Fixture::Base.new self, :remote_ip => :carrier do
+    it 'should be return true if :remote_ip is in :carrier address' do |remote_ip, carrier|
+      Jpmobile::Mobile.const_get(carrier).valid_ip?(remote_ip).should == true
     end
 
     set_fixtures([
@@ -26,9 +26,9 @@ describe 'Jpmobile::Mobile::valid_ip?' do
     ])
   end.run
 
-  Spec::Fixture::Base.new self, :remote_ip => :career do
-    it 'should not be return true if :remote_ip is in :career address' do |remote_ip, career|
-      Jpmobile::Mobile.const_get(career).valid_ip?(remote_ip).should_not == true
+  Spec::Fixture::Base.new self, :remote_ip => :carrier do
+    it 'should not be return true if :remote_ip is in :carrier address' do |remote_ip, carrier|
+      Jpmobile::Mobile.const_get(carrier).valid_ip?(remote_ip).should_not == true
     end
 
     set_fixtures([

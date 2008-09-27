@@ -17,7 +17,7 @@ module Jpmobile
     autoload :Ddipocket, 'jpmobile/mobile/willcom'
 
     def self.carriers
-      @carriers ||= constants
+      @carriers ||= %w(Docomo Au Softbank Vodafone Jphone Emobile Willcom Ddipocket)
     end
 
     def self.carriers=(ary)

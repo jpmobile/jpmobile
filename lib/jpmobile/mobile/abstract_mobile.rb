@@ -11,7 +11,7 @@ module Jpmobile::Mobile
     USER_AGENT_REGEXP = nil
     # 対応するメールアドレスの正規表現
     MAIL_ADDRESS_REGEXP = nil
-    
+
     # 緯度経度があれば Position のインスタンスを返す。
     def position; return nil; end
 
@@ -39,7 +39,7 @@ module Jpmobile::Mobile
     def valid_ip?
       @__valid_ip ||= self.class.valid_ip? @request.remote_addr
     end
-    
+
     # 画面情報を +Display+ クラスのインスタンスで返す。
     def display
       @__displlay ||= Jpmobile::Display.new

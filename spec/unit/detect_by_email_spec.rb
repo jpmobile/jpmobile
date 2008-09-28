@@ -9,6 +9,7 @@ describe 'Jpmobile::Email' do
     end
 
     set_fixtures([
+      ['example@example.ne.jp'  => nil                        ],
       ['test@docomo.ne.jp'      => Jpmobile::Mobile::Docomo   ],
       ['test@docomo.ne.jp.jp'   => nil                        ],
       ['a(--)l@ezweb.ne.jp'     => Jpmobile::Mobile::Au       ],

@@ -12,7 +12,7 @@ module Jpmobile::Mobile
     # 対応するuser-agentの正規表現
     USER_AGENT_REGEXP = /^(?:SoftBank|Semulator)/
     # 対応するメールアドレスの正規表現　ディズニーモバイル対応
-    MAIL_ADDRESS_REGEXP = /^(?:.+@softbank\.ne\.jp|.+@disney\.ne\.jp)$/
+    MAIL_ADDRESS_REGEXP = /^.+@(?:softbank\.ne\.jp|disney\.ne\.jp)$/
 
     # 製造番号を返す。無ければ +nil+ を返す。
     def serial_number

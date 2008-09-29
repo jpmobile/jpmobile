@@ -109,11 +109,6 @@ describe FilterController, "DoCoMo SH902i からのアクセス" do
     request.user_agent = "DoCoMo/2.0 SH902i(c100;TB;W24H12)"
   end
   it_should_behave_like "Shift_JISで通信する端末との通信"
-
-  it 'templateの探索順が適切なこと' do
-    get :index
-    response.template.mobile_template_candidates.should == ['mobile_docomo', 'mobile']
-  end
 end
 
 describe FilterController, "au CA32 からのアクセス" do
@@ -121,11 +116,6 @@ describe FilterController, "au CA32 からのアクセス" do
     request.user_agent = "KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0"
   end
   it_should_behave_like "Shift_JISで通信する端末との通信"
-
-  it 'templateの探索順が適切なこと' do
-    get :index
-    response.template.mobile_template_candidates.should == ['mobile_au', 'mobile']
-  end
 end
 
 describe FilterController, "J-PHONE V401SH からのアクセス" do
@@ -133,11 +123,6 @@ describe FilterController, "J-PHONE V401SH からのアクセス" do
     request.user_agent = "J-PHONE/3.0/V401SH"
   end
   it_should_behave_like "Shift_JISで通信する端末との通信"
-
-  it 'templateの探索順が適切なこと' do
-    get :index
-    response.template.mobile_template_candidates.should == ['mobile_jphone', 'mobile_vodafone', 'mobile_softbank', 'mobile']
-  end
 end
 
 describe FilterController, "Vodafone V903T からのアクセス" do
@@ -145,11 +130,6 @@ describe FilterController, "Vodafone V903T からのアクセス" do
     request.user_agent = "Vodafone/1.0/V903T/TJ001 Browser/VF-Browser/1.0 Profile/MIDP-2.0 Configuration/CLDC-1.1 Ext-J-Profile/JSCL-1.2.2 Ext-V-Profile/VSCL-2.0.0"
   end
   it_should_behave_like "UTF-8で通信する端末との通信"
-
-  it 'templateの探索順が適切なこと' do
-    get :index
-    response.template.mobile_template_candidates.should == ['mobile_vodafone', 'mobile_softbank', 'mobile']
-  end
 end
 
 describe FilterController, "SoftBank 910T からのアクセス" do
@@ -157,11 +137,6 @@ describe FilterController, "SoftBank 910T からのアクセス" do
     request.user_agent = "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1"
   end
   it_should_behave_like "UTF-8で通信する端末との通信"
-
-  it 'templateの探索順が適切なこと' do
-    get :index
-    response.template.mobile_template_candidates.should == ['mobile_softbank', 'mobile']
-  end
 end
 
 #

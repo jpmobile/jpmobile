@@ -18,7 +18,7 @@ module Jpmobile
     autoload :Ddipocket, 'jpmobile/mobile/willcom'
 
     def self.carriers
-      @carriers ||= %w(Docomo Au Softbank Vodafone Jphone Emobile Willcom Ddipocket)
+      @carriers ||= constants
     end
 
     def self.carriers=(ary)
@@ -36,7 +36,7 @@ end
 end
 
 if defined? RAILS_ENV
-  Dir[File.expand_path(File.join(File.dirname(__FILE__), 'jpmobile/*.rb'))].sort.each { |lib| 
-    require lib 
+  Dir[File.expand_path(File.join(File.dirname(__FILE__), 'jpmobile/*.rb'))].sort.each { |lib|
+    require lib
   }
 end

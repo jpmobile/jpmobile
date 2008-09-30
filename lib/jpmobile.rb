@@ -1,6 +1,7 @@
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__)))
 
 module Jpmobile
+  autoload :Email   , 'jpmobile/email'
   autoload :Emoticon, 'jpmobile/emoticon'
   autoload :Position, 'jpmobile/position'
   autoload :RequestWithMobile, 'jpmobile/request_with_mobile'

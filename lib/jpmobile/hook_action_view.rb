@@ -34,33 +34,43 @@ class ActionView::Base #:nodoc:
     render_partial_without_jpmobile(mobile_path, object_assigns, local_assigns)
   end
 
-  def mobile_template_path(template_path, partial=false)
-    if controller.is_a?(ActionController::Base) && m = controller.request.mobile
+  def mobile_template_candidates
       candidates = []
-      c = m.class
+      c = controller.request.mobile.class
       while c != Jpmobile::Mobile::AbstractMobile
         candidates << "mobile_"+c.to_s.split(/::/).last.downcase
         c = c.superclass
       end
       candidates << "mobile"
+  end
 
-      candidates.each do |v|
-        mobile_path = "#{template_path}_#{v}"
+  def mobile_template_partial mobile_path, template_path
+    # ActionView::PartialTemplate#extract_partial_name_and_path の動作を模倣
+    if mobile_path.include?('/')
+      path = File.dirname(mobile_path)
+      partial_name = File.basename(mobile_path)
+    else
+      path = self.controller.class.controller_path
+      partial_name = mobile_path
+    end
+    File.join(path, "_#{partial_name}")
+  end
+
+  def mobile_path template_path, type
+    "#{template_path}_#{type}"
+  end
+
+  def mobile_template_path(template_path, partial=false)
+    if controller.is_a?(ActionController::Base) && m = controller.request.mobile
+      mobile_template_candidates.each do |v|
+        mpath = mobile_path template_path, v
         if partial
-          # ActionView::PartialTemplate#extract_partial_name_and_path の動作を模倣
-          if mobile_path.include?('/')
-            path = File.dirname(mobile_path)
-            partial_name = File.basename(mobile_path)
-          else
-            path = self.controller.class.controller_path
-            partial_name = mobile_path
-          end
-          full_path = File.join(path, "_#{partial_name}")
+          full_path = mobile_template_partial mpath
         else
-          full_path = mobile_path
+          full_path = mpath
         end
         if finder.file_exists?(full_path)
-          return mobile_path
+          return mpath
         end
       end
     end

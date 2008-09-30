@@ -5,7 +5,6 @@ module Jpmobile
   autoload :Emoticon, 'jpmobile/emoticon'
   autoload :Position, 'jpmobile/position'
   autoload :RequestWithMobile, 'jpmobile/request_with_mobile'
-  autoload :Email,    'jpmobile/email'
   autoload :Util,     'jpmobile/util'
 
   module Mobile

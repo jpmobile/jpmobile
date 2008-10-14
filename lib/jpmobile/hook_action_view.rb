@@ -44,7 +44,7 @@ class ActionView::Base #:nodoc:
       candidates << "mobile"
   end
 
-  def mobile_template_partial mobile_path, template_path
+  def mobile_template_partial mobile_path
     # ActionView::PartialTemplate#extract_partial_name_and_path の動作を模倣
     if mobile_path.include?('/')
       path = File.dirname(mobile_path)

@@ -9,8 +9,14 @@ end
 module Jpmobile
   # 位置情報
   class Position
-    # GeoKitが読み込まれている場合はMappableにする
-    include ::GeoKit::Mappable if Object.const_defined?("GeoKit")
+    if Object.const_defined?("GeoKit")
+      # GeoKitが読み込まれている場合はMappableにする
+      include ::GeoKit::Mappable
+      def self.acts_as_mappable; end
+      def self.distance_column_name; end
+      def self.lat_column_name; :lat; end
+      def self.lng_column_name; :lng; end
+    end
     def initialize
       @lat = nil
       @lon = nil

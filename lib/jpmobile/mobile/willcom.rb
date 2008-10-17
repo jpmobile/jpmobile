@@ -9,6 +9,8 @@ module Jpmobile::Mobile
 
     # 対応するUser-Agentの正規表現
     USER_AGENT_REGEXP = /^Mozilla\/3.0\(WILLCOM/
+    # 対応するメールアドレスの正規表現
+    MAIL_ADDRESS_REGEXP = /^.+@(.+\.)?pdx\.ne\.jp$/
 
     # 位置情報があれば Position のインスタンスを返す。無ければ +nil+ を返す。
     def position
@@ -31,5 +33,7 @@ module Jpmobile::Mobile
   class Ddipocket < Willcom
     # 対応するUser-Agentの正規表現
     USER_AGENT_REGEXP = /^Mozilla\/3.0\(DDIPOCKET/
+
+    MAIL_ADDRESS_REGEXP = nil # DdipocketはEmail判定だとWillcomと判定させたい
   end
 end

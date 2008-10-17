@@ -13,11 +13,11 @@ unless Spec.const_defined?(:Rails)
   # load RSpec on Rails
   rspec_base = dir + '/../vendor/plugins/rspec-rails/lib'
   $LOAD_PATH.unshift rspec_base
-  Dependencies.load_paths.unshift rspec_base
-  Dependencies.load_once_paths.unshift rspec_base
+  ActiveSupport::Dependencies.load_paths.unshift rspec_base
+  ActiveSupport::Dependencies.load_once_paths.unshift rspec_base
 
   # application.rb を先に読ませる
-  $LOAD_PATH.unshift "#{dir}/../spec_resources/controllers" 
+  $LOAD_PATH.unshift "#{dir}/../spec_resources/controllers"
   require 'application'
 
   # setup resources

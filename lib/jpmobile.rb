@@ -1,9 +1,11 @@
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__)))
 
 module Jpmobile
+  autoload :Email   , 'jpmobile/email'
   autoload :Emoticon, 'jpmobile/emoticon'
   autoload :Position, 'jpmobile/position'
   autoload :RequestWithMobile, 'jpmobile/request_with_mobile'
+  autoload :Util,     'jpmobile/util'
 
   module Mobile
     autoload :Docomo,    'jpmobile/mobile/docomo'
@@ -14,6 +16,14 @@ module Jpmobile
     autoload :Emobile,   'jpmobile/mobile/emobile'
     autoload :Willcom,   'jpmobile/mobile/willcom'
     autoload :Ddipocket, 'jpmobile/mobile/willcom'
+
+    def self.carriers
+      @carriers ||= constants
+    end
+
+    def self.carriers=(ary)
+      @carriers = ary
+    end
   end
 end
 
@@ -26,7 +36,7 @@ end
 end
 
 if defined? RAILS_ENV
-  Dir[File.expand_path(File.join(File.dirname(__FILE__), 'jpmobile/*.rb'))].sort.each { |lib| 
-    require lib 
+  Dir[File.expand_path(File.join(File.dirname(__FILE__), 'jpmobile/*.rb'))].sort.each { |lib|
+    require lib
   }
 end

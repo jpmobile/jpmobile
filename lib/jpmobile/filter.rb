@@ -33,7 +33,7 @@ module Jpmobile
         @counter += 1
         return unless @counter == 1
         if respond_to?(:to_internal) && apply_incoming?(controller)
-          deep_each(controller.params) do |value|
+          Util.deep_apply(controller.params) do |value|
             value = to_internal(value, controller)
           end
         end
@@ -51,20 +51,6 @@ module Jpmobile
       def apply_incoming?(controller); true; end
       # 出力時(response.body)にこのフィルタを適用するべきか
       def apply_outgoing?(controller); true; end
-      private
-      # ハッシュ等をなめる。
-      def deep_each(obj, &proc)
-        if obj.is_a? Hash
-          obj.each_pair do |key, value|
-            obj[key] = deep_each(value, &proc)
-          end
-        elsif obj.is_a? Array
-          obj.collect!{|value| deep_each(value, &proc)}
-        elsif not (obj==nil || obj.is_a?(TrueClass) || obj.is_a?(FalseClass))
-          obj = obj.to_param if obj.respond_to?(:to_param)
-          proc.call(obj)
-        end
-      end
     end
 
     # 携帯電話の場合にのみ適用したい場合に Jpmobile::Base の派生クラスに include する。

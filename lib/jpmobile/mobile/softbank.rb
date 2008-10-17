@@ -10,7 +10,9 @@ module Jpmobile::Mobile
     autoload :IP_ADDRESSES, 'jpmobile/mobile/z_ip_addresses_softbank'
 
     # 対応するuser-agentの正規表現
-    USER_AGENT_REGEXP = /^(SoftBank|Semulator)/
+    USER_AGENT_REGEXP = /^(?:SoftBank|Semulator)/
+    # 対応するメールアドレスの正規表現　ディズニーモバイル対応
+    MAIL_ADDRESS_REGEXP = /^.+@(?:softbank\.ne\.jp|disney\.ne\.jp)$/
 
     # 製造番号を返す。無ければ +nil+ を返す。
     def serial_number
@@ -71,6 +73,8 @@ module Jpmobile::Mobile
   class Vodafone < Softbank
     # 対応するUser-Agentの正規表現
     USER_AGENT_REGEXP = /^(Vodafone|Vemulator)/
+    # 対応するメールアドレスの正規表現
+    MAIL_ADDRESS_REGEXP = /^.+@[dhtcrknsq]\.vodafone\.ne\.jp$/
 
     # cookieに対応しているか？
     def supports_cookie?
@@ -82,6 +86,8 @@ module Jpmobile::Mobile
   class Jphone < Vodafone
     # 対応するUser-Agentの正規表現
     USER_AGENT_REGEXP = /^(J-PHONE|J-EMULATOR)/
+    # 対応するメールアドレスの正規表現
+    MAIL_ADDRESS_REGEXP = /^.+@jp-[dhtcrknsq]\.ne\.jp$/
 
     # 位置情報があれば Position のインスタンスを返す。無ければ +nil+ を返す。
     def position

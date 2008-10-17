@@ -8,6 +8,8 @@ module Jpmobile::Mobile
 
     # 対応するUser-Agentの正規表現
     USER_AGENT_REGEXP = /^DoCoMo/
+    # 対応するメールアドレスの正規表現
+    MAIL_ADDRESS_REGEXP = /^.+@docomo\.ne\.jp$/
 
     # オープンiエリアがあればエリアコードを +String+ で返す。無ければ +nil+ を返す。
     def areacode
@@ -24,7 +26,7 @@ module Jpmobile::Mobile
       lat = params["lat"] || params["LAT"]
       lon = params["lon"] || params["LON"]
       geo = params["geo"] || params["GEO"]
-      return @__position = nil if ( lat.nil? || lat == '' || lon.nil? || lon == '' ) 
+      return @__position = nil if ( lat.nil? || lat == '' || lon.nil? || lon == '' )
       raise "Unsuppoted datum" if geo.downcase != "wgs84"
       pos = Jpmobile::Position.new
       raise "Unsuppoted" unless lat =~ /^([+-]\d+)\.(\d+)\.(\d+\.\d+)/

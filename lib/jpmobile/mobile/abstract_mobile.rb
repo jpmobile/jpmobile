@@ -9,6 +9,8 @@ module Jpmobile::Mobile
 
     # 対応するuser-agentの正規表現
     USER_AGENT_REGEXP = nil
+    # 対応するメールアドレスの正規表現
+    MAIL_ADDRESS_REGEXP = nil
 
     # 緯度経度があれば Position のインスタンスを返す。
     def position; return nil; end
@@ -37,7 +39,7 @@ module Jpmobile::Mobile
     def valid_ip?
       @__valid_ip ||= self.class.valid_ip? @request.remote_addr
     end
-    
+
     # 画面情報を +Display+ クラスのインスタンスで返す。
     def display
       @__displlay ||= Jpmobile::Display.new
@@ -46,6 +48,16 @@ module Jpmobile::Mobile
     # クッキーをサポートしているか。
     def supports_cookie?
       return false
+    end
+
+    #XXX: lib/jpmobile.rbのautoloadで先に各キャリアの定数を定義しているから動くのです
+    Jpmobile::Mobile.carriers.each do |carrier|
+      carrier_class = Jpmobile::Mobile.const_get(carrier)
+      next if carrier_class == self
+
+      define_method "#{carrier.downcase}?" do
+        self.is_a?(carrier_class)
+      end
     end
 
     private

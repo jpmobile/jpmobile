@@ -19,6 +19,7 @@ user_agents = {}
     end
     a[0].sub!(/（.*）/,"")
     a[0].sub!(/\(.+\)/,"")
+    a[0].sub!(/-/,'') # F-01A -> F01A
 
     a[3].sub!(/^.*?(\d+×\d+).*$/,'\1')
     width, height = a[3].split(/×/,2).map{|x| x.to_i}

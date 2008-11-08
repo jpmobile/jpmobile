@@ -233,6 +233,11 @@ Jpmobile::Mobile::Docomo::DISPLAY_INFO =
   {:color_p=>true, :colors=>256, :browser_width=>96, :browser_height=>78},
  "F901iS"=>
   {:color_p=>true, :colors=>262144, :browser_width=>230, :browser_height=>240},
+ "F01A"=>
+  {:color_p=>true,
+   :colors=>16777216,
+   :browser_width=>240,
+   :browser_height=>352},
  "N906imyu"=>
   {:color_p=>true, :colors=>262144, :browser_width=>240, :browser_height=>320},
  "F209i"=>

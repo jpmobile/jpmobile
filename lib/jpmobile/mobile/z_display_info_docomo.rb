@@ -56,6 +56,11 @@ Jpmobile::Mobile::Docomo::DISPLAY_INFO =
   {:color_p=>true, :colors=>65536, :browser_width=>120, :browser_height=>130},
  "N2001"=>
   {:color_p=>true, :colors=>4096, :browser_width=>118, :browser_height=>128},
+ "SH01A"=>
+  {:color_p=>true,
+   :colors=>16777216,
+   :browser_width=>240,
+   :browser_height=>320},
  "SH906i"=>
   {:color_p=>true,
    :colors=>16777216,
@@ -202,6 +207,8 @@ Jpmobile::Mobile::Docomo::DISPLAY_INFO =
    :browser_height=>352},
  "N600i"=>
   {:color_p=>true, :colors=>65536, :browser_width=>176, :browser_height=>180},
+ "N03A"=>
+  {:color_p=>true, :colors=>262144, :browser_width=>240, :browser_height=>320},
  "SO905iCS"=>
   {:color_p=>true,
    :colors=>16777216,
@@ -529,6 +536,8 @@ Jpmobile::Mobile::Docomo::DISPLAY_INFO =
   {:color_p=>true, :colors=>256, :browser_width=>120, :browser_height=>113},
  "P503i"=>
   {:color_p=>true, :colors=>256, :browser_width=>120, :browser_height=>130},
+ "P01A"=>
+  {:color_p=>true, :colors=>262144, :browser_width=>240, :browser_height=>350},
  "P251iS"=>
   {:color_p=>true, :colors=>65536, :browser_width=>132, :browser_height=>144},
  "SO503iS"=>

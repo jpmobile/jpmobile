@@ -19,6 +19,8 @@ ActionView::Base.class_eval { include Jpmobile::Helpers }
 # (ダミーファイルを置くことで回避可能)。
 
 class ActionView::Base #:nodoc:
+  delegate :default_url_options, :to => :controller unless respond_to?(:default_url_options)
+
   require 'action_pack/version'
 
   if ::ActionPack::VERSION::MAJOR >=2 and ::ActionPack::VERSION::MINOR >= 2

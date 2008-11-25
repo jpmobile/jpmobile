@@ -130,15 +130,15 @@ BUG: 現状、上記の例では index.rhtml が存在しない場合に振り�
 
 === 端末情報の取得
 
-端末側から通知されている場合、request.ident で
+端末側から通知されている場合、request.mobile.ident で
 契約に固有の識別子もしくは端末の製造番号を取得できる。
 両方存在する場合は契約に固有のIDが優先される。
 
-* 契約に固有のID (request.ident_subscriber)
+* 契約に固有のID (request.mobile.ident_subscriber)
   * au: EZ番号(サブスクライバ番号)
   * DoCoMo: FOMAカード製造番号
   * EMOBILE: EMnet対応端末から通知されるユニークなユーザID
-* 端末製造番号 (request.ident_device)
+* 端末製造番号 (request.mobile.ident_device)
   * DoCoMo: 端末製造番号(FOMA, MOVA)
   * SoftBank: 製造番号
 

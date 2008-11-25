@@ -400,6 +400,8 @@ Jpmobile::Mobile::Docomo::DISPLAY_INFO =
   {:color_p=>true, :colors=>262144, :browser_width=>240, :browser_height=>256},
  "N2701"=>
   {:color_p=>true, :colors=>65536, :browser_width=>176, :browser_height=>198},
+ "N02A"=>
+  {:color_p=>true, :colors=>262144, :browser_width=>240, :browser_height=>320},
  "SA700iS"=>
   {:color_p=>true, :colors=>65536, :browser_width=>240, :browser_height=>252},
  "D253i"=>
@@ -563,6 +565,8 @@ Jpmobile::Mobile::Docomo::DISPLAY_INFO =
   {:color_p=>true, :colors=>262144, :browser_width=>230, :browser_height=>240},
  "D503iS"=>
   {:color_p=>true, :colors=>4096, :browser_width=>132, :browser_height=>126},
+ "N01A"=>
+  {:color_p=>true, :colors=>262144, :browser_width=>240, :browser_height=>320},
  "P705iCL"=>
   {:color_p=>true, :colors=>262144, :browser_width=>240, :browser_height=>350},
  "N900iG"=>

@@ -80,7 +80,7 @@ class AuTest < Test::Unit::TestCase
   # 正しいIPアドレス空間からのアクセスを判断できるか。
   def test_au_valid_ip_address
     reqs = request_with_ua("KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0",
-                          {"REMOTE_ADDR"=>"210.169.40.1"})
+                          {"REMOTE_ADDR"=>"210.230.128.225"})
     reqs.each do |req|
       assert_equal(req.mobile.valid_ip?, true)
     end

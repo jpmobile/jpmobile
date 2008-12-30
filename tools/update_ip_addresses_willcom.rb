@@ -5,8 +5,9 @@ require 'kconv'
 require 'open-uri'
 require 'pp'
 
-src = open("http://www.willcom-inc.com/ja/service/contents_service/club_air_edge/for_phone/ip/index.html").read.toutf8
+src = open("http://www.willcom-inc.com/ja/service/contents_service/create/center_info/index.html").read.toutf8
 
+src.sub!(%r{^.*<b>Webアクセス時のIPアドレス帯域</b>(.+?)</table>.*$}m, '\\1')
 ips = src.scan(/(\d+\.\d+\.\d+\.\d+\/\d+)/).flatten
 
 # 書き出し

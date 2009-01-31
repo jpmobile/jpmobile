@@ -75,6 +75,8 @@ Jpmobile::Mobile::Docomo::DISPLAY_INFO =
    :browser_height=>320},
  "N905iBiz"=>
   {:color_p=>true, :colors=>262144, :browser_width=>240, :browser_height=>320},
+ "F05A"=>
+  {:color_p=>true, :colors=>65536, :browser_width=>240, :browser_height=>352},
  "SH706ie"=>
   {:color_p=>true, :colors=>262144, :browser_width=>240, :browser_height=>320},
  "SH703i"=>

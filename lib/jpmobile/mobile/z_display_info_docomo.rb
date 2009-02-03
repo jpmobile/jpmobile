@@ -296,6 +296,8 @@ Jpmobile::Mobile::Docomo::DISPLAY_INFO =
   {:color_p=>true, :colors=>65536, :browser_width=>240, :browser_height=>270},
  "P210i"=>
   {:color_p=>true, :colors=>256, :browser_width=>96, :browser_height=>91},
+ "F04A"=>
+  {:color_p=>true, :colors=>262144, :browser_width=>240, :browser_height=>352},
  "F503i"=>
   {:color_p=>true, :colors=>256, :browser_width=>120, :browser_height=>130},
  "L705iX"=>

@@ -609,6 +609,8 @@ Jpmobile::Mobile::Docomo::DISPLAY_INFO =
   {:color_p=>true, :colors=>65536, :browser_width=>800, :browser_height=>600},
  "SO213i"=>
   {:color_p=>true, :colors=>65536, :browser_width=>120, :browser_height=>112},
+ "P04A"=>
+  {:color_p=>true, :colors=>262144, :browser_width=>240, :browser_height=>350},
  "F884iES"=>
   {:color_p=>true, :colors=>262144, :browser_width=>240, :browser_height=>282},
  "D2101V"=>

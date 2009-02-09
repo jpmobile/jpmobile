@@ -4,6 +4,7 @@ unless Spec.const_defined?(:Rails)
   # jpmobileの読み込み
   require 'rubygems'
   require 'action_controller'
+  require 'action_mailer'
   require 'initializer'
   require dir+'/../lib/jpmobile'
 

@@ -29,7 +29,7 @@ RDOC_OPTS = ['--quiet', '--title', "jpmobile documentation",
     "--inline-source"]
 
 desc "Packages up jpmobile gem."
-task :default => [:test, 'spec:unit']
+task :default => [:test, :spec]
 task :package => [:clean]
 
 desc 'Default: run unit tests.'
@@ -70,10 +70,10 @@ spec =
         s.bindir = "bin"
         s.require_path = "lib"
 
-        s.add_dependency('actionpack', '>=2.1.0')
-
-        #s.add_dependency('activesupport', '>=1.3.1')
-        #s.required_ruby_version = '>= 1.8.2'
+        s.add_runtime_dependency('actionpack', '>=2.2.2')
+        s.add_development_dependency('rspec', '>=1.1.12')
+        s.add_development_dependency('rspec-rails', '>=1.1.12')
+        s.add_development_dependency('rspec-fixture', '>=0.0.2')
 
         s.files = %w(README CHANGELOG Rakefile) +
           Dir.glob("{bin,doc,test,lib,templates,generator,extras,website,script}/**/*") +
@@ -120,5 +120,4 @@ end
 
 # setup RSpec tasks
 RAILS_ROOT = '.'
-load 'vendor/plugins/rspec-rails/tasks/rspec.rake'
 load 'tasks/jpmobile_tasks.rake'

@@ -8,6 +8,9 @@
 ActionView::Base.class_eval { include Jpmobile::Helpers }
 #:startdoc:
 
+require 'action_pack'
+require 'action_view'
+
 # ActionView::Base を拡張して携帯からのアクセスの場合に携帯向けビューを優先表示する。
 # Vodafone携帯(request.mobile == Jpmobile::Mobile::Vodafone)の場合、
 #   index_mobile_vodafone.rhtml
@@ -20,8 +23,6 @@ ActionView::Base.class_eval { include Jpmobile::Helpers }
 
 class ActionView::Base #:nodoc:
   delegate :default_url_options, :to => :controller unless respond_to?(:default_url_options)
-
-  require 'action_pack/version'
 
   if ::ActionPack::VERSION::MAJOR >=2 and ::ActionPack::VERSION::MINOR >= 2
     ### Rails 2.2 or higher

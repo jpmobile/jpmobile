@@ -128,12 +128,12 @@ Jpmobile::Mobile::Docomo::DISPLAY_INFO =
   {:color_p=>true, :colors=>262144, :browser_width=>240, :browser_height=>240},
  "SO903iTV"=>
   {:color_p=>true, :colors=>262144, :browser_width=>240, :browser_height=>368},
+ "SH903iTV"=>
+  {:color_p=>true, :colors=>262144, :browser_width=>240, :browser_height=>320},
  "KO209i"=>
   {:color_p=>true, :colors=>256, :browser_width=>96, :browser_height=>96},
  "F903iX"=>
   {:color_p=>true, :colors=>262144, :browser_width=>230, :browser_height=>240},
- "SH903iTV"=>
-  {:color_p=>true, :colors=>262144, :browser_width=>240, :browser_height=>320},
  "SH702iD"=>
   {:color_p=>true, :colors=>262144, :browser_width=>240, :browser_height=>240},
  "SH04A"=>
@@ -456,6 +456,8 @@ Jpmobile::Mobile::Docomo::DISPLAY_INFO =
   {:color_p=>true, :colors=>262144, :browser_width=>240, :browser_height=>267},
  "SO903i"=>
   {:color_p=>true, :colors=>262144, :browser_width=>240, :browser_height=>368},
+ "N05A"=>
+  {:color_p=>true, :colors=>262144, :browser_width=>240, :browser_height=>320},
  "F883iESS"=>
   {:color_p=>true, :colors=>65536, :browser_width=>240, :browser_height=>256},
  "SH700iS"=>
@@ -608,6 +610,8 @@ Jpmobile::Mobile::Docomo::DISPLAY_INFO =
   {:color_p=>true, :colors=>262144, :browser_width=>240, :browser_height=>320},
  "P705iCL"=>
   {:color_p=>true, :colors=>262144, :browser_width=>240, :browser_height=>350},
+ "L03A"=>
+  {:color_p=>true, :colors=>262144, :browser_width=>240, :browser_height=>280},
  "N900iG"=>
   {:color_p=>true, :colors=>65536, :browser_width=>240, :browser_height=>269},
  "D252i"=>

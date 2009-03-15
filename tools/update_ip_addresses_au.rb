@@ -4,13 +4,22 @@
 require 'kconv'
 require 'open-uri'
 require 'pp'
-
-src = open("http://www.au.kddi.com/ezfactory/tec/spec/ezsava_ip.html").read.toutf8
+require 'rubygems'
+require 'hpricot'
 
 ips = []
-src.scan(/(\d+[.．]\d+[.．]\d+[.．]\d+).*?(\/\d+)/m) {|a,b|
-  ips << a.gsub(/．/,".") + b
-}
+
+src = open("http://www.au.kddi.com/ezfactory/tec/spec/ezsava_ip.html").read.toutf8
+doc = Hpricot(src)
+(doc/'//table').each do |table|
+  trs = (table/'/tr/td/table/tr/td/table/tr')
+  next if trs.first && (trs.first/'td[2]').inner_text != 'IPアドレス'
+  trs.each do |tr|
+    a = (tr/'td').to_a.map(&:inner_text)
+    next if a[1] == 'IPアドレス'
+    ips << a[1..2].join if a[3] != '廃止'
+  end
+end
 
 # 書き出し
 open("lib/jpmobile/mobile/z_ip_addresses_au.rb","w") do |f|

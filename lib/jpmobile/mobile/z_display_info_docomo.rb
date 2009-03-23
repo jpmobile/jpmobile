@@ -225,6 +225,8 @@ Jpmobile::Mobile::Docomo::DISPLAY_INFO =
    :colors=>16777216,
    :browser_width=>240,
    :browser_height=>368},
+ "P06A"=>
+  {:color_p=>true, :colors=>262144, :browser_width=>240, :browser_height=>350},
  "P211iS"=>
   {:color_p=>true, :colors=>65536, :browser_width=>120, :browser_height=>130},
  "F700i"=>

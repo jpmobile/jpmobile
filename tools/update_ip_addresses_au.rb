@@ -12,7 +12,7 @@ ips = []
 src = open("http://www.au.kddi.com/ezfactory/tec/spec/ezsava_ip.html").read.toutf8
 doc = Hpricot(src)
 (doc/'//table').each do |table|
-  trs = (table/'/tr/td/table/tr/td/table/tr')
+  trs = (table/'tr')
   next if trs.first && (trs.first/'td[2]').inner_text != 'IPアドレス'
   trs.each do |tr|
     a = (tr/'td').to_a.map(&:inner_text)

@@ -349,6 +349,8 @@ Jpmobile::Mobile::Docomo::DISPLAY_INFO =
    :colors=>16777216,
    :browser_width=>240,
    :browser_height=>320},
+ "F07A"=>
+  {:color_p=>true, :colors=>262144, :browser_width=>240, :browser_height=>256},
  "SH705i"=>
   {:color_p=>true, :colors=>262144, :browser_width=>240, :browser_height=>320},
  "D701iWM"=>

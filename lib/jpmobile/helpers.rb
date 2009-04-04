@@ -147,10 +147,11 @@ module Jpmobile
       mode = "auto"
       if options.is_a?(Hash)
         options = options.symbolize_keys
+        mode = options.delete(:mode) || "auto"
         options[:only_path] = false
-        mode = options[:mode] || "auto"
         url = url_for(options)
       end
+      url.sub!(/\?/, '&')
       return "location:#{mode}?url=#{url}"
     end
 

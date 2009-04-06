@@ -33,7 +33,7 @@ end
 describe DocomoGuidDocomoController, "という docomo_guid :docomo が指定されているコントローラ" do
   controller_name :docomo_guid_docomo
   it "の docomo_guid_mode は :docomo" do
-    controller.trans_sid_mode.should == :docomo
+    controller.docomo_guid_mode.should == :docomo
   end
 end
 

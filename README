@@ -64,28 +64,19 @@ RAILS_ROOT/config/environment.rb の Rails::Initializer.run do |config| 〜 end 
   end
 
   class MobileController < ApplicationController
-    after_filter :to_sjis
-
-    def index
-    end
-
-    private
-    def to_sjis
-      @headers["Content-Type"] = "text/html; charset=Shift_JIS"
-      response.body = response.body.tosjis
-    end
+     mobile_filter
   end
 
 
 === 携帯電話viewの自動振分け
 DoCoMo携帯電話からアクセスすると、
-* index_mobile_docomo.rhtml
-* index_mobile.rhtml
-* index.rhtml
+* index_mobile_docomo.html.erb
+* index_mobile.html.erb
+* index.html.erb
 の順でテンプレートを検索し、最初に見付かったテンプレートが利用される。
-Auの場合は、index_mobile_au.rhtml、Softbankの場合はindex_mobile_softbank.rhtmlが最初に検索される。
+Auの場合は、index_mobile_au.html.erb、Softbankの場合はindex_mobile_softbank.html.erbが最初に検索される。
 
-BUG: 現状、上記の例では index.rhtml が存在しない場合に振り分けが行われない(ダミーファイルを置くことで回避可能)。
+BUG: 現状、上記の例では index.html.erb が存在しない場合に振り分けが行われない(ダミーファイルを置くことで回避可能)。
 
 ==== キャリアの識別
 

@@ -137,7 +137,7 @@ BUG: 現状、上記の例では index.html.erb が存在しない場合に振�
 キャリアが公開しているIPアドレス帯域からのアクセスか判定する。
   request.mobile.valid_ip?
 
-=== セッションIDの付与(Transit SID)
+=== セッションIDの付与(Trans SID)
 ==== Cookie非対応携帯だけに付与する
   class MyController
     trans_sid
@@ -147,6 +147,13 @@ BUG: 現状、上記の例では index.html.erb が存在しない場合に振�
   class MyController
     trans_sid :always
   end
+
+trans_sid 機能を使う場合には cookie session store を使用することができません。
+trans_sid を使用する際には、例えば environment.rb で
+  config.action_controller.session_store = :active_record_store
+として active_record_store を使用します。
+このとき ApplicationController において protect_from_forgery の :secret を指定するか、
+あるいは protect_from_forgery を解除する必要があるでしょう。
 
 === 端末の画面サイズ
 request.mobile.display で Jpmobile::Display クラスのインスタンスが返る。

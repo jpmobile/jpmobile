@@ -22,7 +22,10 @@ end
 
 class ActionController::Base #:nodoc:
   class_inheritable_accessor :trans_sid_mode
-  alias :transit_sid_mode :trans_sid_mode
+  def transit_sid_mode(*args)
+    STDERR.puts "Method transit_sid is now deprecated. Use trans_sid instead."
+    trans_sid_mode(*args)
+  end
   class << self
     def trans_sid(mode=:mobile)
       include Jpmobile::TransSid
@@ -47,7 +50,10 @@ class ActionController::Base #:nodoc:
         end
       end
     end
-    alias :transit_sid :trans_sid
+    def transit_sid(*args)
+      STDERR.puts "Method transit_sid is now deprecated. Use trans_sid instead."
+      trans_sid(*args)
+    end
   end
 end
 

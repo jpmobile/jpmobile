@@ -25,7 +25,7 @@ CLEAN.include ['**/.*.sw?', '*.gem', '.config']
 RDOC_OPTS = ['--quiet', '--title', "jpmobile documentation",
     "--opname", "index.html",
     "--line-numbers",
-    "--main", "README",
+    "--main", "README.rdoc",
     "--inline-source"]
 
 desc "Packages up jpmobile gem."
@@ -47,7 +47,7 @@ Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.rdoc_dir = 'doc'
   rdoc.title    = 'Jpmobile'
   rdoc.options << '--line-numbers' << '--inline-source' << '-c UTF-8'
-  rdoc.rdoc_files.include('README')
+  rdoc.rdoc_files.include('README.rdoc')
   rdoc.rdoc_files.include('CHANGELOG')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
@@ -58,7 +58,7 @@ spec =
         s.version = VERS
         s.platform = Gem::Platform::RUBY
         s.has_rdoc = true
-        s.extra_rdoc_files = ["README", "CHANGELOG"]
+        s.extra_rdoc_files = ["README.rdoc", "CHANGELOG"]
         s.rdoc_options += RDOC_OPTS + ['--exclude', '^(examples|extras)/']
         s.summary = DESCRIPTION
         s.description = DESCRIPTION
@@ -75,7 +75,7 @@ spec =
         s.add_development_dependency('rspec-rails', '>=1.1.12')
         s.add_development_dependency('rspec-fixture', '>=0.0.2')
 
-        s.files = %w(README CHANGELOG Rakefile) +
+        s.files = %w(README.rdoc CHANGELOG Rakefile) +
           Dir.glob("{bin,doc,test,lib,templates,generator,extras,website,script}/**/*") +
           Dir.glob("ext/**/*.{h,c,rb}") +
           Dir.glob("examples/**/*.rb") +

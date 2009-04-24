@@ -25,7 +25,7 @@ describe "trans_sid が起動するとき", :shared => true do
   end
 end
 
-describe TransitSidBaseController, "という trans_sid が有効になっていないコントローラ" do
+describe TransSidBaseController, "という trans_sid が有効になっていないコントローラ" do
   controller_name :trans_sid_base
   it "の trans_sid_mode は nil" do
     controller.trans_sid_mode.should be_nil
@@ -33,7 +33,7 @@ describe TransitSidBaseController, "という trans_sid が有効になってい
   it_should_behave_like "trans_sid が起動しないとき"
 end
 
-describe TransitSidNoneController, "という trans_sid :none が指定されているコントローラ" do
+describe TransSidNoneController, "という trans_sid :none が指定されているコントローラ" do
   controller_name :trans_sid_none
   it "の trans_sid_mode は :none" do
     controller.trans_sid_mode.should == :none
@@ -41,7 +41,7 @@ describe TransitSidNoneController, "という trans_sid :none が指定されて
   it_should_behave_like "trans_sid が起動しないとき"
 end
 
-describe TransitSidAlwaysController, "という trans_sid :always が指定されているコントローラ" do
+describe TransSidAlwaysController, "という trans_sid :always が指定されているコントローラ" do
   controller_name :trans_sid_always
   before :each do
     request.session.session_id = "mysessionid"
@@ -52,7 +52,7 @@ describe TransitSidAlwaysController, "という trans_sid :always が指定さ�
   it_should_behave_like "trans_sid が起動するとき"
 end
 
-describe TransitSidMobileController, "という trans_sid :mobile が指定されているコントローラ" do
+describe TransSidMobileController, "という trans_sid :mobile が指定されているコントローラ" do
   controller_name :trans_sid_mobile
   it "の trans_sid_mode は :mobile" do
     controller.trans_sid_mode.should == :mobile
@@ -90,7 +90,7 @@ describe_mobile_with_ua "Vodafone/1.0/V903T/TJ001 Browser/VF-Browser/1.0 Profile
 end
 
 
-describe TransitSidAlwaysAndSessionOffController, "という trans_sid :always と session :off を同時に指定しているコントローラ" do
+describe TransSidAlwaysAndSessionOffController, "という trans_sid :always と session :off を同時に指定しているコントローラ" do
   controller_name :trans_sid_always_and_session_off
   it_should_behave_like "trans_sid が起動しないとき"
 end

@@ -24,11 +24,27 @@ require 'action_view'
 class ActionView::Base #:nodoc:
   delegate :default_url_options, :to => :controller unless respond_to?(:default_url_options)
 
-  if ::ActionPack::VERSION::MAJOR >=2 and ::ActionPack::VERSION::MINOR >= 2
-    ### Rails 2.2 or higher
-    alias _pick_template_without_jpmobile _pick_template #:nodoc:
+  if ::ActionPack::VERSION::MAJOR >=2 and ::ActionPack::VERSION::MINOR >= 3
+    def find_template(template_path)
+      mobile_path = mobile_template_path(template_path)
+      return mobile_path.nil? ? _pick_template_without_jpmobile(template_path) :
+                                _pick_template_without_jpmobile(mobile_path)
+    end
+
+    def render_partial(options = {}) #:nodoc:
+      case partial_path = options[:partial]
+      when String, Symbol, NilClass
+        mobile_path = mobile_template_path(partial_path, true)
+        options = options.merge(:partial => mobile_path) if mobile_path
+      end
+      render_partial_without_jpmobile(options)
+    end
+
+    ### Rails 2.3 or higher
+    alias find_template_without_jpmobile find_template #:nodoc:
     alias render_partial_without_jpmobile render_partial #:nodoc:
 
+  elsif ::ActionPack::VERSION::MAJOR >=2 and ::ActionPack::VERSION::MINOR >= 2
     def _pick_template(template_path)
       mobile_path = mobile_template_path(template_path)
       return mobile_path.nil? ? _pick_template_without_jpmobile(template_path) :
@@ -43,6 +59,11 @@ class ActionView::Base #:nodoc:
       end
       render_partial_without_jpmobile(options)
     end
+
+    ### Rails 2.2 or higher
+    alias _pick_template_without_jpmobile _pick_template #:nodoc:
+    alias render_partial_without_jpmobile render_partial #:nodoc:
+
   else
     ### Rails 2.1 or lower
     alias render_file_without_jpmobile render_file #:nodoc:

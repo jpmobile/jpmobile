@@ -25,6 +25,10 @@ class ActionView::Base #:nodoc:
   delegate :default_url_options, :to => :controller unless respond_to?(:default_url_options)
 
   if ::ActionPack::VERSION::MAJOR >=2 and ::ActionPack::VERSION::MINOR >= 3
+    ### Rails 2.3 or higher
+    alias find_template_without_jpmobile find_template #:nodoc:
+    alias render_partial_without_jpmobile render_partial #:nodoc:
+
     def find_template(template_path)
       mobile_path = mobile_template_path(template_path)
       return mobile_path.nil? ? _pick_template_without_jpmobile(template_path) :
@@ -40,11 +44,11 @@ class ActionView::Base #:nodoc:
       render_partial_without_jpmobile(options)
     end
 
-    ### Rails 2.3 or higher
-    alias find_template_without_jpmobile find_template #:nodoc:
+  elsif ::ActionPack::VERSION::MAJOR >=2 and ::ActionPack::VERSION::MINOR >= 2
+    ### Rails 2.2 or higher
+    alias _pick_template_without_jpmobile _pick_template #:nodoc:
     alias render_partial_without_jpmobile render_partial #:nodoc:
 
-  elsif ::ActionPack::VERSION::MAJOR >=2 and ::ActionPack::VERSION::MINOR >= 2
     def _pick_template(template_path)
       mobile_path = mobile_template_path(template_path)
       return mobile_path.nil? ? _pick_template_without_jpmobile(template_path) :
@@ -59,10 +63,6 @@ class ActionView::Base #:nodoc:
       end
       render_partial_without_jpmobile(options)
     end
-
-    ### Rails 2.2 or higher
-    alias _pick_template_without_jpmobile _pick_template #:nodoc:
-    alias render_partial_without_jpmobile render_partial #:nodoc:
 
   else
     ### Rails 2.1 or lower
@@ -80,6 +80,7 @@ class ActionView::Base #:nodoc:
       return mobile_path.nil? ? render_partial_without_jpmobile(partial_path, object_assigns, local_assigns) :
                                 render_partial_without_jpmobile(mobile_path, object_assigns, local_assigns)
     end
+
   end
 
   def mobile_template_candidates

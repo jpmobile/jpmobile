@@ -35,12 +35,6 @@ task :package => [:clean]
 desc 'Default: run unit tests.'
 task :default => :test
 
-desc 'Test the jpmobile plugin.'
-Rake::TestTask.new(:test) do |t|
-  t.libs << 'lib'
-  t.pattern = 'test/**/*_test.rb'
-  t.verbose = true
-end
 
 desc 'Generate documentation for the jpmobile plugin.'
 Rake::RDocTask.new(:rdoc) do |rdoc|
@@ -118,6 +112,5 @@ task :rel => [:gem] do
   puts "git tag #{VERS}"
 end
 
-# setup RSpec tasks
-RAILS_ROOT = '.'
+task :test => ['test:legacy', 'spec:unit', 'test:rails']
 load 'tasks/jpmobile_tasks.rake'

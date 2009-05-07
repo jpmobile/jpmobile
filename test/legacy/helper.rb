@@ -4,7 +4,7 @@ require 'action_controller'
 require 'rack'
 
 RAILS_ENV = "test"
-require File.dirname(__FILE__)+'/../lib/jpmobile'
+require File.dirname(__FILE__)+'/../../lib/jpmobile'
 
 # ActionPackのTestのためのrequire
 action_pack_full_path = Gem.cache.search('actionpack').sort_by { |g| g.version.version }.last

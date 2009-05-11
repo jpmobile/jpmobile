@@ -20,6 +20,7 @@ doc = Hpricot(src)
     ips << a[1..2].join if a[3] != '廃止'
   end
 end
+ips.uniq!
 
 # 書き出し
 open("lib/jpmobile/mobile/z_ip_addresses_au.rb","w") do |f|

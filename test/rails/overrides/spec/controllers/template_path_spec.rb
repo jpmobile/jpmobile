@@ -56,30 +56,60 @@ end
 
 describe TemplatePathController, "integrated_views" do
   integrate_views
-  context "PCからのアクセスの場合" do
-    before do
-      get :index
+  describe "index" do
+    context "PCからのアクセスの場合" do
+      before do
+        get :index
+      end
+      it 'index.html.erbが使用されること' do
+        response.should have_tag("h1", "index.html.erb")
+      end
     end
-    it 'index.html.erbが使用されること' do
-      response.should have_tag("h1", "index.html.erb")
+    context "DoCoMoからのアクセスの場合" do
+      before do
+        request.user_agent = "DoCoMo/2.0 SH902i(c100;TB;W24H12)"
+        get :index
+      end
+      it 'index_mobile_docomo.html.erbが使用されること' do
+        response.should have_tag("h1", "index_mobile_docomo.html.erb")
+      end
+    end
+    context "SoftBankからのアクセスの場合" do
+      before do
+        request.user_agent = "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1"
+        get :index
+      end
+      it 'index_mobile.html.erbが使用されること' do
+        response.should have_tag("h1", "index_mobile.html.erb")
+      end
     end
   end
-  context "DoCoMoからのアクセスの場合" do
-    before do
-      request.user_agent = "DoCoMo/2.0 SH902i(c100;TB;W24H12)"
-      get :index
+  describe "partial" do
+    context "PCからのアクセスの場合" do
+      before do
+        get :partial
+      end
+      it '_partial.html.erbが使用されること' do
+        response.should have_tag("h2", "_partial.html.erb")
+      end
     end
-    it 'index_mobile_docomo.html.erbが使用されること' do
-      response.should have_tag("h1", "index_mobile_docomo.html.erb")
+    context "DoCoMoからのアクセスの場合" do
+      before do
+        request.user_agent = "DoCoMo/2.0 SH902i(c100;TB;W24H12)"
+        get :partial
+      end
+      it '_partial_mobile_docomo.html.erbが使用されること' do
+        response.should have_tag("h2", "_partial_mobile_docomo.html.erb")
+      end
     end
-  end
-  context "SoftBankからのアクセスの場合" do
-    before do
-      request.user_agent = "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1"
-      get :index
-    end
-    it 'index_mobile.html.erbが使用されること' do
-      response.should have_tag("h1", "index_mobile.html.erb")
+    context "SoftBankからのアクセスの場合" do
+      before do
+        request.user_agent = "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1"
+        get :partial
+      end
+      it '_partial_mobile.html.erbが使用されること' do
+        response.should have_tag("h2", "_partial_mobile.html.erb")
+      end
     end
   end
 end

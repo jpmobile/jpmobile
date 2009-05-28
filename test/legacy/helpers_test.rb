@@ -208,7 +208,7 @@ class HelpersTest < Test::Unit::TestCase
     results = []
     (Hpricot(str)/:a).each do |link|
       path, query = link["href"].split(/\?/, 2)
-      params = query.nil? ? nil : ActionController::AbstractRequest.parse_query_parameters(query)
+      params = query.nil? ? nil : Rack::Utils.parse_query(query)
       results << [link.inner_html, link.attributes, path, params]
     end
     return results

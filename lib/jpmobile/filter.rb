@@ -42,7 +42,7 @@ module Jpmobile
       def after(controller)
         @counter -= 1
         return unless @counter.zero?
-        if respond_to?(:to_external) && apply_outgoing?(controller)
+        if respond_to?(:to_external) && apply_outgoing?(controller) && controller.response.body.is_a?(String)
           controller.response.body = to_external(controller.response.body, controller)
           after_after(controller) if respond_to? :after_after
         end

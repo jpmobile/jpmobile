@@ -88,9 +88,3 @@ end
 describe_mobile_with_ua "Vodafone/1.0/V903T/TJ001 Browser/VF-Browser/1.0 Profile/MIDP-2.0 Configuration/CLDC-1.1 Ext-J-Profile/JSCL-1.2.2 Ext-V-Profile/VSCL-2.0.0" do
   it_should_behave_like "trans_sid が起動しないとき"
 end
-
-
-describe TransSidAlwaysAndSessionOffController, "という trans_sid :always と session :off を同時に指定しているコントローラ" do
-  controller_name :trans_sid_always_and_session_off
-  it_should_behave_like "trans_sid が起動しないとき"
-end

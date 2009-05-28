@@ -29,7 +29,7 @@ class EmoticonTestController < ActionController::Base
   end
 end
 
-class EmoticonFunctionalTest < Test::Unit::TestCase
+class EmoticonFunctionalTest < ActionController::TestCase
   def setup
     init EmoticonTestController
   end

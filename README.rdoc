@@ -16,7 +16,8 @@
 
 == インストール
 
-=== pluginとしてインストールする場合
+=== Rails 2.3.2
+==== pluginとしてインストールする場合
 
 リリース版:
   % ./script/plugin install git://github.com/darashi/jpmobile.git -r 'tag x.x.x'
@@ -25,7 +26,7 @@
 開発版:
   % ./script/plugin install git://github.com/darashi/jpmobile.git
 
-=== gemでインストールする場合
+==== gemでインストールする場合
 
   # gem install jpmobile
 としてgemをインストールした後
@@ -34,6 +35,9 @@ RAILS_ROOT/config/environment.rb の Rails::Initializer.run do |config| 〜 end 
   config.gem "jpmobile"
 の行を追加する。
 
+=== Rails 2.2.x 以前
+リリース版:
+  % ./script/plugin install git://github.com/darashi/jpmobile.git -r 'tag 0.0.5'
 
 == 使用例
 
@@ -149,8 +153,8 @@ BUG: 現状、上記の例では index.html.erb が存在しない場合に振�
   end
 
 trans_sid 機能を使う場合には cookie session store を使用することができません。
-trans_sid を使用する際には、例えば environment.rb で
-  config.action_controller.session_store = :active_record_store
+trans_sid を使用する際には、例えば config/initializers/session_store.rb で
+  ActionController::Base.session_store = :active_record_store
 として active_record_store を使用します。
 このとき ApplicationController において protect_from_forgery の :secret を指定するか、
 あるいは protect_from_forgery を解除する必要があるでしょう。

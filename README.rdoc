@@ -19,21 +19,16 @@
 === Rails 2.3.2
 ==== pluginとしてインストールする場合
 
-リリース版:
-  % ./script/plugin install git://github.com/darashi/jpmobile.git -r 'tag x.x.x'
-  (x.x.xはバージョン)
-
 開発版:
-  % ./script/plugin install git://github.com/darashi/jpmobile.git
+  % cd rails_app_root
+  % git clone git://github.com/darashi/jpmobile.git vendor/plugins/jpmobile
+  % cd vendor/plugins/jpmobile
+  % git pull origin rails-2.3.2
+  % rm -rf .git
 
 ==== gemでインストールする場合
 
-  # gem install jpmobile
-としてgemをインストールした後
-
-RAILS_ROOT/config/environment.rb の Rails::Initializer.run do |config| 〜 end 内に
-  config.gem "jpmobile"
-の行を追加する。
+未実装
 
 === Rails 2.2.x 以前
 リリース版:

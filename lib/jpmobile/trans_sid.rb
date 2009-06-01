@@ -1,7 +1,6 @@
 # = セッションIDの付与
 
 module ActionController
-  # cookie よりも params を先に見るためのパッチ
   module Session
     class AbstractStore
       def load_session(env)
@@ -11,9 +10,8 @@ module ActionController
         end
         sid ||= request.cookies[@key]
 
-        sid, session = get_session(env, sid
-          [sid, session]
-        end
+        sid, session = get_session(env, sid)
+        [sid, session]
       end
     end
   end

@@ -1,6 +1,7 @@
 # = セッションIDの付与
 
 module ActionController
+  # cookie よりも params を先に見るパッチ
   module Session
     class AbstractStore
       def load_session(env)
@@ -60,7 +61,7 @@ module Jpmobile::TransSid #:nodoc:
   end
   # session_idを返す
   def jpmobile_session_id
-    session.session_id
+    request.session_options[:id] rescue session.session_id
   end
   # session_idを埋め込むためのhidden fieldを出力する。
   def sid_hidden_field_tag

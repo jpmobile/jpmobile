@@ -1,5 +1,5 @@
 class TransSidBaseController < ApplicationController
-  session :session_key => '_session_id'
+  ActionController::Base.session_options[:key] = '_session_id'
   def form
     render :inline=>%{<% form_tag do %>Hello<% end %>}
   end
@@ -22,5 +22,4 @@ end
 
 class TransSidAlwaysAndSessionOffController < TransSidBaseController
   trans_sid :always
-  session :off
 end

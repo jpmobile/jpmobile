@@ -6,6 +6,9 @@ class TransSidBaseController < ApplicationController
   def link
     render :inline=>%{<%= link_to "linkto" %>}
   end
+  def redirect
+    redirect_to('/')
+  end
 end
 
 class TransSidAlwaysController < TransSidBaseController

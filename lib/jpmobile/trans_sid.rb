@@ -19,10 +19,22 @@ module ActionController
 
   class Base #:nodoc:
     class_inheritable_accessor :trans_sid_mode
+    alias :redirect_to_full_url_without_jpmobile :redirect_to_full_url
 
     def transit_sid_mode(*args)
       STDERR.puts "Method transit_sid is now deprecated. Use trans_sid instead."
       trans_sid_mode(*args)
+    end
+
+    def redirect_to_full_url(url, status)
+      if apply_trans_sid?
+        uri = URI.parse(url)
+        uri.query ||= "&"
+        uri.query += "#{session_key}=#{jpmobile_session_id}"
+        url = uri.to_s
+      end
+
+      redirect_to_full_url_without_jpmobile(url, status)
     end
 
     class << self
@@ -36,6 +48,21 @@ module ActionController
         STDERR.puts "Method transit_sid is now deprecated. Use trans_sid instead."
         trans_sid(*args)
       end
+    end
+
+    private
+    # trans_sidを適用すべきかを返す。
+    def apply_trans_sid?
+      return false if trans_sid_mode == :none
+      return true if trans_sid_mode == :always
+      if trans_sid_mode == :mobile
+        if request.mobile?
+          return !request.mobile.supports_cookie?
+        else
+          return false
+        end
+      end
+      return false
     end
   end
 end
@@ -72,18 +99,5 @@ module Jpmobile::TransSid #:nodoc:
     return unless request # for test process
     return unless apply_trans_sid?
     response.body.gsub!(%r{(</form>)}i, sid_hidden_field_tag+'\1')
-  end
-  # trans_sidを適用すべきかを返す。
-  def apply_trans_sid?
-    return false if trans_sid_mode == :none
-    return true if trans_sid_mode == :always
-    if trans_sid_mode == :mobile
-      if request.mobile?
-        return !request.mobile.supports_cookie?
-      else
-        return false
-      end
-    end
-    return false
   end
 end

@@ -9,6 +9,10 @@ describe "trans_sid が起動しないとき", :shared => true do
     get :form
     response.body.should =~ %r{^<form action="/.+?/form" method="post">Hello</form>$}
   end
+  it "で redirect の自動書き換えが行われない" do
+    get :redirect
+    response.should redirect_to('/')
+  end
 end
 
 describe "trans_sid が起動するとき", :shared => true do
@@ -22,6 +26,10 @@ describe "trans_sid が起動するとき", :shared => true do
   it "で form の自動書き換えが行われる" do
     get :form
     response.body.should =~ %r{^<form action="/.+?/form\?_session_id=mysessionid" method="post">Hello<input type="hidden" name="_session_id" value="mysessionid" /></form>$}
+  end
+  it "で redirect の自動書き換えが行われる" do
+    get :redirect
+    response.should redirect_to('/?&_session_id=mysessionid')
   end
 end
 

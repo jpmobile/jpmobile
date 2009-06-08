@@ -91,7 +91,11 @@ module Jpmobile::Mobile
 
     # cookieに対応しているか？
     def supports_cookie?
-      true
+      if @request.protocol =~ /\Ahttps/
+        false
+      else
+        true
+      end
     end
   end
 end

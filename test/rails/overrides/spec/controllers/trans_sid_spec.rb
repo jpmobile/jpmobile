@@ -29,7 +29,7 @@ describe "trans_sid が起動するとき", :shared => true do
   end
   it "で redirect の自動書き換えが行われる" do
     get :redirect
-    response.should redirect_to('/?&_session_id=mysessionid')
+    response.should redirect_to('/?_session_id=mysessionid')
   end
 end
 

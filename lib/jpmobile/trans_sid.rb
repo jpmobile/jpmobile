@@ -27,10 +27,13 @@ module ActionController
     end
 
     def redirect_to_full_url(url, status)
-      if apply_trans_sid?
+      if apply_trans_sid? and !url.match(/#{session_key}/)
         uri = URI.parse(url)
-        uri.query ||= "&"
-        uri.query += "#{session_key}=#{jpmobile_session_id}"
+        if uri.query
+          uri.query += "&#{session_key}=#{jpmobile_session_id}"
+        else
+          uri.query = "#{session_key}=#{jpmobile_session_id}"
+        end
         url = uri.to_s
       end
 

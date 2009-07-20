@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # =au携帯電話
 
 require 'ipaddr'
@@ -78,12 +79,12 @@ module Jpmobile::Mobile
         nil
       end
     end
-    
+
     # 簡易位置情報取得に対応している場合は +true+ を返す。
     def supports_location?
       ! LOCATION_UNSUPPORTED_DEVICE_ID.include?(device_id)
     end
-    
+
     # GPS位置情報取得に対応している場合は +true+ を返す。
     def supports_gps?
       ! GPS_UNSUPPORTED_DEVICE_ID.include?(device_id)
@@ -91,7 +92,8 @@ module Jpmobile::Mobile
 
     # cookieに対応しているか？
     def supports_cookie?
-      if @request.protocol =~ /\Ahttps/
+      protocol = @request.respond_to?(:scheme) ? @request.scheme : @request.protocol rescue "none"
+      if protocol =~ /\Ahttps/
         false
       else
         true

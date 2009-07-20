@@ -64,7 +64,7 @@ spec =
         s.bindir = "bin"
         s.require_path = "lib"
 
-        s.add_runtime_dependency('actionpack', '>=2.2.2')
+        s.add_runtime_dependency('actionpack', '>=2.3.2')
         s.add_development_dependency('rspec', '>=1.1.12')
         s.add_development_dependency('rspec-rails', '>=1.1.12')
         s.add_development_dependency('rspec-fixture', '>=0.0.2')

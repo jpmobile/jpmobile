@@ -15,20 +15,25 @@
 * 文字コード変換機能／絵文字のキャリア間相互変換
 
 == インストール
-
+Rails の Version に応じて選択してください。
 === Rails 2.3.2
 ==== pluginとしてインストールする場合
 
+リリース版:
+  % ./script/plugin install git://github.com/darashi/jpmobile.git -r 'tag x.x.x'
+  (x.x.xはバージョン)
+
 開発版:
-  % cd rails_app_root
-  % git clone git://github.com/darashi/jpmobile.git vendor/plugins/jpmobile
-  % cd vendor/plugins/jpmobile
-  % git pull origin rails-2.3.2
-  % rm -rf .git
+  % ./script/plugin install git://github.com/darashi/jpmobile.git
 
 ==== gemでインストールする場合
 
-未実装
+  # gem install jpmobile
+としてgemをインストールした後
+
+RAILS_ROOT/config/environment.rb の Rails::Initializer.run do |config| 〜 end 内に
+  config.gem "jpmobile"
+の行を追加する。
 
 === Rails 2.2.x 以前
 リリース版:

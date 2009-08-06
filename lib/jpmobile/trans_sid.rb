@@ -1,18 +1,34 @@
+# -*- coding: utf-8 -*-
 # = セッションIDの付与
+require 'active_support/version'
+
+module ParamsOverCookie
+  # cookie よりも params を先に見るパッチ
+  def load_session(env)
+    request = Rack::Request.new(env)
+    unless @cookie_only
+      sid = request.params[@key]
+    end
+    sid ||= request.cookies[@key]
+
+    sid, session = get_session(env, sid)
+    [sid, session]
+  end
+end
 
 module ActionController
   # cookie よりも params を先に見るパッチ
   module Session
     class AbstractStore
-      def load_session(env)
-        request = Rack::Request.new(env)
-        unless @cookie_only
-          sid = request.params[@key]
+      if ActiveSupport::VERSION::TINY == 2
+        # for 2.3.2
+        include ParamsOverCookie
+      end
+      class SessionHash
+        if ActiveSupport::VERSION::TINY == 2
+          # for 2.3.3
+          include ParamsOverCookie
         end
-        sid ||= request.cookies[@key]
-
-        sid, session = get_session(env, sid)
-        [sid, session]
       end
     end
   end
@@ -56,6 +72,7 @@ module ActionController
     private
     # trans_sidを適用すべきかを返す。
     def apply_trans_sid?
+      return false if (jpmobile_session_id rescue nil).blank?
       return false if trans_sid_mode == :none
       return true if trans_sid_mode == :always
       if trans_sid_mode == :mobile
@@ -87,7 +104,7 @@ module Jpmobile::TransSid #:nodoc:
   private
   # session_keyを返す。
   def session_key
-    (request.session_options || ActionController::Base.session_options)[:key]
+    ActionController::Base.session_options.merge(request.session_options || {})[:key]
   end
   # session_idを返す
   def jpmobile_session_id

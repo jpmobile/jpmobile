@@ -18,7 +18,7 @@ end
 
 describe "trans_sid が起動するとき", :shared => true do
   before :each do
-    request.session_options[:id] = "mysessionid"
+    request.session.session_id = "mysessionid"
   end
   it "で link_to の自動書き換えが行われる" do
     get :link
@@ -53,7 +53,7 @@ end
 describe TransSidAlwaysController, "という trans_sid :always が指定されているコントローラ" do
   controller_name :trans_sid_always
   before :each do
-    request.session_options[:id] = "mysessionid"
+    request.session.session_id = "mysessionid"
   end
   it "の trans_sid_mode は :always" do
     controller.trans_sid_mode.should == :always

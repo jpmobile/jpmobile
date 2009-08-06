@@ -26,39 +26,54 @@ namespace :test do
     t.verbose = true
   end
   desc "Generate rails app and run jpmobile tests in the app"
-  task :rails do |t, args|
-    puts "Running tests in Rails 2.3.2"
+  task :rails, [:versions] do |t, args|
+    rails_root     = "test/rails/rails_root"
+    relative_root  = "../../../"
+    rails_versions = args.versions.split("/") rescue ["2.3.3"]
 
-    # generate rails app
-    rails_root = "test/rails/rails_root"
-    FileUtils.rm_rf(rails_root)
-    FileUtils.mkdir_p(rails_root)
-    system "rails _2.3.2_ --force #{rails_root}"
+    puts "Running tests in Rails #{rails_versions.join(', ')}"
 
-    # setup jpmobile
-    plugin_path = File.join(rails_root, 'vendor', 'plugins', 'jpmobile')
-    FileUtils.mkdir_p(plugin_path)
-    FileList["*"].exclude("test").each do |file|
-      FileUtils.cp_r(file, plugin_path)
-    end
+    rails_versions.each do |rails_version|
+      puts "  for #{rails_version}"
+      # generate rails app
+      FileUtils.rm_rf(rails_root)
+      FileUtils.mkdir_p(rails_root)
+      system "rails _#{rails_version}_ --force #{rails_root}"
 
-    # setup tests
-    FileList["test/rails/overrides/*"].each do |file|
-      FileUtils.cp_r(file, rails_root)
-    end
+      # setup jpmobile
+      plugin_path = File.join(rails_root, 'vendor', 'plugins', 'jpmobile')
+      FileUtils.mkdir_p(plugin_path)
+      FileList["*"].exclude("test").each do |file|
+        FileUtils.cp_r(file, plugin_path)
+      end
 
-    # for 2.3.2
-    config_path = File.join(rails_root, 'config', 'environment.rb')
-    File.open(config_path, 'a') do |file|
-      file.write <<-END
+      # setup tests
+      FileList["test/rails/overrides/*"].each do |file|
+        FileUtils.cp_r(file, rails_root)
+      end
+
+      # for 2.3.2
+      if rails_version == "2.3.2"
+        FileList["test/rails/2.3.2/*"].each do |file|
+          FileUtils.cp_r(file, rails_root)
+        end
+      end
+
+      # for cookie_only option
+      config_path = File.join(rails_root, 'config', 'environment.rb')
+      File.open(config_path, 'a') do |file|
+        file.write <<-END
 
 ActionController::Base.session = {:key => "_session_id", :cookie_only => false}
 END
-    end
+      end
 
-    # run tests in rails
-    cd rails_root
-    sh "rake db:migrate"
-    sh "rake spec"
+      # run tests in rails
+      cd rails_root
+      sh "rake db:migrate"
+      sh "rake spec"
+
+      cd relative_root
+    end
   end
 end

@@ -12,19 +12,25 @@ user_agents = {}
 (Hpricot(src)/"//div[@id='maincol']//table").each do |table|
   (table/"tr[@class='acenter']").each do |tr|
     a = (tr/:td).map {|x| x.inner_text }
+    i = 0
     if a.size == 7
-      a.shift # remove rowspan
+      if a[0].size >= 5 # iモードブラウザ2.0
+        i = 1
+      else
+        a.shift # remove rowspan
+      end
     elsif a.size != 6
       raise "something is wrong"
     end
     a[0].sub!(/（.*）/,"")
     a[0].sub!(/\(.+\)/,"")
     a[0].sub!(/-/,'') # F-01A -> F01A
+    a[0].sub!(/$/,'3') if i == 1 # iモードブラウザ2.0
 
-    a[3].sub!(/^.*?(\d+×\d+).*$/,'\1')
-    width, height = a[3].split(/×/,2).map{|x| x.to_i}
+    a[3+i].sub!(/^.*?(\d+×\d+).*$/,'\1')
+    width, height = a[3+i].split(/×/,2).map{|x| x.to_i}
 
-    case a[5]
+    case a[5+i]
     when /^カラー\s*(\d+)色$/
       color_p = true
       colors = $1.to_i

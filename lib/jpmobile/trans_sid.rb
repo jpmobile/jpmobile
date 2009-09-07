@@ -3,35 +3,27 @@
 require 'active_support/version'
 
 module ParamsOverCookie
-  # cookie よりも params を先に見るパッチ
-  def load_session(env)
-    request = Rack::Request.new(env)
-    unless @cookie_only
-      sid = request.params[@key]
-    end
-    sid ||= request.cookies[@key]
+  def self.included(base)
+    base.class_eval do
+      # cookie よりも params を先に見るパッチ
+      def load_session_with_jpmobile(env)
+        request = Rack::Request.new(env)
+        unless @cookie_only
+          sid = request.params[@key]
+        end
+        sid ||= request.cookies[@key]
 
-    sid, session = get_session(env, sid)
-    [sid, session]
+        sid, session = get_session(env, sid)
+        [sid, session]
+      end
+      alias_method_chain :load_session, :jpmobile
+    end
   end
 end
 
 module ActionController
   # cookie よりも params を先に見るパッチ
-  module Session
-    class AbstractStore
-      if ActiveSupport::VERSION::TINY == 2
-        # for 2.3.2
-        include ParamsOverCookie
-      end
-      class SessionHash
-        if ActiveSupport::VERSION::TINY == 2
-          # for 2.3.3
-          include ParamsOverCookie
-        end
-      end
-    end
-  end
+  Session::AbstractStore.send :include, ParamsOverCookie
 
   class Base #:nodoc:
     class_inheritable_accessor :trans_sid_mode

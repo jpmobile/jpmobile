@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby -Ku
+# -*- coding: utf-8 -*-
 # auのwebページからIPリストを抽出する場当たり的なスクリプト。
 
 require 'kconv'
@@ -15,7 +16,7 @@ doc = Hpricot(src)
   trs = (table/'tr')
   next if trs.first && (trs.first/'td[2]').inner_text != 'IPアドレス'
   trs.each do |tr|
-    a = (tr/'td').to_a.map(&:inner_text)
+    a = (tr/'td').to_a.map{|t| t.inner_text}
     next if a[1] == 'IPアドレス'
     ips << a[1..2].join if a[3] != '廃止'
   end

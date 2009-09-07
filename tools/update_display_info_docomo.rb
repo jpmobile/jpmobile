@@ -1,4 +1,5 @@
 #!/usr/bin/ruby -Ku
+# -*- coding: utf-8 -*-
 require 'rubygems'
 require 'open-uri'
 require 'kconv'
@@ -14,7 +15,7 @@ user_agents = {}
     a = (tr/:td).map {|x| x.inner_text }
     i = 0
     if a.size == 7
-      if a[0].size >= 5 # iモードブラウザ2.0
+      if a[0] =~ /[A-Z]{1,2}\-\d{2}A/ # iモードブラウザ2.0
         i = 1
       else
         a.shift # remove rowspan
@@ -29,7 +30,6 @@ user_agents = {}
 
     a[3+i].sub!(/^.*?(\d+×\d+).*$/,'\1')
     width, height = a[3+i].split(/×/,2).map{|x| x.to_i}
-
     case a[5+i]
     when /^カラー\s*(\d+)色$/
       color_p = true

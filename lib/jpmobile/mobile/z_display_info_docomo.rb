@@ -53,6 +53,8 @@ Jpmobile::Mobile::Docomo::DISPLAY_INFO =
   {:browser_width=>120, :browser_height=>112, :color_p=>true, :colors=>65536},
  "N700i"=>
   {:browser_width=>240, :browser_height=>270, :color_p=>true, :colors=>65536},
+ "N2001"=>
+  {:browser_width=>118, :browser_height=>128, :color_p=>true, :colors=>4096},
  "SH821i"=>
   {:browser_width=>96, :browser_height=>78, :color_p=>true, :colors=>256},
  "SH01A"=>
@@ -68,6 +70,8 @@ Jpmobile::Mobile::Docomo::DISPLAY_INFO =
   {:browser_width=>240, :browser_height=>320, :color_p=>true, :colors=>262144},
  "F901iC"=>
   {:browser_width=>230, :browser_height=>240, :color_p=>true, :colors=>262144},
+ "N2002"=>
+  {:browser_width=>118, :browser_height=>128, :color_p=>true, :colors=>65536},
  "F209i"=>
   {:browser_width=>96, :browser_height=>91, :color_p=>true, :colors=>256},
  "N706ie"=>
@@ -147,8 +151,6 @@ Jpmobile::Mobile::Docomo::DISPLAY_INFO =
    :colors=>16777216},
  "N211iS"=>
   {:browser_width=>118, :browser_height=>128, :color_p=>true, :colors=>4096},
- "FOMA 2101V3"=>
-  {:browser_width=>120, :browser_height=>130, :color_p=>true, :colors=>262144},
  "P502i"=>
   {:browser_width=>96, :browser_height=>117, :color_p=>false, :colors=>4},
  "SO213iS"=>
@@ -195,6 +197,8 @@ Jpmobile::Mobile::Docomo::DISPLAY_INFO =
   {:browser_width=>132, :browser_height=>144, :color_p=>true, :colors=>65536},
  "P706ie"=>
   {:browser_width=>240, :browser_height=>350, :color_p=>true, :colors=>262144},
+ "P2102V"=>
+  {:browser_width=>176, :browser_height=>198, :color_p=>true, :colors=>262144},
  "D702i"=>
   {:browser_width=>230, :browser_height=>240, :color_p=>true, :colors=>262144},
  "P505iS"=>
@@ -357,8 +361,6 @@ Jpmobile::Mobile::Docomo::DISPLAY_INFO =
   {:browser_width=>240, :browser_height=>320, :color_p=>true, :colors=>262144},
  "SH902iSL"=>
   {:browser_width=>240, :browser_height=>240, :color_p=>true, :colors=>262144},
- "FOMA 20023"=>
-  {:browser_width=>118, :browser_height=>128, :color_p=>true, :colors=>65536},
  "N506iS"=>
   {:browser_width=>240, :browser_height=>295, :color_p=>true, :colors=>262144},
  "P501i"=>
@@ -376,6 +378,8 @@ Jpmobile::Mobile::Docomo::DISPLAY_INFO =
   {:browser_width=>132, :browser_height=>136, :color_p=>true, :colors=>65536},
  "F671iS"=>
   {:browser_width=>160, :browser_height=>120, :color_p=>true, :colors=>65536},
+ "F2051"=>
+  {:browser_width=>176, :browser_height=>182, :color_p=>true, :colors=>65536},
  "R211i"=>
   {:browser_width=>96, :browser_height=>98, :color_p=>true, :colors=>4096},
  "P07A3"=>
@@ -388,8 +392,6 @@ Jpmobile::Mobile::Docomo::DISPLAY_INFO =
   {:browser_width=>240, :browser_height=>270, :color_p=>true, :colors=>262144},
  "L601i"=>
   {:browser_width=>170, :browser_height=>189, :color_p=>true, :colors=>65536},
- "FOMA 2102V3"=>
-  {:browser_width=>176, :browser_height=>198, :color_p=>true, :colors=>262144},
  "F09A3"=>
   {:browser_width=>240,
    :browser_height=>324,
@@ -424,8 +426,6 @@ Jpmobile::Mobile::Docomo::DISPLAY_INFO =
   {:browser_width=>240, :browser_height=>270, :color_p=>true, :colors=>65536},
  "N502it"=>
   {:browser_width=>118, :browser_height=>128, :color_p=>true, :colors=>256},
- "FOMA 27013"=>
-  {:browser_width=>176, :browser_height=>198, :color_p=>true, :colors=>65536},
  "P2101V"=>
   {:browser_width=>163, :browser_height=>182, :color_p=>true, :colors=>262144},
  "D701i"=>
@@ -434,8 +434,8 @@ Jpmobile::Mobile::Docomo::DISPLAY_INFO =
   {:browser_width=>132, :browser_height=>144, :color_p=>true, :colors=>65536},
  "SO505iS"=>
   {:browser_width=>240, :browser_height=>256, :color_p=>true, :colors=>262144},
- "FOMA 20513"=>
-  {:browser_width=>176, :browser_height=>182, :color_p=>true, :colors=>65536},
+ "N2701"=>
+  {:browser_width=>176, :browser_height=>198, :color_p=>true, :colors=>65536},
  "P904i"=>
   {:browser_width=>240, :browser_height=>350, :color_p=>true, :colors=>262144},
  "D253i"=>
@@ -532,6 +532,11 @@ Jpmobile::Mobile::Docomo::DISPLAY_INFO =
   {:browser_width=>240, :browser_height=>268, :color_p=>true, :colors=>262144},
  "SH251iS"=>
   {:browser_width=>176, :browser_height=>187, :color_p=>true, :colors=>65536},
+ "SH08A3"=>
+  {:browser_width=>240,
+   :browser_height=>296,
+   :color_p=>true,
+   :colors=>16777216},
  "N706iII"=>
   {:browser_width=>240, :browser_height=>320, :color_p=>true, :colors=>262144},
  "F903i"=>
@@ -596,8 +601,6 @@ Jpmobile::Mobile::Docomo::DISPLAY_INFO =
   {:browser_width=>240, :browser_height=>270, :color_p=>true, :colors=>262144},
  "N253i"=>
   {:browser_width=>160, :browser_height=>180, :color_p=>true, :colors=>65536},
- "FOMA 20013"=>
-  {:browser_width=>118, :browser_height=>128, :color_p=>true, :colors=>4096},
  "F505iGPS"=>
   {:browser_width=>240, :browser_height=>268, :color_p=>true, :colors=>262144},
  "F702iD"=>
@@ -680,6 +683,8 @@ Jpmobile::Mobile::Docomo::DISPLAY_INFO =
   {:browser_width=>240, :browser_height=>282, :color_p=>true, :colors=>262144},
  "SH901iC"=>
   {:browser_width=>240, :browser_height=>252, :color_p=>true, :colors=>262144},
+ "D2101V"=>
+  {:browser_width=>120, :browser_height=>130, :color_p=>true, :colors=>262144},
  "D209i"=>
   {:browser_width=>96, :browser_height=>90, :color_p=>true, :colors=>256},
  "SO703i"=>

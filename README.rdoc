@@ -16,6 +16,12 @@
 
 == インストール
 Rails の Version に応じて選択してください。
+=== Rails 2.3.3, 2.3.4
+開発版:
+  % git clone git://github.com/darashi/jpmobile.git vendor/plugins/jpmobile
+  % cd vendor/plugins/jpmobile
+  % rm -rf .git
+
 === Rails 2.3.2
 ==== pluginとしてインストールする場合
 

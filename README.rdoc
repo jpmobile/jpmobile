@@ -233,8 +233,8 @@ mobile_filterを有効にすると以下の処理が自動で行われる。
 
 == 作者
 
-Copyright 2006 (c) Yohji Shidara, under MIT License.
+Copyright 2006 (c) Yoji Shidara, under MIT License.
 
-Yohji Shidara <dara@shidara.net>
+Yoji Shidara <dara@shidara.net>
 
 http://d.hatena.ne.jp/darashi

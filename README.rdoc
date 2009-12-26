@@ -224,12 +224,8 @@ mobile_filterを有効にすると以下の処理が自動で行われる。
 * spec-fixtures
 
 == リンク
-* Project Website: http://jpmobile-rails.org
-* RDoc Documentation: http://jpmobile.rubyforge.org/rdoc
-* GitHub: http://github.com/darashi/jpmobile/
-* RubyForge Project Page: http://rubyforge.org/projects/jpmobile
-* Mailing List: http://groups.google.com/group/jpmobile
-* IRC Channel #jpmobile@freenode.net
+
+* http://jpmobile-rails.org
 
 == 作者
 

@@ -2,7 +2,6 @@
 layout: default
 ---
 ## Resources
-- [Project Website](http://jpmobile-rails.org)
 - [GitHub Project Page](http://github.com/darashi/jpmobile)
 - [RDoc Documentation](http://jpmobile.rubyforge.org/rdoc)
 - [Google Group](http://groups.google.com/group/jpmobile)

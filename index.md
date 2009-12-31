@@ -3,7 +3,7 @@ layout: default
 ---
 ## Resources
 - [GitHub Project Page](http://github.com/darashi/jpmobile)
-- [RDoc Documentation](http://jpmobile.rubyforge.org/rdoc)
+- [RDoc Documentation](http://rdoc.info/projects/darashi/jpmobile)
 - [Google Group](http://groups.google.com/group/jpmobile)
 - IRC #jpmobile@freenode.net (UTF-8)
 

@@ -13,12 +13,12 @@ require 'action_view'
 
 # ActionView::Base を拡張して携帯からのアクセスの場合に携帯向けビューを優先表示する。
 # Vodafone携帯(request.mobile == Jpmobile::Mobile::Vodafone)の場合、
-#   index_mobile_vodafone.rhtml
-#   index_mobile_softbank.rhtml
-#   index_mobile.rhtml
-#   index.rhtml
+#   index_mobile_vodafone.html.erb
+#   index_mobile_softbank.html.erb
+#   index_mobile.html.erb
+#   index.html.erb
 # の順にテンプレートが検索される。
-# BUG: 現状、上記の例では index.rhtml が存在しない場合に振り分けが行われない
+# BUG: 現状、上記の例では index.html.erb が存在しない場合に振り分けが行われない
 # (ダミーファイルを置くことで回避可能)。
 
 module ActionView

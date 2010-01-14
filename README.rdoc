@@ -18,9 +18,7 @@
 Rails の Version に応じて選択してください。
 === Rails 2.3.3, 2.3.4, 2.3.5
 開発版:
-  % git clone git://github.com/darashi/jpmobile.git vendor/plugins/jpmobile
-  % cd vendor/plugins/jpmobile
-  % rm -rf .git
+  % ./script/plugin install git://github.com/darashi/jpmobile.git
 
 === Rails 2.3.2
 ==== pluginとしてインストールする場合
@@ -32,9 +30,7 @@ Rails の Version に応じて選択してください。
   % rm -rf .git
 
 開発版:
-  % git clone git://github.com/darashi/jpmobile.git vendor/plugins/jpmobile
-  % cd vendor/plugins/jpmobile
-  % rm -rf .git
+  % ./script/plugin install git://github.com/darashi/jpmobile.git
 
 ==== gemでインストールする場合
 

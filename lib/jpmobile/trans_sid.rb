@@ -65,15 +65,18 @@ module ActionController
     # trans_sidを適用すべきかを返す。
     def apply_trans_sid?
       return false if (jpmobile_session_id rescue nil).blank?
-      return false if trans_sid_mode == :none
-      return true if trans_sid_mode == :always
-      if trans_sid_mode == :mobile
-        if request.mobile?
-          return !request.mobile.supports_cookie?
-        else
-          return false
+
+      case trans_sid_mode
+      when :always
+        session.inspect
+        return true
+      when :mobile
+        if request.mobile? and !request.mobile.supports_cookie?
+          session.inspect
+          return true
         end
       end
+
       return false
     end
   end

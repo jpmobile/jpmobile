@@ -64,8 +64,6 @@ module ActionController
     private
     # trans_sidを適用すべきかを返す。
     def apply_trans_sid?
-      return false if (jpmobile_session_id rescue nil).blank?
-
       case trans_sid_mode
       when :always
         session.inspect

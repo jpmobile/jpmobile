@@ -168,6 +168,13 @@ trans_sid を使用する際には、例えば config/initializers/session_store
 このとき ApplicationController において protect_from_forgery の :secret を指定するか、
 あるいは protect_from_forgery を解除する必要があるでしょう。
 
+また、
+  link_to "hoge", "/controller/action/id"
+のようにリンク先を直接指定するとセッションIDは付加されません。
+  link_to "hoge", :controller => "controller", :action => "action", :id => "id"
+のように指定する必要があります。
+
+
 === 端末の画面サイズ
 request.mobile.display で Jpmobile::Display クラスのインスタンスが返る。
   画面幅 <%= request.mobile.display.width %>

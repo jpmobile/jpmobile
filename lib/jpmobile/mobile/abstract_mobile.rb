@@ -50,6 +50,12 @@ module Jpmobile::Mobile
       return false
     end
 
+    # リクエストがこのクラスに属するか調べる
+    # メソッド名に関して非常に不安
+    def self.check_request(request)
+      self::USER_AGENT_REGEXP && request.user_agent =~ self::USER_AGENT_REGEXP
+    end
+
     #XXX: lib/jpmobile.rbのautoloadで先に各キャリアの定数を定義しているから動くのです
     Jpmobile::Mobile.carriers.each do |carrier|
       carrier_class = Jpmobile::Mobile.const_get(carrier)

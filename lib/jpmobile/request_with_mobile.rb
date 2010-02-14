@@ -38,7 +38,7 @@ module Jpmobile
 
       Jpmobile::Mobile.carriers.each do |const|
         c = Jpmobile::Mobile.const_get(const)
-        return @__mobile = c.new(self) if c::USER_AGENT_REGEXP && user_agent =~ c::USER_AGENT_REGEXP
+        return @__mobile = c.new(self) if c.check_request(self)
       end
       nil
     end

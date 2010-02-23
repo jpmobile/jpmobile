@@ -63,6 +63,8 @@ module Jpmobile
         options[:only_path] = false
         posinfo = options.delete(:posinfo) || "1" # 基地局情報を元に測位した緯度経度情報を要求
         url = url_for(options)
+      else
+        posinfo = "1"
       end
       return "http://w1m.docomo.ne.jp/cp/iarea?ecode=OPENAREACODE&msn=OPENAREAKEY&posinfo=#{posinfo}&nl=#{CGI.escape(url)}"
     end

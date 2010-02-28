@@ -6,10 +6,11 @@ require 'open-uri'
 require 'pp'
 require 'rubygems'
 require 'hpricot'
+require 'nkf'
 
 ips = []
 
-src = open("http://www.au.kddi.com/ezfactory/tec/spec/ezsava_ip.html").read.toutf8
+src = NKF.nkf("-m0 -Sw", open("http://www.au.kddi.com/ezfactory/tec/spec/ezsava_ip.html").read)
 doc = Hpricot(src)
 (doc/'//table').each do |table|
   trs = (table/'tr')

@@ -1,6 +1,5 @@
 require 'rubygems'
 require 'hpricot'
-require 'kconv'
 require 'cgi'
 require 'open-uri'
 

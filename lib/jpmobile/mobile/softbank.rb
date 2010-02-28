@@ -1,8 +1,6 @@
 # =SoftBank携帯電話
 # J-PHONE, Vodafoneを含む
 
-require 'kconv'
-
 module Jpmobile::Mobile
   # ==Softbank携帯電話
   # Vodafone, Jphoneのスーパクラス。

@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby -Ku
 # willcomのwebページからIPリストを抽出する場当たり的なスクリプト。
 
-require 'kconv'
 require 'open-uri'
 require 'pp'
 

@@ -95,7 +95,7 @@ module Jpmobile
           end
         when String
           # 変換先がUnicodeで指定されている。
-          to_sjis ? Kconv::kconv(converted, Kconv::SJIS, Kconv::UTF8) : converted
+          to_sjis ? NKF.nkf('-m0 -x -Ws', converted) : converted
         when nil
           # 変換先が定義されていない。
           match

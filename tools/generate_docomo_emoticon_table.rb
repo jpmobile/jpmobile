@@ -1,4 +1,3 @@
-require 'kconv'
 require 'rubygems'
 require 'hpricot'
 require 'open-uri'

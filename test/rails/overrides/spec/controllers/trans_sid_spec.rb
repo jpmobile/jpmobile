@@ -78,6 +78,18 @@ def describe_mobile_with_ua(user_agent, &block)
   end
 end
 
+describe TransSidAlwaysController, "という trans_sid :always が指定されているコントローラで reset_session したとき" do
+  controller_name :trans_sid_always
+  before :each do
+    # 擬似的 reset_session
+    request.session_options[:id] = nil
+  end
+  it "の trans_sid_mode は :always" do
+    controller.trans_sid_mode.should == :always
+  end
+  it_should_behave_like "trans_sid が起動しないとき"
+end
+
 describe_mobile_with_ua "DoCoMo/2.0 SH902i(c100;TB;W24H12)" do
   it_should_behave_like "trans_sid が起動するとき"
 end
@@ -97,3 +109,73 @@ end
 describe_mobile_with_ua "Vodafone/1.0/V903T/TJ001 Browser/VF-Browser/1.0 Profile/MIDP-2.0 Configuration/CLDC-1.1 Ext-J-Profile/JSCL-1.2.2 Ext-V-Profile/VSCL-2.0.0" do
   it_should_behave_like "trans_sid が起動しないとき"
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

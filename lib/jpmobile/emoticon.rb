@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require 'nkf'
 
 module Jpmobile
@@ -13,10 +14,10 @@ module Jpmobile
     %w( CONVERSION_TABLE_TO_DOCOMO CONVERSION_TABLE_TO_AU CONVERSION_TABLE_TO_SOFTBANK ).each do |const|
       autoload const, 'jpmobile/emoticon/conversion_table'
     end
-    %w( 
-      SJIS_TO_UNICODE UNICODE_TO_SJIS 
-      SJIS_REGEXP SOFTBANK_WEBCODE_REGEXP DOCOMO_SJIS_REGEXP AU_SJIS_REGEXP SOFTBANK_UNICODE_REGEXP 
-      EMOTICON_UNICODES UTF8_REGEXP 
+    %w(
+      SJIS_TO_UNICODE UNICODE_TO_SJIS
+      SJIS_REGEXP SOFTBANK_WEBCODE_REGEXP DOCOMO_SJIS_REGEXP AU_SJIS_REGEXP SOFTBANK_UNICODE_REGEXP
+      EMOTICON_UNICODES UTF8_REGEXP
     ).each do |const|
       autoload const, 'jpmobile/emoticon/z_combine'
     end
@@ -96,8 +97,13 @@ module Jpmobile
             match
           end
         when String
-          # 変換先がUnicodeで指定されている。
-          to_sjis ? NKF.nkf('-m0 -x -Ws', converted) : converted
+          # 変換先が数値参照だと、再変換する
+          if converted.match(/&#x([0-9a-f]{4});/i)
+            self.unicodecr_to_external(converted, conversion_table, to_sjis)
+          else
+            # 変換先が文字列で指定されている。
+            to_sjis ? NKF.nkf('-m0 -x -Ws', converted) : converted
+          end
         when nil
           # 変換先が定義されていない。
           match

@@ -7,6 +7,9 @@ class DocomoEmoticonTest < Test::Unit::TestCase
   def test_unicodecr_external_docomo
     assert_equal "\xf8\x9f", Jpmobile::Emoticon::unicodecr_to_external("&#xe63e;")
   end
+  def test_unicodecr_external_docomo_for_string
+    assert_equal "\xf8\x9f\xf8\xa0", Jpmobile::Emoticon::unicodecr_to_external("&#xE48E;", Jpmobile::Emoticon::CONVERSION_TABLE_TO_DOCOMO, true)
+  end
   def test_unicodecr_utf8_docomo
     assert_equal "\356\230\276", Jpmobile::Emoticon::unicodecr_to_utf8("&#xe63e;")
   end
@@ -48,6 +51,9 @@ class SoftbankEmoticonTest < Test::Unit::TestCase
   end
   def test_softbank_utf8_cr
     assert_equal "&#xf001;", Jpmobile::Emoticon::utf8_to_unicodecr("\xef\x80\x81")
+  end
+  def test_unicodecr_external_softbank_for_string
+    assert_equal "\x1b$Gj\x0f\x1b$Gi\x0f", Jpmobile::Emoticon::unicodecr_to_external("&#xE48E;", Jpmobile::Emoticon::CONVERSION_TABLE_TO_SOFTBANK, true)
   end
 end
 

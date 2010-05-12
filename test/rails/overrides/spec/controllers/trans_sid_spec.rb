@@ -32,6 +32,11 @@ describe "trans_sid が起動するとき", :shared => true do
     get :redirect
     response.should redirect_to('/?_session_id=mysessionid')
   end
+  it "でセッションIDが空のときには有効にならない" do
+    request.session_options[:id] = ""
+    get :link
+    response.body.should =~ %r{^<a href="/.+?/link">linkto</a>$}
+  end
 end
 
 describe TransSidBaseController, "という trans_sid が有効になっていないコントローラ" do
@@ -109,73 +114,3 @@ end
 describe_mobile_with_ua "Vodafone/1.0/V903T/TJ001 Browser/VF-Browser/1.0 Profile/MIDP-2.0 Configuration/CLDC-1.1 Ext-J-Profile/JSCL-1.2.2 Ext-V-Profile/VSCL-2.0.0" do
   it_should_behave_like "trans_sid が起動しないとき"
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

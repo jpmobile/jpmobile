@@ -45,3 +45,18 @@ Spec::Runner.configure do |config|
   # 
   # For more information take a look at Spec::Runner::Configuration and Spec::Runner
 end
+
+def sjis(ascii_8bit)
+  if ascii_8bit.respond_to?(:force_encoding)
+    ascii_8bit.force_encoding("Shift_JIS")
+  end
+  ascii_8bit
+end
+
+def to_sjis(utf8)
+  if utf8.respond_to?(:encode)
+    utf8.encode("Shift_JIS")
+  else
+    utf8.tosjis
+  end
+end

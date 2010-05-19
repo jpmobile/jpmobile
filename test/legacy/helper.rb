@@ -1,5 +1,10 @@
-require 'test/unit'
+# -*- coding: utf-8 -*-
+
 require 'rubygems'
+gem 'test-unit', '= 1.2.3'
+require 'test/unit'
+action_pack_version = '2.3.5'
+gem 'actionpack', "= #{action_pack_version}"
 require 'action_controller'
 require 'rack'
 
@@ -7,8 +12,10 @@ RAILS_ENV = "test"
 require File.dirname(__FILE__)+'/../../lib/jpmobile'
 
 # ActionPackのTestのためのrequire
-action_pack_full_path = Gem.cache.search('actionpack').sort_by { |g| g.version.version }.last
-require File.join(action_pack_full_path.full_gem_path,'test/abstract_unit')
+action_pack_gem = Gem.cache.search('actionpack').find do |gem|
+  action_pack_version == gem.version.version
+end
+require File.join(action_pack_gem.full_gem_path,'test/abstract_unit')
 
 class FakeCgi < CGI
   attr_accessor :stdinput, :stdoutput, :env_table

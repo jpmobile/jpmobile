@@ -88,7 +88,11 @@ module Jpmobile
         when Integer
           # 変換先がUnicodeで指定されている。つまり対応する絵文字がある。
           if sjis = UNICODE_TO_SJIS[converted]
-            [sjis].pack('n')
+            sjis_emotion = [sjis].pack('n')
+            if to_sjis and sjis_emotion.respond_to?(:force_encoding)
+              sjis_emotion.force_encoding("Shift_JIS")
+            end
+            sjis_emotion
           elsif webcode = SOFTBANK_UNICODE_TO_WEBCODE[converted-0x1000]
             "\x1b\x24#{webcode}\x0f"
           else

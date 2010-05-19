@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe "trans_sid が起動しないとき", :shared => true do

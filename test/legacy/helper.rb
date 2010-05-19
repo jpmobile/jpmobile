@@ -15,7 +15,7 @@ RAILS_ENV = "test"
 require File.dirname(__FILE__)+'/../../lib/jpmobile'
 
 # ActionPackのTestのためのrequire
-action_pack_gem = Gem.cache.search('actionpack').find do |gem|
+action_pack_gem = Gem.cache.find_name('actionpack').find do |gem|
   action_pack_version == gem.version.version
 end
 require File.join(action_pack_gem.full_gem_path,'test/abstract_unit')

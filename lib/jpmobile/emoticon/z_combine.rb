@@ -1,4 +1,7 @@
-$KCODE='u'
+if RUBY_VERSION < "1.9"
+  $KCODE = 'u'
+end
+
 module Jpmobile
   module Emoticon
     SJIS_TO_UNICODE = {}

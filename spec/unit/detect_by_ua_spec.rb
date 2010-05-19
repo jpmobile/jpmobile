@@ -1,25 +1,23 @@
 require File.join(File.dirname(__FILE__), 'spec_helper')
 
 describe 'Jpmobile::RequestWithMobile' do
-  before(:all) do
-    ReqClass = Class.new
-    ReqClass.class_eval do
-      include Jpmobile::RequestWithMobile
+  Spec::Fixture::Base.new self, :carrier => :user_agent do
+    def request_class
+      Class.new do
+        include Jpmobile::RequestWithMobile
 
-      def initialize user_agent
-        @user_agent = user_agent
-      end
+        def initialize user_agent
+          @user_agent = user_agent
+        end
 
-      def user_agent
-        @user_agent
+        def user_agent
+          @user_agent
+        end
       end
     end
-  end
-
-  Spec::Fixture::Base.new self, :carrier => :user_agent do
 
     it '#mobile should return :carrier when take :user_agent as UserAgent' do |carrier, user_agent|
-      ReqClass.new(user_agent).mobile.class.should == carrier
+      request_class.new(user_agent).mobile.class.should == carrier
     end
 
     set_fixtures([

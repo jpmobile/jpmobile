@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # = 文字コードフィルタ
 # thanks to masuidrive <masuidrive (at) masuidrive.jp>
 

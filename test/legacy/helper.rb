@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 
 require 'rubygems'
-gem 'test-unit', '= 1.2.3'
+begin
+  gem 'test-unit', '= 1.2.3'
+rescue Gem::LoadError
+end
 require 'test/unit'
 action_pack_version = '2.3.5'
 gem 'actionpack', "= #{action_pack_version}"

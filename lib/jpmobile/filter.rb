@@ -2,8 +2,6 @@
 # = 文字コードフィルタ
 # thanks to masuidrive <masuidrive (at) masuidrive.jp>
 
-require 'scanf'
-
 class ActionController::Base #:nodoc:
   def self.mobile_filter(options={})
     options = {:emoticon=>true, :hankaku=>false}.update(options)

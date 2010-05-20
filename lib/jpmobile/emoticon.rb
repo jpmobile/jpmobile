@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+
+require 'scanf'
 require 'nkf'
 
 module Jpmobile

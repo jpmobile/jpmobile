@@ -16,7 +16,7 @@
 
 == インストール
 Rails の Version に応じて選択してください。
-=== Rails 2.3.3, 2.3.4, 2.3.5
+=== Rails 2.3.3, 2.3.4, 2.3.5, 2.3.6
 開発版:
   % ./script/plugin install git://github.com/darashi/jpmobile.git
 
@@ -219,12 +219,14 @@ mobile_filterを有効にすると以下の処理が自動で行われる。
 
 == テストに必要なgemパッケージ
 テストを実行するためには以下のgemパッケージが必要です。
-* rails
-* rack
+* rails (include rack)
+* sqlite3-ruby
+* test-unit (= 1.2.3)
 * hpricot
 * rspec
 * rspec-rails
-* spec-fixtures
+* rspec-fixture
+* mocha
 
 == リンク
 
@@ -232,7 +234,7 @@ mobile_filterを有効にすると以下の処理が自動で行われる。
 
 == 作者
 
-Copyright 2006 (c) Yoji Shidara, under MIT License.
+Copyright 2006-2010 (c) Yoji Shidara, under MIT License.
 
 Yoji Shidara <dara@shidara.net>
 

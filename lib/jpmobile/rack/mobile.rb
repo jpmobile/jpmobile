@@ -13,9 +13,10 @@ class Jpmobile::Rack::Mobile
 
   def carrier(env)
     ::Jpmobile::Mobile.carriers.each do |const|
-      c = Jpmobile::Mobile.const_get(const)
-
+      c = ::Jpmobile::Mobile.const_get(const)
       return c.new(env) if c::USER_AGENT_REGEXP && env['HTTP_USER_AGENT'] =~ c::USER_AGENT_REGEXP
     end
+
+    nil
   end
 end

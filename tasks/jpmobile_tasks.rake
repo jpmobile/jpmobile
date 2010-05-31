@@ -13,6 +13,13 @@ begin
       t.spec_opts = File.read(File.join(spec_dir, 'spec.opts')).split
       t.spec_files = FileList[File.join(spec_dir, 'unit', '**', '*_spec.rb')]
     end
+
+    desc 'run rack testing'
+    Spec::Rake::SpecTask.new(:rack) do |t|
+      spec_dir = File.join(File.dirname(__FILE__), '..', 'spec')
+      t.spec_opts = File.read(File.join(spec_dir, 'spec.opts')).split
+      t.spec_files = FileList[File.join(spec_dir, 'rack', '**', '*_spec.rb')]
+    end
   end
 rescue LoadError
   warn "RSpec is not installed. Some tasks were skipped. please install rspec"

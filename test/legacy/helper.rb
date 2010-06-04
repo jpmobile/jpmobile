@@ -6,8 +6,8 @@ begin
 rescue Gem::LoadError
 end
 require 'test/unit'
-action_pack_version = '2.3.5'
-gem 'actionpack', "= #{action_pack_version}"
+action_pack_version = ENV['RAILS_VERSION'] || '2.3.0'
+gem 'actionpack', "~> #{action_pack_version}"
 require 'action_controller'
 require 'rack'
 
@@ -16,7 +16,7 @@ require File.dirname(__FILE__)+'/../../lib/jpmobile'
 
 # ActionPackのTestのためのrequire
 action_pack_gem = Gem.cache.find_name('actionpack').find do |gem|
-  action_pack_version == gem.version.version
+  gem.version.version >= action_pack_version
 end
 require File.join(action_pack_gem.full_gem_path,'test/abstract_unit')
 

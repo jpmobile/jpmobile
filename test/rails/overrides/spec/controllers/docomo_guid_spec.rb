@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe "docomo_guid が起動しないとき", :shared => true do

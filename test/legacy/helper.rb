@@ -1,5 +1,13 @@
-require 'test/unit'
+# -*- coding: utf-8 -*-
+
 require 'rubygems'
+begin
+  gem 'test-unit', '= 1.2.3'
+rescue Gem::LoadError
+end
+require 'test/unit'
+action_pack_version = '2.3.5'
+gem 'actionpack', "= #{action_pack_version}"
 require 'action_controller'
 require 'rack'
 
@@ -7,8 +15,10 @@ RAILS_ENV = "test"
 require File.dirname(__FILE__)+'/../../lib/jpmobile'
 
 # ActionPackのTestのためのrequire
-action_pack_full_path = Gem.cache.search('actionpack').sort_by { |g| g.version.version }.last
-require File.join(action_pack_full_path.full_gem_path,'test/abstract_unit')
+action_pack_gem = Gem.cache.find_name('actionpack').find do |gem|
+  action_pack_version == gem.version.version
+end
+require File.join(action_pack_gem.full_gem_path,'test/abstract_unit')
 
 class FakeCgi < CGI
   attr_accessor :stdinput, :stdoutput, :env_table
@@ -45,6 +55,25 @@ module Jpmobile::TestHelper
     @response = ActionController::TestResponse.new
     @request.host = "www.example.jp"
     @request.session.session_id = "mysessionid"
+  end
+  def sjis(ascii_8bit)
+    if ascii_8bit.respond_to?(:force_encoding)
+      ascii_8bit.force_encoding("Shift_JIS")
+    end
+    ascii_8bit
+  end
+  def utf8(ascii_8bit)
+    if ascii_8bit.respond_to?(:force_encoding)
+      ascii_8bit.force_encoding("utf-8")
+    end
+    ascii_8bit
+  end
+  def to_sjis(utf8)
+    if utf8.respond_to?(:encode)
+      utf8.encode("Shift_JIS")
+    else
+      utf8.tosjis
+    end
   end
 end
 Test::Unit::TestCase.class_eval{ include Jpmobile::TestHelper }

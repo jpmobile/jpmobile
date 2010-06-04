@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+
+require 'scanf'
 require 'nkf'
 
 module Jpmobile
@@ -88,9 +90,21 @@ module Jpmobile
         when Integer
           # 変換先がUnicodeで指定されている。つまり対応する絵文字がある。
           if sjis = UNICODE_TO_SJIS[converted]
-            [sjis].pack('n')
+            if to_sjis
+              sjis_emotion = [sjis].pack('n')
+              if sjis_emotion.respond_to?(:force_encoding)
+                sjis_emotion.force_encoding("Shift_JIS")
+              end
+              sjis_emotion
+            else
+              [converted].pack("U")
+            end
           elsif webcode = SOFTBANK_UNICODE_TO_WEBCODE[converted-0x1000]
-            "\x1b\x24#{webcode}\x0f"
+            emotion = "\x1b\x24#{webcode}\x0f"
+            if emotion.respond_to?(:force_encoding)
+              emotion.force_encoding(str.encoding)
+            end
+            emotion
           else
             # キャリア変換テーブルに指定されていたUnicodeに対応する
             # 携帯側エンコーディングが見つからない(変換テーブルの不備の可能性あり)。

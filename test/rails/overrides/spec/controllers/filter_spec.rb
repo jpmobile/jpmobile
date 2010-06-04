@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe "文字コードフィルタが動作しているとき", :shared => true do
@@ -16,20 +17,20 @@ end
 describe "Shift_JISで通信する端末との通信", :shared => true do
   it "はShift_JISで携帯に送出されること" do
     get :abracadabra_utf8
-    response.body.should == "アブラカダブラ".tosjis
+    response.body.should == to_sjis("アブラカダブラ")
     response.charset.should == "Shift_JIS"
   end
   it "はxhtmlでもShift_JISで携帯に送出されること" do
     get :abracadabra_xhtml_utf8
-    response.body.should == "アブラカダブラ".tosjis
+    response.body.should == to_sjis("アブラカダブラ")
     response.charset.should == "Shift_JIS"
   end
   it "はShift_JISで渡されたパラメタがparamsにUTF-8に変換されて格納されること" do
-    get :index, :q => "アブラカダブラ".tosjis
+    get :index, :q => to_sjis("アブラカダブラ")
     assigns[:q].should == "アブラカダブラ"
   end
   it "は半角カナのparamsを変換しないこと" do
-    get :index, :q => "\261\314\336\327\266\300\336\314\336\327" # アブラカダブラ半角,SJIS
+    get :index, :q => sjis("\261\314\336\327\266\300\336\314\336\327") # アブラカダブラ半角,SJIS
     assigns[:q].should == "ｱﾌﾞﾗｶﾀﾞﾌﾞﾗ"
   end
   it_should_behave_like "文字コードフィルタが動作しているとき"
@@ -60,15 +61,15 @@ end
 describe "Shift_JISで通信する端末との通信(半角変換付き)", :shared => true do
   it "は半角に変換されShift_JISで携帯に送出されること" do
     get :abracadabra_utf8
-    response.body.should == "\261\314\336\327\266\300\336\314\336\327" # アブラカダブラ半角,SJIS
+    response.body.should == sjis("\261\314\336\327\266\300\336\314\336\327") # アブラカダブラ半角,SJIS
     response.charset.should == "Shift_JIS"
   end
   it "はShift_JISで渡されたパラメタがparamsにUTF-8に変換されて格納されること" do
-    get :index, :q => "アブラカダブラ".tosjis
+    get :index, :q => to_sjis("アブラカダブラ")
     assigns[:q].should == "アブラカダブラ"
   end
   it "は半角Shift_JISで渡されたパラメタがparamsに全角UTF-8に変換されて格納されること" do
-    get :index, :q => "\261\314\336\327\266\300\336\314\336\327" # アブラカダブラ半角,SJIS
+    get :index, :q => sjis("\261\314\336\327\266\300\336\314\336\327") # アブラカダブラ半角,SJIS
     assigns[:q].should == "アブラカダブラ"
   end
   it_should_behave_like "文字コードフィルタが動作しているとき"

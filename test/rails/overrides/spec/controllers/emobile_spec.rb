@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe "H11T モバイルブラウザからのアクセス", :behaviour_type=>:controller do

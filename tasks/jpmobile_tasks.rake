@@ -70,8 +70,8 @@ END
 
       # run tests in rails
       cd rails_root
-      sh "rake db:migrate"
-      sh "rake spec"
+      ruby "-S rake db:migrate"
+      ruby "-S rake spec"
 
       cd relative_root
     end

@@ -1,4 +1,5 @@
-require 'test/unit'
+require File.dirname(__FILE__)+'/helper'
+
 module Jpmobile
   module Mobile
     require 'jpmobile/mobile/abstract_mobile'

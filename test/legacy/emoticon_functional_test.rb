@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 require File.dirname(__FILE__)+'/helper'
 
 class EmoticonTestController < ActionController::Base
@@ -46,26 +48,26 @@ class EmoticonFunctionalTest < ActionController::TestCase
     # DoCoMo携帯
     user_agent "DoCoMo/2.0 SH902i(c100;TB;W24H12)"
     get :docomo_cr
-    assert_equal "\xf8\x9f", @response.body
+    assert_equal sjis("\xf8\x9f"), @response.body
     get :docomo_utf8
-    assert_equal "\xf8\x9f", @response.body
-    get :query, :q=>"\xf8\x9f"
+    assert_equal sjis("\xf8\x9f"), @response.body
+    get :query, :q=>sjis("\xf8\x9f")
     assert_equal "\xee\x98\xbe", assigns["q"]
-    assert_equal "\xf8\x9f", @response.body
+    assert_equal sjis("\xf8\x9f"), @response.body
 
     get :docomo_docomopoint
-    assert_equal "\xf9\x79", @response.body
+    assert_equal sjis("\xf9\x79"), @response.body
   end
 
   def test_docomo_from_au
     # Au携帯電話での閲覧
     user_agent "KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0"
     get :docomo_cr
-    assert_equal "\xf6\x60", @response.body
+    assert_equal sjis("\xf6\x60"), @response.body
     get :docomo_utf8
-    assert_equal "\xf6\x60", @response.body
+    assert_equal sjis("\xf6\x60"), @response.body
     get :docomo_docomopoint
-    assert_equal "［ドコモポイント］".tosjis, @response.body
+    assert_equal to_sjis("［ドコモポイント］"), @response.body
   end
 
   def test_docomo_from_softbank
@@ -88,7 +90,7 @@ class EmoticonFunctionalTest < ActionController::TestCase
     assert_equal "\e$Gj\x0f", @response.body
     get :docomo_docomopoint
     assert_equal "Shift_JIS", @response.charset
-    assert_equal "［ドコモポイント］".tosjis, @response.body
+    assert_equal to_sjis("［ドコモポイント］"), @response.body
   end
 
   def test_au_from_pc
@@ -103,21 +105,21 @@ class EmoticonFunctionalTest < ActionController::TestCase
     # Au
     user_agent "KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0"
     get :au_cr
-    assert_equal "\xf6\x60", @response.body
+    assert_equal sjis("\xf6\x60"), @response.body
     get :au_utf8
-    assert_equal "\xf6\x60", @response.body
-    get :query, :q=>"\xf6\x60"
+    assert_equal sjis("\xf6\x60"), @response.body
+    get :query, :q=>sjis("\xf6\x60")
     assert_equal [0xe488].pack("U"), assigns["q"]
-    assert_equal "\xf6\x60", @response.body
+    assert_equal sjis("\xf6\x60"), @response.body
   end
 
   def test_au_from_docomo
     # DoCoMo携帯電話での閲覧
     user_agent "DoCoMo/2.0 SH902i(c100;TB;W24H12)"
     get :au_cr
-    assert_equal "\xf8\x9f", @response.body
+    assert_equal sjis("\xf8\x9f"), @response.body
     get :au_utf8
-    assert_equal "\xf8\x9f", @response.body
+    assert_equal sjis("\xf8\x9f"), @response.body
   end
 
   def test_au_from_softbank
@@ -177,17 +179,17 @@ class EmoticonFunctionalTest < ActionController::TestCase
     # DoCoMo携帯電話での閲覧
     user_agent "DoCoMo/2.0 SH902i(c100;TB;W24H12)"
     get :softbank_cr
-    assert_equal "\xf8\x9f", @response.body
+    assert_equal sjis("\xf8\x9f"), @response.body
     get :softbank_utf8
-    assert_equal "\xf8\x9f", @response.body
+    assert_equal sjis("\xf8\x9f"), @response.body
   end
 
   def test_softbank_from_au
     # Au携帯電話での閲覧
     user_agent "KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0"
     get :softbank_cr
-    assert_equal "\xf6\x60", @response.body
+    assert_equal sjis("\xf6\x60"), @response.body
     get :softbank_utf8
-    assert_equal "\xf6\x60", @response.body
+    assert_equal sjis("\xf6\x60"), @response.body
   end
 end

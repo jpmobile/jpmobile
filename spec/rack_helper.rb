@@ -13,6 +13,21 @@ end
 
 class UnitApplication
   def call(env)
-    env
+    [200, env, "Body"]
+  end
+end
+
+class ParamsApplication
+  def initialize(app, form, query)
+    @app   = app
+    @form  = form
+    @query = query
+  end
+
+  def call(env)
+    env['rack.request.form_hash']  = @form
+    env['rack.request.query_hash'] = @query
+
+    @app.call(env)
   end
 end

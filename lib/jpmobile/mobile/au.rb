@@ -99,5 +99,13 @@ module Jpmobile::Mobile
         true
       end
     end
+
+    # 文字コード変換
+    def self.to_internal(str)
+      NKF.nkf("-wSx", str)
+    end
+    def self.to_external(str)
+      NKF.nkf("-sWx", str)
+    end
   end
 end

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # =DoCoMo携帯電話
 
 module Jpmobile::Mobile
@@ -92,6 +93,14 @@ module Jpmobile::Mobile
     # 画面の情報を含むハッシュを返す。
     def display_info
       DISPLAY_INFO[model_name] || {}
+    end
+
+    # 文字コード変換
+    def self.to_internal(str)
+      NKF.nkf("-wSx", str)
+    end
+    def self.to_external(str)
+      NKF.nkf("-sWx", str)
     end
   end
 end

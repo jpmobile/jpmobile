@@ -68,4 +68,36 @@ describe Jpmobile::Rack::ParamsFilter do
       end
     end
   end
+
+  context "UTF-8 の" do
+    before(:each) do
+      @query_string = @query_params.map {|k, v|
+        "%s=%s" % [URI.encode(k), URI.encode(v)]
+      }.join("&")
+      @form_string = @form_params.map {|k, v|
+        "%s=%s" % [k, v]
+      }.join("&")
+    end
+
+    context "softbank のとき" do
+      it "変換されないこと" do
+        res = Rack::MockRequest.env_for(
+          "/?#{@query_string}",
+          "REQUEST_METHOD" => "POST",
+          "CONTENT_TYPE" => 'application/x-www-form-urlencoded',
+          'HTTP_USER_AGENT' => "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1",
+          :input => @form_string)
+
+        res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(UnitApplication.new)).call(res)
+        req = Rack::Request.new(res[1])
+        req.params.size.should == 4
+
+        req.params[@query_params.keys.first].should == @query_params[@query_params.keys.first]
+        req.params[@query_params.keys.last].should  == @query_params[@query_params.keys.last]
+
+        req.params[@form_params.keys.first].should == @form_params[@form_params.keys.first]
+        req.params[@form_params.keys.last].should  == @form_params[@form_params.keys.last]
+      end
+    end
+  end
 end

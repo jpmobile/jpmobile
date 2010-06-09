@@ -61,56 +61,6 @@ class SoftbankTest < Test::Unit::TestCase
     end
   end
 
-  # J-PHONE, 端末種別の識別
-  def test_jphone_v603sh
-    reqs = request_with_ua("J-PHONE/4.3/V603SH/SNXXXX0000000 SH/0007aa Profile/MIDP-1.0 Configuration/CLDC-1.0 Ext-Profile/JSCL-1.3.2")
-    reqs.each do |req|
-      assert_equal(true, req.mobile?)
-      assert_instance_of(Jpmobile::Mobile::Jphone, req.mobile)
-      assert_kind_of(Jpmobile::Mobile::Softbank, req.mobile)
-      assert_equal("XXXX0000000", req.mobile.serial_number)
-      assert_equal("XXXX0000000", req.mobile.ident)
-      assert_equal("XXXX0000000", req.mobile.ident_device)
-      assert_equal(nil, req.mobile.ident_subscriber)
-      assert_equal(nil, req.mobile.position)
-      assert(!req.mobile.supports_cookie?)
-    end
-  end
-
-  # J-PHONE, 端末種別の識別
-  def test_jphone_v301d
-    reqs = request_with_ua("J-PHONE/3.0/V301D")
-    reqs.each do |req|
-      assert_equal(true, req.mobile?)
-      assert_instance_of(Jpmobile::Mobile::Jphone, req.mobile)
-      assert_kind_of(Jpmobile::Mobile::Softbank, req.mobile)
-      assert_equal(nil, req.mobile.serial_number)
-      assert_equal(nil, req.mobile.position)
-      assert(!req.mobile.supports_cookie?)
-    end
-  end
-
-  # J-PHONE
-  # http://kokogiko.net/wiki.cgi?page=vodafone%A4%C7%A4%CE%B0%CC%C3%D6%BC%E8%C6%C0%CA%FD%CB%A1
-  def test_jphone_antenna
-    reqs = request_with_ua("J-PHONE/3.0/V301D",
-                          "HTTP_X_JPHONE_GEOCODE"=>"353840%1A1394440%1A%93%8C%8B%9E%93s%8D%60%8B%E6%8E%C5%82T%92%9A%96%DA")
-    reqs.each do |req|
-      assert_in_delta(35.64768482, req.mobile.position.lat, 1e-4)
-      assert_in_delta(139.7412141, req.mobile.position.lon, 1e-4)
-      assert_equal("東京都港区芝５丁目", req.mobile.position.options["address"])
-    end
-  end
-
-  # J-PHONE 位置情報なし
-  def test_jphone_antenna_empty
-    reqs = request_with_ua("J-PHONE/3.0/V301D",
-                          "HTTP_X_JPHONE_GEOCODE"=>"0000000%1A0000000%1A%88%CA%92%75%8F%EE%95%F1%82%C8%82%B5")
-    reqs.each do |req|
-      assert_equal(nil, req.mobile.position)
-    end
-  end
-
   # Vodafone 3G, wgs84, gps
   def test_vodafone_gps
     reqs = request_with_ua("Vodafone/1.0/V903T/TJ001 Browser/VF-Browser/1.0 Profile/MIDP-2.0 Configuration/CLDC-1.1 Ext-J-Profile/JSCL-1.2.2 Ext-V-Profile/VSCL-2.0.0",
@@ -127,15 +77,6 @@ class SoftbankTest < Test::Unit::TestCase
   # 正しいIPアドレス空間からのアクセスを判断できるか。
   def test_softbank_valid_ip_address
     reqs = request_with_ua("Vodafone/1.0/V903T/TJ001 Browser/VF-Browser/1.0 Profile/MIDP-2.0 Configuration/CLDC-1.1 Ext-J-Profile/JSCL-1.2.2 Ext-V-Profile/VSCL-2.0.0",
-                          {"REMOTE_ADDR"=>"202.179.204.1"})
-    reqs.each do |req|
-      assert_equal(true, req.mobile.valid_ip?)
-    end
-  end
-
-  # 正しいIPアドレス空間からのアクセスを判断できるか。
-  def test_jphone_valid_ip_address
-    reqs = request_with_ua("J-PHONE/3.0/V301D",
                           {"REMOTE_ADDR"=>"202.179.204.1"})
     reqs.each do |req|
       assert_equal(true, req.mobile.valid_ip?)

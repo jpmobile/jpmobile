@@ -139,9 +139,6 @@ module Jpmobile
           when Jpmobile::Mobile::Au
             table = Jpmobile::Emoticon::CONVERSION_TABLE_TO_AU
             to_sjis = true
-          when Jpmobile::Mobile::Jphone
-            table = Jpmobile::Emoticon::CONVERSION_TABLE_TO_SOFTBANK
-            to_sjis = true
           when Jpmobile::Mobile::Softbank
             table = Jpmobile::Emoticon::CONVERSION_TABLE_TO_SOFTBANK
           end

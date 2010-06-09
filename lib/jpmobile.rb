@@ -10,7 +10,6 @@ module Jpmobile
     autoload :Au,        'jpmobile/mobile/au'
     autoload :Softbank,  'jpmobile/mobile/softbank'
     autoload :Vodafone,  'jpmobile/mobile/softbank'
-    autoload :Jphone,    'jpmobile/mobile/softbank'
     autoload :Emobile,   'jpmobile/mobile/emobile'
     autoload :Willcom,   'jpmobile/mobile/willcom'
     autoload :Ddipocket, 'jpmobile/mobile/willcom'

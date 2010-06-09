@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # =位置情報等を要求するヘルパー
 module Jpmobile
   # 携帯電話端末に位置情報を要求するための、特殊なリンクを出力するヘルパー群。
@@ -31,9 +32,6 @@ module Jpmobile
         if show_all || (!(request.mobile.supports_gps?) && request.mobile.supports_location?)
           s << au_location_link_to(str||"au(antenna)", options)
         end
-      end
-      if show_all || request.mobile.instance_of?(Mobile::Jphone)
-        s << jphone_location_link_to(str||"Softbank(antenna)", options)
       end
       if show_all || request.mobile.instance_of?(Mobile::Vodafone) || request.mobile.instance_of?(Mobile::Softbank)
         s << softbank_location_link_to(str||"Softbank 3G(GPS)", options)

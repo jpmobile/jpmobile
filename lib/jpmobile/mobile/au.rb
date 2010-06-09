@@ -102,7 +102,12 @@ module Jpmobile::Mobile
 
     # 文字コード変換
     def self.to_internal(str)
-      NKF.nkf("-wSx", str)
+      # 絵文字を数値参照に変換
+      str = Jpmobile::Emoticon.send(:external_to_unicodecr_au, str)
+      # 文字コードを Shift_JIS に変換
+      str = NKF.nkf("-wSx", str)
+      # 数値参照を UTF-8 に変換
+      Jpmobile::Emoticon::unicodecr_to_utf8(str)
     end
     def self.to_external(str)
       NKF.nkf("-sWx", str)

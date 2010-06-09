@@ -71,7 +71,10 @@ module Jpmobile::Mobile
 
     # 文字コード変換
     def self.to_internal(str)
-      str
+      # 絵文字を数値参照に変換
+      str = Jpmobile::Emoticon.send(:external_to_unicodecr_softbank, str)
+      # 数値参照を UTF-8 に変換
+      Jpmobile::Emoticon::unicodecr_to_utf8(str)
     end
     def self.to_external(str)
       str

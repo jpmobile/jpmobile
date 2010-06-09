@@ -4,99 +4,167 @@ require 'uri'
 
 describe Jpmobile::Rack::ParamsFilter do
   include Rack::Test::Methods
+  include Jpmobile::RackHelper
 
-  before(:each) do
-    @query_params = {
-      "hoge"       => "ほげ",
-      "パラメータ" => "テストです■",
-    }
-    @form_params = {
-      "bar"        => "万葉集",
-      "アジャイル" => "僕の♪",
-    }
-  end
-
-  context "Shift_JIS 変換の " do
+  context "漢字コード変換" do
     before(:each) do
-      @query_string = @query_params.map {|k, v|
-        "%s=%s" % [URI.encode(NKF.nkf("-sWx", k)), URI.encode(NKF.nkf("-sWx", v))]
-      }.join("&")
-      @form_string = @form_params.map {|k, v|
-        "%s=%s" % [NKF.nkf("-sWx", k), NKF.nkf("-sWx", v)]
-      }.join("&")
+      @query_params = {
+        "hoge"       => "ほげ",
+        "パラメータ" => "テストです■",
+      }
+      @form_params = {
+        "bar"        => "万葉集",
+        "アジャイル" => "僕の♪",
+      }
     end
 
-    context "docomo のとき" do
-      it "Shift_JIS が UTF-8 に変換されること" do
+    context "Shift_JIS 変換の " do
+      before(:each) do
+        @query_string = @query_params.map {|k, v|
+          "%s=%s" % [URI.encode(NKF.nkf("-sWx", k)), URI.encode(NKF.nkf("-sWx", v))]
+        }.join("&")
+        @form_string = @form_params.map {|k, v|
+          "%s=%s" % [NKF.nkf("-sWx", k), NKF.nkf("-sWx", v)]
+        }.join("&")
+      end
+
+      context "docomo のとき" do
+        it "Shift_JIS が UTF-8 に変換されること" do
+          res = Rack::MockRequest.env_for(
+            "/?#{@query_string}",
+            "REQUEST_METHOD" => "POST",
+            "CONTENT_TYPE" => 'application/x-www-form-urlencoded',
+            'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)',
+            :input => @form_string)
+
+          res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(UnitApplication.new)).call(res)
+          req = Rack::Request.new(res[1])
+          req.params.size.should == 4
+
+          req.params[@query_params.keys.first].should == @query_params[@query_params.keys.first]
+          req.params[@query_params.keys.last].should  == @query_params[@query_params.keys.last]
+
+          req.params[@form_params.keys.first].should == @form_params[@form_params.keys.first]
+          req.params[@form_params.keys.last].should  == @form_params[@form_params.keys.last]
+        end
+      end
+
+      context "au のとき" do
+        it "Shift_JIS が UTF-8 に変換されること" do
+          res = Rack::MockRequest.env_for(
+            "/?#{@query_string}",
+            "REQUEST_METHOD" => "POST",
+            "CONTENT_TYPE" => 'application/x-www-form-urlencoded',
+            'HTTP_USER_AGENT' => "KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0",
+            :input => @form_string)
+
+          res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(UnitApplication.new)).call(res)
+          req = Rack::Request.new(res[1])
+          req.params.size.should == 4
+
+          req.params[@query_params.keys.first].should == @query_params[@query_params.keys.first]
+          req.params[@query_params.keys.last].should  == @query_params[@query_params.keys.last]
+
+          req.params[@form_params.keys.first].should == @form_params[@form_params.keys.first]
+          req.params[@form_params.keys.last].should  == @form_params[@form_params.keys.last]
+        end
+      end
+    end
+
+    context "UTF-8 の" do
+      before(:each) do
+        @query_string = @query_params.map {|k, v|
+          "%s=%s" % [URI.encode(k), URI.encode(v)]
+        }.join("&")
+        @form_string = @form_params.map {|k, v|
+          "%s=%s" % [k, v]
+        }.join("&")
+      end
+
+      context "softbank のとき" do
+        it "変換されないこと" do
+          res = Rack::MockRequest.env_for(
+            "/?#{@query_string}",
+            "REQUEST_METHOD" => "POST",
+            "CONTENT_TYPE" => 'application/x-www-form-urlencoded',
+            'HTTP_USER_AGENT' => "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1",
+            :input => @form_string)
+
+          res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(UnitApplication.new)).call(res)
+          req = Rack::Request.new(res[1])
+          req.params.size.should == 4
+
+          req.params[@query_params.keys.first].should == @query_params[@query_params.keys.first]
+          req.params[@query_params.keys.last].should  == @query_params[@query_params.keys.last]
+
+          req.params[@form_params.keys.first].should == @form_params[@form_params.keys.first]
+          req.params[@form_params.keys.last].should  == @form_params[@form_params.keys.last]
+        end
+      end
+    end
+  end
+
+  context "絵文字変換" do
+    context "docomo の場合" do
+      it "Shift_JIS 絵文字がUTF-8に変換されること" do
+        query_string = "hoge=" + URI.encode(sjis("\xf8\x9f"))
+        form_string  = "foo="  + sjis("\xf8\xa1")
+
         res = Rack::MockRequest.env_for(
-          "/?#{@query_string}",
+          "/?#{query_string}",
           "REQUEST_METHOD" => "POST",
           "CONTENT_TYPE" => 'application/x-www-form-urlencoded',
           'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)',
-          :input => @form_string)
+          :input => form_string)
 
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(UnitApplication.new)).call(res)
         req = Rack::Request.new(res[1])
-        req.params.size.should == 4
+        req.params.size.should == 2
 
-        req.params[@query_params.keys.first].should == @query_params[@query_params.keys.first]
-        req.params[@query_params.keys.last].should  == @query_params[@query_params.keys.last]
-
-        req.params[@form_params.keys.first].should == @form_params[@form_params.keys.first]
-        req.params[@form_params.keys.last].should  == @form_params[@form_params.keys.last]
+        req.params["hoge"].should == utf8("\356\230\276")
+        req.params["foo"].should  == utf8("\356\231\200")
       end
     end
 
-    context "au のとき" do
-      it "Shift_JIS が UTF-8 に変換されること" do
+    context "au の場合" do
+      it "Shift_JIS 絵文字がUTF-8に変換されること" do
+        query_string = "hoge=" + URI.encode(sjis("\xf6\x59"))
+        form_string  = "foo="  + sjis("\xf6\xfb")
+
         res = Rack::MockRequest.env_for(
-          "/?#{@query_string}",
+          "/?#{query_string}",
           "REQUEST_METHOD" => "POST",
           "CONTENT_TYPE" => 'application/x-www-form-urlencoded',
           'HTTP_USER_AGENT' => "KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0",
-          :input => @form_string)
+          :input => form_string)
 
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(UnitApplication.new)).call(res)
         req = Rack::Request.new(res[1])
-        req.params.size.should == 4
+        req.params.size.should == 2
 
-        req.params[@query_params.keys.first].should == @query_params[@query_params.keys.first]
-        req.params[@query_params.keys.last].should  == @query_params[@query_params.keys.last]
-
-        req.params[@form_params.keys.first].should == @form_params[@form_params.keys.first]
-        req.params[@form_params.keys.last].should  == @form_params[@form_params.keys.last]
+        req.params["hoge"].should == utf8("\356\222\201")
+        req.params["foo"].should  == utf8("\356\224\242")
       end
     end
-  end
 
-  context "UTF-8 の" do
-    before(:each) do
-      @query_string = @query_params.map {|k, v|
-        "%s=%s" % [URI.encode(k), URI.encode(v)]
-      }.join("&")
-      @form_string = @form_params.map {|k, v|
-        "%s=%s" % [k, v]
-      }.join("&")
-    end
+    context "Softbank の場合" do
+      it "UTF-8 絵文字がUTF-8に変換されること" do
+        query_string = "hoge=" + URI.encode([0xe001].pack('U'))
+        form_string  = "foo="  + [0xe21c].pack('U')
 
-    context "softbank のとき" do
-      it "変換されないこと" do
         res = Rack::MockRequest.env_for(
-          "/?#{@query_string}",
+          "/?#{query_string}",
           "REQUEST_METHOD" => "POST",
           "CONTENT_TYPE" => 'application/x-www-form-urlencoded',
           'HTTP_USER_AGENT' => "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1",
-          :input => @form_string)
+          :input => form_string)
 
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(UnitApplication.new)).call(res)
         req = Rack::Request.new(res[1])
-        req.params.size.should == 4
+        req.params.size.should == 2
 
-        req.params[@query_params.keys.first].should == @query_params[@query_params.keys.first]
-        req.params[@query_params.keys.last].should  == @query_params[@query_params.keys.last]
-
-        req.params[@form_params.keys.first].should == @form_params[@form_params.keys.first]
-        req.params[@form_params.keys.last].should  == @form_params[@form_params.keys.last]
+        req.params["hoge"].should == utf8("\xef\x80\x81")
+        req.params["foo"].should  == utf8("\xef\x88\x9c")
       end
     end
   end

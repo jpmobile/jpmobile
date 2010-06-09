@@ -31,3 +31,36 @@ class ParamsApplication
     @app.call(env)
   end
 end
+
+module Jpmobile::RackHelper
+  def user_agent(str)
+    @request.user_agent = str
+  end
+  def init(c)
+    @controller = c.new
+    @controller.logger = Logger.new(nil)
+    @request = ActionController::TestRequest.new
+    @response = ActionController::TestResponse.new
+    @request.host = "www.example.jp"
+    @request.session.session_id = "mysessionid"
+  end
+  def sjis(ascii_8bit)
+    if ascii_8bit.respond_to?(:force_encoding)
+      ascii_8bit.force_encoding("Shift_JIS")
+    end
+    ascii_8bit
+  end
+  def utf8(ascii_8bit)
+    if ascii_8bit.respond_to?(:force_encoding)
+      ascii_8bit.force_encoding("utf-8")
+    end
+    ascii_8bit
+  end
+  def to_sjis(utf8)
+    if utf8.respond_to?(:encode)
+      utf8.encode("Shift_JIS")
+    else
+      utf8.tosjis
+    end
+  end
+end

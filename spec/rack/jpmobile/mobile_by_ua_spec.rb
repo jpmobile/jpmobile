@@ -28,13 +28,18 @@ describe Jpmobile::Rack::MobileCarrier do
         [ Jpmobile::Mobile::Softbank  => 'SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1' ],
         [ Jpmobile::Mobile::Softbank  => 'Semulator' ],
         [ Jpmobile::Mobile::Vodafone  => 'Vodafone/1.0/V903SH/SHJ001/SN000000000000000 Browser/UP.Browser/7.0.2.1 Profile/MIDP-2.0 Configuration/CLDC-1.1 Ext-J-Profile/JSCL-1.2.2 Ext-V-Profile/VSCL-2.0.0' ],
-        [ Jpmobile::Mobile::Jphone    => 'J-PHONE/4.3/V603SH/SNXXXX0000000 SH/0007aa Profile/MIDP-1.0 Configuration/CLDC-1.0 Ext-Profile/JSCL-1.3.2' ],
-        [ Jpmobile::Mobile::Jphone    => 'J-EMULATOR' ],
         [ Jpmobile::Mobile::Willcom   => 'Mozilla/3.0(WILLCOM;KYOCERA/WX310K/2;1.2.2.16.000000/0.1/C100) Opera 7.0' ],
         [ Jpmobile::Mobile::Ddipocket => 'Mozilla/3.0(DDIPOCKET;KYOCERA/AH-K3001V/1.8.2.71.000000/0.1/C100) Opera 7.0'],
         [ Jpmobile::Mobile::Emobile   => 'emobile/1.0.0 (H11T; like Gecko; Wireless) NetFront/3.4' ],
-        [ NilClass                    => 'Googlebot' ],
       ])
 
   end.run
+
+  it "Googlebot のときは rack['rack.jpmobile.carrier'] が nil になること" do
+    res = Rack::MockRequest.env_for(
+      'http://jpmobile-rails.org/',
+      'HTTP_USER_AGENT' => 'Googlebot')
+    env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
+    env['rack.jpmobile.carrier'].should be_nil
+  end
 end

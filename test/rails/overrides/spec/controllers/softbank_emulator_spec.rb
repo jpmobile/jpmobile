@@ -29,14 +29,3 @@ describe "Vodafone Emulator からのアクセスのとき", :behaviour_type=>:c
   end
   it_should_behave_like "携帯電話からのアクセス"
 end
-
-describe "J-PHONE Emulator からのアクセスのとき", :behaviour_type=>:controller do
-  before do
-    request.user_agent = "J-EMULATOR"
-  end
-  controller_name :mobile_spec
-  it "request.mobile は Jphone のインスタンスであること" do
-    request.mobile.should be_an_instance_of(Jpmobile::Mobile::Jphone)
-  end
-  it_should_behave_like "携帯電話からのアクセス"
-end

@@ -53,15 +53,6 @@ describe 'Jpmobile::Mobile' do
       [ %w[ Vodafone willcom   ] => false ],
       [ %w[ Vodafone ddipocket ] => false ],
 
-      [ %w[ Jphone docomo    ] => false ],
-      [ %w[ Jphone au        ] => false ],
-      [ %w[ Jphone softbank  ] => true  ],
-      [ %w[ Jphone vodafone  ] => true  ],
-      [ %w[ Jphone jphone    ] => true  ],
-      [ %w[ Jphone emobile   ] => false ],
-      [ %w[ Jphone willcom   ] => false ],
-      [ %w[ Jphone ddipocket ] => false ],
-
       [ %w[ Emobile docomo    ] => false ],
       [ %w[ Emobile au        ] => false ],
       [ %w[ Emobile softbank  ] => false ],

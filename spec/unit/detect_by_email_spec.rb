@@ -5,7 +5,7 @@ describe 'Jpmobile::Email' do
   Spec::Fixture::Base.new self, :email_addr => :carrier do
 
     it '#detect should return :carrier when take :email_addr as EmailAddr' do |email_addr, carrier|
-      Jpmobile::Email.detect(email_addr).should == carrier 
+      Jpmobile::Email.detect(email_addr).should == carrier
     end
 
     set_fixtures([
@@ -24,8 +24,6 @@ describe 'Jpmobile::Email' do
       ['eaae@disney.ne.jp.jp'   => nil                        ],
       ['iiiaa@r.vodafone.ne.jp' => Jpmobile::Mobile::Vodafone ],
       ['iiiaa@r.vodafone.ne.jp.jp' => nil                     ],
-      ['aaaaa.aaaa@jp-h.ne.jp'  => Jpmobile::Mobile::Jphone    ],
-      ['aaaaa.aaaa@jp-h.ne.jp.jp' => nil                      ],
     ])
   end.run
 end

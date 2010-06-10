@@ -39,7 +39,7 @@ module Jpmobile::Mobile
 
     # 端末製造番号があれば返す。無ければ +nil+ を返す。
     def serial_number
-      case @request.env["HTTP_USER_AGENT"]
+      case @env["HTTP_USER_AGENT"]
       when /ser([0-9a-zA-Z]{11})$/ # mova
         return $1
       when /ser([0-9a-zA-Z]{15});/ # FOMA
@@ -52,13 +52,13 @@ module Jpmobile::Mobile
 
     # FOMAカード製造番号があれば返す。無ければ +nil+ を返す。
     def icc
-      @request.env['HTTP_USER_AGENT'] =~ /icc([0-9a-zA-Z]{20})\)/
+      @env['HTTP_USER_AGENT'] =~ /icc([0-9a-zA-Z]{20})\)/
       return $1
     end
 
     # iモードIDを返す。
     def guid
-      @request.env['HTTP_X_DCMGUID']
+      @env['HTTP_X_DCMGUID']
     end
 
     # iモードID, FOMAカード製造番号の順で調べ、あるものを返す。なければ +nil+ を返す。
@@ -79,12 +79,31 @@ module Jpmobile::Mobile
     def supports_cookie?
       false
     end
+
+    # 文字コード変換
+    def to_internal(str)
+      # 絵文字を数値参照に変換
+      str = Jpmobile::Emoticon.send(:external_to_unicodecr_docomo, str)
+      # 文字コードを UTF-8 に変換
+      str = NKF.nkf("-wSx", str)
+      # 数値参照を UTF-8 に変換
+      Jpmobile::Emoticon.unicodecr_to_utf8(str)
+    end
+    def to_external(str)
+      # UTF-8を数値参照に
+      str = Jpmobile::Emoticon.utf8_to_unicodecr(str)
+      # 文字コードを Shift_JIS に変換
+      str = NKF.nkf("-sWx", str)
+      # 数値参照を絵文字コードに変換
+      Jpmobile::Emoticon.unicodecr_to_external(str, Jpmobile::Emoticon::CONVERSION_TABLE_TO_DOCOMO, true)
+    end
+
     private
     # モデル名を返す。
     def model_name
-      if @request.env["HTTP_USER_AGENT"] =~ /^DoCoMo\/2.0 (.+)\(/
+      if @env["HTTP_USER_AGENT"] =~ /^DoCoMo\/2.0 (.+)\(/
         return $1
-      elsif @request.env["HTTP_USER_AGENT"] =~ /^DoCoMo\/1.0\/(.+?)\//
+      elsif @env["HTTP_USER_AGENT"] =~ /^DoCoMo\/1.0\/(.+?)\//
         return $1
       end
       return nil
@@ -93,24 +112,6 @@ module Jpmobile::Mobile
     # 画面の情報を含むハッシュを返す。
     def display_info
       DISPLAY_INFO[model_name] || {}
-    end
-
-    # 文字コード変換
-    def self.to_internal(str)
-      # 絵文字を数値参照に変換
-      str = Jpmobile::Emoticon.send(:external_to_unicodecr_docomo, str)
-      # 文字コードを UTF-8 に変換
-      str = NKF.nkf("-wSx", str)
-      # 数値参照を UTF-8 に変換
-      Jpmobile::Emoticon.unicodecr_to_utf8(str)
-    end
-    def self.to_external(str)
-      # UTF-8を数値参照に
-      str = Jpmobile::Emoticon.utf8_to_unicodecr(str)
-      # 文字コードを Shift_JIS に変換
-      str = NKF.nkf("-sWx", str)
-      # 数値参照を絵文字コードに変換
-      Jpmobile::Emoticon.unicodecr_to_external(str, Jpmobile::Emoticon::CONVERSION_TABLE_TO_DOCOMO, true)
     end
   end
 end

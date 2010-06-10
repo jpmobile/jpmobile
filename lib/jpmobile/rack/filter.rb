@@ -12,8 +12,8 @@ module Jpmobile
         status, env, body = @app.call(env)
 
         # 出力
-        if @klass = env['rack.jpmobile.carrier']
-          body = @klass.to_external(body)
+        if mobile = env['rack.jpmobile']
+          body = mobile.to_external(body)
         end
 
         [status, env, body]

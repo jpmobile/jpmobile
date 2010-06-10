@@ -18,7 +18,7 @@ describe Jpmobile::Rack::MobileCarrier, "docomo" do
     end
 
     it "Jpmobile::Mobile::Docomo のインスタンスが env['rack.mobile'] にあること" do
-      @env['rack.jpmobile.carrier'].should == Jpmobile::Mobile::Docomo
+      @env['rack.jpmobile'].class.should == Jpmobile::Mobile::Docomo
     end
 
     it "#position などが nil になること" do
@@ -45,7 +45,7 @@ describe Jpmobile::Rack::MobileCarrier, "docomo" do
     end
 
     it "Jpmobile::Mobile::Docomo のインスタンスが env['rack.mobile'] にあること" do
-      @env['rack.jpmobile.carrier'].should Jpmobile::Mobile::Docomo
+      @env['rack.jpmobile'].class.should == Jpmobile::Mobile::Docomo
     end
 
     it "#position などが nil になること" do

@@ -10,17 +10,17 @@ module Jpmobile
 
       def call(env)
         # 入力
-        if @klass = env['rack.jpmobile.carrier']
+        if mobile = env['rack.jpmobile']
           # フォームのパラメータ
           if env['REQUEST_METHOD'] == 'POST'
-            form_params = @klass.to_internal(env['rack.input'].read)
+            form_params = mobile.to_internal(env['rack.input'].read)
             env['rack.input'] = StringIO.new(form_params)
           end
 
           # URI Query
           query_string = URI.decode(env['QUERY_STRING'])
           unless query_string == env['QUERY_STRING']
-            env['QUERY_STRING'] = URI.encode(@klass.to_internal(query_string))
+            env['QUERY_STRING'] = URI.encode(mobile.to_internal(query_string))
           end
         end
         status, env, body = @app.call(env)

@@ -110,7 +110,12 @@ module Jpmobile::Mobile
       Jpmobile::Emoticon::unicodecr_to_utf8(str)
     end
     def self.to_external(str)
-      NKF.nkf("-sWx", str)
+      # UTF-8を数値参照に
+      str = Jpmobile::Emoticon.utf8_to_unicodecr(str)
+      # 文字コードを Shift_JIS に変換
+      str = NKF.nkf("-sWx", str)
+      # 数値参照を絵文字コードに変換
+      Jpmobile::Emoticon.unicodecr_to_external(str, Jpmobile::Emoticon::CONVERSION_TABLE_TO_AU, true)
     end
   end
 end

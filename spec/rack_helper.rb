@@ -12,8 +12,12 @@ Spec::Runner.configure do |config|
 end
 
 class UnitApplication
+  def initialize(body = nil)
+    @body = body || "Body"
+  end
+
   def call(env)
-    [200, env, "Body"]
+    [200, env, @body]
   end
 end
 

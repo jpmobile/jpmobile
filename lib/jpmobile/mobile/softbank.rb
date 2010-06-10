@@ -77,7 +77,10 @@ module Jpmobile::Mobile
       Jpmobile::Emoticon::unicodecr_to_utf8(str)
     end
     def self.to_external(str)
-      str
+      # UTF-8を数値参照に
+      str = Jpmobile::Emoticon.utf8_to_unicodecr(str)
+      # 数値参照を絵文字コードに変換
+      Jpmobile::Emoticon.unicodecr_to_external(str, Jpmobile::Emoticon::CONVERSION_TABLE_TO_SOFTBANK, false)
     end
   end
   # ==Vodafone 3G携帯電話(J-PHONE, SoftBank含まず)

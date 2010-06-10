@@ -5,8 +5,8 @@ module Jpmobile::Mobile
   # 携帯電話の抽象クラス。
   class AbstractMobile
     def initialize(env, request)
-      @env    = env
-      @requst = request
+      @env     = env
+      @request = request
     end
 
     # 対応するuser-agentの正規表現

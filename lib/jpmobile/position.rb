@@ -1,9 +1,12 @@
+# -*- coding: utf-8 -*-
 #= 位置情報
 
-# plugins/以下にgeokitがインストールされている場合は読み込む
-begin
-  require RAILS_ROOT + '/vendor/plugins/geokit/lib/geo_kit/mappable'
-rescue MissingSourceFile, NameError
+# Rails がロードされていて、plugins/以下にgeokitがインストールされている場合は読み込む
+if Object.const_defined?(:Rails)
+  begin
+    require File.join(Rails.root, '/vendor/plugins/geokit/lib/geo_kit/mappable')
+  rescue MissingSourceFile, NameError
+  end
 end
 
 module Jpmobile

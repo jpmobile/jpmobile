@@ -39,7 +39,7 @@ module Jpmobile::Mobile
     end
 
     def valid_ip?
-      @__valid_ip ||= self.class.valid_ip? @request.remote_addr
+      @__valid_ip ||= self.class.valid_ip? @request.ip
     end
 
     # 画面情報を +Display+ クラスのインスタンスで返す。

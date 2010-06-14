@@ -39,8 +39,8 @@ describe Jpmobile::Rack::MobileCarrier, "au" do
         "QUERY_STRING" => "ver=1&datum=0&unit=1&lat=%2b43.07772&lon=%2b141.34114&alt=64&time=20061016192415&smaj=69&smin=18&vert=21&majaa=115&fm=1")
       env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
-      env['rack.jpmobile'].position.lat ==  43.07772
-      env['rack.jpmobile'].position.lat == 141.34114
+      env['rack.jpmobile'].position.lat.should ==  43.07772
+      env['rack.jpmobile'].position.lon.should == 141.34114
     end
 
     it "緯度経度を取得できること(dms)" do
@@ -199,8 +199,6 @@ describe Jpmobile::Rack::MobileCarrier, "au" do
       env['rack.jpmobile'].display.browser_height.should  be_nil
       env['rack.jpmobile'].display.physical_width.should  be_nil
       env['rack.jpmobile'].display.physical_height.should be_nil
-      env['rack.jpmobile'].display.width.should  be_nil
-      env['rack.jpmobile'].display.height.should be_nil
       env['rack.jpmobile'].display.color?.should be_nil
       env['rack.jpmobile'].display.colors.should be_nil
     end

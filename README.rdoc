@@ -227,6 +227,7 @@ mobile_filterを有効にすると以下の処理が自動で行われる。
 * rspec-rails
 * rspec-fixture
 * mocha
+* geokit
 
 == リンク
 

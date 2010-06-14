@@ -70,17 +70,6 @@ class HelpersTest < Test::Unit::TestCase
     assert_equal("0", params["datum"])
   end
 
-  # get_position_link_to(自動判別), J-PHONE
-  def test_get_position_link_to_jphone
-    @view.request = request_with_ua("J-PHONE/4.3/V603SH/SNXXXX0000000 SH/0007aa Profile/MIDP-1.0 Configuration/CLDC-1.0 Ext-Profile/JSCL-1.3.2").first
-    links = get_href_and_texts(@view.get_position_link_to("STRING"))
-    assert_equal(1, links.size)
-    text,attrs,path,params = links.first
-    assert_equal("STRING", text)
-    assert_equal("http://example.jp", path)
-    assert(attrs.to_hash.include?("z"))
-  end
-
   # get_position_link_to(自動判別), Vodafone
   def test_get_position_link_to_vodafone
     @view.request = request_with_ua("Vodafone/1.0/V903T/TJ001 Browser/VF-Browser/1.0 Profile/MIDP-2.0 Configuration/CLDC-1.1 Ext-J-Profile/JSCL-1.2.2 Ext-V-Profile/VSCL-2.0.0").first
@@ -169,16 +158,6 @@ class HelpersTest < Test::Unit::TestCase
     assert_equal("1", params["ver"])
     assert_equal("0", params["unit"])
     assert_equal("0", params["datum"])
-  end
-
-  # J-PHONE 位置情報取得用のリンクが正しく出力されるか。
-  def test_jphone_location_link_to
-    links = get_href_and_texts(@view.jphone_location_link_to("STRING"))
-    assert_equal(1, links.size)
-    text,attrs,path,params = links.first
-    assert_equal("STRING", text)
-    assert_equal("http://example.jp", path)
-    assert(attrs.to_hash.include?("z"))
   end
 
   # Softbank 3G 位置情報取得用のリンクが正しく出力されるか。

@@ -112,5 +112,5 @@ task :rel => [:gem] do
   puts "git tag #{VERS}"
 end
 
-task :test => ['test:legacy', 'spec:unit', 'test:rails']
+task :test => ['test:legacy', 'spec:unit', 'spec:rack', 'test:rails']
 load 'tasks/jpmobile_tasks.rake'

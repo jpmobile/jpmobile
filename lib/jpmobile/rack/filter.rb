@@ -12,7 +12,7 @@ module Jpmobile
         status, env, body = @app.call(env)
 
         # 出力
-        if mobile = env['rack.jpmobile']
+        if mobile = env['rack.jpmobile'] and body
           body = mobile.to_external(body)
         end
 

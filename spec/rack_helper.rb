@@ -36,6 +36,14 @@ class ParamsApplication
   end
 end
 
+class RenderParamApp
+  def call(env)
+    request = Rack::Request.new(env)
+
+    [200, env, request.params['q']]
+  end
+end
+
 module Jpmobile::RackHelper
   def user_agent(str)
     @request.user_agent = str
@@ -64,7 +72,7 @@ module Jpmobile::RackHelper
     if utf8.respond_to?(:encode)
       utf8.encode("Shift_JIS")
     else
-      utf8.tosjis
+      NKF.nkf("-sWx", utf8)
     end
   end
 end

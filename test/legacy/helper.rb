@@ -20,42 +20,23 @@ action_pack_gem = Gem.cache.find_name('actionpack').find do |gem|
 end
 require File.join(action_pack_gem.full_gem_path,'test/abstract_unit')
 
-class FakeCgi < CGI
-  attr_accessor :stdinput, :stdoutput, :env_table
-  def initialize(user_agent, env={})
-    self.env_table = {"HTTP_USER_AGENT"=>user_agent,"QUERY_STRING"=>""}.update(env)
-    super()
+class FakeApp
+  def call(env)
+    [200, env, ""]
   end
 end
 
 def request_with_ua(user_agent, env={})
-  fake_cgi = FakeCgi.new(user_agent, env)
+  res = Rack::MockRequest.env_for('http://www.example.jp',
+    {"HTTP_USER_AGENT" => user_agent}.update(env))
+  res = Jpmobile::Rack::MobileCarrier.new(FakeApp.new).call(res)
+
   [
-    Rack::Request.new(
-      Rack::MockRequest.env_for('http://www.example.jp', fake_cgi.env_table)
-    ).extend(Jpmobile::RequestWithMobile)
+    Rack::Request.new(res[1]).extend(Jpmobile::RequestWithMobile)
   ]
 end
 
-## add helper methods to rails testing framework
-module ActionController
-  class TestRequest < Request
-    attr_accessor :user_agent
-  end
-end
-
 module Jpmobile::TestHelper
-  def user_agent(str)
-    @request.user_agent = str
-  end
-  def init(c)
-    @controller = c.new
-    @controller.logger = Logger.new(nil)
-    @request = ActionController::TestRequest.new
-    @response = ActionController::TestResponse.new
-    @request.host = "www.example.jp"
-    @request.session.session_id = "mysessionid"
-  end
   def sjis(ascii_8bit)
     if ascii_8bit.respond_to?(:force_encoding)
       ascii_8bit.force_encoding("Shift_JIS")

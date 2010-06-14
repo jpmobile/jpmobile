@@ -130,17 +130,6 @@ module Jpmobile
       link_to_url(str, au_location_url_for(options))
     end
 
-    # J-PHONE 位置情報 (基地局) を取得するためのリンクを返す。
-    def jphone_location_link_to(str,options={})
-      url = options
-      if options.is_a?(Hash)
-        options = options.symbolize_keys
-        options[:only_path] = false
-        url = url_for(options)
-      end
-      return %{<a z href="#{url}">#{str}</a>}
-    end
-
     # Softbank(含むVodafone 3G)で位置情報を取得するためのURLを返す。
     def softbank_location_url_for(options={})
       url = options

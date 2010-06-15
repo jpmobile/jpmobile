@@ -3,9 +3,8 @@
 module Jpmobile
   module Rack
     class Filter
-      def initialize(app, options = {})
+      def initialize(app)
         @app     = app
-        @options = options.dup.clone
       end
 
       def call(env)

@@ -1,5 +1,5 @@
-require 'jpmobile/request_with_mobile'
-
-class ActionController::Request
-  include Jpmobile::RequestWithMobile
+if Rails.env == 'test'
+  class ActionController::Request
+    include Jpmobile::RequestWithMobile
+  end
 end

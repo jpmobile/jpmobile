@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #DoCoMoの時guid=onの付与
 class ActionController::Base #:nodoc:
   class_inheritable_accessor :docomo_guid_mode

@@ -7,7 +7,7 @@ module Jpmobile
         @app = app
       end
 
-      def call(env, mobile)
+      def call(env, mobile = nil)
         # 入力
         if mobile
           # フォームのパラメータ

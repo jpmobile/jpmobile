@@ -7,10 +7,10 @@ module Jpmobile
         @app = app
       end
 
-      def call(env, mobile)
+      def call(env, mobile = nil)
         status, env, response = @app.call(env)
 
-        body, content_type, charset = extract_response(response)
+        body, content_type, charset = extract_response(response, env)
         if mobile and body
           body, charset = mobile.to_external(body, content_type, charset)
           response, env = set_response(response, env, body, content_type, charset)
@@ -20,14 +20,20 @@ module Jpmobile
       end
 
       private
-      def extract_response(response)
+      def extract_response(response, env)
         # 出力
         case response.to_s
         when /ActionController/
           [response.body, response.content_type, response.charset]
         else
-          content_type, charset = env['Content-Type'].split(/;/)
-          [response, content_type.chomp, charset.chomp]
+          if env['Content-Type']
+            content_type, charset = env['Content-Type'].split(/;/)
+            content_type.chomp!
+            charset.chomp!
+          else
+            content_type, charset = [nil, nil]
+          end
+          [response, content_type, charset]
         end
       end
 

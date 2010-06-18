@@ -80,7 +80,6 @@ END
       cd rails_root
       ruby "-S rake db:migrate"
       ruby "-S rake spec"
-      # ruby "-S spec --color -b -e 'trans_sid :mobile が指定されているコントローラに DoCoMo/2.0 SH902i(c100;TB;W24H12) からアクセスしたとき で link_to の自動書き換えが行われる' spec/integration/trans_sid_spec.rb"
 
       cd relative_root
     end

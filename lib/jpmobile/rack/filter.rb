@@ -8,11 +8,14 @@ module Jpmobile
       end
 
       def call(env)
+        # 入力を保存
+        mobile = env['rack.jpmobile']
+
         status, env, response = @app.call(env)
 
         body, content_type, charset = extract_response(response, env)
-        if env['rack.jpmobile'] and body
-          body, charset = env['rack.jpmobile'].to_external(body, content_type, charset)
+        if mobile and body
+          body, charset = mobile.to_external(body, content_type, charset)
           response, env = set_response(response, env, body, content_type, charset)
         end
 

@@ -21,6 +21,7 @@ describe "Shift_JISで通信する端末との通信", :shared => true do
   end
   it "はxhtmlでもShift_JISで携帯に送出されること" do
     get "/#{@controller}/abracadabra_xhtml_utf8", {}, {"USER_AGENT" => @user_agent}
+
     response.body.should == to_sjis("アブラカダブラ")
     response.charset.should == "Shift_JIS"
   end

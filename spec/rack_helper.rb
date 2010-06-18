@@ -16,7 +16,7 @@ class UnitApplication
     @body = body || "Body"
   end
 
-  def call(env, mobile = nil)
+  def call(env)
     [200, env, @body]
   end
 end
@@ -28,7 +28,7 @@ class ParamsApplication
     @query = query
   end
 
-  def call(env, mobile = nil)
+  def call(env)
     env['rack.request.form_hash']  = @form
     env['rack.request.query_hash'] = @query
 
@@ -37,7 +37,7 @@ class ParamsApplication
 end
 
 class RenderParamApp
-  def call(env, mobile = nil)
+  def call(env)
     request = Rack::Request.new(env)
 
     [200, env, request.params['q']]

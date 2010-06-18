@@ -7,12 +7,12 @@ module Jpmobile
         @app = app
       end
 
-      def call(env, mobile = nil)
+      def call(env)
         status, env, response = @app.call(env)
 
         body, content_type, charset = extract_response(response, env)
-        if mobile and body
-          body, charset = mobile.to_external(body, content_type, charset)
+        if env['rack.jpmobile'] and body
+          body, charset = env['rack.jpmobile'].to_external(body, content_type, charset)
           response, env = set_response(response, env, body, content_type, charset)
         end
 

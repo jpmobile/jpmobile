@@ -11,7 +11,7 @@ module Jpmobile
         env = env.clone
         env['rack.jpmobile'] = carrier(env)
 
-        @app.call(env, env['rack.jpmobile'])
+        @app.call(env)
       end
 
       def carrier(env)

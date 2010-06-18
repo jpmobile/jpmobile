@@ -21,7 +21,7 @@ end
 require File.join(action_pack_gem.full_gem_path,'test/abstract_unit')
 
 class FakeApp
-  def call(env, mobile)
+  def call(env)
     [200, env, ""]
   end
 end

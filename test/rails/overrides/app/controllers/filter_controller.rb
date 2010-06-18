@@ -21,7 +21,3 @@ end
 class FilterController < FilterControllerBase
   mobile_filter
 end
-
-class HankakuFilterController < FilterControllerBase
-  mobile_filter :hankaku => true
-end

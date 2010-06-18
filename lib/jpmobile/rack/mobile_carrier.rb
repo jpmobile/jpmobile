@@ -4,14 +4,14 @@ module Jpmobile
   module Rack
     class MobileCarrier
       def initialize(app)
-        @app     = app
+        @app = app
       end
 
       def call(env)
         env = env.clone
         env['rack.jpmobile'] = carrier(env)
 
-        @app.call(env)
+        @app.call(env, env['rack.jpmobile'])
       end
 
       def carrier(env)
@@ -27,4 +27,8 @@ module Jpmobile
       end
     end
   end
+end
+
+class Rack::Request
+  include Jpmobile::RequestWithMobile
 end

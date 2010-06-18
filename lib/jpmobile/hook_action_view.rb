@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # = viewの自動切り替え
 #
 # Rails 2.1.0 対応 http://d.hatena.ne.jp/kusakari/20080620/1213931903

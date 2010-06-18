@@ -4,12 +4,12 @@ module Jpmobile
   module Rack
     class ParamsFilter
       def initialize(app)
-        @app     = app
+        @app = app
       end
 
-      def call(env)
+      def call(env, mobile)
         # 入力
-        if mobile = env['rack.jpmobile']
+        if mobile
           # フォームのパラメータ
           if env['REQUEST_METHOD'] == 'POST'
             form_params = mobile.to_internal(env['rack.input'].read)
@@ -22,7 +22,7 @@ module Jpmobile
             env['QUERY_STRING'] = URI.encode(mobile.to_internal(query_string))
           end
         end
-        status, env, body = @app.call(env)
+        status, env, body = @app.call(env, mobile)
 
         [status, env, body]
       end

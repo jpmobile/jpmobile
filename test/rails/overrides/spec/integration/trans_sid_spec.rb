@@ -2,105 +2,129 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
+def get_with_session(controller, action, user_agent)
+  open_session do |sess|
+    sess.get "/#{controller}/#{action}", {}, {"USER_AGENT" => user_agent}
+  end
+end
+
 describe "trans_sid が起動しないとき", :shared => true do
   it "で link_to の自動書き換えが行われない" do
-    get :link
-    response.body.should =~ %r{^<a href="/.+?/link">linkto</a>$}
+    res = get_with_session(@controller, "link", @user_agent)
+
+    res.response.body.should =~ /<a href=\"\/.+?\/link\">linkto<\/a>/
   end
   it "で form の自動書き換えが行われない" do
-    get :form
-    response.body.should =~ %r{^<form action="/.+?/form" method="post">Hello</form>$}
+    res = get_with_session(@controller, "form", @user_agent)
+
+    res.response.body.should =~ /<form action=\"\/.+?\/form\"/
   end
   it "で redirect の自動書き換えが行われない" do
-    get :redirect
-    response.should redirect_to('/')
+    res = get_with_session(@controller, "redirect", @user_agent)
+
+    res.response.header['Location'] =~ /\/$/
   end
 end
 
 describe "trans_sid が起動するとき", :shared => true do
-  before :each do
-    request.session_options[:id] = "mysessionid"
-  end
   it "で link_to の自動書き換えが行われる" do
-    get :link
-    response.body.should =~ %r{^<a href="/.+?/link\?_session_id=mysessionid">linkto</a>$}
+    res = get_with_session(@controller, "link", @user_agent)
+
+    res.response.body.should =~ /<a href=\"\/.+?\/link\?_session_id=[a-zA-Z0-9]{32}\">linkto<\/a>/
   end
   it "で form の自動書き換えが行われる" do
-    get :form
-    response.body.should =~ %r{^<form action="/.+?/form\?_session_id=mysessionid" method="post">Hello<input type="hidden" name="_session_id" value="mysessionid" /></form>$}
+    res = get_with_session(@controller, "form", @user_agent)
+
+    res.response.body.should =~ /<form action=\"\/.+?\/form\?_session_id=[a-zA-Z0-9]{32}\"/
   end
   it "で redirect の自動書き換えが行われる" do
-    get :redirect
-    response.should redirect_to('/?_session_id=mysessionid')
-  end
-  it "でセッションIDが空のときには有効にならない" do
-    request.session_options[:id] = ""
-    get :link
-    response.body.should =~ %r{^<a href="/.+?/link">linkto</a>$}
+    res = get_with_session(@controller, "redirect", @user_agent)
+
+    res.response.header['Location'] =~ /\?_session_id=[a-zA-Z0-9]{32}$/
   end
 end
 
 describe TransSidBaseController, "という trans_sid が有効になっていないコントローラ" do
-  controller_name :trans_sid_base
+  before(:each) do
+    @controller = "trans_sid_base"
+    @user_agent = "Mozilla/5.0 (Windows; U; Windows NT 5.1; ja; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 ( .NET CLR 3.5.30729)"
+  end
+
   it "の trans_sid_mode は nil" do
+    get "/#{@controller}/link", {}, {"USER_AGENT" => @user_agent}
+
     controller.trans_sid_mode.should be_nil
   end
   it_should_behave_like "trans_sid が起動しないとき"
 end
 
 describe TransSidNoneController, "という trans_sid :none が指定されているコントローラ" do
-  controller_name :trans_sid_none
+  before(:each) do
+    @controller = "trans_sid_none"
+    @user_agent = "Mozilla/5.0 (Windows; U; Windows NT 5.1; ja; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 ( .NET CLR 3.5.30729)"
+  end
+
   it "の trans_sid_mode は :none" do
+    get "/#{@controller}/link", {}, {"USER_AGENT" => @user_agent}
+
     controller.trans_sid_mode.should == :none
   end
   it_should_behave_like "trans_sid が起動しないとき"
 end
 
 describe TransSidAlwaysController, "という trans_sid :always が指定されているコントローラ" do
-  controller_name :trans_sid_always
-  before :each do
-    request.session_options[:id] = "mysessionid"
+  before(:each) do
+    @controller = "trans_sid_always"
+    @user_agent = "Mozilla/5.0 (Windows; U; Windows NT 5.1; ja; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 ( .NET CLR 3.5.30729)"
   end
+
   it "の trans_sid_mode は :always" do
+    get "/#{@controller}/link", {}, {"USER_AGENT" => @user_agent}
+
     controller.trans_sid_mode.should == :always
   end
   it_should_behave_like "trans_sid が起動するとき"
 end
 
 describe TransSidMobileController, "という trans_sid :mobile が指定されているコントローラ" do
-  controller_name :trans_sid_mobile
+  before(:each) do
+    @controller = "trans_sid_mobile"
+    @user_agent = "Mozilla/5.0 (Windows; U; Windows NT 5.1; ja; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 ( .NET CLR 3.5.30729)"
+  end
+
   it "の trans_sid_mode は :mobile" do
+    get "/#{@controller}/link", {}, {"USER_AGENT" => @user_agent}
+
     controller.trans_sid_mode.should == :mobile
   end
 end
 
 def describe_mobile_with_ua(user_agent, &block)
   describe("trans_sid :mobile が指定されているコントローラに #{user_agent} からアクセスしたとき") do
-    controller_name :trans_sid_mobile
-    before do
-      request.user_agent = user_agent
+    before(:each) do
+      @controller = "trans_sid_mobile"
+      @user_agent = user_agent
     end
+
     instance_eval(&block)
   end
 end
 
-describe TransSidAlwaysController, "という trans_sid :always が指定されているコントローラで reset_session したとき" do
-  controller_name :trans_sid_always
-  before :each do
-    # 擬似的 reset_session
-    request.session_options[:id] = nil
+describe TransSidAlwaysAndSessionOffController, "という trans_sid :always が指定されていて session がロードされていないとき" do
+  before(:each) do
+    @controller = "trans_sid_always_and_session_off"
+    @user_agent = "Mozilla/5.0 (Windows; U; Windows NT 5.1; ja; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 ( .NET CLR 3.5.30729)"
   end
+
   it "の trans_sid_mode は :always" do
-    controller.trans_sid_mode.should == :always
+    res = get_with_session(@controller, "link", @user_agent)
+
+    res.controller.trans_sid_mode.should == :always
   end
   it_should_behave_like "trans_sid が起動しないとき"
 end
 
 describe_mobile_with_ua "DoCoMo/2.0 SH902i(c100;TB;W24H12)" do
-  it_should_behave_like "trans_sid が起動するとき"
-end
-
-describe_mobile_with_ua "J-PHONE/3.0/V301D" do
   it_should_behave_like "trans_sid が起動するとき"
 end
 

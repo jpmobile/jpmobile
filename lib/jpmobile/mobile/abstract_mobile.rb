@@ -56,8 +56,8 @@ module Jpmobile::Mobile
     def to_internal(str)
       str
     end
-    def to_external(str)
-      str
+    def to_external(str, content_type, charset)
+      [str, charset]
     end
 
     #XXX: lib/jpmobile.rbのautoloadで先に各キャリアの定数を定義しているから動くのです

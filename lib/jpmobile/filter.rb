@@ -7,11 +7,11 @@ class ActionController::Base #:nodoc:
     options = {:emoticon=>true, :hankaku=>false}.update(options)
 
     if options[:emoticon]
-      around_filter Jpmobile::Filter::Emoticon::Outer.new # 外部エンコーディング<->数値文字参照
+      # around_filter Jpmobile::Filter::Emoticon::Outer.new # 外部エンコーディング<->数値文字参照
     end
-    around_filter Jpmobile::Filter::Sjis.new
+    # around_filter Jpmobile::Filter::Sjis.new
     if options[:emoticon]
-      around_filter Jpmobile::Filter::Emoticon::Inner.new # 数値文字参照<->UTF-8
+      # around_filter Jpmobile::Filter::Emoticon::Inner.new # 数値文字参照<->UTF-8
     end
     if options[:hankaku]
       around_filter Jpmobile::Filter::HankakuKana.new

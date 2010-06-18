@@ -4,46 +4,66 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe "docomo_guid が起動しないとき", :shared => true do
   it "で link_to の自動書き換えが行われない" do
-    get :link
-    response.body.should =~ %r{^<a href="/.+?/link">linkto</a>$}
+    get "/#{@controller}/link", {}, {"USER_AGENT" => @user_agent}
+
+    response.should have_tag('a[href=?]', /^\/.+?\/link$/)
   end
 end
 
 describe "docomo_guid が起動するとき", :shared => true do
   it "で link_to の自動書き換えが行われる" do
-    get :link
-    response.body.should =~ %r{^<a href="/.+?/link\?guid=ON">linkto</a>$}
+    get "/#{@controller}/link", {}, {"USER_AGENT" => @user_agent}
+
+    response.should have_tag('a[href=?]', /^\/.+?\/link\?guid=ON$/)
   end
 end
 
 describe DocomoGuidBaseController, "という docomo_guid が有効になっていないコントローラ" do
-  controller_name :docomo_guid_base
+  before(:each) do
+    @controller = "docomo_guid_base"
+    @user_agent = "Mozilla/5.0 (Windows; U; Windows NT 5.1; ja; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 ( .NET CLR 3.5.30729)"
+  end
+
   it "の docomo_guid_mode は nil" do
+    get "/#{@controller}/link", {}, {"USER_AGENT" => @user_agent}
+
     controller.docomo_guid_mode.should be_nil
   end
   it_should_behave_like "docomo_guid が起動しないとき"
 end
 
 describe DocomoGuidAlwaysController, "という docomo_guid :always が指定されているコントローラ" do
-  controller_name :docomo_guid_always
-  it "の trans_sid_mode は :always" do
+  before(:each) do
+    @controller = "docomo_guid_always"
+    @user_agent = "Mozilla/5.0 (Windows; U; Windows NT 5.1; ja; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 ( .NET CLR 3.5.30729)"
+  end
+
+  it "の docomo_guid_always は :always" do
+    get "/#{@controller}/link", {}, {"USER_AGENT" => @user_agent}
+
     controller.docomo_guid_mode.should == :always
   end
   it_should_behave_like "docomo_guid が起動するとき"
 end
 
 describe DocomoGuidDocomoController, "という docomo_guid :docomo が指定されているコントローラ" do
-  controller_name :docomo_guid_docomo
+  before(:each) do
+    @controller = "docomo_guid_docomo"
+    @user_agent = "Mozilla/5.0 (Windows; U; Windows NT 5.1; ja; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 ( .NET CLR 3.5.30729)"
+  end
+
   it "の docomo_guid_mode は :docomo" do
+    get "/#{@controller}/link", {}, {"USER_AGENT" => @user_agent}
+
     controller.docomo_guid_mode.should == :docomo
   end
 end
 
 def describe_mobile_with_ua(user_agent, &block)
-  describe("trans_sid :docomo が指定されているコントローラに #{user_agent} からアクセスしたとき") do
-    controller_name :docomo_guid_docomo
+  describe("docomo_guid :docomo が指定されているコントローラに #{user_agent} からアクセスしたとき") do
     before do
-      request.user_agent = user_agent
+      @controller = "docomo_guid_docomo"
+      @user_agent  = user_agent
     end
     instance_eval(&block)
   end
@@ -72,7 +92,6 @@ end
 describe_mobile_with_ua "DoCoMo/1.0/N505i/c20/TB/W20H10 (compatible; Googlebot-Mobile/2.1; +http://www.google.com/bot.html)" do
   it_should_behave_like "docomo_guid が起動しないとき"
 end
-
 
 describe_mobile_with_ua "DoCoMo/2.0/SO502i (compatible; Y!J-SRD/1.0; http://help.yahoo.co.jp/help/jp/search/indexing/indexing-27.html)" do
   it_should_behave_like "docomo_guid が起動しないとき"

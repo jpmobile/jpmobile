@@ -14,6 +14,7 @@ module Jpmobile
         status, env, body = @app.call(env)
 
         response = ::Rack::Response.new(body, status, env)
+
         if mobile
           if content_type = response.content_type
             content_type, charset = content_type.split(/;/)
@@ -30,6 +31,9 @@ module Jpmobile
           if content_type and charset
             response['Content-Type'] = "#{content_type}; charset=#{charset}"
           end
+
+          body = [body] if body.kind_of?(String)
+
           response.body   = body
           response.length = body.length
         end

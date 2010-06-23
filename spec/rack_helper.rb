@@ -64,4 +64,24 @@ module Jpmobile::RackHelper
     @request.session.session_id = "mysessionid"
   end
   include Jpmobile::Util
+
+  def response_body(res)
+    body = case res
+           when Array
+             res[2].body
+           when String
+             res.body
+           else
+             res.body
+           end
+
+    case body
+    when Array
+      body.first
+    when String
+      body
+    else
+      body
+    end
+  end
 end

@@ -24,23 +24,23 @@ describe "絵文字が" do
 
     it "docomo 絵文字が変換されないこと" do
       response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@docomo_cr))).call(@res)[2]
-      response.body.first.should == @docomo_cr
+      response_body(response).should == @docomo_cr
       response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@docomo_utf8))).call(@res)[2]
-      response.body.first.should == @docomo_utf8
+      response_body(response).should == @docomo_utf8
     end
 
     it "au 絵文字が変換されないこと" do
       response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@au_cr))).call(@res)[2]
-      response.body.first.should == @au_cr
+      response_body(response).should == @au_cr
       response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@au_utf8))).call(@res)[2]
-      response.body.first.should == @au_utf8
+      response_body(response).should == @au_utf8
     end
 
     it "softbank 絵文字が変換されないこと" do
       response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@softbank_cr))).call(@res)[2]
-      response.body.first.should == @softbank_cr
+      response_body(response).should == @softbank_cr
       response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)[2]
-      response.body.first.should == @softbank_utf8
+      response_body(response).should == @softbank_utf8
     end
   end
 
@@ -53,26 +53,26 @@ describe "絵文字が" do
 
     it "docomo 絵文字が変換されること" do
       response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@docomo_cr))).call(@res)[2]
-      response.body.first.should == sjis("\xf8\x9f")
+      response_body(response).should == sjis("\xf8\x9f")
       response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@docomo_utf8))).call(@res)[2]
-      response.body.first.should == sjis("\xf8\x9f")
+      response_body(response).should == sjis("\xf8\x9f")
 
       response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@docomo_docomopoint))).call(@res)[2]
-      response.body.first.should == sjis("\xf9\x79")
+      response_body(response).should == sjis("\xf9\x79")
     end
 
     it "au 絵文字が変換されること" do
       response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@au_cr))).call(@res)[2]
-      response.body.first.should == sjis("\xf8\x9f")
+      response_body(response).should == sjis("\xf8\x9f")
       response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@au_utf8))).call(@res)[2]
-      response.body.first.should == sjis("\xf8\x9f")
+      response_body(response).should == sjis("\xf8\x9f")
     end
 
     it "softbank 絵文字が変換されること" do
       response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@softbank_cr))).call(@res)[2]
-      response.body.first.should == sjis("\xf8\x9f")
+      response_body(response).should == sjis("\xf8\x9f")
       response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)[2]
-      response.body.first.should == sjis("\xf8\x9f")
+      response_body(response).should == sjis("\xf8\x9f")
     end
 
     it "パラメータが変換されること" do
@@ -88,7 +88,7 @@ describe "絵文字が" do
       res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(Jpmobile::Rack::Filter.new(RenderParamApp.new))).call(res)
       req = Rack::Request.new(res[1])
       req.params['q'].should == utf8("\xee\x98\xbe")
-      res[2].body.first.should == sjis("\xf8\x9f")
+      response_body(res).should == sjis("\xf8\x9f")
     end
   end
 
@@ -101,26 +101,26 @@ describe "絵文字が" do
 
     it "docomo 絵文字が変換されること" do
       response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@docomo_cr))).call(@res)[2]
-      response.body.first.should == sjis("\xf6\x60")
+      response_body(response).should == sjis("\xf6\x60")
       response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@docomo_utf8))).call(@res)[2]
-      response.body.first.should == sjis("\xf6\x60")
+      response_body(response).should == sjis("\xf6\x60")
 
       response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@docomo_docomopoint))).call(@res)[2]
-      response.body.first.should == to_sjis("［ドコモポイント］")
+      response_body(response).should == to_sjis("［ドコモポイント］")
     end
 
     it "au 絵文字が変換されること" do
       response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@au_cr))).call(@res)[2]
-      response.body.first.should == sjis("\xf6\x60")
+      response_body(response).should == sjis("\xf6\x60")
       response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@au_utf8))).call(@res)[2]
-      response.body.first.should == sjis("\xf6\x60")
+      response_body(response).should == sjis("\xf6\x60")
     end
 
     it "softbank 絵文字が変換されること" do
       response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@softbank_cr))).call(@res)[2]
-      response.body.first.should == sjis("\xf6\x60")
+      response_body(response).should == sjis("\xf6\x60")
       response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)[2]
-      response.body.first.should == sjis("\xf6\x60")
+      response_body(response).should == sjis("\xf6\x60")
     end
 
     it "パラメータが変換されること" do
@@ -136,7 +136,7 @@ describe "絵文字が" do
       res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(Jpmobile::Rack::Filter.new(RenderParamApp.new))).call(res)
       req = Rack::Request.new(res[1])
       req.params['q'].should == [0xe488].pack("U")
-      res[2].body.first.should == sjis("\xf6\x60")
+      response_body(res).should == sjis("\xf6\x60")
     end
   end
 
@@ -149,26 +149,26 @@ describe "絵文字が" do
 
     it "docomo 絵文字が変換されること" do
       response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@docomo_cr))).call(@res)[2]
-      response.body.first.should == "\e$Gj\x0f"
+      response_body(response).should == "\e$Gj\x0f"
       response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@docomo_utf8))).call(@res)[2]
-      response.body.first.should == "\e$Gj\x0f"
+      response_body(response).should == "\e$Gj\x0f"
 
       response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@docomo_docomopoint))).call(@res)[2]
-      response.body.first.should == "［ドコモポイント］"
+      response_body(response).should == "［ドコモポイント］"
     end
 
     it "au 絵文字が変換されること" do
       response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@au_cr))).call(@res)[2]
-      response.body.first.should == "\e$Gj\x0f"
+      response_body(response).should == "\e$Gj\x0f"
       response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@au_utf8))).call(@res)[2]
-      response.body.first.should == "\e$Gj\x0f"
+      response_body(response).should == "\e$Gj\x0f"
     end
 
     it "softbank 絵文字が変換されること" do
       response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@softbank_cr))).call(@res)[2]
-      response.body.first.should == "\e$Gj\x0f"
+      response_body(response).should == "\e$Gj\x0f"
       response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)[2]
-      response.body.first.should == "\e$Gj\x0f"
+      response_body(response).should == "\e$Gj\x0f"
     end
 
     it "パラメータが変換されること" do
@@ -181,7 +181,7 @@ describe "絵文字が" do
       res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(Jpmobile::Rack::Filter.new(RenderParamApp.new))).call(res)
       req = Rack::Request.new(res[1])
       req.params['q'].should == [0xf04a].pack("U")
-      res[2].body.first.should == "\e$Gj\x0f"
+      response_body(res).should == "\e$Gj\x0f"
     end
   end
 
@@ -194,9 +194,9 @@ describe "絵文字が" do
 
     it "softbank 絵文字が変換されること" do
       response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@softbank_cr))).call(@res)[2]
-      response.body.first.should == "\e$Gj\x0f"
+      response_body(response).should == "\e$Gj\x0f"
       response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)[2]
-      response.body.first.should == "\e$Gj\x0f"
+      response_body(response).should == "\e$Gj\x0f"
     end
 
     it "パラメータが変換されること" do
@@ -209,7 +209,7 @@ describe "絵文字が" do
       res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(Jpmobile::Rack::Filter.new(RenderParamApp.new))).call(res)
       req = Rack::Request.new(res[1])
       req.params['q'].should == [0xf04a].pack("U")
-      res[2].body.first.should == "\e$Gj\x0f"
+      response_body(res).should == "\e$Gj\x0f"
     end
   end
 end

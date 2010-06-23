@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # jpmobile の各機能を提供するモジュール
-# envメソッドと、parameter あるいは params メソッドが実装されている必要がある。
-# 今のところはRack::RequestとActionController::AbstractRequestに対応しているはず。
+# envメソッドが実装されている必要がある。
 
 module Jpmobile
   module RequestWithMobile

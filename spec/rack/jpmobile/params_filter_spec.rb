@@ -4,6 +4,7 @@ require File.join(File.dirname(__FILE__), '../../rack_helper.rb')
 describe Jpmobile::Rack::ParamsFilter do
   include Rack::Test::Methods
   include Jpmobile::RackHelper
+  include Jpmobile::Util
 
   context "漢字コード変換" do
     before(:each) do
@@ -40,11 +41,11 @@ describe Jpmobile::Rack::ParamsFilter do
           req = Rack::Request.new(res[1])
           req.params.size.should == 4
 
-          req.params[@query_params.keys.first].should == @query_params[@query_params.keys.first]
-          req.params[@query_params.keys.last].should  == @query_params[@query_params.keys.last]
+          req.params[ascii_8bit(@query_params.keys.first.dup)].should == ascii_8bit(@query_params[@query_params.keys.first])
+          req.params[ascii_8bit(@query_params.keys.last.dup)].should  == ascii_8bit(@query_params[@query_params.keys.last])
 
-          req.params[@form_params.keys.first].should == @form_params[@form_params.keys.first]
-          req.params[@form_params.keys.last].should  == @form_params[@form_params.keys.last]
+          req.params[ascii_8bit(@form_params.keys.first.dup)].should == ascii_8bit(@form_params[@form_params.keys.first])
+          req.params[ascii_8bit(@form_params.keys.last.dup)].should  == ascii_8bit(@form_params[@form_params.keys.last])
         end
       end
 
@@ -61,11 +62,11 @@ describe Jpmobile::Rack::ParamsFilter do
           req = Rack::Request.new(res[1])
           req.params.size.should == 4
 
-          req.params[@query_params.keys.first].should == @query_params[@query_params.keys.first]
-          req.params[@query_params.keys.last].should  == @query_params[@query_params.keys.last]
+          req.params[ascii_8bit(@query_params.keys.first.dup)].should == ascii_8bit(@query_params[@query_params.keys.first])
+          req.params[ascii_8bit(@query_params.keys.last.dup)].should  == ascii_8bit(@query_params[@query_params.keys.last])
 
-          req.params[@form_params.keys.first].should == @form_params[@form_params.keys.first]
-          req.params[@form_params.keys.last].should  == @form_params[@form_params.keys.last]
+          req.params[ascii_8bit(@form_params.keys.first.dup)].should == ascii_8bit(@form_params[@form_params.keys.first])
+          req.params[ascii_8bit(@form_params.keys.last.dup)].should  == ascii_8bit(@form_params[@form_params.keys.last])
         end
       end
     end
@@ -93,11 +94,11 @@ describe Jpmobile::Rack::ParamsFilter do
           req = Rack::Request.new(res[1])
           req.params.size.should == 4
 
-          req.params[@query_params.keys.first].should == @query_params[@query_params.keys.first]
-          req.params[@query_params.keys.last].should  == @query_params[@query_params.keys.last]
+          req.params[ascii_8bit(@query_params.keys.first.dup)].should == ascii_8bit(@query_params[@query_params.keys.first])
+          req.params[ascii_8bit(@query_params.keys.last.dup)].should  == ascii_8bit(@query_params[@query_params.keys.last])
 
-          req.params[@form_params.keys.first].should == @form_params[@form_params.keys.first]
-          req.params[@form_params.keys.last].should  == @form_params[@form_params.keys.last]
+          req.params[ascii_8bit(@form_params.keys.first.dup)].should == ascii_8bit(@form_params[@form_params.keys.first])
+          req.params[ascii_8bit(@form_params.keys.last.dup)].should  == ascii_8bit(@form_params[@form_params.keys.last])
         end
       end
     end
@@ -120,8 +121,8 @@ describe Jpmobile::Rack::ParamsFilter do
         req = Rack::Request.new(res[1])
         req.params.size.should == 2
 
-        req.params["hoge"].should == utf8("\356\230\276")
-        req.params["foo"].should  == utf8("\356\231\200")
+        req.params["hoge"].should == ascii_8bit("\356\230\276")
+        req.params["foo"].should  == ascii_8bit("\356\231\200")
       end
     end
 
@@ -141,15 +142,15 @@ describe Jpmobile::Rack::ParamsFilter do
         req = Rack::Request.new(res[1])
         req.params.size.should == 2
 
-        req.params["hoge"].should == utf8("\356\222\201")
-        req.params["foo"].should  == utf8("\356\224\242")
+        req.params["hoge"].should == ascii_8bit("\356\222\201")
+        req.params["foo"].should  == ascii_8bit("\356\224\242")
       end
     end
 
     context "Softbank の場合" do
       it "UTF-8 絵文字がUTF-8に変換されること" do
-        query_string = "hoge=" + URI.encode([0xe001].pack('U'))
-        form_string  = "foo="  + [0xe21c].pack('U')
+        query_string = ascii_8bit("hoge=" + URI.encode([0xe001].pack('U')))
+        form_string  = ascii_8bit("foo="  + [0xe21c].pack('U'))
 
         res = Rack::MockRequest.env_for(
           "/?#{query_string}",
@@ -162,8 +163,8 @@ describe Jpmobile::Rack::ParamsFilter do
         req = Rack::Request.new(res[1])
         req.params.size.should == 2
 
-        req.params["hoge"].should == utf8("\xef\x80\x81")
-        req.params["foo"].should  == utf8("\xef\x88\x9c")
+        req.params["hoge"].should == ascii_8bit("\xef\x80\x81")
+        req.params["foo"].should  == ascii_8bit("\xef\x88\x9c")
       end
     end
   end

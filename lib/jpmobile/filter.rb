@@ -61,9 +61,23 @@ module Jpmobile
       private
       def filter(str, from, to)
         str = str.clone
+
+        # 一度UTF-8に変換
+        before_encoding = nil
+        if str.respond_to?(:force_encoding)
+          before_encoding = str.encoding
+          str.force_encoding("UTF-8")
+        end
+
         from.each_with_index do |int, i|
           str.gsub!(int, to[i])
         end
+
+        # 元に戻す
+        if before_encoding
+          str.force_encoding(before_encoding)
+        end
+
         str
       end
     end

@@ -17,5 +17,34 @@ module Jpmobile
         proc.call(obj)
       end
     end
+
+    def sjis(ascii_8bit)
+      if ascii_8bit.respond_to?(:force_encoding)
+        ascii_8bit.force_encoding("Shift_JIS")
+      end
+      ascii_8bit
+    end
+
+    def utf8(ascii_8bit)
+      if ascii_8bit.respond_to?(:force_encoding)
+        ascii_8bit.force_encoding("utf-8")
+      end
+      ascii_8bit
+    end
+
+    def ascii_8bit(str)
+      if str.respond_to?(:force_encoding)
+        str.force_encoding("ASCII-8BIT")
+      end
+      str
+    end
+
+    def to_sjis(utf8)
+      if utf8.respond_to?(:encode)
+        utf8.encode("Shift_JIS")
+      else
+        NKF.nkf("-sWx", utf8)
+      end
+    end
   end
 end

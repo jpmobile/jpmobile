@@ -14,6 +14,9 @@ end
 class UnitApplication
   def initialize(body = nil)
     @body = body || "Body"
+    if @body.respond_to?(:force_encoding)
+      @body.force_encoding("UTF-8")
+    end
   end
 
   def call(env)
@@ -39,8 +42,12 @@ end
 class RenderParamApp
   def call(env)
     request = Rack::Request.new(env)
+    q = request.params['q']
+    if q.respond_to?(:force_encoding)
+      q.force_encoding("UTF-8")
+    end
 
-    [200, env, request.params['q']]
+    [200, env, q]
   end
 end
 
@@ -56,23 +63,5 @@ module Jpmobile::RackHelper
     @request.host = "www.example.jp"
     @request.session.session_id = "mysessionid"
   end
-  def sjis(ascii_8bit)
-    if ascii_8bit.respond_to?(:force_encoding)
-      ascii_8bit.force_encoding("Shift_JIS")
-    end
-    ascii_8bit
-  end
-  def utf8(ascii_8bit)
-    if ascii_8bit.respond_to?(:force_encoding)
-      ascii_8bit.force_encoding("utf-8")
-    end
-    ascii_8bit
-  end
-  def to_sjis(utf8)
-    if utf8.respond_to?(:encode)
-      utf8.encode("Shift_JIS")
-    else
-      NKF.nkf("-sWx", utf8)
-    end
-  end
+  include Jpmobile::Util
 end

@@ -103,7 +103,7 @@ module Jpmobile::Mobile
     # 文字コード変換
     def to_internal(str)
       # 絵文字を数値参照に変換
-      str = Jpmobile::Emoticon.send(:external_to_unicodecr_au, str)
+      str = Jpmobile::Emoticon.external_to_unicodecr_au(Jpmobile::Util.sjis(str))
       # 文字コードを Shift_JIS に変換
       str = NKF.nkf("-m0 -x -Sw", str)
       # 数値参照を UTF-8 に変換

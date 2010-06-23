@@ -77,6 +77,9 @@ describe "絵文字が" do
 
     it "パラメータが変換されること" do
       query_string = "q=" + URI.encode(sjis("\xf8\x9f"))
+      if query_string.respond_to?(:force_encoding)
+        query_string.force_encoding("ASCII-8BIT")
+      end
 
       res = Rack::MockRequest.env_for(
         "/?#{query_string}",
@@ -84,7 +87,7 @@ describe "絵文字が" do
         'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)')
       res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(Jpmobile::Rack::Filter.new(RenderParamApp.new))).call(res)
       req = Rack::Request.new(res[1])
-      req.params['q'].should == "\xee\x98\xbe"
+      req.params['q'].should == utf8("\xee\x98\xbe")
       res[2].should == sjis("\xf8\x9f")
     end
   end
@@ -122,6 +125,9 @@ describe "絵文字が" do
 
     it "パラメータが変換されること" do
       query_string = "q=" + URI.encode(sjis("\xf6\x60"))
+      if query_string.respond_to?(:force_encoding)
+        query_string.force_encoding("ASCII-8BIT")
+      end
 
       res = Rack::MockRequest.env_for(
         "/?#{query_string}",

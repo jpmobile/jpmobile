@@ -6,26 +6,26 @@ describe "jpmobile integration spec" do
   describe "文字コードフィルタが動作しているとき", :shared => true do
     it "はhtml以外は変換しないこと" do
       get "/#{@controller}/rawdata", {}, {"USER_AGENT" => @user_agent}
-      response.charset.should be_nil
-      response.body.should == "アブラカダブラ"
+      body.should == "アブラカダブラ"
+      headers['Content-Type'].should_not =~ /charset/i
     end
     it "response.bodyが空のときは文字コードを変更しないこと" do
       get "/#{@controller}/empty", {}, {"USER_AGENT" => @user_agent}
-      response.charset.should_not == "Shift_JIS"
+      headers['Content-Type'].should =~ /utf-8/i
     end
   end
 
   describe "Shift_JISで通信する端末との通信", :shared => true do
     it "はShift_JISで携帯に送出されること" do
       get "/#{@controller}/abracadabra_utf8", {}, {"USER_AGENT" => @user_agent}
-      response.body.should == to_sjis("アブラカダブラ")
-      response.charset.should == "Shift_JIS"
+      body.should == to_sjis("アブラカダブラ")
+      headers['Content-Type'].should =~ /Shift_JIS/i
     end
     it "はxhtmlでもShift_JISで携帯に送出されること" do
       get "/#{@controller}/abracadabra_xhtml_utf8", {}, {"USER_AGENT" => @user_agent}
 
-      response.body.should == to_sjis("アブラカダブラ")
-      response.charset.should == "Shift_JIS"
+      body.should == to_sjis("アブラカダブラ")
+      headers['Content-Type'].should =~ /Shift_JIS/i
     end
     it "はShift_JISで渡されたパラメタがparamsにUTF-8に変換されて格納されること" do
       get "/#{@controller}", {:q => to_sjis("アブラカダブラ")}, {"USER_AGENT" => @user_agent}
@@ -42,13 +42,13 @@ describe "jpmobile integration spec" do
   describe "UTF-8で通信する端末との通信", :shared => true do
     it "はUTF-8で携帯に送出されること" do
       get "/#{@controller}/abracadabra_utf8", {}, {"USER_AGENT" => @user_agent}
-      response.body.should == "アブラカダブラ"
-      response.charset.should == "utf-8"
+      body.should == "アブラカダブラ"
+      headers['Content-Type'].should =~ /utf-8/i
     end
     it "はxhtmlでもUTF-8で携帯に送出されること" do
       get "/#{@controller}/abracadabra_xhtml_utf8", {}, {"USER_AGENT" => @user_agent}
-      response.body.should == "アブラカダブラ"
-      response.charset.should == "utf-8"
+      body.should == "アブラカダブラ"
+      headers['Content-Type'].should =~ /utf-8/i
     end
     it "はparamsにUTF-8のまま格納されること" do
       get "/#{@controller}/index", {:q => "アブラカダブラ"}, {"USER_AGENT" => @user_agent}
@@ -64,8 +64,8 @@ describe "jpmobile integration spec" do
   describe "Shift_JISで通信する端末との通信(半角変換付き)", :shared => true do
     it "は半角に変換されShift_JISで携帯に送出されること" do
       get "/#{@controller}/abracadabra_utf8", {}, {"USER_AGENT" => @user_agent}
-      response.body.should == sjis("\261\314\336\327\266\300\336\314\336\327") # アブラカダブラ半角,SJIS
-      response.charset.should == "Shift_JIS"
+      body.should == sjis("\261\314\336\327\266\300\336\314\336\327") # アブラカダブラ半角,SJIS
+      headers['Content-Type'].should =~ /Shift_JIS/
     end
     it "はShift_JISで渡されたパラメタがparamsにUTF-8に変換されて格納されること" do
       get "/#{@controller}/index", {:q => to_sjis("アブラカダブラ")}, {"USER_AGENT" => @user_agent}
@@ -82,8 +82,8 @@ describe "jpmobile integration spec" do
   describe "UTF-8で通信する端末との通信(半角変換付き)", :shared => true do
     it "はUTF-8半角で携帯に送出されること" do
       get "/#{@controller}/abracadabra_utf8", {}, {"USER_AGENT" => @user_agent}
-      response.body.should == "ｱﾌﾞﾗｶﾀﾞﾌﾞﾗ"
-      response.charset.should == "utf-8"
+      body.should == "ｱﾌﾞﾗｶﾀﾞﾌﾞﾗ"
+      headers['Content-Type'].should =~ /utf-8/i
     end
     it "はparamsにUTF-8のまま格納されること" do
       get "/#{@controller}/index", {:q => "アブラカダブラ"}, {"USER_AGENT" => @user_agent}

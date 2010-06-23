@@ -20,7 +20,7 @@ class UnitApplication
   end
 
   def call(env)
-    [200, env, @body]
+    Rack::Response.new(@body, 200, env).finish
   end
 end
 

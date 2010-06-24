@@ -84,4 +84,11 @@ END
       cd relative_root
     end
   end
+  desc "Run sinatra on jpmobile tests"
+  Rake::TestTask.new(:sinatra) do |t|
+    t.libs << 'lib'
+    t.libs << 'test/sinatra'
+    t.pattern = 'test/sinatra/test/*_test.rb'
+    t.verbose = true
+  end
 end

@@ -80,7 +80,6 @@ END
       cd rails_root
       ruby "-S rake db:migrate"
       ruby "-S rake spec"
-      # ruby "-S spec -b --color -e 'jpmobile integration spec HankakuFilterController DoCoMo SH902i からのアクセス は半角に変換されShift_JISで携帯に送出されること' spec/integration/filter_spec.rb"
 
       cd relative_root
     end

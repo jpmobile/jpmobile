@@ -39,11 +39,19 @@ module Jpmobile
       str
     end
 
-    def to_sjis(utf8)
-      if utf8.respond_to?(:encode)
-        utf8.encode("Shift_JIS")
+    def utf8_to_sjis(utf8_str)
+      if utf8_str.respond_to?(:encode)
+        utf8_str.encode("Shift_JIS")
       else
-        NKF.nkf("-sWx", utf8)
+        NKF.nkf("-m0 -x -Ws", utf8_str)
+      end
+    end
+
+    def sjis_to_utf8(sjis_str)
+      if sjis_str.respond_to?(:encode)
+        sjis_str.encode("UTF-8")
+      else
+        NKF.nkf("-m0 -x -Sw", sjis_str)
       end
     end
   end

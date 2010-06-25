@@ -8,7 +8,7 @@ describe Jpmobile::Rack::Filter do
   context "漢字コード変換" do
     before(:each) do
       @utf8 = "ゆーてぃーえふえいとの日本語ですが何か"
-      @sjis = sjis(NKF.nkf("-sWx", @utf8))
+      @sjis = utf8_to_sjis(@utf8)
     end
 
     context "docomo のとき" do
@@ -55,7 +55,7 @@ describe Jpmobile::Rack::Filter do
       @emoji_au_utf8       = utf8([0xe494].pack('U'))
       @emoji_softbank_utf8 = utf8([0xf244].pack('U'))
 
-      @sjis           = sjis(NKF.nkf("-sWx", @utf8))
+      @sjis           = utf8_to_sjis(@utf8)
       @docomo_emoji   = sjis("\xf8\xac")
       @au_emoji       = sjis("\xf6\x6c")
       @softbank_emoji = utf8("\x1b\x24Fd\x0f")

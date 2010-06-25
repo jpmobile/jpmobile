@@ -104,8 +104,8 @@ module Jpmobile::Mobile
     def to_internal(str)
       # 絵文字を数値参照に変換
       str = Jpmobile::Emoticon.external_to_unicodecr_au(Jpmobile::Util.sjis(str))
-      # 文字コードを Shift_JIS に変換
-      str = NKF.nkf("-m0 -x -Sw", str)
+      # 文字コードを UTF-8 に変換
+      str = Jpmobile::Util.sjis_to_utf8(str)
       # 数値参照を UTF-8 に変換
       Jpmobile::Emoticon::unicodecr_to_utf8(str)
       # 半角->全角変換
@@ -115,13 +115,16 @@ module Jpmobile::Mobile
       str = Jpmobile::Emoticon.utf8_to_unicodecr(str)
       # 文字コードを Shift_JIS に変換
       if [nil, "text/html", "application/xhtml+xml"].include?(content_type)
-        str = NKF.nkf("-m0 -x -Ws", str)
-        charset = "Shift_JIS" unless str.empty?
+        str = Jpmobile::Util.utf8_to_sjis(str)
+        charset = default_charset unless str.empty?
       end
       # 数値参照を絵文字コードに変換
       str = Jpmobile::Emoticon.unicodecr_to_external(str, Jpmobile::Emoticon::CONVERSION_TABLE_TO_AU, true)
 
       [str, charset]
+    end
+    def default_charset
+      "Shift_JIS"
     end
   end
 end

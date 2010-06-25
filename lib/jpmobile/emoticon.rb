@@ -116,7 +116,7 @@ module Jpmobile
             self.unicodecr_to_external(converted, conversion_table, to_sjis)
           else
             # 変換先が文字列で指定されている。
-            to_sjis ? NKF.nkf('-m0 -x -Ws', converted) : converted
+            to_sjis ? Jpmobile::Util.utf8_to_sjis(converted) : converted
           end
         when nil
           # 変換先が定義されていない。

@@ -106,7 +106,7 @@ describe "絵文字が" do
       response_body(response).should == sjis("\xf6\x60")
 
       response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@docomo_docomopoint))).call(@res)[2]
-      response_body(response).should == to_sjis("［ドコモポイント］")
+      response_body(response).should == utf8_to_sjis("［ドコモポイント］")
     end
 
     it "au 絵文字が変換されること" do

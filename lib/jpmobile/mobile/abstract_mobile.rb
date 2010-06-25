@@ -59,6 +59,9 @@ module Jpmobile::Mobile
     def to_external(str, content_type, charset)
       [str, charset]
     end
+    def default_charset
+      "UTF-8"
+    end
 
     #XXX: lib/jpmobile.rbのautoloadで先に各キャリアの定数を定義しているから動くのです
     Jpmobile::Mobile.carriers.each do |carrier|

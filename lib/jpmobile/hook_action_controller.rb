@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require 'action_pack'
 
 class ActionController::Base
@@ -21,3 +22,5 @@ class ActionController::Base
     @view_paths = ActionView::Base.process_view_paths(value, controller) if value
   end
 end
+
+ActionController::Request.send :include, Jpmobile::Encoding

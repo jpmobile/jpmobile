@@ -29,12 +29,12 @@ describe "jpmobile integration spec" do
     end
     it "はShift_JISで渡されたパラメタがparamsにUTF-8に変換されて格納されること" do
       get "/#{@controller}", {:q => to_sjis("アブラカダブラ")}, {"USER_AGENT" => @user_agent}
-      assigns(:q).should == ascii_8bit("アブラカダブラ")
+      assigns(:q).should == utf8("アブラカダブラ")
     end
     it "は半角カナのparamsを変換しないこと" do
       # アブラカダブラ半角,SJIS
       get "/#{@controller}", {:q => sjis("\261\314\336\327\266\300\336\314\336\327")}, {"USER_AGENT" => @user_agent}
-      assigns(:q).should == ascii_8bit("ｱﾌﾞﾗｶﾀﾞﾌﾞﾗ")
+      assigns(:q).should == utf8("ｱﾌﾞﾗｶﾀﾞﾌﾞﾗ")
     end
     it_should_behave_like "文字コードフィルタが動作しているとき"
   end
@@ -52,11 +52,11 @@ describe "jpmobile integration spec" do
     end
     it "はparamsにUTF-8のまま格納されること" do
       get "/#{@controller}/index", {:q => "アブラカダブラ"}, {"USER_AGENT" => @user_agent}
-      assigns(:q).should == ascii_8bit("アブラカダブラ")
+      assigns(:q).should == utf8("アブラカダブラ")
     end
     it "は半角カナのparamsを変換しないこと" do
       get "/#{@controller}/index", {:q => "ｱﾌﾞﾗｶﾀﾞﾌﾞﾗ"}, {"USER_AGENT" => @user_agent}
-      assigns(:q).should == ascii_8bit("ｱﾌﾞﾗｶﾀﾞﾌﾞﾗ")
+      assigns(:q).should == utf8("ｱﾌﾞﾗｶﾀﾞﾌﾞﾗ")
     end
     it_should_behave_like "文字コードフィルタが動作しているとき"
   end
@@ -69,12 +69,12 @@ describe "jpmobile integration spec" do
     end
     it "はShift_JISで渡されたパラメタがparamsにUTF-8に変換されて格納されること" do
       get "/#{@controller}/index", {:q => to_sjis("アブラカダブラ")}, {"USER_AGENT" => @user_agent}
-      assigns(:q).should == ascii_8bit("アブラカダブラ")
+      assigns(:q).should == utf8("アブラカダブラ")
     end
     it "は半角Shift_JISで渡されたパラメタがparamsに全角UTF-8に変換されて格納されること" do
       # アブラカダブラ半角,SJIS
       get "/#{@controller}/index", {:q => sjis("\261\314\336\327\266\300\336\314\336\327")}, {"USER_AGENT" => @user_agent}
-      assigns(:q).should == ascii_8bit("アブラカダブラ")
+      assigns(:q).should == utf8("アブラカダブラ")
     end
     it_should_behave_like "文字コードフィルタが動作しているとき"
   end
@@ -87,11 +87,11 @@ describe "jpmobile integration spec" do
     end
     it "はparamsにUTF-8のまま格納されること" do
       get "/#{@controller}/index", {:q => "アブラカダブラ"}, {"USER_AGENT" => @user_agent}
-      assigns(:q).should == ascii_8bit("アブラカダブラ")
+      assigns(:q).should == utf8("アブラカダブラ")
     end
     it "は半角で渡されたparamsを全角に変換して格納すること" do
       get "/#{@controller}/index", {:q => "ｱﾌﾞﾗｶﾀﾞﾌﾞﾗ"}, {"USER_AGENT" => @user_agent}
-      assigns(:q).should == ascii_8bit("アブラカダブラ")
+      assigns(:q).should == utf8("アブラカダブラ")
     end
     it_should_behave_like "文字コードフィルタが動作しているとき"
   end

@@ -4,6 +4,7 @@ module Jpmobile
   autoload :Position, 'jpmobile/position'
   autoload :RequestWithMobile, 'jpmobile/request_with_mobile'
   autoload :Util,     'jpmobile/util'
+  autoload :Encoding, 'jpmobile/encoding'
 
   module Mobile
     autoload :Docomo,    'jpmobile/mobile/docomo'

@@ -113,4 +113,4 @@ task :rel => [:gem] do
 end
 
 task :test => ['test:legacy', 'spec:unit', 'spec:rack', 'test:rails']
-load 'tasks/jpmobile_tasks.rake'
+load 'lib/tasks/jpmobile_tasks.rake'

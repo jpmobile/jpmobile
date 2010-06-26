@@ -10,14 +10,14 @@ begin
   namespace :spec do
     desc 'run unit testing (core test)'
     Spec::Rake::SpecTask.new(:unit) do |t|
-      spec_dir = File.join(File.dirname(__FILE__), '..', 'spec')
+      spec_dir = File.join(File.dirname(__FILE__), '../../', 'spec')
       t.spec_opts = File.read(File.join(spec_dir, 'spec.opts')).split
       t.spec_files = FileList[File.join(spec_dir, 'unit', '**', '*_spec.rb')]
     end
 
     desc 'run rack testing'
     Spec::Rake::SpecTask.new(:rack) do |t|
-      spec_dir = File.join(File.dirname(__FILE__), '..', 'spec')
+      spec_dir = File.join(File.dirname(__FILE__), '../../', 'spec')
       t.spec_opts = File.read(File.join(spec_dir, 'spec.opts')).split
       t.spec_files = FileList[File.join(spec_dir, 'rack', '**', '*_spec.rb')]
     end

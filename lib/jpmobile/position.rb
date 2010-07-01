@@ -4,7 +4,7 @@
 # Rack 化にあわせて gem を見るように
 begin
   require 'geokit'
-rescue
+rescue LoadError
 end
 
 module Jpmobile

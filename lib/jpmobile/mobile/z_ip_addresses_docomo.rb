@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # = IPアドレス帯域テーブル(手動更新分)
 # == DoCoMo
 # http://www.nttdocomo.co.jp/service/imode/make/content/ip/index.html
@@ -8,5 +9,7 @@ Jpmobile::Mobile::Docomo::IP_ADDRESSES = %w(
 210.153.86.0/24
 124.146.174.0/24
 124.146.175.0/24
+202.229.176.0/24
+202.229.177.0/24
+202.229.178.0/24
 ).map {|ip| IPAddr.new(ip) }
-

@@ -1,4 +1,4 @@
-Jpmobile::Mobile::Au::IP_ADDRESSES = 
+Jpmobile::Mobile::Au::IP_ADDRESSES =
 ["210.230.128.224/28",
  "121.111.227.160/27",
  "61.117.1.0/28",
@@ -23,4 +23,5 @@ Jpmobile::Mobile::Au::IP_ADDRESSES =
  "111.86.142.0/26",
  "111.86.141.64/26",
  "111.86.141.128/26",
- "111.86.141.192/26"].map {|ip| IPAddr.new(ip) }
+ "111.86.141.192/26",
+ "118.159.133.192/26"].map {|ip| IPAddr.new(ip) }

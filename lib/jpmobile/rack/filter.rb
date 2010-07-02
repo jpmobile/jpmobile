@@ -17,14 +17,14 @@ module Jpmobile
           if content_type = env['Content-Type']
             type, charset = content_type.split(/;\s*charset=/)
           else
-            type = nil
-            charset      = nil
+            type    = nil
+            charset = nil
           end
 
           response, charset = mobile.to_external(response_to_body(response), type, charset)
 
           if type and charset
-            env['Content-Type'] = "#{content_type}; charset=#{charset}"
+            env['Content-Type'] = "#{type}; charset=#{charset}"
           end
         end
 

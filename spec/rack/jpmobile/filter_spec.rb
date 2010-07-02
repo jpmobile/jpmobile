@@ -18,6 +18,7 @@ describe Jpmobile::Rack::Filter do
           "REQUEST_METHOD" => "GET",
           'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)')
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@utf8))).call(res)
+        res[1]['Content-Type'].should == "text/html; charset=Shift_JIS"
         response_body(res) == @sjis
       end
     end
@@ -29,6 +30,7 @@ describe Jpmobile::Rack::Filter do
           "REQUEST_METHOD" => "GET",
           'HTTP_USER_AGENT' => "KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0")
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@utf8))).call(res)
+        res[1]['Content-Type'].should == "text/html; charset=Shift_JIS"
         response_body(res) == @sjis
       end
     end
@@ -40,6 +42,7 @@ describe Jpmobile::Rack::Filter do
           "REQUEST_METHOD" => "GET",
           'HTTP_USER_AGENT' => "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1")
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@utf8))).call(res)
+        res[1]['Content-Type'].should == "text/html"
         response_body(res) == @utf8
       end
     end

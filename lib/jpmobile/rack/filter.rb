@@ -32,7 +32,7 @@ module Jpmobile
             if response.respond_to?(:content_type=)
               response.content_type    = "#{content_type}; charset=#{charset}"
             else
-              response['Content-Type'] = "#{content_type}; #{charset}"
+              response['Content-Type'] = "#{content_type}; charset=#{charset}"
             end
           end
 

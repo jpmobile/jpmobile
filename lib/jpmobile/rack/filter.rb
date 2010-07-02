@@ -11,38 +11,40 @@ module Jpmobile
         # 入力を保存
         mobile = env['rack.jpmobile']
 
-        status, env, body = @app.call(env)
-
-        response = ::Rack::Response.new(body, status, env)
+        status, env, response = @app.call(env)
 
         if mobile
-          if content_type = response.content_type
-            content_type, charset = content_type.split(/;\s*charset=/)
-            content_type.chomp! if content_type.respond_to?(:chomp!)
-            charset.chomp!      if charset.respond_to?(:chomp!)
+          if content_type = env['Content-Type']
+            type, charset = content_type.split(/;\s*charset=/)
           else
-            content_type = nil
+            type = nil
             charset      = nil
           end
 
-          body = response.body.join("\n")
-          body, charset = mobile.to_external(body, content_type, charset)
+          response, charset = mobile.to_external(response_to_body(response), type, charset)
 
-          if content_type and charset
-            if response.respond_to?(:content_type=)
-              response.content_type    = "#{content_type}; charset=#{charset}"
-            else
-              response['Content-Type'] = "#{content_type}; charset=#{charset}"
-            end
+          if type and charset
+            env['Content-Type'] = "#{content_type}; charset=#{charset}"
           end
-
-          body = [body] if body.kind_of?(String)
-
-          response.body   = body
-          response.length = body.length
         end
 
-        response.finish
+        new_response = ::Rack::Response.new(response, status, env)
+        new_response.finish
+      end
+
+      private
+      def response_to_body(response)
+        if response.respond_to?(:to_str)
+          response.to_str
+        elsif response.respond_to?(:each)
+          body = []
+          response.each do |part|
+            body << response_to_body(part)
+          end
+          body.join("\n")
+        else
+          body
+        end
       end
     end
   end

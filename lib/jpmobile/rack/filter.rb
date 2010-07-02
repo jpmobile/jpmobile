@@ -17,7 +17,7 @@ module Jpmobile
 
         if mobile
           if content_type = response.content_type
-            content_type, charset = content_type.split(/;/)
+            content_type, charset = content_type.split(/;\s*charset=/)
             content_type.chomp! if content_type.respond_to?(:chomp!)
             charset.chomp!      if charset.respond_to?(:chomp!)
           else
@@ -29,7 +29,11 @@ module Jpmobile
           body, charset = mobile.to_external(body, content_type, charset)
 
           if content_type and charset
-            response['Content-Type'] = "#{content_type}; charset=#{charset}"
+            if response.respond_to?(:content_type=)
+              response.content_type    = "#{content_type}; charset=#{charset}"
+            else
+              response['Content-Type'] = "#{content_type}; #{charset}"
+            end
           end
 
           body = [body] if body.kind_of?(String)

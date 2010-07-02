@@ -5,8 +5,8 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe "H11T モバイルブラウザからのアクセス" do
   before do
     @headers = {
-      "USER_AGENT"  => "emobile/1.0.0 (H11T; like Gecko; Wireless) NetFront/3.4",
-      "X_EM_UID"    => "u00000000000000000",
+      "HTTP_USER_AGENT"  => "emobile/1.0.0 (H11T; like Gecko; Wireless) NetFront/3.4",
+      "HTTP_X_EM_UID"    => "u00000000000000000",
       "REMOTE_ADDR" => "117.55.1.232",
     }
   end
@@ -36,7 +36,7 @@ end
 describe "S11HT からのアクセス" do
   before do
     @headers = {
-      "USER_AGENT"  => "Mozilla/4.0 (compatible; MSIE 6.0; Windows CE; IEMobile 7.7) S11HT",
+      "HTTP_USER_AGENT"  => "Mozilla/4.0 (compatible; MSIE 6.0; Windows CE; IEMobile 7.7) S11HT",
     }
   end
 

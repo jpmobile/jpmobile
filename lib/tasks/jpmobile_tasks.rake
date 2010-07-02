@@ -5,21 +5,23 @@
 # end
 
 begin
-  require 'spec'
-  require 'spec/rake/spectask'
+  require 'rspec/core/rake_task'
+
   namespace :spec do
     desc 'run unit testing (core test)'
-    Spec::Rake::SpecTask.new(:unit) do |t|
+    RSpec::Core::RakeTask.new(:unit) do |t|
       spec_dir = File.join(File.dirname(__FILE__), '../../', 'spec')
-      t.spec_opts = File.read(File.join(spec_dir, 'spec.opts')).split
-      t.spec_files = FileList[File.join(spec_dir, 'unit', '**', '*_spec.rb')]
+      # t.spec_opts = File.read(File.join(spec_dir, 'spec.opts')).split
+      # t.spec_files = FileList[File.join(spec_dir, 'unit', '**', '*_spec.rb')]
+      t.pattern = "#{spec_dir}/unit/*_spec.rb"
     end
 
     desc 'run rack testing'
-    Spec::Rake::SpecTask.new(:rack) do |t|
+    RSpec::Core::RakeTask.new(:rack) do |t|
       spec_dir = File.join(File.dirname(__FILE__), '../../', 'spec')
-      t.spec_opts = File.read(File.join(spec_dir, 'spec.opts')).split
-      t.spec_files = FileList[File.join(spec_dir, 'rack', '**', '*_spec.rb')]
+      # t.spec_opts = File.read(File.join(spec_dir, 'spec.opts')).split
+      # t.spec_files = FileList[File.join(spec_dir, 'rack', '**', '*_spec.rb')]
+      t.pattern = "#{spec_dir}/rack/**/*_spec.rb"
     end
   end
 rescue LoadError
@@ -37,7 +39,7 @@ namespace :test do
   task :rails, [:versions] do |t, args|
     rails_root     = "test/rails/rails_root"
     relative_root  = "../../../"
-    rails_versions = args.versions.split("/") rescue ["2.3.8"]
+    rails_versions = args.versions.split("/") rescue ["3.0.0.beta4"]
 
     puts "Running tests in Rails #{rails_versions.join(', ')}"
 
@@ -46,7 +48,7 @@ namespace :test do
       # generate rails app
       FileUtils.rm_rf(rails_root)
       FileUtils.mkdir_p(rails_root)
-      system "rails _#{rails_version}_ --force #{rails_root}"
+      system "rails new #{rails_root}"
 
       # setup jpmobile
       plugin_path = File.join(rails_root, 'vendor', 'plugins', 'jpmobile')
@@ -68,17 +70,17 @@ namespace :test do
       end
 
       # for cookie_only option
-      config_path = File.join(rails_root, 'config', 'environment.rb')
-      File.open(config_path, 'a') do |file|
+      config_path = File.join(rails_root, 'config', 'initializers', 'session_store.rb')
+      File.open(config_path, 'w') do |file|
         file.write <<-END
-
-ActionController::Base.session = {:key => "_session_id", :cookie_only => false}
+Rails.application.config.session_store :active_record_store, :key => '_session_id'
+Rails.application.config.session_options = {:cookie_only => false}
 END
       end
 
       # run tests in rails
       cd rails_root
-      ruby "-S rake db:migrate"
+      ruby "-S rake db:migrate test"
       ruby "-S rake spec"
 
       cd relative_root

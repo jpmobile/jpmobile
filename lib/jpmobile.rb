@@ -33,7 +33,7 @@ end
   require File.expand_path(File.join(File.dirname(__FILE__), lib))
 end
 
-if defined? RAILS_ENV
+if Object.const_defined?(:Rails)
   Dir[File.expand_path(File.join(File.dirname(__FILE__), 'jpmobile/*.rb'))].sort.each { |lib|
     require lib
   }

@@ -39,7 +39,7 @@ module Jpmobile
       if show_all || request.mobile.instance_of?(Mobile::Willcom)
         s << willcom_location_link_to(str||"Willcom", options)
       end
-      return s.join("<br>\n")
+      return s.join("<br>\n").html_safe
     end
 
     # DoCoMo FOMAでGPS位置情報を取得するためのリンクを返す。
@@ -50,7 +50,7 @@ module Jpmobile
         options[:only_path] = false
         url = url_for(options)
       end
-      return %{<a href="#{url}" lcs>#{str}</a>}
+      return %{<a href="#{url}" lcs>#{str}</a>}.html_safe
     end
 
     # DoCoMoでオープンiエリアを取得するためのURLを返す。
@@ -80,7 +80,7 @@ module Jpmobile
         options[:only_path] = false
         url = url_for(options)
       end
-      return %{<a href="#{url}" utn>#{str}</a>}
+      return %{<a href="#{url}" utn>#{str}</a>}.html_safe
     end
 
     # DoCoMoでiモードIDを取得するためのリンクを返す。
@@ -168,7 +168,7 @@ module Jpmobile
     private
     # 外部へのリンク
     def link_to_url(str, url)
-      %{<a href="#{url}">#{str}</a>}
+      %{<a href="#{url}">#{str}</a>}.html_safe
     end
   end
 end

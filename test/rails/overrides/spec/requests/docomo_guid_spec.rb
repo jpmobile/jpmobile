@@ -2,19 +2,23 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe "docomo_guid が起動しないとき", :shared => true do
+shared_examples_for "docomo_guid が起動しないとき" do
   it "で link_to の自動書き換えが行われない" do
-    get "/#{@controller}/link", {}, {"USER_AGENT" => @user_agent}
+    get "/#{@controller}/link", {}, {"HTTP_USER_AGENT" => @user_agent}
 
-    response.should have_tag('a[href=?]', /^\/.+?\/link$/)
+    response.should have_tag('a') do |a|
+      a.first['href'].should match(/^\/.+?\/link$/)
+    end
   end
 end
 
-describe "docomo_guid が起動するとき", :shared => true do
+shared_examples_for "docomo_guid が起動するとき" do
   it "で link_to の自動書き換えが行われる" do
-    get "/#{@controller}/link", {}, {"USER_AGENT" => @user_agent}
+    get "/#{@controller}/link", {}, {"HTTP_USER_AGENT" => @user_agent}
 
-    response.should have_tag('a[href=?]', /^\/.+?\/link\?guid=ON$/)
+    response.should have_tag('a') do |a|
+      a.first['href'].should match(/^\/.+?\/link\?guid=ON$/)
+    end
   end
 end
 
@@ -25,7 +29,7 @@ describe DocomoGuidBaseController, "という docomo_guid が有効になって�
   end
 
   it "の docomo_guid_mode は nil" do
-    get "/#{@controller}/link", {}, {"USER_AGENT" => @user_agent}
+    get "/#{@controller}/link", {}, {"HTTP_USER_AGENT" => @user_agent}
 
     controller.docomo_guid_mode.should be_nil
   end
@@ -39,7 +43,7 @@ describe DocomoGuidAlwaysController, "という docomo_guid :always が指定さ
   end
 
   it "の docomo_guid_always は :always" do
-    get "/#{@controller}/link", {}, {"USER_AGENT" => @user_agent}
+    get "/#{@controller}/link", {}, {"HTTP_USER_AGENT" => @user_agent}
 
     controller.docomo_guid_mode.should == :always
   end
@@ -53,7 +57,7 @@ describe DocomoGuidDocomoController, "という docomo_guid :docomo が指定さ
   end
 
   it "の docomo_guid_mode は :docomo" do
-    get "/#{@controller}/link", {}, {"USER_AGENT" => @user_agent}
+    get "/#{@controller}/link", {}, {"HTTP_USER_AGENT" => @user_agent}
 
     controller.docomo_guid_mode.should == :docomo
   end

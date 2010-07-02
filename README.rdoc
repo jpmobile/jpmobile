@@ -182,9 +182,13 @@ BUG: 現状、上記の例では index.html.erb が存在しない場合に振�
   end
 
 trans_sid 機能を使う場合には cookie session store を使用することができません。
+また Rails 3.0 では Cookie が使える場合にはそちらが優先されてしまうため、:always を指定した場合に問題になる場合があります。
 trans_sid を使用する際には、例えば config/initializers/session_store.rb で
-  ActionController::Base.session_store = :active_record_store
-として active_record_store を使用します。
+
+  Rails.application.config.session_store :active_record_store
+  Rails.application.config.session_options = {:cookie_only => false}
+
+として active_record_store を使用するように設定し、:cookie_only => false として Cookie を優先しないように設定します。
 このとき ApplicationController において protect_from_forgery の :secret を指定するか、
 あるいは protect_from_forgery を解除する必要があるでしょう。
 
@@ -198,7 +202,7 @@ trans_sid を使用する際には、例えば config/initializers/session_store
 テストを実行するためには以下のgemパッケージが必要です。
 * rails (include rack)
 * sqlite3-ruby
-* test-unit (= 1.2.3)
+* nokogiri
 * hpricot
 * rspec
 * rspec-rails

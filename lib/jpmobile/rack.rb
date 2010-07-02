@@ -9,8 +9,8 @@ module Jpmobile
   end
 end
 
-if Object.const_defined?(:RAILS_ENV)
-  ActionController::Dispatcher.middleware.insert_before 'ActionController::ParamsParser', Jpmobile::Rack::MobileCarrier
-  ActionController::Dispatcher.middleware.insert_before 'ActionController::ParamsParser', Jpmobile::Rack::ParamsFilter
-  ActionController::Dispatcher.middleware.insert_before 'ActionController::ParamsParser', Jpmobile::Rack::Filter
+if Object.const_defined?(:Rails)
+  Rails::Application.config.middleware.insert_before('ActionDispatch::ParamsParser', Jpmobile::Rack::MobileCarrier)
+  Rails::Application.config.middleware.insert_before('ActionDispatch::ParamsParser', Jpmobile::Rack::ParamsFilter)
+  Rails::Application.config.middleware.insert_before('ActionDispatch::ParamsParser', Jpmobile::Rack::Filter)
 end

@@ -8,11 +8,8 @@ module ParamsOverCookie
       # cookie よりも params を先に見るパッチ
       def load_session_with_jpmobile(env)
         request = Rack::Request.new(env)
-        unless @cookie_only
-          sid = request.params[@key]
-        end
-        sid ||= request.cookies[@key]
-
+        sid   = request.cookies[@key]
+        sid ||= request.params[@key] unless @cookie_only
         sid, session = get_session(env, sid)
         [sid, session]
       end
@@ -21,32 +18,66 @@ module ParamsOverCookie
   end
 end
 
+module ActionDispatch
+  module Session
+    class AbstractStore
+      include ParamsOverCookie
+    end
+  end
+end
+
 module ActionController
-  # cookie よりも params を先に見るパッチ
-  Session::AbstractStore.send :include, ParamsOverCookie
+  module Redirecting
+    def redirect_to_with_jpmobile(options = {}, response_status = {})
+      if apply_trans_sid? and jpmobile_session_id
+        case options
+        when String
+          unless options.match(/#{session_key}/)
+            url = URI.parse(options)
+            if url.query
+              url.query += "&#{session_key}=#{jpmobile_session_id}"
+            else
+              url.query = "#{session_key}=#{jpmobile_session_id}"
+            end
+            options = url.to_s
+          end
+        when %r{^\w[\w+.-]*:.*}
+        when :back
+        else
+          unless options[session_key.to_sym]
+            options[session_key.to_sym] = jpmobile_session_id
+          end
+        end
+      end
+
+      redirect_to_without_jpmobile(options, response_status)
+    end
+
+    alias_method_chain :redirect_to, :jpmobile
+  end
 
   class Base #:nodoc:
     class_inheritable_accessor :trans_sid_mode
-    alias :redirect_to_full_url_without_jpmobile :redirect_to_full_url
+    # alias :redirect_to_full_url_without_jpmobile :redirect_to_full_url
 
     def transit_sid_mode(*args)
       STDERR.puts "Method transit_sid is now deprecated. Use trans_sid instead."
       trans_sid_mode(*args)
     end
 
-    def redirect_to_full_url(url, status)
-      if apply_trans_sid? and !url.match(/#{session_key}/) and jpmobile_session_id
-        uri = URI.parse(url)
-        if uri.query
-          uri.query += "&#{session_key}=#{jpmobile_session_id}"
-        else
-          uri.query = "#{session_key}=#{jpmobile_session_id}"
-        end
-        url = uri.to_s
-      end
+    # def redirect_to_full_url(url, status)
+    #   if apply_trans_sid? and !url.match(/#{session_key}/) and jpmobile_session_id
+    #     uri = URI.parse(url)
+    #     if uri.query
+    #       uri.query += "&#{session_key}=#{jpmobile_session_id}"
+    #     else
+    #       uri.query = "#{session_key}=#{jpmobile_session_id}"
+    #     end
+    #     url = uri.to_s
+    #   end
 
-      redirect_to_full_url_without_jpmobile(url, status)
-    end
+    #   redirect_to_full_url_without_jpmobile(url, status)
+    # end
 
     class << self
       # 2.3.x or higher
@@ -90,17 +121,20 @@ module Jpmobile::TransSid #:nodoc:
 
   protected
   # URLにsession_idを追加する。
-  def default_url_options(options=nil)
+  def default_url_options
     result = super || {}
     return result unless request # for test process
     return result unless apply_trans_sid?
-    return result.merge({ session_key => jpmobile_session_id })
+    return result.merge({session_key => jpmobile_session_id})
   end
 
   private
   # session_keyを返す。
   def session_key
-    ActionController::Base.session_options.merge(request.session_options || {})[:key]
+    unless key = Rails::Application::config.session_options.merge(request.session_options || {})[:key]
+      key = ActionDispatch::Session::AbstractStore::DEFAULT_OPTIONS[:key]
+    end
+    key
   end
   # session_idを返す
   def jpmobile_session_id

@@ -1,13 +1,12 @@
 # spec/spec_helper.rb
 require 'rubygems'
 require 'rack/test'
-require 'spec'
-require 'spec/fixture' # gem rspec-fixture
+require 'rspec'
 require 'jpmobile'
 require 'jpmobile/rack'
 require 'pp' # for debug
 
-Spec::Runner.configure do |config|
+RSpec.configure do |config|
   config.include Rack::Test::Methods
 end
 

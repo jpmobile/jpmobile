@@ -1,4 +1,5 @@
-unless Spec.const_defined?(:Rails)
+# -*- coding: utf-8 -*-
+unless RSpec.const_defined?(:Rails)
   dir = File.dirname(__FILE__)
 
   # jpmobileの読み込み
@@ -32,5 +33,5 @@ unless Spec.const_defined?(:Rails)
     map.connect ':controller/:action/:id'
   end
 
-  require 'spec/rails'
+  require 'rspec/rails'
 end

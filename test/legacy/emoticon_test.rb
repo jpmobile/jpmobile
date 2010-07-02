@@ -1,5 +1,7 @@
 require File.dirname(__FILE__)+'/helper'
 
+include Jpmobile::Util
+
 class DocomoEmoticonTest < Test::Unit::TestCase
   def test_external_unicodecr_docomo
     assert_equal "&#xe63e;", Jpmobile::Emoticon::external_to_unicodecr_docomo(sjis("\xf8\x9f"))

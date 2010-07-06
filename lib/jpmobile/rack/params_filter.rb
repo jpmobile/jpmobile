@@ -30,3 +30,11 @@ module Jpmobile
     end
   end
 end
+
+module Rack
+  class Request
+    def params
+      self.GET.merge(self.POST)
+    end
+  end
+end

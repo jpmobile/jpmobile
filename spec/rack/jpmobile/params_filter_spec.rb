@@ -21,7 +21,7 @@ describe Jpmobile::Rack::ParamsFilter do
     context "Shift_JIS 変換の " do
       before(:each) do
         @query_string = @query_params.map {|k, v|
-          "%s=%s" % [URI.encode(NKF.nkf("-sWx", k)), URI.encode(NKF.nkf("-sWx", v))]
+          "%s=%s" % [::Rack::Utils.escape(NKF.nkf("-sWx", k)), ::Rack::Utils.escape(NKF.nkf("-sWx", v))]
         }.join("&")
         @form_string = @form_params.map {|k, v|
           "%s=%s" % [NKF.nkf("-sWx", k), NKF.nkf("-sWx", v)]
@@ -74,7 +74,7 @@ describe Jpmobile::Rack::ParamsFilter do
     context "UTF-8 の" do
       before(:each) do
         @query_string = @query_params.map {|k, v|
-          "%s=%s" % [URI.encode(k), URI.encode(v)]
+          "%s=%s" % [::Rack::Utils.escape(k), ::Rack::Utils.escape(v)]
         }.join("&")
         @form_string = @form_params.map {|k, v|
           "%s=%s" % [k, v]
@@ -107,7 +107,7 @@ describe Jpmobile::Rack::ParamsFilter do
   context "絵文字変換" do
     context "docomo の場合" do
       it "Shift_JIS 絵文字がUTF-8に変換されること" do
-        query_string = "hoge=" + URI.encode(sjis("\xf8\x9f"))
+        query_string = "hoge=" + ::Rack::Utils.escape(sjis("\xf8\x9f"))
         form_string  = "foo="  + sjis("\xf8\xa1")
 
         res = Rack::MockRequest.env_for(
@@ -128,7 +128,7 @@ describe Jpmobile::Rack::ParamsFilter do
 
     context "au の場合" do
       it "Shift_JIS 絵文字がUTF-8に変換されること" do
-        query_string = "hoge=" + URI.encode(sjis("\xf6\x59"))
+        query_string = "hoge=" + ::Rack::Utils.escape(sjis("\xf6\x59"))
         form_string  = "foo="  + sjis("\xf6\xfb")
 
         res = Rack::MockRequest.env_for(
@@ -149,7 +149,7 @@ describe Jpmobile::Rack::ParamsFilter do
 
     context "Softbank の場合" do
       it "UTF-8 絵文字がUTF-8に変換されること" do
-        query_string = ascii_8bit("hoge=" + URI.encode([0xe001].pack('U')))
+        query_string = ascii_8bit("hoge=" + ::Rack::Utils.escape([0xe001].pack('U')))
         form_string  = ascii_8bit("foo="  + [0xe21c].pack('U'))
 
         res = Rack::MockRequest.env_for(
@@ -165,6 +165,28 @@ describe Jpmobile::Rack::ParamsFilter do
 
         req.params["hoge"].should == ascii_8bit("\xef\x80\x81")
         req.params["foo"].should  == ascii_8bit("\xef\x88\x9c")
+      end
+    end
+  end
+
+  context "パラメータの変換で" do
+    context "値として" do
+      it "+ が入ってるものが正確に取得できること(token)" do
+        token = "lm/3Pu6RrY+kp8hsnEWp2xygYLInZIxwsB3UWeksaHQ="
+        form_string  = ascii_8bit("foo=#{::Rack::Utils.escape(token)}")
+
+        res = Rack::MockRequest.env_for(
+          "/",
+          "REQUEST_METHOD" => "POST",
+          "CONTENT_TYPE" => 'application/x-www-form-urlencoded',
+          'HTTP_USER_AGENT' => "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1",
+          :input => form_string)
+
+        res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(UnitApplication.new)).call(res)
+        req = Rack::Request.new(res[1])
+        req.params.size.should == 1
+
+        req.params["foo"].should  == ascii_8bit(token)
       end
     end
   end

@@ -28,15 +28,4 @@ module ActionController
   end
 end
 
-# パラメータのUTF-8化
-module Rack
-  module Utils
-    # UTF-8 で match させるようにする
-    def escape(s)
-      s.to_s.gsub(/([^ a-zA-Z0-9_.-]+)/) {
-        '%'+$1.unpack('H2'*bytesize($1)).join('%').upcase
-      }.tr(' ', '+')
-    end
-  end
-end
 ActionController::Request.send :include, Jpmobile::Encoding

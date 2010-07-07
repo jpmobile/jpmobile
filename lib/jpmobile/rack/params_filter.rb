@@ -9,32 +9,39 @@ module Jpmobile
 
       def call(env)
         # 入力
-        if env['rack.jpmobile']
-          # フォームのパラメータ
+        if @mobile = env['rack.jpmobile']
+          # パラメータをkey, valueに分解
+          # form_params
           if env['REQUEST_METHOD'] == 'POST'
-            form_params = env['rack.jpmobile'].to_internal(URI.decode(env['rack.input'].read))
-            env['rack.input'] = StringIO.new(URI.encode(form_params))
+            env['rack.input'] = StringIO.new(parse_query(env['rack.input'].read))
           end
 
-          # URI Query
-          query_string = URI.decode(env['QUERY_STRING'])
-          unless query_string == env['QUERY_STRING']
-            env['QUERY_STRING'] = URI.encode(env['rack.jpmobile'].to_internal(query_string))
-          end
+          # query_params
+          env['QUERY_STRING'] = parse_query(env['QUERY_STRING'])
         end
 
         status, env, body = @app.call(env)
 
         [status, env, body]
       end
-    end
-  end
-end
 
-module Rack
-  class Request
-    def params
-      self.GET.merge(self.POST)
+      private
+      def to_internal(str)
+        ::Rack::Utils.escape(@mobile.to_internal(::Rack::Utils.unescape(str)))
+      end
+      def parse_query(str)
+        return nil unless str
+
+        new_array = []
+        str.split("&").each do |param_pair|
+          k, v = param_pair.split("=")
+          k = to_internal(k) if k
+          v = to_internal(v) if v
+          new_array << "#{k}=#{v}" if k and v
+        end
+
+        new_array.join("&")
+      end
     end
   end
 end

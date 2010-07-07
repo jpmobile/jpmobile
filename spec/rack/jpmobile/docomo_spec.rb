@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-require File.join(File.dirname(__FILE__), '../../rack_helper.rb')
+require File.join(File.expand_path(File.dirname(__FILE__)), '../../rack_helper.rb')
 
 describe Jpmobile::Rack::MobileCarrier, "docomo" do
   include Rack::Test::Methods

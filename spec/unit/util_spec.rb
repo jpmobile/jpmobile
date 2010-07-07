@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 require 'stringio'
-require File.join(File.dirname(__FILE__), 'spec_helper')
+require File.join(File.expand_path(File.dirname(__FILE__)), 'spec_helper')
 
 describe Jpmobile::Util, ".deep_apply" do
   it 'nilのときはnilを返すこと' do

@@ -18,8 +18,6 @@
 * セッションIDをフォーム／リンクに付与(Trans SID)
 
 == インストール
-Rails の Version に応じて選択してください。
-=== Rails 2.3.8
 開発版:
   % ./script/plugin install git://github.com/darashi/jpmobile.git
 

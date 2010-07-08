@@ -58,29 +58,13 @@ module ActionController
 
   class Base #:nodoc:
     class_inheritable_accessor :trans_sid_mode
-    # alias :redirect_to_full_url_without_jpmobile :redirect_to_full_url
 
     def transit_sid_mode(*args)
       STDERR.puts "Method transit_sid is now deprecated. Use trans_sid instead."
       trans_sid_mode(*args)
     end
 
-    # def redirect_to_full_url(url, status)
-    #   if apply_trans_sid? and !url.match(/#{session_key}/) and jpmobile_session_id
-    #     uri = URI.parse(url)
-    #     if uri.query
-    #       uri.query += "&#{session_key}=#{jpmobile_session_id}"
-    #     else
-    #       uri.query = "#{session_key}=#{jpmobile_session_id}"
-    #     end
-    #     url = uri.to_s
-    #   end
-
-    #   redirect_to_full_url_without_jpmobile(url, status)
-    # end
-
     class << self
-      # 2.3.x or higher
       def trans_sid(mode = :mobile)
         include Jpmobile::TransSid
         self.trans_sid_mode = mode

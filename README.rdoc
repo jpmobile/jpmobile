@@ -18,19 +18,19 @@
 Rails の Version に応じて選択してください。
 === Rails 2.3.3, 2.3.4, 2.3.5, 2.3.6, 2.3.7, 2.3.8
 開発版:
-  % ./script/plugin install git://github.com/darashi/jpmobile.git
+  % ./script/plugin install git://github.com/jpmobile/jpmobile.git
 
 === Rails 2.3.2
 ==== pluginとしてインストールする場合
 
 リリース版: (Version 0.0.6)
-  % git clone git://github.com/darashi/jpmobile.git vendor/plugins/jpmobile
+  % git clone git://github.com/jpmobile/jpmobile.git vendor/plugins/jpmobile
   % cd vendor/plugins/jpmobile
   % git checkout 0.0.6
   % rm -rf .git
 
 開発版:
-  % ./script/plugin install git://github.com/darashi/jpmobile.git
+  % ./script/plugin install git://github.com/jpmobile/jpmobile.git
 
 ==== gemでインストールする場合
 
@@ -43,7 +43,7 @@ RAILS_ROOT/config/environment.rb の Rails::Initializer.run do |config| 〜 end 
 
 === Rails 2.2.x 以前
 リリース版:
-  % git clone git://github.com/darashi/jpmobile.git vendor/plugins/jpmobile
+  % git clone git://github.com/jpmobile/jpmobile.git vendor/plugins/jpmobile
   % cd vendor/plugins/jpmobile
   % git checkout 0.0.5
   % rm -rf .git

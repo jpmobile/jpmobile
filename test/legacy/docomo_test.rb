@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require File.dirname(__FILE__)+'/helper'
 
 class DocomoTest < Test::Unit::TestCase
@@ -143,6 +144,44 @@ class DocomoTest < Test::Unit::TestCase
       assert_equal(240, req.mobile.display.height)
       assert_equal(true, req.mobile.display.color?)
       assert_equal(262144, req.mobile.display.colors)
+    end
+  end
+
+  # i-modeブラウザバージョン判定
+  def test_docomo_imode_browser_version
+    reqs = request_with_ua("DoCoMo/2.0 SH902i(c100;TB;W24H12)")
+    reqs << request_with_ua("DoCoMo/1.0/F505iGPS/c20/TB/W20H10")
+    reqs.flatten.each do |req|
+      assert_equal('1.0', req.mobile.imode_browser_version)
+    end
+
+    reqs = request_with_ua("DoCoMo/2.0 P09A3(c500;TB;W20H12)")
+    reqs << request_with_ua("DoCoMo/2.0 P07A3(c500;TB;W24H15)")
+    reqs.flatten.each do |req|
+      assert_equal('2.0', req.mobile.imode_browser_version)
+    end
+
+    reqs = request_with_ua("DoCoMo/2.0 L01B(c500;TB;W40H10)")
+    reqs.flatten.each do |req|
+      assert_equal('2.0LE', req.mobile.imode_browser_version)
+    end
+  end
+
+  # cookie support
+  def test_docomo_imode_browser_version
+    # i-modeブラウザ1.0 == false
+    reqs = request_with_ua("DoCoMo/2.0 SH902i(c100;TB;W24H12)")
+    reqs << request_with_ua("DoCoMo/1.0/F505iGPS/c20/TB/W20H10")
+    reqs.flatten.each do |req|
+      assert(!req.mobile.supports_cookie?)
+    end
+
+    # i-modeブラウザ2.0 & 2.0LE == true
+    reqs = request_with_ua("DoCoMo/2.0 P09A3(c500;TB;W20H12)")
+    reqs << request_with_ua("DoCoMo/2.0 P07A3(c500;TB;W24H15)")
+    reqs << request_with_ua("DoCoMo/2.0 L01B(c500;TB;W40H10)")
+    reqs.flatten.each do |req|
+      assert(req.mobile.supports_cookie?)
     end
   end
 end

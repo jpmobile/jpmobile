@@ -77,7 +77,7 @@ module Jpmobile::Mobile
 
     # cookieに対応しているか？
     def supports_cookie?
-      false
+      imode_browser_version != '1.0'
     end
 
     # 文字コード変換
@@ -104,6 +104,27 @@ module Jpmobile::Mobile
     end
     def default_charset
       "Shift_JIS"
+    end
+
+    # i-mode ブラウザのバージョンを返す。
+    # http://labs.unoh.net/2009/07/i_20.html
+    def imode_browser_version
+      ver = '1.0'
+      case @request.env['HTTP_USER_AGENT']
+      when %r{^DoCoMo/1.0/}
+        # 必ずv1.0
+      when %r{^DoCoMo/2.0 }
+        @request.env['HTTP_USER_AGENT'] =~ / (\w+)\(c(\d+);/
+        model = $1
+        cache_size = $2.to_i
+
+        ver = cache_size >= 500 ? (%w(P03B P05B L01B).member?(model) ? '2.0LE' : '2.0') : '1.0'
+      else
+        # DoCoMo/3.0以降等は、とりあえず非v1.0扱い
+        ver = '2.0'
+      end
+
+      ver
     end
 
     private

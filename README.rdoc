@@ -19,7 +19,7 @@
 
 == インストール
 開発版:
-  % ./script/plugin install git://github.com/darashi/jpmobile.git
+  % ./script/plugin install git://github.com/jpmobile/jpmobile.git
 
 == 使用例
 

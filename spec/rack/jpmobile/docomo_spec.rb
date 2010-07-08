@@ -29,6 +29,10 @@ describe Jpmobile::Rack::MobileCarrier, "docomo" do
     it "#supports_cookie? などが false になること" do
       @env['rack.jpmobile'].supports_cookie?.should be_false
     end
+
+    it "#imode_browser_versionが1.0になること" do
+      @env['rack.jpmobile'].imode_browser_version.should == '1.0'
+    end
   end
 
   context "SO506iC のとき" do
@@ -55,6 +59,61 @@ describe Jpmobile::Rack::MobileCarrier, "docomo" do
 
     it "#supports_cookie? などが false になること" do
       @env['rack.jpmobile'].supports_cookie?.should be_false
+    end
+
+    it "#imode_browser_versionが1.0になること" do
+      @env['rack.jpmobile'].imode_browser_version.should == '1.0'
+    end
+  end
+
+  context "P09A3で" do
+    before(:each) do
+      res = Rack::MockRequest.env_for(
+        'http://jpmobile-rails.org/',
+        'HTTP_USER_AGENT' => "DoCoMo/2.0 P09A3(c500;TB;W20H12)")
+      @env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
+    end
+
+    it "#supports_cookie? が true になること" do
+      @env['rack.jpmobile'].supports_cookie?.should be_true
+    end
+
+    it "#imode_browser_versionが2.0になること" do
+      @env['rack.jpmobile'].imode_browser_version.should == '2.0'
+    end
+  end
+
+  context "P07A3で" do
+    before(:each) do
+      res = Rack::MockRequest.env_for(
+        'http://jpmobile-rails.org/',
+        'HTTP_USER_AGENT' => "DoCoMo/2.0 P07A3(c500;TB;W24H15)")
+      @env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
+    end
+
+    it "#supports_cookie? が true になること" do
+      @env['rack.jpmobile'].supports_cookie?.should be_true
+    end
+
+    it "#imode_browser_versionが2.0になること" do
+      @env['rack.jpmobile'].imode_browser_version.should == '2.0'
+    end
+  end
+
+  context "L01Bで" do
+    before(:each) do
+      res = Rack::MockRequest.env_for(
+        'http://jpmobile-rails.org/',
+        'HTTP_USER_AGENT' => "DoCoMo/2.0 L01B(c500;TB;W40H10)")
+      @env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
+    end
+
+    it "#supports_cookie? が true になること" do
+      @env['rack.jpmobile'].supports_cookie?.should be_true
+    end
+
+    it "#imode_browser_versionが2.0になること" do
+      @env['rack.jpmobile'].imode_browser_version.should == '2.0LE'
     end
   end
 

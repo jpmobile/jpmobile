@@ -7,13 +7,35 @@ module Jpmobile
     autoload :ParamsFilter,  'jpmobile/rack/params_filter.rb'
     autoload :Filter,        'jpmobile/rack/filter.rb'
     autoload :Config,        'jpmobile/rack/config.rb'
+
+    module_function
+    def mount_middlewares
+      # 漢字コード・絵文字フィルター
+      ::Rails::Application.config.middleware.insert_before('ActionDispatch::ParamsParser', Jpmobile::Rack::ParamsFilter)
+      ::Rails::Application.config.middleware.insert_before('ActionDispatch::ParamsParser', Jpmobile::Rack::Filter)
+    end
+  end
+
+  class Configuration
+    def mobile_filter
+      ::Jpmobile::Rack.mount_middlewares
+    end
   end
 end
 
 if Object.const_defined?(:Rails)
-  Rails::Application.config.middleware.insert_before('ActionDispatch::ParamsParser', Jpmobile::Rack::MobileCarrier)
-  Rails::Application.config.middleware.insert_before('ActionDispatch::ParamsParser', Jpmobile::Rack::ParamsFilter)
-  Rails::Application.config.middleware.insert_before('ActionDispatch::ParamsParser', Jpmobile::Rack::Filter)
+  # MobileCarrierのみデフォルトで有効
+  ::Rails::Application.config.middleware.insert_before('ActionDispatch::ParamsParser', Jpmobile::Rack::MobileCarrier)
+
+  module Rails
+    class Application
+      class Configuration
+        def jpmobile
+          @jpmobile ||= ::Jpmobile::Configuration.new
+        end
+      end
+    end
+  end
 end
 
 require 'rack/utils'

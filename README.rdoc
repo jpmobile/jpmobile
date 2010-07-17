@@ -117,7 +117,11 @@ request.mobile.display で Jpmobile::Display クラスのインスタンスが�
 
 jpmobileを読み込むとDoCoMo、Au、SoftBankの絵文字を透過的に扱うことができる。
 
-* Rails の場合は vendor/plugins に配置することで自動的に有効になる。
+* Rails の場合は vendor/plugins に配置し、下記の設定を追加することで有効になる。
+
+  # Rack middleware を追加するメソッド
+  Rails.application.config.jpmobile.mobile_fiter
+
 * Sinatra の場合は下記のように指定する。
 
   $LOAD_PATH << './lib/jpmobile/lib'

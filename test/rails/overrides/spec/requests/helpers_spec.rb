@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 require File.dirname(__FILE__) + '/../spec_helper'
-require 'hpricot'
+require 'nokogiri'
 
 describe Jpmobile::Helpers do
   # 文字列 +str+ 中に含まれるリンクについて、
@@ -8,16 +8,11 @@ describe Jpmobile::Helpers do
   # の3要素からなる配列の配列で返す。
   def get_href_and_texts(str)
     results = []
-    (Hpricot(str)/:a).each do |link|
+    (Nokogiri::HTML.parse(str)/"a").each do |link|
       path, query = link["href"].split(/\?/, 2)
       params = query.nil? ? nil : Rack::Utils.parse_query(query)
       results << [link.inner_html, link.attributes, path, params]
     end
-    # (Nokogiri(str)/"a").each do |link|
-    #   path, query = link["href"].split(/\?/, 2)
-    #   params = query.nil? ? nil : Rack::Utils.parse_query(query)
-    #   results << [link.inner_html, link.attributes, path, params]
-    # end
     return results
   end
 

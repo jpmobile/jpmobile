@@ -205,7 +205,6 @@ trans_sid を使用する際には、例えば config/initializers/session_store
 * rails (include rack)
 * sqlite3-ruby
 * nokogiri
-* hpricot
 * rspec
 * rspec-rails
 * rspec-fixture

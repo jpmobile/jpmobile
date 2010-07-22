@@ -16,7 +16,7 @@ module Jpmobile
       def carrier(env)
         ::Jpmobile::Mobile.carriers.each do |const|
           c = ::Jpmobile::Mobile.const_get(const)
-          if c::USER_AGENT_REGEXP && env['HTTP_USER_AGENT'] =~ c::USER_AGENT_REGEXP
+          if c.check_request(env)
             res = ::Rack::Request.new(env)
             return c.new(env, res)
           end

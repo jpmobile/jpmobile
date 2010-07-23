@@ -100,11 +100,7 @@ module Jpmobile
               [converted].pack("U")
             end
           elsif webcode = SOFTBANK_UNICODE_TO_WEBCODE[converted-0x1000]
-            emotion = "\x1b\x24#{webcode}\x0f"
-            if emotion.respond_to?(:force_encoding)
-              emotion.force_encoding(str.encoding)
-            end
-            emotion
+            [converted-0x1000].pack('U')
           else
             # キャリア変換テーブルに指定されていたUnicodeに対応する
             # 携帯側エンコーディングが見つからない(変換テーブルの不備の可能性あり)。

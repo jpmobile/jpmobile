@@ -36,9 +36,6 @@ class AuEmoticonTest < Test::Unit::TestCase
 end
 
 class SoftbankEmoticonTest < Test::Unit::TestCase
-  def test_jphone_webcode_cr
-    assert_equal "&#xf001;&#xf001;", Jpmobile::Emoticon::external_to_unicodecr_jphone("\x1b$G!!\x0f")
-  end
   def test_softbank_cr
     assert_equal "&#xf001;", Jpmobile::Emoticon::external_to_unicodecr_softbank([0xe001].pack('U'))
   end
@@ -46,7 +43,7 @@ class SoftbankEmoticonTest < Test::Unit::TestCase
     assert_equal "&#xf001;", Jpmobile::Emoticon::external_to_unicodecr_softbank([0xe001].pack('U'))
   end
   def test_softbank_cr_webcode
-    assert_equal "\x1b$G!\x0f", Jpmobile::Emoticon::unicodecr_to_external("&#xf001;")
+    assert_equal [0xe001].pack('U'), Jpmobile::Emoticon::unicodecr_to_external("&#xf001;")
   end
   def test_softbank_cr_utf8
     assert_equal utf8("\xef\x80\x81"), Jpmobile::Emoticon::unicodecr_to_utf8("&#xf001;")
@@ -55,7 +52,7 @@ class SoftbankEmoticonTest < Test::Unit::TestCase
     assert_equal "&#xf001;", Jpmobile::Emoticon::utf8_to_unicodecr(utf8("\xef\x80\x81"))
   end
   def test_unicodecr_external_softbank_for_string
-    assert_equal "\x1b$Gj\x0f\x1b$Gi\x0f", Jpmobile::Emoticon::unicodecr_to_external("&#xE48E;", Jpmobile::Emoticon::CONVERSION_TABLE_TO_SOFTBANK, true)
+    assert_equal [0xe04a, 0xe049].pack('U*'), Jpmobile::Emoticon::unicodecr_to_external("&#xE48E;", Jpmobile::Emoticon::CONVERSION_TABLE_TO_SOFTBANK, true)
   end
 end
 

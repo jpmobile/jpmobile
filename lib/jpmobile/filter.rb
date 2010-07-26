@@ -98,7 +98,7 @@ module Jpmobile
       end
       private
       def filter(str, from, to)
-        str = str.clone
+        str = str.dup
         from.each_with_index do |int, i|
           str.gsub!(int, to[i])
         end

@@ -60,7 +60,7 @@ module Jpmobile
       end
       private
       def filter(str, from, to)
-        str = str.clone
+        str = str.dup
 
         # 一度UTF-8に変換
         before_encoding = nil

@@ -13,7 +13,7 @@
 * 文字コード変換機能／絵文字のキャリア間相互変換
 
 また Rails に以下の機能を追加する
-* 携帯電話ビューへの自動振分け
+* ビューへの自動振分け
 * 位置情報取得などのリンクヘルパーの追加
 * セッションIDをフォーム／リンクに付与(Trans SID)
 
@@ -48,12 +48,20 @@
     # for DoCoMo
   end
 
-==== Viewの中で一部を切替える例
+==== ビューの中で一部を切替える例
   <% if request.mobile? %>
     携帯電話からのアクセスです。
   <% else %>
     携帯電話からのアクセスではありません。
   <% end %>
+
+  <% if request.smart_phone? %>
+    スマートフォンからのアクセスです。
+  <% else %>
+    スマートフォンからのアクセスではありません。
+  <% end %>
+
+
 
 ==== 別に用意した携帯電話用コントローラへリダイレクトする例
   class PcController < ApplicationController
@@ -67,6 +75,10 @@
       if request.mobile?
         pa = params.dup
         pa[:controller] = "/mobile"
+        redirect_to pa
+      elsif request.smart_phone?
+        pa = params.dup
+        pa[:controller] = "/smart_phone"
         redirect_to pa
       end
     end
@@ -107,6 +119,7 @@ vandor/plugins/geokit以下にGeoKitがインストールされていると、Jp
 === IPの検証
 キャリアが公開しているIPアドレス帯域からのアクセスか判定する。
   request.mobile.valid_ip?
+ただしスマートフォンの場合は必ずfalseとなる。
 
 === 端末の画面サイズ
 request.mobile.display で Jpmobile::Display クラスのインスタンスが返る。
@@ -157,13 +170,20 @@ Jpmobile内では、各キャリアの絵文字はUnicode私的領域上にマ�
 * 絵文字はキャリアにあわせて変換されて送出される。
 * 携帯電話からの絵文字はUnicode私的領域にマップされ、UTF-8でparamsに格納される。
 
-=== 携帯電話viewの自動振分け
+=== ビューの自動振分け
 DoCoMo携帯電話からアクセスすると、
 * index_mobile_docomo.html.erb
 * index_mobile.html.erb
 * index.html.erb
 の順でテンプレートを検索し、最初に見付かったテンプレートが利用される。
 Auの場合は、index_mobile_au.html.erb、Softbankの場合はindex_mobile_softbank.html.erbが最初に検索される。
+
+またiPhoneからアクセスすると、
+* index_smart_phone_iphone.html.erb
+* index_smart_phone.html.erb
+* index.html.erb
+の順でテンプレートを検索する。
+Androidの場合はindex_smart_phone_android.html.erb、Windows Phoneの場合はindex_smart_phone_windows_phone.html.erbが最初に検索される。
 
 BUG: 現状、上記の例では index.html.erb が存在しない場合に振り分けが行われない(ダミーファイルを置くことで回避可能)。
 

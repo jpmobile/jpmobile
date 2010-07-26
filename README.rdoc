@@ -185,7 +185,7 @@ Auの場合は、index_mobile_au.html.erb、Softbankの場合はindex_mobile_sof
 の順でテンプレートを検索する。
 Androidの場合はindex_smart_phone_android.html.erb、Windows Phoneの場合はindex_smart_phone_windows_phone.html.erbが最初に検索される。
 
-BUG: 現状、上記の例では index.html.erb が存在しない場合に振り分けが行われない(ダミーファイルを置くことで回避可能)。
+携帯専用サイトであれば、index.html.erbがなくとも問題ない。
 
 === 位置情報の取得用リンクの生成
 

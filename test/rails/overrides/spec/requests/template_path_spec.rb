@@ -105,6 +105,12 @@ describe TemplatePathController, "integrated_views" do
 
         response.should have_tag("h1", :content => "index_mobile_docomo.html.erb")
       end
+
+      it 'show.html.erb がなくとも show_mobile_docomo.html.erbが使用されること' do
+        get "/template_path/show", {}, { "HTTP_USER_AGENT" => @user_agent}
+
+        response.should have_tag("h1", :content => "show_mobile_docomo.html.erb")
+      end
     end
 
     context "SoftBankからのアクセスの場合" do
@@ -115,6 +121,12 @@ describe TemplatePathController, "integrated_views" do
         get "/template_path/index", {}, { "HTTP_USER_AGENT" => @user_agent}
 
         response.should have_tag("h1", :content => "index_mobile.html.erb")
+      end
+
+      it 'show.html.erb がなくとも show_mobile.html.erbが使用されること' do
+        get "/template_path/show", {}, { "HTTP_USER_AGENT" => @user_agent}
+
+        response.should have_tag("h1", :content => "show_mobile.html.erb")
       end
     end
 

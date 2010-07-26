@@ -5,9 +5,7 @@ module Jpmobile::Mobile
   # ==iPhone
   class Iphone < SmartPhone
     # 対応するUser-Agentの正規表現
-    USER_AGENT_REGEXP = /^DoCoMo/
-    # 対応するメールアドレスの正規表現
-    MAIL_ADDRESS_REGEXP = /^.+@docomo\.ne\.jp$/
+    USER_AGENT_REGEXP = /iPhone/
 
     # 文字コード変換
     def to_internal(str)

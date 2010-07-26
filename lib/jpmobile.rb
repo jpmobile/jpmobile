@@ -14,6 +14,10 @@ module Jpmobile
     autoload :Emobile,   'jpmobile/mobile/emobile'
     autoload :Willcom,   'jpmobile/mobile/willcom'
     autoload :Ddipocket, 'jpmobile/mobile/willcom'
+    autoload :SmartPhone,   'jpmobile/mobile/smart_phone'
+    autoload :Iphone,       'jpmobile/mobile/iphone'
+    autoload :Android,      'jpmobile/mobile/android'
+    autoload :WindowsPhone, 'jpmobile/mobile/windows_phone'
 
     def self.carriers
       @carriers ||= constants

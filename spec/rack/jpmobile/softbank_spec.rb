@@ -18,6 +18,7 @@ describe Jpmobile::Rack::MobileCarrier, "softbank" do
       env['rack.jpmobile'].ident_device.should     == "000000000000000"
       env['rack.jpmobile'].ident_subscriber.should be_nil
       env['rack.jpmobile'].supports_cookie?.should be_true
+      env['rack.jpmobile'].smart_phone?.should     be_false
     end
 
     it "X_JPHONE_UID 付きの 910T を判別できること" do

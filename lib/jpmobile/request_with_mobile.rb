@@ -26,7 +26,12 @@ module Jpmobile
 
     # 携帯電話からであれば +true+を、そうでなければ +false+ を返す。
     def mobile?
-      mobile != nil
+      mobile and not mobile.smart_phone?
+    end
+
+    # viewの切り替えをするかどうか
+    def smart_phone?
+      mobile and mobile.smart_phone?
     end
 
     # 携帯電話の機種に応じて Mobile::xxx を返す。

@@ -12,5 +12,10 @@ module Jpmobile::Mobile
     def supports_cookie?
       true
     end
+
+    # smartphone なので true
+    def smart_phone?
+      true
+    end
   end
 end

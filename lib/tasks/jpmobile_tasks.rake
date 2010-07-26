@@ -82,6 +82,7 @@ END
       cd rails_root
       ruby "-S rake db:migrate test"
       ruby "-S rake spec"
+      # ruby "-S rspec -e 'TemplatePathController integrated_views partial Windows Phoneからのアクセスの場合 _partial_smart_phone.html.erbが使用されること' spec/requests/template_path_spec.rb"
 
       cd relative_root
     end

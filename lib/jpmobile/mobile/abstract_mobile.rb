@@ -52,6 +52,11 @@ module Jpmobile::Mobile
       return false
     end
 
+    # smartphone かどうか
+    def smart_phone?
+      false
+    end
+
     # エンコーディング変換用
     def to_internal(str)
       str

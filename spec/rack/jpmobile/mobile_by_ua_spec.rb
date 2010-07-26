@@ -16,6 +16,9 @@ describe Jpmobile::Rack::MobileCarrier do
     [ Jpmobile::Mobile::Willcom   , 'Mozilla/3.0(WILLCOM;KYOCERA/WX310K/2;1.2.2.16.000000/0.1/C100) Opera 7.0' ],
     [ Jpmobile::Mobile::Ddipocket , 'Mozilla/3.0(DDIPOCKET;KYOCERA/AH-K3001V/1.8.2.71.000000/0.1/C100) Opera 7.0'],
     [ Jpmobile::Mobile::Emobile   , 'emobile/1.0.0 (H11T; like Gecko; Wireless) NetFront/3.4' ],
+    [ Jpmobile::Mobile::Iphone       , 'Mozilla/5.0 (iPhone; U; CPU iPhone OS 3_0 like Mac OS X; ja-jp) AppleWebKit/528.18 (KHTML, like Gecko) Version/4.0 Mobile/7A341 Safari/528.16' ],
+    [ Jpmobile::Mobile::Android      , 'Mozilla/5.0 (Linux; U; Android 1.6; ja-jp; SonyEriccsonSO-01B Build/R1EA018) AppleWebKit/528.5+ (KHTML, like Gecko) Version/3.1.2 Mobile Safari/525.20.1' ],
+    [ Jpmobile::Mobile::WindowsPhone , 'Mozilla/4.0 (Compatible; MSIE 6.0; Windows NT 5.1 T-01A_6.5; Windows Phone 6.5)' ],
   ].each do |carrier, user_agent|
     it '#mobile should return #{carrier} when take #{user_agent} as UserAgent' do
       res = Rack::MockRequest.env_for(

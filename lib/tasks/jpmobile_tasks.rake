@@ -39,7 +39,7 @@ namespace :test do
   task :rails, [:versions] do |t, args|
     rails_root     = "test/rails/rails_root"
     relative_root  = "../../../"
-    rails_versions = args.versions.split("/") rescue ["3.0.0.beta4"]
+    rails_versions = args.versions.split("/") rescue ["3.0.0.rc"]
 
     puts "Running tests in Rails #{rails_versions.join(', ')}"
 
@@ -80,8 +80,10 @@ END
 
       # run tests in rails
       cd rails_root
+      # ruby "-S bundle install"
       ruby "-S rake db:migrate test"
       ruby "-S rake spec"
+      # ruby "-S rspec -b --color spec/requests/trans_sid_spec.rb"
 
       cd relative_root
     end

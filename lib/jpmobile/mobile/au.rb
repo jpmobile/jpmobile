@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 # =au携帯電話
 
-require 'ipaddr'
-
 module Jpmobile::Mobile
   # ==au携帯電話
   # CDMA 1X, CDMA 1X WINを含む。
@@ -68,7 +66,7 @@ module Jpmobile::Mobile
         a = r.split(/,/)
         cols = 2 ** a[0].to_i
       end
-      @__display = Jpmobile::Display.new(p_w, p_h, nil, nil, col_p, cols)
+      @__display = Jpmobile::Mobile::Display.new(p_w, p_h, nil, nil, col_p, cols)
     end
 
     # デバイスIDを返す

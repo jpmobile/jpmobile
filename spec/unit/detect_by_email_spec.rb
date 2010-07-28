@@ -18,7 +18,7 @@ describe 'Jpmobile::Email' do
     ['iiiaa@r.vodafone.ne.jp'    , Jpmobile::Mobile::Vodafone ],
     ['iiiaa@r.vodafone.ne.jp.jp' , nil                        ],
   ].each do |email_addr, carrier|
-    it "#detect should return #{carrier} when take #{email_addr} as EmailAddr'" do
+    it "#detect should return #{carrier} when take #{email_addr} as EmailAddr" do
       Jpmobile::Email.detect(email_addr).should == carrier
     end
   end

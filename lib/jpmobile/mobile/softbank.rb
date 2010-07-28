@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 # =SoftBank携帯電話
-# J-PHONE, Vodafoneを含む
-
-require 'nkf'
-
+# Vodafoneを含む
 module Jpmobile::Mobile
   # ==Softbank携帯電話
   # Vodafoneのスーパクラス。
@@ -61,7 +58,7 @@ module Jpmobile::Mobile
           cols = $1.to_i
         end
       end
-      @__display = Jpmobile::Display.new(p_w, p_h, nil, nil, col_p, cols)
+      @__display = Jpmobile::Mobile::Display.new(p_w, p_h, nil, nil, col_p, cols)
     end
 
     # cookieに対応しているか？
@@ -85,18 +82,4 @@ module Jpmobile::Mobile
       [str, charset]
     end
   end
-  # ==Vodafone 3G携帯電話(J-PHONE, SoftBank含まず)
-  # スーパクラスはSoftbank。
-  class Vodafone < Softbank
-    # 対応するUser-Agentの正規表現
-    USER_AGENT_REGEXP = /^(Vodafone|Vemulator)/
-    # 対応するメールアドレスの正規表現
-    MAIL_ADDRESS_REGEXP = /^.+@[dhtcrknsq]\.vodafone\.ne\.jp$/
-
-    # cookieに対応しているか？
-    def supports_cookie?
-      true
-    end
-  end
-  # ==SoftBank 2G携帯電話(J-PHONE/Vodafone 2G) は停波のため削除
 end

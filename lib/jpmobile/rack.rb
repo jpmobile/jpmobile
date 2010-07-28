@@ -1,18 +1,13 @@
 # -*- coding: utf-8 -*-
-require 'jpmobile/datum_conv'
+require 'rack/utils'
 
 module Jpmobile
   module Rack
-    autoload :MobileCarrier, 'jpmobile/rack/mobile_carrier.rb'
-    autoload :ParamsFilter,  'jpmobile/rack/params_filter.rb'
-    autoload :Filter,        'jpmobile/rack/filter.rb'
-    autoload :Config,        'jpmobile/rack/config.rb'
-
     module_function
     def mount_middlewares
       # 漢字コード・絵文字フィルター
-      ::Rails::Application.config.middleware.insert_before('ActionDispatch::ParamsParser', Jpmobile::Rack::ParamsFilter)
-      ::Rails::Application.config.middleware.insert_before('ActionDispatch::ParamsParser', Jpmobile::Rack::Filter)
+      ::Rails.application.middleware.insert_before('ActionDispatch::ParamsParser', Jpmobile::Rack::ParamsFilter)
+      ::Rails.application.middleware.insert_before('ActionDispatch::ParamsParser', Jpmobile::Rack::Filter)
     end
   end
 
@@ -23,22 +18,6 @@ module Jpmobile
   end
 end
 
-if Object.const_defined?(:Rails)
-  # MobileCarrierのみデフォルトで有効
-  ::Rails::Application.config.middleware.insert_before('ActionDispatch::ParamsParser', Jpmobile::Rack::MobileCarrier)
-
-  module Rails
-    class Application
-      class Configuration
-        def jpmobile
-          @jpmobile ||= ::Jpmobile::Configuration.new
-        end
-      end
-    end
-  end
-end
-
-require 'rack/utils'
 module Rack
   class Request
     def params

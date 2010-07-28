@@ -68,11 +68,11 @@ module Jpmobile::Mobile
 
     # 画面情報を +Display+ クラスのインスタンスで返す。
     def display
-      @__display ||= Jpmobile::Display.new(nil,nil,
-                            display_info[:browser_width],
-                            display_info[:browser_height],
-                            display_info[:color_p],
-                            display_info[:colors])
+      @__display ||= Jpmobile::Mobile::Display.new(nil,nil,
+        display_info[:browser_width],
+        display_info[:browser_height],
+        display_info[:color_p],
+        display_info[:colors])
     end
 
     # cookieに対応しているか？

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'jpmobile/docomo_guid'
 require 'jpmobile/filter'
-require 'jpmobile/helper'
+require 'jpmobile/helpers'
 require 'jpmobile/hook_action_controller'
 require 'jpmobile/hook_action_view'
 require 'jpmobile/trans_sid'

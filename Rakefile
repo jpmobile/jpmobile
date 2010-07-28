@@ -14,7 +14,7 @@ begin
     gem.description = "A Rails plugin for Japanese mobile-phones"
     gem.email = "dara@shidara.net"
     gem.homepage = "http://github.com/jpmobile/jpmobile"
-    gem.authors = ["Yoji Shidara"]
+    gem.authors = ["Yoji Shidara", "Shin-ichiro OGAWA"]
 
     gem.add_runtime_dependency('actionpack', '>=2.3.8')
     gem.add_development_dependency('rspec', '>=1.3.0')

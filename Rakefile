@@ -16,6 +16,8 @@ begin
     gem.homepage = "http://github.com/jpmobile/jpmobile"
     gem.authors = ["Yoji Shidara", "Shin-ichiro OGAWA"]
 
+    gem.test_files.exclude 'test/rails/rails_root'
+
     gem.add_development_dependency('rspec', '>=1.3.0')
     gem.add_development_dependency('rspec-rails', '>=1.3.2')
     gem.add_development_dependency('rspec-fixture', '>=0.0.2')

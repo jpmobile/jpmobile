@@ -48,6 +48,6 @@ module Jpmobile
   autoload :Configuration, 'jpmobile/rack'
 end
 
-if defined?(Rails::Application)
+if defined?(Rails)
   require 'jpmobile/rails'
 end

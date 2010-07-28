@@ -8,6 +8,7 @@ module Jpmobile
   autoload :Encoding,          'jpmobile/encoding'
   autoload :Version,           'jpmobile/version'
   autoload :DatumConv,         'jpmobile/datum_conv'
+  autoload :Helpers,           'jpmobile/helpers'
 
   # autoload mobile classes
   module Mobile

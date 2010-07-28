@@ -1,5 +1,5 @@
-ActiveSupport.on_load(:action_controller) do
-  # -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
+ActiveSupport.on_load(:before_configuration) do
   require 'jpmobile/docomo_guid'
   require 'jpmobile/filter'
   require 'jpmobile/helpers'

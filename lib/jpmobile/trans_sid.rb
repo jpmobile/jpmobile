@@ -115,7 +115,7 @@ module Jpmobile::TransSid #:nodoc:
   private
   # session_keyを返す。
   def session_key
-    unless key = Rails::Application::config.session_options.merge(request.session_options || {})[:key]
+    unless key = Rails.application.config.session_options.merge(request.session_options || {})[:key]
       key = ActionDispatch::Session::AbstractStore::DEFAULT_OPTIONS[:key]
     end
     key

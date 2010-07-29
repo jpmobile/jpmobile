@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{jpmobile}
-  s.version = "0.1.0.pre"
+  s.version = "0.1.0.pre.2"
 
   s.required_rubygems_version = Gem::Requirement.new("> 1.3.1") if s.respond_to? :required_rubygems_version=
   s.authors = ["Yoji Shidara", "Shin-ichiro OGAWA"]
-  s.date = %q{2010-07-28}
+  s.date = %q{2010-07-29}
   s.description = %q{A Rails plugin for Japanese mobile-phones}
   s.email = %q{dara@shidara.net}
   s.extra_rdoc_files = [

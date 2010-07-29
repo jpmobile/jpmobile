@@ -62,13 +62,6 @@ namespace :test do
         FileUtils.cp_r(file, rails_root)
       end
 
-      # for 2.3.2
-      if rails_version == "2.3.2"
-        FileList["test/rails/2.3.2/*"].each do |file|
-          FileUtils.cp_r(file, rails_root)
-        end
-      end
-
       # for cookie_only option
       config_path = File.join(rails_root, 'config', 'initializers', 'session_store.rb')
       File.open(config_path, 'w') do |file|

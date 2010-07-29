@@ -17,7 +17,7 @@ shared_examples_for "trans_sid が起動しないとき" do
   it "で form の自動書き換えが行われない" do
     res = get_with_session(@controller, "form", @user_agent)
 
-    res.response.body.should =~ /<form action=\"\/.+?\/form\"/
+    res.response.body.should =~ /<form accept-charset="#{@charset}" action=\"\/.+?\/form\"/
   end
   it "で redirect の自動書き換えが行われない" do
     res = get_with_session(@controller, "redirect", @user_agent)
@@ -35,7 +35,7 @@ shared_examples_for "trans_sid が起動するとき" do
   it "で form の自動書き換えが行われる" do
     res = get_with_session(@controller, "form", @user_agent)
 
-    res.response.body.should =~ /<form action=\"\/.+?\/form\?_session_id=[a-zA-Z0-9]{32}\"/
+    res.response.body.should =~ /<form accept-charset="#{@charset}" action=\"\/.+?\/form\?_session_id=[a-zA-Z0-9]{32}\"/
   end
   it "で redirect の自動書き換えが行われる" do
     res = get_with_session(@controller, "redirect", @user_agent)
@@ -48,6 +48,7 @@ describe TransSidBaseController, "という trans_sid が有効になってい�
   before(:each) do
     @controller = "trans_sid_base"
     @user_agent = "Mozilla/5.0 (Windows; U; Windows NT 5.1; ja; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 ( .NET CLR 3.5.30729)"
+    @charset    = "UTF-8"
   end
 
   it "の trans_sid_mode は nil" do
@@ -62,6 +63,7 @@ describe TransSidNoneController, "という trans_sid :none が指定されて�
   before(:each) do
     @controller = "trans_sid_none"
     @user_agent = "Mozilla/5.0 (Windows; U; Windows NT 5.1; ja; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 ( .NET CLR 3.5.30729)"
+    @charset    = "UTF-8"
   end
 
   it "の trans_sid_mode は :none" do
@@ -76,6 +78,7 @@ describe TransSidAlwaysController, "という trans_sid :always が指定され�
   before(:each) do
     @controller = "trans_sid_always"
     @user_agent = "Mozilla/5.0 (Windows; U; Windows NT 5.1; ja; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 ( .NET CLR 3.5.30729)"
+    @charset    = "UTF-8"
   end
 
   it "の trans_sid_mode は :always" do
@@ -90,6 +93,7 @@ describe TransSidMobileController, "という trans_sid :mobile が指定され�
   before(:each) do
     @controller = "trans_sid_mobile"
     @user_agent = "Mozilla/5.0 (Windows; U; Windows NT 5.1; ja; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 ( .NET CLR 3.5.30729)"
+    @charset    = "UTF-8"
   end
 
   it "の trans_sid_mode は :mobile" do
@@ -99,44 +103,47 @@ describe TransSidMobileController, "という trans_sid :mobile が指定され�
   end
 end
 
-def describe_mobile_with_ua(user_agent, &block)
+def describe_mobile_with_ua(user_agent, charset, &block)
   describe("trans_sid :mobile が指定されているコントローラに #{user_agent} からアクセスしたとき") do
     before(:each) do
       @controller = "trans_sid_mobile"
       @user_agent = user_agent
+      @charset    = charset
     end
 
     instance_eval(&block)
   end
 end
 
-# NOTE: Rails 3.0b4 では session_id が自動的に生成されるようなので、強制的に書き換わってしまう。
-# describe TransSidAlwaysAndSessionOffController, "という trans_sid :always が指定されていて session がロードされていないとき" do
-#   before(:each) do
-#     @controller = "trans_sid_always_and_session_off"
-#     @user_agent = "Mozilla/5.0 (Windows; U; Windows NT 5.1; ja; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 ( .NET CLR 3.5.30729)"
-#   end
+describe TransSidAlwaysAndSessionOffController, "という trans_sid :always が指定されていて session がロードされていないとき" do
+  before(:each) do
+    @controller = "trans_sid_always_and_session_off"
+    @user_agent = "Mozilla/5.0 (Windows; U; Windows NT 5.1; ja; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 ( .NET CLR 3.5.30729)"
+    @charset    = "UTF-8"
+  end
 
-#   it "の trans_sid_mode は :always" do
-#     res = get_with_session(@controller, "link", @user_agent)
+  it "の trans_sid_mode は :always" do
+    res = get_with_session(@controller, "link", @user_agent)
 
-#     res.controller.trans_sid_mode.should == :always
-#   end
-#   it_should_behave_like "trans_sid が起動しないとき"
-# end
+    res.controller.trans_sid_mode.should == :always
+  end
+  it_should_behave_like "trans_sid が起動しないとき"
+end
 
-describe_mobile_with_ua "DoCoMo/2.0 SH902i(c100;TB;W24H12)" do
+# NOTE: 3.0.0RC では accept-charset は UTF-8 で埋め込まれるので保留
+describe_mobile_with_ua "DoCoMo/2.0 SH902i(c100;TB;W24H12)", "UTF-8" do
   it_should_behave_like "trans_sid が起動するとき"
 end
 
-describe_mobile_with_ua "KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0" do
+# NOTE: 3.0.0RC では accept-charset は UTF-8 で埋め込まれるので保留
+describe_mobile_with_ua "KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0", "UTF-8" do
   it_should_behave_like "trans_sid が起動しないとき"
 end
 
-describe_mobile_with_ua "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1" do
+describe_mobile_with_ua "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1", "UTF-8" do
   it_should_behave_like "trans_sid が起動しないとき"
 end
 
-describe_mobile_with_ua "Vodafone/1.0/V903T/TJ001 Browser/VF-Browser/1.0 Profile/MIDP-2.0 Configuration/CLDC-1.1 Ext-J-Profile/JSCL-1.2.2 Ext-V-Profile/VSCL-2.0.0" do
+describe_mobile_with_ua "Vodafone/1.0/V903T/TJ001 Browser/VF-Browser/1.0 Profile/MIDP-2.0 Configuration/CLDC-1.1 Ext-J-Profile/JSCL-1.2.2 Ext-V-Profile/VSCL-2.0.0", "UTF-8" do
   it_should_behave_like "trans_sid が起動しないとき"
 end

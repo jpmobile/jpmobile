@@ -6,14 +6,15 @@ module ParamsOverCookie
   def self.included(base)
     base.class_eval do
       # cookie よりも params を先に見るパッチ
-      def load_session_with_jpmobile(env)
+      def extract_session_id_with_jpmobile(env)
         request = Rack::Request.new(env)
-        sid   = request.cookies[@key]
-        sid ||= request.params[@key] unless @cookie_only
-        sid, session = get_session(env, sid)
-        [sid, session]
+        if request.params[@key] and !@cookie_only
+          sid = request.params[@key] unless @cookie_only
+        end
+        sid ||= request.cookies[@key]
+        sid
       end
-      alias_method_chain :load_session, :jpmobile
+      alias_method_chain :extract_session_id, :jpmobile
     end
   end
 end
@@ -59,20 +60,10 @@ module ActionController
   class Base #:nodoc:
     class_inheritable_accessor :trans_sid_mode
 
-    def transit_sid_mode(*args)
-      STDERR.puts "Method transit_sid is now deprecated. Use trans_sid instead."
-      trans_sid_mode(*args)
-    end
-
     class << self
       def trans_sid(mode = :mobile)
         include Jpmobile::TransSid
         self.trans_sid_mode = mode
-      end
-
-      def transit_sid(*args)
-        STDERR.puts "Method transit_sid is now deprecated. Use trans_sid instead."
-        trans_sid(*args)
       end
     end
 

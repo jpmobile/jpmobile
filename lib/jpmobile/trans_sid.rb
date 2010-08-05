@@ -7,9 +7,9 @@ module ParamsOverCookie
     base.class_eval do
       # cookie よりも params を先に見るパッチ
       def extract_session_id_with_jpmobile(env)
-        request = Rack::Request.new(env)
+        request = ActionDispatch::Request.new(env.dup)
         if request.params[@key] and !@cookie_only
-          sid = request.params[@key] unless @cookie_only
+          sid = request.params[@key]
         end
         sid ||= request.cookies[@key]
         sid

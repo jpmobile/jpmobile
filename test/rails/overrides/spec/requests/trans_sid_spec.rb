@@ -131,12 +131,12 @@ describe TransSidAlwaysAndSessionOffController, "という trans_sid :always が
 end
 
 # NOTE: 3.0.0RC では accept-charset は UTF-8 で埋め込まれるので保留
-describe_mobile_with_ua "DoCoMo/2.0 SH902i(c100;TB;W24H12)", "UTF-8" do
+describe_mobile_with_ua "DoCoMo/2.0 SH902i(c100;TB;W24H12)", "Shift_JIS" do
   it_should_behave_like "trans_sid が起動するとき"
 end
 
 # NOTE: 3.0.0RC では accept-charset は UTF-8 で埋め込まれるので保留
-describe_mobile_with_ua "KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0", "UTF-8" do
+describe_mobile_with_ua "KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0", "Shift_JIS" do
   it_should_behave_like "trans_sid が起動しないとき"
 end
 

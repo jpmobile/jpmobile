@@ -46,6 +46,16 @@ describe Jpmobile::Rack::Filter do
         response_body(res) == @utf8
       end
     end
+
+    it "_snowman が出力されないこと" do
+      res = Rack::MockRequest.env_for(
+        "/",
+        "REQUEST_METHOD" => "GET",
+        'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)')
+      res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new('<input name="_snowman" type="hidden" value="&#9731;" />'))).call(res)
+      res[1]['Content-Type'].should == "text/html; charset=Shift_JIS"
+      response_body(res) == ""
+    end
   end
 
   context "絵文字変換" do

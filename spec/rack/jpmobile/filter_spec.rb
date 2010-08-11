@@ -19,7 +19,7 @@ describe Jpmobile::Rack::Filter do
           'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)')
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@utf8))).call(res)
         res[1]['Content-Type'].should == "text/html; charset=Shift_JIS"
-        response_body(res) == @sjis
+        response_body(res).should == @sjis
       end
     end
 
@@ -31,7 +31,7 @@ describe Jpmobile::Rack::Filter do
           'HTTP_USER_AGENT' => "KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0")
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@utf8))).call(res)
         res[1]['Content-Type'].should == "text/html; charset=Shift_JIS"
-        response_body(res) == @sjis
+        response_body(res).should == @sjis
       end
     end
 
@@ -43,7 +43,7 @@ describe Jpmobile::Rack::Filter do
           'HTTP_USER_AGENT' => "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1")
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@utf8))).call(res)
         res[1]['Content-Type'].should == "text/html"
-        response_body(res) == @utf8
+        response_body(res).should == @utf8
       end
     end
 
@@ -54,7 +54,7 @@ describe Jpmobile::Rack::Filter do
         'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)')
       res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new('<input name="_snowman" type="hidden" value="&#9731;" />'))).call(res)
       res[1]['Content-Type'].should == "text/html; charset=Shift_JIS"
-      response_body(res) == ""
+      response_body(res).should == " "
     end
   end
 
@@ -71,7 +71,7 @@ describe Jpmobile::Rack::Filter do
       @sjis           = utf8_to_sjis(@utf8)
       @docomo_emoji   = sjis("\xf8\xac")
       @au_emoji       = sjis("\xf6\x6c")
-      @softbank_emoji = utf8("\x1b\x24Fd\x0f")
+      @softbank_emoji = utf8("\356\211\204")
     end
 
     context "docomo のとき" do
@@ -81,7 +81,7 @@ describe Jpmobile::Rack::Filter do
           "REQUEST_METHOD" => "GET",
           'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)')
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@utf8 + @emoji_docomo_cr))).call(res)
-        response_body(res) == @sjis + @docomo_emoji
+        response_body(res).should == @sjis + @docomo_emoji
       end
 
       it "docomo のUTF-8絵文字が変換されること" do
@@ -90,7 +90,7 @@ describe Jpmobile::Rack::Filter do
           "REQUEST_METHOD" => "GET",
           'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)')
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@utf8 + @emoji_docomo_utf8))).call(res)
-        response_body(res) == @sjis + @docomo_emoji
+        response_body(res).should == @sjis + @docomo_emoji
       end
 
       it "au のUTF-8絵文字が変換されること" do
@@ -99,7 +99,7 @@ describe Jpmobile::Rack::Filter do
           "REQUEST_METHOD" => "GET",
           'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)')
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@utf8 + @emoji_au_utf8))).call(res)
-        response_body(res) == @sjis + @docomo_emoji
+        response_body(res).should == @sjis + @docomo_emoji
       end
 
       it "softbank のUTF-8絵文字が変換されること" do
@@ -108,7 +108,7 @@ describe Jpmobile::Rack::Filter do
           "REQUEST_METHOD" => "GET",
           'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)')
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@utf8 + @emoji_softbank_utf8))).call(res)
-        response_body(res) == @sjis + @docomo_emoji
+        response_body(res).should == @sjis + @docomo_emoji
       end
     end
 
@@ -119,7 +119,7 @@ describe Jpmobile::Rack::Filter do
           "REQUEST_METHOD" => "GET",
           'HTTP_USER_AGENT' => "KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0")
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@utf8 + @emoji_au_cr))).call(res)
-        response_body(res) == @sjis + @au_emoji
+        response_body(res).should == @sjis + @au_emoji
       end
 
       it "docomo のUTF-8絵文字が変換されること" do
@@ -128,7 +128,7 @@ describe Jpmobile::Rack::Filter do
           "REQUEST_METHOD" => "GET",
           'HTTP_USER_AGENT' => "KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0")
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@utf8 + @emoji_docomo_utf8))).call(res)
-        response_body(res) == @sjis + @au_emoji
+        response_body(res).should == @sjis + @au_emoji
       end
 
       it "au のUTF-8絵文字が変換されること" do
@@ -137,7 +137,7 @@ describe Jpmobile::Rack::Filter do
           "REQUEST_METHOD" => "GET",
           'HTTP_USER_AGENT' => "KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0")
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@utf8 + @emoji_au_utf8))).call(res)
-        response_body(res) == @sjis + @au_emoji
+        response_body(res).should == @sjis + @au_emoji
       end
 
       it "softbank のUTF-8絵文字が変換されること" do
@@ -146,7 +146,7 @@ describe Jpmobile::Rack::Filter do
           "REQUEST_METHOD" => "GET",
           'HTTP_USER_AGENT' => "KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0")
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@utf8 + @emoji_softbank_utf8))).call(res)
-        response_body(res) == @sjis + @au_emoji
+        response_body(res).should == @sjis + @au_emoji
       end
     end
 
@@ -157,7 +157,7 @@ describe Jpmobile::Rack::Filter do
           "REQUEST_METHOD" => "GET",
           'HTTP_USER_AGENT' => "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1")
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@utf8 + @emoji_softbank_cr))).call(res)
-        response_body(res) == @utf8 + @softbank_emoji
+        response_body(res).should == @utf8 + @softbank_emoji
       end
 
       it "docomo のUTF-8絵文字が変換されること" do
@@ -166,7 +166,7 @@ describe Jpmobile::Rack::Filter do
           "REQUEST_METHOD" => "GET",
           'HTTP_USER_AGENT' => "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1")
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@utf8 + @emoji_docomo_utf8))).call(res)
-        response_body(res) == @utf8 + @softbank_emoji
+        response_body(res).should == @utf8 + @softbank_emoji
       end
 
       it "au のUTF-8絵文字が変換されること" do
@@ -175,7 +175,7 @@ describe Jpmobile::Rack::Filter do
           "REQUEST_METHOD" => "GET",
           'HTTP_USER_AGENT' => "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1")
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@utf8 + @emoji_au_utf8))).call(res)
-        response_body(res) == @utf8 + @softbank_emoji
+        response_body(res).should == @utf8 + @softbank_emoji
       end
 
       it "softbank のUTF-8絵文字が変換されること" do
@@ -184,7 +184,7 @@ describe Jpmobile::Rack::Filter do
           "REQUEST_METHOD" => "GET",
           'HTTP_USER_AGENT' => "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1")
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@utf8 + @emoji_softbank_utf8))).call(res)
-        response_body(res) == @utf8 + @softbank_emoji
+        response_body(res).should == @utf8 + @softbank_emoji
       end
     end
   end

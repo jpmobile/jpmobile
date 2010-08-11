@@ -21,7 +21,10 @@ module Jpmobile
             charset = nil
           end
 
-          response, charset = mobile.to_external(response_to_body(response), type, charset)
+          body = response_to_body(response)
+          body = body.sub('<input name="_snowman" type="hidden" value="&#9731;" />', ' ')
+
+          response, charset = mobile.to_external(body, type, charset)
 
           if type and charset
             env['Content-Type'] = "#{type}; charset=#{charset}"

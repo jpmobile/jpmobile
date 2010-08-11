@@ -71,7 +71,7 @@ module ActionView
     module FormTagHelper
       private
       def html_options_for_form(url_for_options, options, *parameters_for_url)
-        accept_charset = (request && request.mobile && request.mobile.default_charset) || "UTF-8"
+        accept_charset = (Rails.application.config.jpmobile.form_accept_charset_conversion && request && request.mobile && request.mobile.default_charset) || "UTF-8"
 
         options.stringify_keys.tap do |html_options|
           html_options["enctype"] = "multipart/form-data" if html_options.delete("multipart")

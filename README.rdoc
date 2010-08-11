@@ -135,6 +135,13 @@ jpmobileを読み込むとDoCoMo、Au、SoftBankの絵文字を透過的に扱�
   # Rack middleware を追加するメソッド
   Rails.application.config.jpmobile.mobile_fiter
 
+** 下記の設定を追加することで、<form> タグの accept-charset が変更される。
+
+  # <form accept-charset="Shift_JIS" ...> などに変更する
+  Rails.application.config.jpmobile.form_accept_charset_conversion = true
+
+携帯電話上では特に問題とならない。PCブラウザでテストする際に問題となるためのオプション。
+
 * Sinatra の場合は下記のように指定する。
 
   $LOAD_PATH << './lib/jpmobile/lib'

@@ -12,6 +12,12 @@ module Jpmobile
   end
 
   class Configuration
+    attr_accessor :form_accept_charset_conversion
+
+    def initialize
+      @form_accept_charset_conversion = false
+    end
+
     def mobile_filter
       ::Jpmobile::Rack.mount_middlewares
     end

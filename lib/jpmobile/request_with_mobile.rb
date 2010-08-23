@@ -12,8 +12,10 @@ module Jpmobile
 
     # for reverse proxy.
     def remote_addr
-      if respond_to? :remote_ip
-        return __send__(:remote_ip)
+      if respond_to?(:remote_ip)
+        return __send__(:remote_ip)  # for Rails
+      elsif respond_to?(:ip)
+        return __send__(:ip)         # for Rack
       else
         return ( env["HTTP_X_FORWARDED_FOR"] ? env["HTTP_X_FORWARDED_FOR"].split(',').pop : env["REMOTE_ADDR"] )
       end

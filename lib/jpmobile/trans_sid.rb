@@ -32,6 +32,8 @@ module ActionController
     def redirect_to_with_jpmobile(options = {}, response_status = {})
       if apply_trans_sid? and jpmobile_session_id
         case options
+        when %r{^\w[\w+.-]*:.*}
+          # nothing to do
         when String
           unless options.match(/#{session_key}/)
             url = URI.parse(options)
@@ -42,12 +44,14 @@ module ActionController
             end
             options = url.to_s
           end
-        when %r{^\w[\w+.-]*:.*}
         when :back
-        else
+          # nothing to do
+        when Hash
           unless options[session_key.to_sym]
             options[session_key.to_sym] = jpmobile_session_id
           end
+        else
+          # nothing to do
         end
       end
 

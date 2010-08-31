@@ -16,9 +16,19 @@
 
 == インストール
 Rails の Version に応じて選択してください。
-=== Rails 2.3.3, 2.3.4, 2.3.5, 2.3.6, 2.3.7, 2.3.8
+=== Rails 2.3.3 〜 2.3.8
+==== pluginとしてインストールする場合
 開発版:
   % ./script/plugin install git://github.com/jpmobile/jpmobile.git
+
+==== gemでインストールする場合
+
+  # gem install jpmobile -v 0.0.8
+としてgemをインストールした後
+
+RAILS_ROOT/config/environment.rb の Rails::Initializer.run do |config| 〜 end 内に
+  config.gem "jpmobile"
+の行を追加する。
 
 === Rails 2.3.2
 ==== pluginとしてインストールする場合
@@ -34,7 +44,7 @@ Rails の Version に応じて選択してください。
 
 ==== gemでインストールする場合
 
-  # gem install jpmobile
+  # gem install jpmobile -v 0.0.8
 としてgemをインストールした後
 
 RAILS_ROOT/config/environment.rb の Rails::Initializer.run do |config| 〜 end 内に

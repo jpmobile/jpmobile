@@ -114,3 +114,17 @@ end
 
 task :test => ['test:legacy', 'spec:unit', 'test:rails']
 load 'tasks/jpmobile_tasks.rake'
+
+begin
+  require 'jeweler'
+  Jeweler::Tasks.new do |gemspec|
+    gemspec.name = "jpmobile"
+    gemspec.summary = %q{A Rails plugin for Japanese mobile-phones}
+    gemspec.description = %q{A Rails plugin for Japanese mobile-phones}
+    gemspec.email = %q{dara@shidara.net}
+    gemspec.homepage = %q{http://github.com/jpmobile/jpmobile}
+    gemspec.authors = ["Yoji Shidara", "Shin-ichiro OGAWA"]
+  end
+rescue LoadError
+  puts "Jeweler not available. Install it with: gem install jeweler"
+end

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # =DoCoMo携帯電話
 
 module Jpmobile::Mobile
@@ -38,7 +39,7 @@ module Jpmobile::Mobile
 
     # 端末製造番号があれば返す。無ければ +nil+ を返す。
     def serial_number
-      case @request.env["HTTP_USER_AGENT"]
+      case @env["HTTP_USER_AGENT"]
       when /ser([0-9a-zA-Z]{11})$/ # mova
         return $1
       when /ser([0-9a-zA-Z]{15});/ # FOMA
@@ -51,13 +52,13 @@ module Jpmobile::Mobile
 
     # FOMAカード製造番号があれば返す。無ければ +nil+ を返す。
     def icc
-      @request.env['HTTP_USER_AGENT'] =~ /icc([0-9a-zA-Z]{20})\)/
+      @env['HTTP_USER_AGENT'] =~ /icc([0-9a-zA-Z]{20})\)/
       return $1
     end
 
     # iモードIDを返す。
     def guid
-      @request.env['HTTP_X_DCMGUID']
+      @env['HTTP_X_DCMGUID']
     end
 
     # iモードID, FOMAカード製造番号の順で調べ、あるものを返す。なければ +nil+ を返す。
@@ -67,16 +68,42 @@ module Jpmobile::Mobile
 
     # 画面情報を +Display+ クラスのインスタンスで返す。
     def display
-      @__display ||= Jpmobile::Display.new(nil,nil,
-                            display_info[:browser_width],
-                            display_info[:browser_height],
-                            display_info[:color_p],
-                            display_info[:colors])
+      @__display ||= Jpmobile::Mobile::Display.new(nil,nil,
+        display_info[:browser_width],
+        display_info[:browser_height],
+        display_info[:color_p],
+        display_info[:colors])
     end
 
     # cookieに対応しているか？
     def supports_cookie?
       imode_browser_version != '1.0'
+    end
+
+    # 文字コード変換
+    def to_internal(str)
+      # 絵文字を数値参照に変換
+      str = Jpmobile::Emoticon.external_to_unicodecr_docomo(Jpmobile::Util.sjis(str))
+      # 文字コードを UTF-8 に変換
+      str = Jpmobile::Util.sjis_to_utf8(str)
+      # 数値参照を UTF-8 に変換
+      Jpmobile::Emoticon.unicodecr_to_utf8(str)
+    end
+    def to_external(str, content_type, charset)
+      # UTF-8を数値参照に
+      str = Jpmobile::Emoticon.utf8_to_unicodecr(str)
+      # 文字コードを Shift_JIS に変換
+      if [nil, "text/html", "application/xhtml+xml"].include?(content_type)
+        str = Jpmobile::Util.utf8_to_sjis(str)
+        charset = default_charset unless str.empty?
+      end
+      # 数値参照を絵文字コードに変換
+      str = Jpmobile::Emoticon.unicodecr_to_external(str, Jpmobile::Emoticon::CONVERSION_TABLE_TO_DOCOMO, true)
+
+      [str, charset]
+    end
+    def default_charset
+      "Shift_JIS"
     end
 
     # i-mode ブラウザのバージョンを返す。
@@ -90,7 +117,7 @@ module Jpmobile::Mobile
         @request.env['HTTP_USER_AGENT'] =~ / (\w+)\(c(\d+);/
         model = $1
         cache_size = $2.to_i
-        
+
         ver = cache_size >= 500 ? (%w(P03B P05B L01B).member?(model) ? '2.0LE' : '2.0') : '1.0'
       else
         # DoCoMo/3.0以降等は、とりあえず非v1.0扱い
@@ -100,13 +127,12 @@ module Jpmobile::Mobile
       ver
     end
 
-
     private
     # モデル名を返す。
     def model_name
-      if @request.env["HTTP_USER_AGENT"] =~ /^DoCoMo\/2.0 (.+)\(/
+      if @env["HTTP_USER_AGENT"] =~ /^DoCoMo\/2.0 (.+)\(/
         return $1
-      elsif @request.env["HTTP_USER_AGENT"] =~ /^DoCoMo\/1.0\/(.+?)\//
+      elsif @env["HTTP_USER_AGENT"] =~ /^DoCoMo\/1.0\/(.+?)\//
         return $1
       end
       return nil

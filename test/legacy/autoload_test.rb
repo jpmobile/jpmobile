@@ -1,4 +1,4 @@
-require File.dirname(__FILE__)+'/helper'
+require File.expand_path(File.dirname(__FILE__)) + '/helper'
 
 module Jpmobile
   module Mobile
@@ -29,10 +29,8 @@ class TestAutoLoad < Test::Unit::TestCase
     require 'jpmobile/mobile/softbank'
     assert_nothing_raised { Jpmobile::Mobile::Softbank::IP_ADDRESSES }
     assert_nothing_raised { Jpmobile::Mobile::Vodafone::IP_ADDRESSES }
-    assert_nothing_raised { Jpmobile::Mobile::Jphone::IP_ADDRESSES }
     assert_kind_of(Array, Jpmobile::Mobile::Softbank::IP_ADDRESSES)
     assert_kind_of(Array, Jpmobile::Mobile::Vodafone::IP_ADDRESSES)
-    assert_kind_of(Array, Jpmobile::Mobile::Jphone::IP_ADDRESSES)
   end
 
   def test_ip_addresses_willcom

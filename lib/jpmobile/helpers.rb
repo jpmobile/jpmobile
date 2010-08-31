@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # =位置情報等を要求するヘルパー
 module Jpmobile
   # 携帯電話端末に位置情報を要求するための、特殊なリンクを出力するヘルパー群。
@@ -32,16 +33,13 @@ module Jpmobile
           s << au_location_link_to(str||"au(antenna)", options)
         end
       end
-      if show_all || request.mobile.instance_of?(Mobile::Jphone)
-        s << jphone_location_link_to(str||"Softbank(antenna)", options)
-      end
       if show_all || request.mobile.instance_of?(Mobile::Vodafone) || request.mobile.instance_of?(Mobile::Softbank)
         s << softbank_location_link_to(str||"Softbank 3G(GPS)", options)
       end
       if show_all || request.mobile.instance_of?(Mobile::Willcom)
         s << willcom_location_link_to(str||"Willcom", options)
       end
-      return s.join("<br>\n")
+      return s.join("<br>\n").html_safe
     end
 
     # DoCoMo FOMAでGPS位置情報を取得するためのリンクを返す。
@@ -52,7 +50,7 @@ module Jpmobile
         options[:only_path] = false
         url = url_for(options)
       end
-      return %{<a href="#{url}" lcs>#{str}</a>}
+      return %{<a href="#{url}" lcs>#{str}</a>}.html_safe
     end
 
     # DoCoMoでオープンiエリアを取得するためのURLを返す。
@@ -82,7 +80,7 @@ module Jpmobile
         options[:only_path] = false
         url = url_for(options)
       end
-      return %{<a href="#{url}" utn>#{str}</a>}
+      return %{<a href="#{url}" utn>#{str}</a>}.html_safe
     end
 
     # DoCoMoでiモードIDを取得するためのリンクを返す。
@@ -132,17 +130,6 @@ module Jpmobile
       link_to_url(str, au_location_url_for(options))
     end
 
-    # J-PHONE 位置情報 (基地局) を取得するためのリンクを返す。
-    def jphone_location_link_to(str,options={})
-      url = options
-      if options.is_a?(Hash)
-        options = options.symbolize_keys
-        options[:only_path] = false
-        url = url_for(options)
-      end
-      return %{<a z href="#{url}">#{str}</a>}
-    end
-
     # Softbank(含むVodafone 3G)で位置情報を取得するためのURLを返す。
     def softbank_location_url_for(options={})
       url = options
@@ -181,7 +168,7 @@ module Jpmobile
     private
     # 外部へのリンク
     def link_to_url(str, url)
-      %{<a href="#{url}">#{str}</a>}
+      %{<a href="#{url}">#{str}</a>}.html_safe
     end
   end
 end

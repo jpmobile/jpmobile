@@ -1,9 +1,11 @@
+# -*- coding: utf-8 -*-
 require 'ipaddr'
 
 module Jpmobile::Mobile
   # 携帯電話の抽象クラス。
   class AbstractMobile
-    def initialize(request)
+    def initialize(env, request)
+      @env     = env
       @request = request
     end
 
@@ -37,7 +39,7 @@ module Jpmobile::Mobile
     end
 
     def valid_ip?
-      @__valid_ip ||= self.class.valid_ip? @request.remote_addr
+      @__valid_ip ||= self.class.valid_ip? @request.ip
     end
 
     # 画面情報を +Display+ クラスのインスタンスで返す。
@@ -50,10 +52,25 @@ module Jpmobile::Mobile
       return false
     end
 
+    # smartphone かどうか
+    def smart_phone?
+      false
+    end
+
+    # エンコーディング変換用
+    def to_internal(str)
+      str
+    end
+    def to_external(str, content_type, charset)
+      [str, charset]
+    end
+    def default_charset
+      "UTF-8"
+    end
     # リクエストがこのクラスに属するか調べる
     # メソッド名に関して非常に不安
-    def self.check_request(request)
-      self::USER_AGENT_REGEXP && request.user_agent =~ self::USER_AGENT_REGEXP
+    def self.check_carrier(env)
+      self::USER_AGENT_REGEXP && env['HTTP_USER_AGENT'] =~ self::USER_AGENT_REGEXP
     end
 
     #XXX: lib/jpmobile.rbのautoloadで先に各キャリアの定数を定義しているから動くのです

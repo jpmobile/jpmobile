@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # jpmobile の各機能を提供するモジュール
-# envメソッドと、parameter あるいは params メソッドが実装されている必要がある。
-# 今のところはRack::RequestとActionController::AbstractRequestに対応しているはず。
+# envメソッドが実装されている必要がある。
 
 module Jpmobile
   module RequestWithMobile
@@ -13,8 +12,10 @@ module Jpmobile
 
     # for reverse proxy.
     def remote_addr
-      if respond_to? :remote_ip
-        return __send__(:remote_ip)
+      if respond_to?(:remote_ip)
+        return __send__(:remote_ip)  # for Rails
+      elsif respond_to?(:ip)
+        return __send__(:ip)         # for Rack
       else
         return ( env["HTTP_X_FORWARDED_FOR"] ? env["HTTP_X_FORWARDED_FOR"].split(',').pop : env["REMOTE_ADDR"] )
       end
@@ -27,21 +28,18 @@ module Jpmobile
 
     # 携帯電話からであれば +true+を、そうでなければ +false+ を返す。
     def mobile?
-      mobile != nil
+      mobile and not mobile.smart_phone?
+    end
+
+    # viewの切り替えをするかどうか
+    def smart_phone?
+      mobile and mobile.smart_phone?
     end
 
     # 携帯電話の機種に応じて Mobile::xxx を返す。
     # 携帯電話でない場合はnilを返す。
     def mobile
-      @__mobile ||= nil
-      return @__mobile if @__mobile
-
-      Jpmobile::Mobile.carriers.each do |const|
-        c = Jpmobile::Mobile.const_get(const)
-        return @__mobile = c.new(self) if c.check_request(self)
-      end
-      nil
+      env['rack.jpmobile']
     end
   end
 end
-

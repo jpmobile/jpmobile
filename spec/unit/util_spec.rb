@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-
-require File.join(File.dirname(__FILE__), 'spec_helper')
+require 'stringio'
+require 'nkf'
+require File.join(File.expand_path(File.dirname(__FILE__)), 'spec_helper')
 
 describe Jpmobile::Util, ".deep_apply" do
   it 'nilのときはnilを返すこと' do
@@ -26,5 +27,8 @@ describe Jpmobile::Util, ".deep_apply" do
     string_io = StringIO.new('test')
     Jpmobile::Util.deep_apply(string_io) {|obj| obj }.should equal(string_io)
   end
-end
 
+  it "utf8_to_sjis で改行コードが CRLF に変更されること" do
+    Jpmobile::Util.utf8_to_sjis("UTF8\nTEXT\n").should == Jpmobile::Util.sjis("UTF8\r\nTEXT\r\n")
+  end
+end

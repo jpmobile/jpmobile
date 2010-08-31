@@ -1,95 +1,33 @@
 = jpmobile: A Rails plugin for Japanese mobile-phones
 
 == jpmobileとは
-携帯電話特有の機能を Rails で利用するためのプラグイン。
+携帯電話特有の機能を Rails 3.0 や Rack middleware で利用するためのプラグイン。
 以下の機能を備える。
 
 * 携帯電話のキャリア判別
 * 端末位置情報の取得
+  * GeoKit(http://geokit.rubyforge.org)との連携
 * 端末製造番号、契約者番号等の取得
 * IPアドレスの検証(キャリアが公開しているIPアドレス帯域からのアクセスか判定)
-* セッションIDをフォーム／リンクに付与(Trans SID)
-* 携帯電話ビューへの自動振分け
 * ディスプレイ情報(画面サイズ、ブラウザ画面サイズ、カラー・白黒、色数)の取得
-* GeoKit(http://geokit.rubyforge.org)との連携
 * 文字コード変換機能／絵文字のキャリア間相互変換
 
+また Rails 3.0 に以下の機能を追加する
+* ビューへの自動振分け
+* 位置情報取得などのリンクヘルパーの追加
+* セッションIDをフォーム／リンクに付与(Trans SID)
+
 == インストール
-Rails の Version に応じて選択してください。
-=== Rails 2.3.3, 2.3.4, 2.3.5, 2.3.6, 2.3.7, 2.3.8
-開発版:
-  % ./script/plugin install git://github.com/jpmobile/jpmobile.git
+=== Rails pluginとしてインストールする場合
+  % rails plugin install git://github.com/jpmobile/jpmobile.git
 
-=== Rails 2.3.2
-==== pluginとしてインストールする場合
-
-リリース版: (Version 0.0.6)
-  % git clone git://github.com/jpmobile/jpmobile.git vendor/plugins/jpmobile
-  % cd vendor/plugins/jpmobile
-  % git checkout 0.0.6
-  % rm -rf .git
-
-開発版:
-  % ./script/plugin install git://github.com/jpmobile/jpmobile.git
-
-==== gemでインストールする場合
-
-  # gem install jpmobile
-としてgemをインストールした後
-
-RAILS_ROOT/config/environment.rb の Rails::Initializer.run do |config| 〜 end 内に
-  config.gem "jpmobile"
-の行を追加する。
-
-=== Rails 2.2.x 以前
-リリース版:
-  % git clone git://github.com/jpmobile/jpmobile.git vendor/plugins/jpmobile
-  % cd vendor/plugins/jpmobile
-  % git checkout 0.0.5
-  % rm -rf .git
+=== gemでインストールする場合
+  % gem install jpmobile
 
 == 使用例
 
 === 携帯電話の識別
-
-==== Viewの中で一部を切替える例
-  <% if request.mobile? %>
-    携帯電話からのアクセスです。
-  <% else %>
-    携帯電話からのアクセスではありません。
-  <% end %>
-
-==== 別に用意した携帯電話用コントローラへリダイレクトする例
-  class PcController < ApplicationController
-    before_filter :redirect_if_mobile
-
-    def index
-    end
-
-    private
-    def redirect_if_mobile
-      if request.mobile?
-        pa = params.dup
-        pa[:controller] = "/mobile"
-        redirect_to pa
-      end
-    end
-  end
-
-  class MobileController < ApplicationController
-     mobile_filter
-  end
-
-
-=== 携帯電話viewの自動振分け
-DoCoMo携帯電話からアクセスすると、
-* index_mobile_docomo.html.erb
-* index_mobile.html.erb
-* index.html.erb
-の順でテンプレートを検索し、最初に見付かったテンプレートが利用される。
-Auの場合は、index_mobile_au.html.erb、Softbankの場合はindex_mobile_softbank.html.erbが最初に検索される。
-
-BUG: 現状、上記の例では index.html.erb が存在しない場合に振り分けが行われない(ダミーファイルを置くことで回避可能)。
+環境変数 env['rack.jpmobile'] にキャリアクラスのインスタンスが格納されています。また Rack::Request#mobile としても取得可能です。
 
 ==== キャリアの識別
 
@@ -113,24 +51,59 @@ BUG: 現状、上記の例では index.html.erb が存在しない場合に振�
     # for DoCoMo
   end
 
-=== 位置情報の取得
+==== ビューの中で一部を切替える例
+  <% if request.mobile? %>
+    携帯電話からのアクセスです。
+  <% else %>
+    携帯電話からのアクセスではありません。
+  <% end %>
 
-==== 取得用リンクの生成
+  <% if request.smart_phone? %>
+    スマートフォンからのアクセスです。
+  <% else %>
+    スマートフォンからのアクセスではありません。
+  <% end %>
 
-以下のようなコードで、端末に位置情報を要求するリンクを出力する。
-  <%= get_position_link_to(:action=>:gps) %>
 
-==== 位置情報の取得
 
-  class MobileController < ApplicationController
-    def gps
-      if request.mobile && pos = request.mobile.position
-        @latitude = pos.lat
-        @longuitude = pos.lon
+==== 別に用意した携帯電話用コントローラへリダイレクトする例
+  class PcController < ApplicationController
+    before_filter :redirect_if_mobile
+
+    def index
+    end
+
+    private
+    def redirect_if_mobile
+      if request.mobile?
+        pa = params.dup
+        pa[:controller] = "/mobile"
+        redirect_to pa
+      elsif request.smart_phone?
+        pa = params.dup
+        pa[:controller] = "/smart_phone"
+        redirect_to pa
       end
     end
   end
 
+  class MobileController < ApplicationController
+     mobile_filter
+  end
+
+=== 位置情報の取得
+Rack::Request#mobile.position に位置情報が格納されます。
+
+  @latitude   = request.mobile.position.lat
+  @longuitude = request.mobile.position.lon
+
+==== GeoKit(http://geokit.rubyforge.org)との連携
+
+vandor/plugins/geokit以下にGeoKitがインストールされていると、Jpmobile::PositionにGeoKit::Mappableがincludeされる。したがって、
+
+  request.mobile.position.distance_to('札幌駅')
+
+とすることで、端末と「札幌駅」との距離を求めることができる。詳細は http://geokit.rubyforge.org/api/index.html 参照。
 
 === 端末情報の取得
 
@@ -149,6 +122,85 @@ BUG: 現状、上記の例では index.html.erb が存在しない場合に振�
 === IPの検証
 キャリアが公開しているIPアドレス帯域からのアクセスか判定する。
   request.mobile.valid_ip?
+ただしスマートフォンの場合は必ずfalseとなる。
+
+=== 端末の画面サイズ
+request.mobile.display で Jpmobile::Display クラスのインスタンスが返る。
+  画面幅 <%= request.mobile.display.width %>
+  画面高さ <%= request.mobile.display.height %>
+
+=== 文字コード変換機能／絵文字のキャリア間相互変換
+
+jpmobileを読み込むとDoCoMo、Au、SoftBankの絵文字を透過的に扱うことができる。
+
+* Rails の場合は vendor/plugins に配置し、下記の設定を追加することで有効になる。
+
+  # Rack middleware を追加するメソッド
+  Rails.application.config.jpmobile.mobile_fiter
+
+** 下記の設定を追加することで、<form> タグの accept-charset が変更される。
+
+  # <form accept-charset="Shift_JIS" ...> などに変更する
+  Rails.application.config.jpmobile.form_accept_charset_conversion = true
+
+携帯電話上では特に問題とならない。PCブラウザでテストする際に問題となるためのオプション。
+
+* Sinatra の場合は下記のように指定する。
+
+  $LOAD_PATH << './lib/jpmobile/lib'
+  require 'jpmobile'
+  require 'jpmobile/rack'
+
+  use Jpmobile::Rack::MobileCarrier
+  use Jpmobile::Rack::ParamsFilter
+  use Jpmobile::Rack::Filter
+
+  get '/' do
+    erb :index
+  end
+
+Rails のみ半角・全角の自動変換フィルターが用意されている。用いるには
+
+ class MyController
+   mobile_filter :hankaku=>true
+ end
+
+と指定する。
+
+Jpmobile内では、各キャリアの絵文字はUnicode私的領域上にマッピングされ、管理される。
+このとき、DoCoMo、Auは公式サイト記載のマッピングが使用される。
+ただしSoftBankはAuとの重複を避けるため、公式のマッピングに0x1000加算しU+F001以降に割り当てる。
+テンプレート内ではUTF-8でエンコードするか、数値文字参照の&#xHHHH;形式で指定する。
+
+絵文字は送出時に内蔵の変換表に基づいて変換され、携帯電話のエンコーディングにあわせて送出される。
+携帯電話から受信した絵文字は上記マッピングに基づいてUTF-8でparamsに渡される。
+
+* DoCoMo、Auとの通信時にはShift_JIS、SoftBankとの通信時にはUTF-8が使用される。
+* :hankaku=>true指定時は、カタカナは半角カナに変換されて送出される。携帯電話から送られた半角カナは全角カナに変換される。
+* 絵文字はキャリアにあわせて変換されて送出される。
+* 携帯電話からの絵文字はUnicode私的領域にマップされ、UTF-8でparamsに格納される。
+
+=== ビューの自動振分け
+DoCoMo携帯電話からアクセスすると、
+* index_mobile_docomo.html.erb
+* index_mobile.html.erb
+* index.html.erb
+の順でテンプレートを検索し、最初に見付かったテンプレートが利用される。
+Auの場合は、index_mobile_au.html.erb、Softbankの場合はindex_mobile_softbank.html.erbが最初に検索される。
+
+またiPhoneからアクセスすると、
+* index_smart_phone_iphone.html.erb
+* index_smart_phone.html.erb
+* index.html.erb
+の順でテンプレートを検索する。
+Androidの場合はindex_smart_phone_android.html.erb、Windows Phoneの場合はindex_smart_phone_windows_phone.html.erbが最初に検索される。
+
+携帯専用サイトであれば、index.html.erbがなくとも問題ない。
+
+=== 位置情報の取得用リンクの生成
+
+以下のようなコードで、端末に位置情報を要求するリンクを出力する。
+  <%= get_position_link_to(:action=>:gps) %>
 
 === セッションIDの付与(Trans SID)
 ==== Cookie非対応携帯だけに付与する
@@ -162,9 +214,13 @@ BUG: 現状、上記の例では index.html.erb が存在しない場合に振�
   end
 
 trans_sid 機能を使う場合には cookie session store を使用することができません。
+また Rails 3.0 では Cookie が使える場合にはそちらが優先されてしまうため、:always を指定した場合に問題になる場合があります。
 trans_sid を使用する際には、例えば config/initializers/session_store.rb で
-  ActionController::Base.session_store = :active_record_store
-として active_record_store を使用します。
+
+  Rails.application.config.session_store :active_record_store
+  Rails.application.config.session_options = {:cookie_only => false}
+
+として active_record_store を使用するように設定し、:cookie_only => false として Cookie を優先しないように設定します。
 このとき ApplicationController において protect_from_forgery の :secret を指定するか、
 あるいは protect_from_forgery を解除する必要があるでしょう。
 
@@ -174,59 +230,17 @@ trans_sid を使用する際には、例えば config/initializers/session_store
   link_to "hoge", :controller => "controller", :action => "action", :id => "id"
 のように指定する必要があります。
 
-
-=== 端末の画面サイズ
-request.mobile.display で Jpmobile::Display クラスのインスタンスが返る。
-  画面幅 <%= request.mobile.display.width %>
-  画面高さ <%= request.mobile.display.height %>
-
-=== GeoKit(http://geokit.rubyforge.org)との連携
-
-vandor/plugins/geokit以下にGeoKitがインストールされていると、Jpmobile::PositionにGeoKit::Mappableがincludeされる。したがって、
-
-  request.mobile.position.distance_to('札幌駅')
-
-とすることで、端末と「札幌駅」との距離を求めることができる。詳細は http://geokit.rubyforge.org/api/index.html 参照。
-
-=== 文字コード変換機能／絵文字のキャリア間相互変換
-
-JpmobileではControllerにmobile_filterを指定することで
-DoCoMo、Au、SoftBankの絵文字を透過的に扱うことができる。
-
- class MyController
-   mobile_filter
- end
-
-また、半角・全角の自動変換を用いる場合は
- class MyController
-   mobile_filter :hankaku=>true
- end
-と指定する。
-
-Jpmobile内では、各キャリアの絵文字はUnicode私的領域上にマッピングされ、管理される。
-このとき、DoCoMo、Auは公式サイト記載のマッピングが使用される。
-ただしSoftBankはAuとの重複を避けるため、公式のマッピングに0x1000加算しU+F001以降に割り当てる。
-テンプレート内ではUTF-8でエンコードするか、数値文字参照の&#xHHHH;形式で指定する。
-
-絵文字は送出時に内蔵の変換表に基づいて変換され、携帯電話のエンコーディングにあわせて送出される。
-携帯電話から受信した絵文字は上記マッピングに基づいてUTF-8でparamsに渡される。
-
-mobile_filterを有効にすると以下の処理が自動で行われる。
-* DoCoMo、Auとの通信時にはShift_JIS、SoftBankとの通信時にはUTF-8が使用される。
-* :hankaku=>true指定時は、カタカナは半角カナに変換されて送出される。携帯電話から送られた半角カナは全角カナに変換される。
-* 絵文字はキャリアにあわせて変換されて送出される。
-* 携帯電話からの絵文字はUnicode私的領域にマップされ、UTF-8でparamsに格納される。
-
 == テストに必要なgemパッケージ
 テストを実行するためには以下のgemパッケージが必要です。
 * rails (include rack)
 * sqlite3-ruby
-* test-unit (= 1.2.3)
-* hpricot
+* nokogiri
 * rspec
 * rspec-rails
 * rspec-fixture
+* rack-test
 * mocha
+* geokit
 
 == リンク
 

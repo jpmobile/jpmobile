@@ -1,6 +1,5 @@
+# -*- coding: utf-8 -*-
 # =Willcom携帯電話
-# DDI-POCKETを含む。
-
 module Jpmobile::Mobile
   # ==Willcom携帯電話
   # Ddipocketのスーパクラス。
@@ -27,13 +26,5 @@ module Jpmobile::Mobile
     def supports_cookie?
       true
     end
-  end
-  # ==DDI-POCKET
-  # スーパクラスはWillcom。
-  class Ddipocket < Willcom
-    # 対応するUser-Agentの正規表現
-    USER_AGENT_REGEXP = /^Mozilla\/3.0\(DDIPOCKET/
-
-    MAIL_ADDRESS_REGEXP = nil # DdipocketはEmail判定だとWillcomと判定させたい
   end
 end

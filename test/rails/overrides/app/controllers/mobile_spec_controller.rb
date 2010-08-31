@@ -1,5 +1,5 @@
 class MobileSpecController < ApplicationController
-  def hello
+  def index
     render :text=>"Hello, world."
   end
 end

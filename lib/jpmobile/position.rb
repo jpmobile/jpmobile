@@ -1,9 +1,10 @@
+# -*- coding: utf-8 -*-
 #= 位置情報
 
-# plugins/以下にgeokitがインストールされている場合は読み込む
+# Rack 化にあわせて gem を見るように
 begin
-  require RAILS_ROOT + '/vendor/plugins/geokit/lib/geo_kit/mappable'
-rescue MissingSourceFile, NameError
+  require 'geokit'
+rescue LoadError
 end
 
 module Jpmobile

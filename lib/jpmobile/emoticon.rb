@@ -100,11 +100,7 @@ module Jpmobile
               [converted].pack("U")
             end
           elsif webcode = SOFTBANK_UNICODE_TO_WEBCODE[converted-0x1000]
-            emotion = "\x1b\x24#{webcode}\x0f"
-            if emotion.respond_to?(:force_encoding)
-              emotion.force_encoding(str.encoding)
-            end
-            emotion
+            [converted-0x1000].pack('U')
           else
             # キャリア変換テーブルに指定されていたUnicodeに対応する
             # 携帯側エンコーディングが見つからない(変換テーブルの不備の可能性あり)。
@@ -116,7 +112,7 @@ module Jpmobile
             self.unicodecr_to_external(converted, conversion_table, to_sjis)
           else
             # 変換先が文字列で指定されている。
-            to_sjis ? NKF.nkf('-m0 -x -Ws', converted) : converted
+            to_sjis ? Jpmobile::Util.utf8_to_sjis(converted) : converted
           end
         when nil
           # 変換先が定義されていない。

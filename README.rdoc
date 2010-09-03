@@ -136,7 +136,7 @@ jpmobileを読み込むとDoCoMo、Au、SoftBankの絵文字を透過的に扱�
 * Rails の場合は vendor/plugins に配置し、下記の設定を追加することで有効になる。
 
   # Rack middleware を追加するメソッド
-  Rails.application.config.jpmobile.mobile_fiter
+  Rails.application.config.jpmobile.mobile_filter
 
 ** 下記の設定を追加することで、<form> タグの accept-charset が変更される。
 

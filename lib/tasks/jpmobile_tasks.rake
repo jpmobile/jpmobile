@@ -4,15 +4,6 @@
 #   # Task goes here
 # end
 
-def check_ip_addresses
-  ip_address_dir = File.join(File.dirname(__FILE__), "../../vendor/jpmobile-ipaddresses/")
-
-  unless File.exists?(File.join(ip_address_dir, "lib/jpmobile/mobile/ip_addresses/abstract_ip_addresses.rb"))
-    FileUtils.mkdir_p(ip_address_dir)
-    system "git clone git://github.com/jpmobile/jpmobile-ipaddresses.git #{ip_address_dir}"
-  end
-end
-
 begin
   require 'rspec/core/rake_task'
 

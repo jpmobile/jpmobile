@@ -91,7 +91,6 @@ module Jpmobile::Mobile
 
     #
     def self.ip_address_class
-eval("::Jpmobile::Mobile::IpAddresses::#{self.to_s.split(/::/).last}")
       eval("::Jpmobile::Mobile::IpAddresses::#{self.to_s.split(/::/).last}").new rescue nil
     end
   end

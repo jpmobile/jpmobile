@@ -4,6 +4,7 @@ require 'rake/clean'
 require 'rake/testtask'
 require 'rake/rdoctask'
 require 'fileutils'
+require 'pathname'
 include FileUtils
 
 begin
@@ -18,9 +19,8 @@ begin
 
     gem.test_files.exclude 'test/rails/rails_root'
 
-    gem.add_development_dependency('rspec', '>=1.3.0')
-    gem.add_development_dependency('rspec-rails', '>=1.3.2')
-    gem.add_development_dependency('rspec-fixture', '>=0.0.2')
+    gem.add_development_dependency('rspec', '2.0.0.beta.17')
+    gem.add_development_dependency('rspec-rails', '2.0.0.beta.17')
     gem.add_development_dependency('jeweler', '>=1.4.0')
   end
 rescue LoadError
@@ -48,5 +48,25 @@ task :update do
   end
 end
 
-task :test => ['test:legacy', 'spec:unit', 'spec:rack', 'test:rails']
+namespace :test do
+  desc "Preparation of external modules"
+  task :prepare do
+    external_repos = [
+      "jpmobile-ipaddresses"
+    ]
+    github_prefix = "git://github.com/jpmobile"
+    vendor_path = Pathname.new(Dir.pwd).join("vendor")
+    FileUtils.mkdir_p(vendor_path)
+
+    FileUtils.cd(vendor_path) do
+      external_repos.each do |repos|
+        unless File.directory?("#{repos}/.git")
+          Git.clone("#{github_prefix}/#{repos}.git", repos, {:path => vendor_path})
+        end
+      end
+    end
+  end
+end
+
+task :test => ['test:prepare', 'test:legacy', 'spec:unit', 'spec:rack', 'test:rails']
 load 'lib/tasks/jpmobile_tasks.rake'

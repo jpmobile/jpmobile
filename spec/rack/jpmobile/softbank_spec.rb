@@ -70,7 +70,7 @@ describe Jpmobile::Rack::MobileCarrier, "softbank" do
       res = Rack::MockRequest.env_for(
         'http://jpmobile-rails.org/',
         'HTTP_USER_AGENT' => "Vodafone/1.0/V903T/TJ001 Browser/VF-Browser/1.0 Profile/MIDP-2.0 Configuration/CLDC-1.1 Ext-J-Profile/JSCL-1.2.2 Ext-V-Profile/VSCL-2.0.0",
-        "REMOTE_ADDR"=>"202.179.204.1")
+        "REMOTE_ADDR"=>"210.175.1.130")
       env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
       env['rack.jpmobile'].valid_ip?.should be_true

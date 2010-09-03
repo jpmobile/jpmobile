@@ -28,6 +28,17 @@ module Jpmobile
 
     autoload :Display,        'jpmobile/mobile/display'
 
+    module IpAddresses
+      autoload :AbstractIpAddresses, 'jpmobile/mobile/ip_addresses/abstract_ip_addresses'
+      autoload :Docomo,              'jpmobile/mobile/ip_addresses/docomo'
+      autoload :Au,                  'jpmobile/mobile/ip_addresses/au'
+      autoload :Softbank,            'jpmobile/mobile/ip_addresses/softbank'
+      autoload :Vodafone,            'jpmobile/mobile/ip_addresses/softbank'
+      autoload :Willcom,             'jpmobile/mobile/ip_addresses/willcom'
+      autoload :Ddipocket,           'jpmobile/mobile/ip_addresses/willcom'
+      autoload :Emobile,             'jpmobile/mobile/ip_addresses/emobile'
+    end
+
     DEFAULT_CARRIERS = %w(Docomo Au Softbank Vodafone Emobile Willcom Ddipocket Iphone Android WindowsPhone)
 
     def self.carriers

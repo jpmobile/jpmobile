@@ -4,6 +4,15 @@
 #   # Task goes here
 # end
 
+def check_ip_addresses
+  ip_address_dir = File.join(File.dirname(__FILE__), "../../vendor/jpmobile-ipaddresses/")
+
+  unless File.exists?(File.join(ip_address_dir, "lib/jpmobile/mobile/ip_addresses/abstract_ip_addresses.rb"))
+    FileUtils.mkdir_p(ip_address_dir)
+    system "git clone git://github.com/jpmobile/jpmobile-ipaddresses.git #{ip_address_dir}"
+  end
+end
+
 begin
   require 'rspec/core/rake_task'
 
@@ -55,6 +64,17 @@ namespace :test do
       FileUtils.mkdir_p(plugin_path)
       FileList["*"].exclude("test").each do |file|
         FileUtils.cp_r(file, plugin_path)
+      end
+
+      # setup jpmobile-ipaddresses
+      begin
+        plugin_path = File.join(rails_root, 'vendor', 'plugins', 'jpmobile-ipaddresses')
+        FileUtils.mkdir_p(plugin_path)
+        FileList["vendor/jpmobile-ipaddresses/*"].exclude("test").each do |file|
+          FileUtils.cp_r(file, plugin_path)
+        end
+      rescue LoadError
+        puts "IP Address test requires jpmobile-ipaddresses module"
       end
 
       # setup tests

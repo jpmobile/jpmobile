@@ -57,6 +57,17 @@ namespace :test do
         FileUtils.cp_r(file, plugin_path)
       end
 
+      # setup jpmobile-ipaddresses
+      begin
+        plugin_path = File.join(rails_root, 'vendor', 'plugins', 'jpmobile-ipaddresses')
+        FileUtils.mkdir_p(plugin_path)
+        FileList["vendor/jpmobile-ipaddresses/*"].exclude("test").each do |file|
+          FileUtils.cp_r(file, plugin_path)
+        end
+      rescue LoadError
+        puts "IP Address test requires jpmobile-ipaddresses module"
+      end
+
       # setup tests
       FileList["test/rails/overrides/*"].each do |file|
         FileUtils.cp_r(file, rails_root)

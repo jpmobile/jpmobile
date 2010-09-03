@@ -5,6 +5,11 @@ require 'rspec'
 require 'jpmobile'
 require 'jpmobile/rack'
 require 'pp' # for debug
+begin
+  require File.dirname(__FILE__)+'/../vendor/jpmobile-ipaddresses/lib/jpmobile-ipaddresses'
+rescue LoadError
+  puts "IP Address test requires jpmobile-ipaddresses module"
+end
 
 RSpec.configure do |config|
   config.include Rack::Test::Methods

@@ -28,14 +28,10 @@ module Jpmobile::Mobile
     # そうでなければ +false+ を返す。
     # IP空間が定義されていない場合は +nil+ を返す。
     def self.valid_ip? remote_addr
-      addrs = nil
-      begin
-        addrs = self::IP_ADDRESSES
-      rescue NameError => e
-        return nil
-      end
-      remote = IPAddr.new(remote_addr)
-      addrs.any? {|ip| ip.include? remote }
+      @ip_list ||= ip_address_class
+      return false unless @ip_list
+
+      @ip_list.valid_ip?(remote_addr)
     end
 
     def valid_ip?
@@ -91,6 +87,11 @@ module Jpmobile::Mobile
       else
         @request.params
       end
+    end
+
+    #
+    def self.ip_address_class
+      eval("::Jpmobile::Mobile::IpAddresses::#{self.to_s.split(/::/).last}").new rescue nil
     end
   end
 end

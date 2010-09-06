@@ -9,6 +9,7 @@
   * GeoKit(http://geokit.rubyforge.org)との連携
 * 端末製造番号、契約者番号等の取得
 * IPアドレスの検証(キャリアが公開しているIPアドレス帯域からのアクセスか判定)
+  * IPアドレスの検証には [jpmobile-ipaddresses](http://github.com/jpmobile/jpmobile-ipaddresses) が必要です。
 * ディスプレイ情報(画面サイズ、ブラウザ画面サイズ、カラー・白黒、色数)の取得
 * 文字コード変換機能／絵文字のキャリア間相互変換
 
@@ -20,9 +21,13 @@
 == インストール
 === Rails pluginとしてインストールする場合
   % rails plugin install git://github.com/jpmobile/jpmobile.git
+==== IPアドレス検証が必要な場合
+  % rails plugin install git://github.com/jpmobile/jpmobile-ipaddresses.git
 
 === gemでインストールする場合
   % gem install jpmobile
+==== IPアドレス検証が必要な場合
+  % gem install jpmobile-ipaddresses
 
 == 使用例
 

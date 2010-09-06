@@ -4,3 +4,4 @@ pkg
 .bundle
 Gemfile
 Gemfile.lock
+vendor

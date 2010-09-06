@@ -127,7 +127,7 @@ vandor/plugins/geokit以下にGeoKitがインストールされていると、Jp
 === IPの検証
 キャリアが公開しているIPアドレス帯域からのアクセスか判定する。
   request.mobile.valid_ip?
-ただしスマートフォンの場合は必ずfalseとなる。
+ただし[jpmobile-ipaddresses](http://github.com/jpmobile/jpmobile-ipaddresses)がインストールされていないか、スマートフォンの場合は必ずfalseとなる。
 
 === 端末の画面サイズ
 request.mobile.display で Jpmobile::Display クラスのインスタンスが返る。

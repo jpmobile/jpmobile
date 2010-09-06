@@ -10,9 +10,6 @@ layout: default
 ## License
 MIT-LICENSE
 
-## Contact
-Yoji Shidara (dara@shidara.net)
-
 ## Download
 You can download this project in either
 [zip](http://github.com/jpmobile/jpmobile/zipball/master) or

@@ -6,7 +6,7 @@
 
 * 携帯電話のキャリア判別
 * 端末位置情報の取得
-  * GeoKit(http://geokit.rubyforge.org)との連携
+  * {GeoKit}[http://geokit.rubyforge.org] との連携
 * 端末製造番号、契約者番号等の取得
 * IPアドレスの検証(キャリアが公開しているIPアドレス帯域からのアクセスか判定)
   * IPアドレスの検証には {jpmobile-ipaddresses}[http://github.com/jpmobile/jpmobile-ipaddresses] が必要です。
@@ -102,7 +102,7 @@ Rack::Request#mobile.position に位置情報が格納されます。
   @latitude   = request.mobile.position.lat
   @longuitude = request.mobile.position.lon
 
-==== GeoKit(http://geokit.rubyforge.org)との連携
+==== {GeoKit}[http://geokit.rubyforge.org] との連携
 
 vandor/plugins/geokit以下にGeoKitがインストールされていると、Jpmobile::PositionにGeoKit::Mappableがincludeされる。したがって、
 

@@ -9,7 +9,7 @@
   * GeoKit(http://geokit.rubyforge.org)との連携
 * 端末製造番号、契約者番号等の取得
 * IPアドレスの検証(キャリアが公開しているIPアドレス帯域からのアクセスか判定)
-  * IPアドレスの検証には [jpmobile-ipaddresses](http://github.com/jpmobile/jpmobile-ipaddresses) が必要です。
+  * IPアドレスの検証には{jpmobile-ipaddresses}[http://github.com/jpmobile/jpmobile-ipaddresses]が必要です。
 * ディスプレイ情報(画面サイズ、ブラウザ画面サイズ、カラー・白黒、色数)の取得
 * 文字コード変換機能／絵文字のキャリア間相互変換
 
@@ -127,7 +127,7 @@ vandor/plugins/geokit以下にGeoKitがインストールされていると、Jp
 === IPの検証
 キャリアが公開しているIPアドレス帯域からのアクセスか判定する。
   request.mobile.valid_ip?
-ただし[jpmobile-ipaddresses](http://github.com/jpmobile/jpmobile-ipaddresses)がインストールされていないか、スマートフォンの場合は必ずfalseとなる。
+ただし{jpmobile-ipaddresses}[http://github.com/jpmobile/jpmobile-ipaddresses]がインストールされていないか、スマートフォンの場合は必ずfalseとなる。
 
 === 端末の画面サイズ
 request.mobile.display で Jpmobile::Display クラスのインスタンスが返る。

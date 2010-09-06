@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{jpmobile}
-  s.version = "0.1.0"
+  s.version = "0.1.1"
 
-  s.required_rubygems_version = Gem::Requirement.new("> 1.3.1") if s.respond_to? :required_rubygems_version=
+  s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Yoji Shidara", "Shin-ichiro OGAWA"]
-  s.date = %q{2010-08-31}
+  s.date = %q{2010-09-06}
   s.description = %q{A Rails plugin for Japanese mobile-phones}
   s.email = %q{dara@shidara.net}
   s.extra_rdoc_files = [
@@ -56,11 +56,6 @@ Gem::Specification.new do |s|
      "lib/jpmobile/mobile/willcom.rb",
      "lib/jpmobile/mobile/windows_phone.rb",
      "lib/jpmobile/mobile/z_display_info_docomo.rb",
-     "lib/jpmobile/mobile/z_ip_addresses_au.rb",
-     "lib/jpmobile/mobile/z_ip_addresses_docomo.rb",
-     "lib/jpmobile/mobile/z_ip_addresses_emobile.rb",
-     "lib/jpmobile/mobile/z_ip_addresses_softbank.rb",
-     "lib/jpmobile/mobile/z_ip_addresses_willcom.rb",
      "lib/jpmobile/position.rb",
      "lib/jpmobile/rack.rb",
      "lib/jpmobile/rack/filter.rb",
@@ -232,20 +227,17 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_development_dependency(%q<rspec>, [">= 1.3.0"])
-      s.add_development_dependency(%q<rspec-rails>, [">= 1.3.2"])
-      s.add_development_dependency(%q<rspec-fixture>, [">= 0.0.2"])
+      s.add_development_dependency(%q<rspec>, ["= 2.0.0.beta.17"])
+      s.add_development_dependency(%q<rspec-rails>, ["= 2.0.0.beta.17"])
       s.add_development_dependency(%q<jeweler>, [">= 1.4.0"])
     else
-      s.add_dependency(%q<rspec>, [">= 1.3.0"])
-      s.add_dependency(%q<rspec-rails>, [">= 1.3.2"])
-      s.add_dependency(%q<rspec-fixture>, [">= 0.0.2"])
+      s.add_dependency(%q<rspec>, ["= 2.0.0.beta.17"])
+      s.add_dependency(%q<rspec-rails>, ["= 2.0.0.beta.17"])
       s.add_dependency(%q<jeweler>, [">= 1.4.0"])
     end
   else
-    s.add_dependency(%q<rspec>, [">= 1.3.0"])
-    s.add_dependency(%q<rspec-rails>, [">= 1.3.2"])
-    s.add_dependency(%q<rspec-fixture>, [">= 0.0.2"])
+    s.add_dependency(%q<rspec>, ["= 2.0.0.beta.17"])
+    s.add_dependency(%q<rspec-rails>, ["= 2.0.0.beta.17"])
     s.add_dependency(%q<jeweler>, [">= 1.4.0"])
   end
 end

@@ -4,7 +4,6 @@
 module Jpmobile::Mobile
   # ==DoCoMo携帯電話
   class Docomo < AbstractMobile
-    autoload :IP_ADDRESSES, 'jpmobile/mobile/z_ip_addresses_docomo'
     autoload :DISPLAY_INFO, 'jpmobile/mobile/z_display_info_docomo'
 
     # 対応するUser-Agentの正規表現

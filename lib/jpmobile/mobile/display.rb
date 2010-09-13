@@ -6,13 +6,41 @@ module Jpmobile
   module Mobile
     # ディスプレイ情報
     class Display
-      def initialize(physical_width=nil, physical_height=nil, browser_width=nil, browser_height=nil, color_p=nil, colors=nil) # :nodoc:
-        @physical_width = physical_width
-        @physical_height = physical_height
-        @browser_width = browser_width
-        @browser_height = browser_height
-        @colors = colors
-        @color_p = color_p
+      def initialize(carrier, env)
+        case carrier
+        when Docomo
+          display_info = Jpmobile::Mobile::Docomo::DISPLAY_INFO[carrier.model_name] || {}
+          @browser_width = display_info[:browser_width]
+          @browser_height = display_info[:browser_height]
+          @color_p = display_info[:color_p]
+          @colors = display_info[:colors]
+        when Au
+          if r = env['HTTP_X_UP_DEVCAP_SCREENPIXELS']
+            @physical_width, @physical_height = r.split(/,/,2).map {|x| x.to_i}
+          end
+          if r = env['HTTP_X_UP_DEVCAP_ISCOLOR']
+            @color_p = (r == '1')
+          end
+          if r = env['HTTP_X_UP_DEVCAP_SCREENDEPTH']
+            a = r.split(/,/)
+            @colors = 2 ** a[0].to_i
+          end
+        when Softbank
+          if r = env['HTTP_X_JPHONE_DISPLAY']
+            @physical_width, @physical_height = r.split(/\*/,2).map {|x| x.to_i}
+          end
+          if r = env['HTTP_X_JPHONE_COLOR']
+            case r
+            when /^C/
+              @color_p = true
+            when /^G/
+              @color_p = false
+            end
+            if r =~ /^.(\d+)$/
+              @colors = $1.to_i
+            end
+          end
+        end
       end
 
       # 画面がカラーならば +true+、白黒ならば +false+ を返す。不明の場合は +nil+。

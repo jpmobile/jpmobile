@@ -52,7 +52,7 @@ describe Jpmobile::Rack::Filter do
         "/",
         "REQUEST_METHOD" => "GET",
         'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)')
-      res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new('<input name="_snowman" type="hidden" value="&#9731;" />'))).call(res)
+      res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new('<input name="utf8" type="hidden" value="&#x2713;" />'))).call(res)
       res[1]['Content-Type'].should == "text/html; charset=Shift_JIS"
       response_body(res).should == " "
     end

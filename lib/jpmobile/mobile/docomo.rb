@@ -4,8 +4,6 @@
 module Jpmobile::Mobile
   # ==DoCoMo携帯電話
   class Docomo < AbstractMobile
-    autoload :DISPLAY_INFO, 'jpmobile/mobile/z_display_info_docomo'
-
     # 対応するUser-Agentの正規表現
     USER_AGENT_REGEXP = /^DoCoMo/
     # 対応するメールアドレスの正規表現

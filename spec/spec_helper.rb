@@ -8,11 +8,17 @@ unless RSpec.const_defined?(:Rails)
   require 'action_mailer'
   require 'initializer'
   require dir+'/../lib/jpmobile'
-  # begin
+  begin
     require dir+'/../vendor/jpmobile-ipaddresses/lib/jpmobile-ipaddresses'
-  # rescue LoadError
-  #   puts "IP Address test requires jpmobile-ipaddresses module"
-  # end
+  rescue LoadError
+    puts "IP Address test requires jpmobile-ipaddresses module"
+  end
+
+  begin
+    require dir+'/../vendor/jpmobile-terminfo/lib/jpmobile-terminfo'
+  rescue LoadError
+    puts "Terminal display information test requires jpmobile-terminfo module"
+  end
 
   # set (dummy) RAILS_ROOT
   RAILS_ROOT=dir+"/.."

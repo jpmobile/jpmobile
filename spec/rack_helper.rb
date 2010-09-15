@@ -10,6 +10,11 @@ begin
 rescue LoadError
   puts "IP Address test requires jpmobile-ipaddresses module"
 end
+begin
+  require File.dirname(__FILE__)+'/../vendor/jpmobile-terminfo/lib/jpmobile-terminfo'
+rescue LoadError
+  puts "Terminal display information test requires jpmobile-terminfo module"
+end
 
 RSpec.configure do |config|
   config.include Rack::Test::Methods

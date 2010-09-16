@@ -38,27 +38,6 @@ module Jpmobile::Mobile
       end
     end
 
-    # 画面情報を +Display+ クラスのインスタンスで返す。
-    def display
-      return @__display if @__display
-      p_w = p_h = col_p = cols = nil
-      if r = @request.env['HTTP_X_JPHONE_DISPLAY']
-        p_w, p_h = r.split(/\*/,2).map {|x| x.to_i}
-      end
-      if r = @request.env['HTTP_X_JPHONE_COLOR']
-        case r
-        when /^C/
-          col_p = true
-        when /^G/
-          col_p = false
-        end
-        if r =~ /^.(\d+)$/
-          cols = $1.to_i
-        end
-      end
-      @__display = Jpmobile::Mobile::Display.new(p_w, p_h, nil, nil, col_p, cols)
-    end
-
     # cookieに対応しているか？
     def supports_cookie?
       true

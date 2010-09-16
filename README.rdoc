@@ -11,6 +11,7 @@
 * IPアドレスの検証(キャリアが公開しているIPアドレス帯域からのアクセスか判定)
   * IPアドレスの検証には {jpmobile-ipaddresses}[http://github.com/jpmobile/jpmobile-ipaddresses] が必要です。
 * ディスプレイ情報(画面サイズ、ブラウザ画面サイズ、カラー・白黒、色数)の取得
+  * ディスプレイ情報の取得には {jpmobile-terminfo}[http://github.com/jpmobile/jpmobile-terminfo] が必要です。
 * 文字コード変換機能／絵文字のキャリア間相互変換
 
 また Rails 3.0 に以下の機能を追加する
@@ -23,11 +24,15 @@
   % rails plugin install git://github.com/jpmobile/jpmobile.git
 ==== IPアドレス検証が必要な場合
   % rails plugin install git://github.com/jpmobile/jpmobile-ipaddresses.git
+==== ディスプレイ情報を取得する必要がある場合
+  % rails plugin install git://github.com/jpmobile/jpmobile-ipaddresses.git
 
 === gemでインストールする場合
   % gem install jpmobile
 ==== IPアドレス検証が必要な場合
   % gem install jpmobile-ipaddresses
+==== ディスプレイ情報を取得する必要がある場合
+  % gem install jpmobile-terminfo
 
 == 使用例
 
@@ -133,6 +138,7 @@ vandor/plugins/geokit以下にGeoKitがインストールされていると、Jp
 request.mobile.display で Jpmobile::Display クラスのインスタンスが返る。
   画面幅 <%= request.mobile.display.width %>
   画面高さ <%= request.mobile.display.height %>
+ただし {jpmobile-terminfo}[http://github.com/jpmobile/jpmobile-terminfo] がインストールされていない場合はエラーとなるので注意が必要。
 
 === 文字コード変換機能／絵文字のキャリア間相互変換
 

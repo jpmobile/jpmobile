@@ -128,6 +128,6 @@ module Jpmobile::TransSid #:nodoc:
     return unless request # for test process
     return unless apply_trans_sid?
     return unless jpmobile_session_id
-    response.body.gsub!(%r{(</form>)}i, sid_hidden_field_tag+'\1')
+    response.body = response.body.gsub(%r{(</form>)}i, sid_hidden_field_tag+'\1')
   end
 end

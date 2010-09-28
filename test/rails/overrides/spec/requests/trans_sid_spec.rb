@@ -49,6 +49,10 @@ describe "trans_sid functional" do
 
       res.response.body.should =~ /<a href=\"\/.+?\/link\?_session_id=[a-zA-Z0-9]{32}\">linkto<\/a>/
     end
+    it "で form内にhiddenが差し込まれる" do
+      res = get_with_session(@controller, "form", @user_agent)
+      res.response.body.should =~ /<input type=\"hidden\" name=\".+\" value=\"[a-zA-Z0-9]{32}\"/
+    end
     it "で form の自動書き換えが行われる" do
       res = get_with_session(@controller, "form", @user_agent)
 

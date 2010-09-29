@@ -1,3 +1,3 @@
 class FilterController < FilterControllerBase
-  mobile_filter
+  # mobile_filter
 end

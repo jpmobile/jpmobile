@@ -3,6 +3,29 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe "jpmobile integration spec" do
   include Jpmobile::Util
+
+  shared_examples_for "hankaku_filter :input => true のとき" do
+    it "はtextareaの中では半角に変換されないこと" do
+      get "/#{@controller}/textarea", {}, {"HTTP_USER_AGENT" => @user_agent}
+      body.should == send(@conversion_method, '<textarea hoge="fuu">アブラカダブラ</textarea>')
+    end
+    it "はinputのvalueの中では半角に変換されないこと" do
+      get "/#{@controller}/input_tag", {}, {"HTTP_USER_AGENT" => @user_agent}
+      body.should == send(@conversion_method, '<input hoge="fuu" value="アブラカダブラ">')
+    end
+  end
+
+  shared_examples_for "hankaku_filter :input => false のとき" do
+    it "はtextareaの中でも半角に変換されること" do
+      get "/#{@controller}/textarea", {}, {"HTTP_USER_AGENT" => @user_agent}
+      body.should == send(@conversion_method, '<textarea hoge="fuu">ｱﾌﾞﾗｶﾀﾞﾌﾞﾗ</textarea>')
+    end
+    it "はinputのvalueの中も半角に変換されること" do
+      get "/#{@controller}/input_tag", {}, {"HTTP_USER_AGENT" => @user_agent}
+      body.should == send(@conversion_method, '<input hoge="fuu" value="ｱﾌﾞﾗｶﾀﾞﾌﾞﾗ" />')
+    end
+  end
+
   shared_examples_for "文字コードフィルタが動作しているとき" do
     it "はhtml以外は変換しないこと" do
       get "/#{@controller}/rawdata", {}, {"HTTP_USER_AGENT" => @user_agent}
@@ -157,15 +180,42 @@ describe "jpmobile integration spec" do
     before do
       @user_agent = "DoCoMo/2.0 SH902i(c100;TB;W24H12)"
       @controller = "hankaku_filter"
+      @conversion_method = :utf8_to_sjis
     end
     it_should_behave_like "Shift_JISで通信する端末との通信(半角変換付き)"
+    it_should_behave_like "hankaku_filter :input => false のとき"
   end
 
   describe HankakuFilterController, "SoftBank 910T からのアクセス" do
     before do
       @user_agent = "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1"
       @controller = "hankaku_filter"
+      @conversion_method = :utf8
     end
     it_should_behave_like "UTF-8で通信する端末との通信(半角変換付き)"
+    it_should_behave_like "hankaku_filter :input => false のとき"
+  end
+
+  #
+  # 半角フィルタ(input付き)
+  #
+  describe HankakuInputFilterController, "DoCoMo SH902i からのアクセス" do
+    before do
+      @user_agent = "DoCoMo/2.0 SH902i(c100;TB;W24H12)"
+      @controller = "hankaku_input_filter"
+      @conversion_method = :utf8_to_sjis
+    end
+    it_should_behave_like "Shift_JISで通信する端末との通信(半角変換付き)"
+    it_should_behave_like "hankaku_filter :input => true のとき"
+  end
+
+  describe HankakuInputFilterController, "SoftBank 910T からのアクセス" do
+    before do
+      @user_agent = "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1"
+      @controller = "hankaku_input_filter"
+      @conversion_method = :utf8
+    end
+    it_should_behave_like "UTF-8で通信する端末との通信(半角変換付き)"
+    it_should_behave_like "hankaku_filter :input => true のとき"
   end
 end

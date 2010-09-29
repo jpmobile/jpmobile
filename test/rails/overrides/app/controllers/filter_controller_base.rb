@@ -16,4 +16,10 @@ class FilterControllerBase < ApplicationController
   def rawdata
     send_data "アブラカダブラ", :type => 'application/octet-stream'
   end
+  def textarea
+    render :text => '<textarea hoge="fuu">アブラカダブラ</textarea>'
+  end
+  def input_tag
+    render :text => '<input hoge="fuu" value="アブラカダブラ" />'
+  end
 end

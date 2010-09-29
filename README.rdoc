@@ -98,7 +98,6 @@
   end
 
   class MobileController < ApplicationController
-     mobile_filter
   end
 
 === 位置情報の取得
@@ -173,10 +172,14 @@ jpmobileを読み込むとDoCoMo、Au、SoftBankの絵文字を透過的に扱�
 Rails のみ半角・全角の自動変換フィルターが用意されている。用いるには
 
  class MyController
-   mobile_filter :hankaku=>true
+   hankaku_filter
  end
 
-と指定する。
+と指定する。またtextareaやhidden/text/passwordのinputタグで半角に変換したくない場合は :input => true を指定する。
+
+ class MyController
+   hankaku_filter :input => true
+ end
 
 Jpmobile内では、各キャリアの絵文字はUnicode私的領域上にマッピングされ、管理される。
 このとき、DoCoMo、Auは公式サイト記載のマッピングが使用される。

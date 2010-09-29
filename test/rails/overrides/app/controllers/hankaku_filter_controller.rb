@@ -1,3 +1,3 @@
 class HankakuFilterController < FilterControllerBase
-  mobile_filter :hankaku => true
+  hankaku_filter
 end

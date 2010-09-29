@@ -22,8 +22,8 @@ module Jpmobile
           end
 
           body = response_to_body(response)
-          body = body.sub(/<input name="utf8" type="hidden" value="#{[0x2713].pack("U")}".*?>/, ' ')
-          body = body.sub(/<input name="utf8" type="hidden" value="&#x2713;".*?>/, ' ')
+          body = body.sub(/<input name="utf8" type="hidden" value="#{[0x2713].pack("U")}"[^>]*?>/, ' ')
+          body = body.sub(/<input name="utf8" type="hidden" value="&#x2713;"[^>]*?>/, ' ')
 
           response, charset = mobile.to_external(body, type, charset)
 

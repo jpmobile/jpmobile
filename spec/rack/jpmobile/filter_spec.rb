@@ -48,11 +48,29 @@ describe Jpmobile::Rack::Filter do
     end
 
     it "_snowman が出力されないこと" do
-      res = Rack::MockRequest.env_for(
+      req = Rack::MockRequest.env_for(
         "/",
         "REQUEST_METHOD" => "GET",
         'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)')
-      res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new('<input name="utf8" type="hidden" value="&#x2713;" />'))).call(res)
+      res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new('<input name="utf8" type="hidden" value="&#x2713;" />'))).call(req)
+      res[1]['Content-Type'].should == "text/html; charset=Shift_JIS"
+      response_body(res).should == " "
+
+      res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new('<input name="utf8" type="hidden" value="&#x2713;">'))).call(req)
+      res[1]['Content-Type'].should == "text/html; charset=Shift_JIS"
+      response_body(res).should == " "
+    end
+
+    it "Nokogiri 経由の _snowman が出力されないこと" do
+      req = Rack::MockRequest.env_for(
+        "/",
+        "REQUEST_METHOD" => "GET",
+        'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)')
+      res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new("<input name=\"utf8\" type=\"hidden\" value=\"#{[10003].pack("U")}\" />"))).call(req)
+      res[1]['Content-Type'].should == "text/html; charset=Shift_JIS"
+      response_body(res).should == " "
+
+      res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new("<input name=\"utf8\" type=\"hidden\" value=\"#{[10003].pack("U")}\">"))).call(req)
       res[1]['Content-Type'].should == "text/html; charset=Shift_JIS"
       response_body(res).should == " "
     end

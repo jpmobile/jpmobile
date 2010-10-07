@@ -25,7 +25,7 @@
 ==== IPアドレス検証が必要な場合
   % rails plugin install git://github.com/jpmobile/jpmobile-ipaddresses.git
 ==== ディスプレイ情報を取得する必要がある場合
-  % rails plugin install git://github.com/jpmobile/jpmobile-ipaddresses.git
+  % rails plugin install git://github.com/jpmobile/jpmobile-terminfo.git
 
 === gemでインストールする場合
   % gem install jpmobile

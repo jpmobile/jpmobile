@@ -144,6 +144,20 @@ describe "trans_sid functional" do
     it_should_behave_like "trans_sid が起動するとき"
   end
 
+  describe TransSidMetalController, "という ActionController::Metal のコントローラ" do
+    before(:each) do
+      @controller = "trans_sid_metal"
+      @user_agent = "Mozilla/5.0 (Windows; U; Windows NT 5.1; ja; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 ( .NET CLR 3.5.30729)"
+      @charset    = "UTF-8"
+    end
+
+    it "で redirect_to がエラーにならない" do
+      res = get_with_session(@controller, "redirect", @user_agent)
+
+      res.response.should be_redirect
+    end
+  end
+
   describe TransSidMobileController, "という trans_sid :mobile が指定されているコントローラ" do
     before(:each) do
       @controller = "trans_sid_mobile"

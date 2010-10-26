@@ -61,7 +61,7 @@ module ActionController
     alias_method_chain :redirect_to, :jpmobile
   end
 
-  class Base #:nodoc:
+  class Metal #:nodoc:
     class_inheritable_accessor :trans_sid_mode
 
     class << self

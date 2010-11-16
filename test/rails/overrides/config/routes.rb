@@ -1,4 +1,4 @@
-RailsRoot::Application.routes.draw do |map|
+RailsRoot::Application.routes.draw do
   resources :users
   namespace :admin do
     resources :users

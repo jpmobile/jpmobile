@@ -98,7 +98,7 @@ END
       # ruby "-S bundle install"
       ruby "-S rake db:migrate test"
       ruby "-S rake spec"
-      # ruby "-S rspec -b --color spec/requests/trans_sid_spec.rb -e 'trans_sid functional TransSidMetalController という ActionController::Metal のコントローラ で redirect_to がエラーにならない'"
+      # ruby "-S rspec -b --color spec/requests/filter_spec.rb -e 'jpmobile integration spec HankakuInputFilterController SoftBank 910T からのアクセス it should behave like hankaku_filter :input => true のとき はtextareaの中では半角に変換されないこと'"
 
       cd relative_root
     end

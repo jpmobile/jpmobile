@@ -53,11 +53,13 @@ module Jpmobile
       unless options[:input]
         filter(str, @@internal, @@external)
       else
-        html = (str =~ /^\s*<[^Hh>]*html/)
-        doc = if html
-                Nokogiri::HTML::Document.parse(str)
+        encoding = (str =~ /^\s*<[^Hh>]*html/) and str.respond_to?(:encoding)
+        nokogiri_klass =
+          (str =~ /^\s*<[^Hh>]*html/) ? Nokogiri::HTML::Document : Nokogiri::HTML::DocumentFragment
+        doc = if encoding
+                nokogiri_klass.parse(str, nil, "UTF-8")
               else
-                Nokogiri::HTML::DocumentFragment.parse(str)
+                nokogiri_klass.parse(str)
               end
 
         doc = convert_text_content(doc)

@@ -79,6 +79,14 @@ module Jpmobile
       end
     end
 
+    def regexp_utf8_to_sjis(utf8_str)
+      if Object.const_defined?(:Encoding)
+        Regexp.compile(Regexp.escape(utf8_to_sjis(utf8_str)))
+      else
+        Regexp.compile(Regexp.escape(utf8_to_sjis(utf8_str),"s"),nil,'s')
+      end
+    end
+
     def hash_to_utf8(hash)
       new_hash = {}
       hash.each do |keu, value|

@@ -39,7 +39,7 @@ namespace :test do
   task :rails, [:versions] do |t, args|
     rails_root     = "test/rails/rails_root"
     relative_root  = "../../../"
-    rails_versions = args.versions.split("/") rescue ["3.0.0.rc"]
+    rails_versions = args.versions.split("/") rescue ["3.0.2"]
 
     puts "Running tests in Rails #{rails_versions.join(', ')}"
 
@@ -53,7 +53,7 @@ namespace :test do
       # setup jpmobile
       plugin_path = File.join(rails_root, 'vendor', 'plugins', 'jpmobile')
       FileUtils.mkdir_p(plugin_path)
-      FileList["*"].exclude("test").each do |file|
+      FileList["*"].exclude("test").exclude("spec").each do |file|
         FileUtils.cp_r(file, plugin_path)
       end
 

@@ -50,8 +50,8 @@ describe Jpmobile::Rack::MobileCarrier, "au" do
         "QUERY_STRING" => "ver=1&datum=0&unit=0&lat=%2b43.05.08.95&lon=%2b141.20.25.99&alt=155&time=20060521010328&smaj=76&smin=62&vert=65&majaa=49&fm=1")
       env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
-      env['rack.jpmobile'].position.lat.should be_close(43.08581944, 1e-7)
-      env['rack.jpmobile'].position.lon.should be_close(141.3405528, 1e-7)
+      env['rack.jpmobile'].position.lat.should be_within(1e-7).of(43.08581944)
+      env['rack.jpmobile'].position.lon.should be_within(1e-7).of(141.3405528)
     end
 
     it "緯度経度を取得できること(dgree_tokyo)" do
@@ -61,8 +61,8 @@ describe Jpmobile::Rack::MobileCarrier, "au" do
         "QUERY_STRING" => "ver=1&datum=1&unit=1&lat=%2b43.07475&lon=%2b141.34259&alt=8&time=20061017182825&smaj=113&smin=76&vert=72&majaa=108&fm=1")
       env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
-      env['rack.jpmobile'].position.lat.should be_close(43.07719289, 1e-4)
-      env['rack.jpmobile'].position.lon.should be_close(141.3389013, 1e-4)
+      env['rack.jpmobile'].position.lat.should be_within(1e-4).of(43.07719289)
+      env['rack.jpmobile'].position.lon.should be_within(1e-4).of(141.3389013)
     end
 
     it "緯度経度を取得できること(dgree_tokyo)" do
@@ -72,8 +72,8 @@ describe Jpmobile::Rack::MobileCarrier, "au" do
         "QUERY_STRING" => "ver=1&datum=1&unit=1&lat=%2b43.07475&lon=%2b141.34259&alt=8&time=20061017182825&smaj=113&smin=76&vert=72&majaa=108&fm=1")
       env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
-      env['rack.jpmobile'].position.lat.should be_close(43.07719289, 1e-4)
-      env['rack.jpmobile'].position.lon.should be_close(141.3389013, 1e-4)
+      env['rack.jpmobile'].position.lat.should be_within(1e-4).of(43.07719289)
+      env['rack.jpmobile'].position.lon.should be_within(1e-4).of(141.3389013)
     end
 
     it "緯度経度を取得できること(dms_tokyo)" do
@@ -83,8 +83,8 @@ describe Jpmobile::Rack::MobileCarrier, "au" do
         "QUERY_STRING" => "datum=tokyo&unit=dms&lat=43.04.55.00&lon=141.20.50.75")
       env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
-      env['rack.jpmobile'].position.lat.should be_close(43.08194444, 1e-7)
-      env['rack.jpmobile'].position.lon.should be_close(141.3474306, 1e-7)
+      env['rack.jpmobile'].position.lat.should be_within(1e-7).of(43.08194444)
+      env['rack.jpmobile'].position.lon.should be_within(1e-7).of(141.3474306)
     end
 
     it "緯度経度を取得できること(antenna)" do
@@ -94,8 +94,8 @@ describe Jpmobile::Rack::MobileCarrier, "au" do
         "QUERY_STRING" => "datum=tokyo&unit=dms&lat=43.04.55.00&lon=141.20.50.75")
       env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
-      env['rack.jpmobile'].position.lat.should be_close(43.08194444, 1e-7)
-      env['rack.jpmobile'].position.lon.should be_close(141.3474306, 1e-7)
+      env['rack.jpmobile'].position.lat.should be_within(1e-7).of(43.08194444)
+      env['rack.jpmobile'].position.lon.should be_within(1e-7).of(141.3474306)
     end
 
     it "GeoKit がある場合に取得できること" do

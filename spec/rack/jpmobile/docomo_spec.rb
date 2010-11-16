@@ -137,8 +137,8 @@ describe Jpmobile::Rack::MobileCarrier, "docomo" do
 
       env['rack.jpmobile'].areacode.should == "00100"
 
-      env['rack.jpmobile'].position.lat.should be_close(35.00988889, 1e-7)
-      env['rack.jpmobile'].position.lon.should be_close(135.6932222, 1e-7)
+      env['rack.jpmobile'].position.lat.should be_within(1e-7).of(35.00988889)
+      env['rack.jpmobile'].position.lon.should be_within(1e-7).of(135.6932222)
     end
   end
 
@@ -150,8 +150,8 @@ describe Jpmobile::Rack::MobileCarrier, "docomo" do
         "QUERY_STRING" => "lat=%2B35.00.35.600&lon=%2B135.41.35.600&geo=wgs84&x-acc=3")
       env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
-      env['rack.jpmobile'].position.lat.should be_close(35.00988889, 1e-7)
-      env['rack.jpmobile'].position.lon.should be_close(135.6932222, 1e-7)
+      env['rack.jpmobile'].position.lat.should be_within(1e-7).of(35.00988889)
+      env['rack.jpmobile'].position.lon.should be_within(1e-7).of(135.6932222)
     end
 
     # DoCoMo, 903i, GPS
@@ -164,8 +164,8 @@ describe Jpmobile::Rack::MobileCarrier, "docomo" do
         "QUERY_STRING" => "lat=%2B35.00.35.600&lon=%2B135.41.35.600&geo=WGS84&alt=%2B64.000&x-acc=1")
       env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
-      env['rack.jpmobile'].position.lat.should be_close(35.00988889, 1e-7)
-      env['rack.jpmobile'].position.lon.should be_close(135.6932222, 1e-7)
+      env['rack.jpmobile'].position.lat.should be_within(1e-7).of(35.00988889)
+      env['rack.jpmobile'].position.lon.should be_within(1e-7).of(135.6932222)
     end
   end
 

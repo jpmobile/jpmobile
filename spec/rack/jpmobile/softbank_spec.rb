@@ -57,8 +57,8 @@ describe Jpmobile::Rack::MobileCarrier, "softbank" do
         "QUERY_STRING" => "pos=N43.3.18.42E141.21.1.88&geo=wgs84&x-acr=1")
       env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
-      env['rack.jpmobile'].position.lat.should be_close(43.05511667, 1e-7)
-      env['rack.jpmobile'].position.lon.should be_close(141.3505222, 1e-7)
+      env['rack.jpmobile'].position.lat.should be_within(1e-7).of(43.05511667)
+      env['rack.jpmobile'].position.lon.should be_within(1e-7).of(141.3505222)
       env['rack.jpmobile'].position.options['pos'].should   == "N43.3.18.42E141.21.1.88"
       env['rack.jpmobile'].position.options['geo'].should   == "wgs84"
       env['rack.jpmobile'].position.options['x-acr'].should == "1"

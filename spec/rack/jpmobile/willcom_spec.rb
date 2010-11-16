@@ -38,8 +38,8 @@ describe Jpmobile::Rack::MobileCarrier, "willcom" do
         "QUERY_STRING" => "pos=N43.04.34.049E141.21.03.279")
       env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
-      env['rack.jpmobile'].position.lat.should be_close(43.078568, 1e-4)
-      env['rack.jpmobile'].position.lon.should be_close(141.347223, 1e-4)
+      env['rack.jpmobile'].position.lat.should be_within(1e-4).of(43.078568)
+      env['rack.jpmobile'].position.lon.should be_within(1e-4).of(141.347223)
     end
   end
 

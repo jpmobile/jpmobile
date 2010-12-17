@@ -35,7 +35,8 @@ module ActionView
 
     # hook ActionView::PathSet#find_template
     def find_template(original_template_path, format = nil, html_fallback = true) #:nodoc:
-      if controller and controller.kind_of?(ActionController::Base) and controller.request.mobile?
+      if controller and controller.kind_of?(ActionController::Base) and
+          (controller.request.mobile? or controller.request.smart_phone?)
         return original_template_path if original_template_path.respond_to?(:render)
         template_path = original_template_path.sub(/^\//, '')
 

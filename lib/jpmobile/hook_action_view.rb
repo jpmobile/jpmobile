@@ -1,7 +1,5 @@
+# -*- coding: utf-8 -*-
 # = viewの自動切り替え
-#
-# Rails 2.1.0 対応 http://d.hatena.ne.jp/kusakari/20080620/1213931903
-# thanks to id:kusakari
 #
 #:stopdoc:
 # helperを追加
@@ -86,12 +84,19 @@ module ActionView
 
     def mobile_template_candidates
       candidates = []
+
+      prefix = case controller.request.mobile
+               when Jpmobile::Mobile::SmartPhone
+                 "smart_phone"
+               when Jpmobile::Mobile::AbstractMobile
+                 "mobile"
+               end
       c = controller.request.mobile.class
-      while c != Jpmobile::Mobile::AbstractMobile
-        candidates << "mobile_"+c.to_s.split(/::/).last.downcase
+      while c != Jpmobile::Mobile::AbstractMobile and c != Jpmobile::Mobile::SmartPhone
+        candidates << prefix+"_"+c.to_s.split(/::/).last.underscore
         c = c.superclass
       end
-      candidates << "mobile"
+      candidates << prefix
     end
 
     def mobile_template_partial mobile_path

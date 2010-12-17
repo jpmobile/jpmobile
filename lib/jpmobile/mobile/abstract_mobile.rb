@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require 'ipaddr'
 
 module Jpmobile::Mobile
@@ -48,6 +49,11 @@ module Jpmobile::Mobile
     # クッキーをサポートしているか。
     def supports_cookie?
       return false
+    end
+
+    # smartphone かどうか
+    def smart_phone?
+      false
     end
 
     # リクエストがこのクラスに属するか調べる

@@ -13,13 +13,8 @@ module Jpmobile
 
         status, env, response = @app.call(env)
 
-        if mobile
-          if content_type = env['Content-Type']
-            type, charset = content_type.split(/;\s*charset=/)
-          else
-            type    = nil
-            charset = nil
-          end
+        if mobile and env['Content-Type'] =~ %r!text/html|application/xhtml\+xml!
+          type, charset = env['Content-Type'].split(/;\s*charset=/)
 
           body = response_to_body(response)
           body = body.gsub(/<input name="utf8" type="hidden" value="#{[0x2713].pack("U")}"[^>]*?>/, ' ')

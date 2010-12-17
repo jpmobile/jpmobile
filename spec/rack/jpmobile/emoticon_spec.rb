@@ -19,7 +19,7 @@ describe "絵文字が" do
 
   context "PC のとき" do
     before(:each) do
-      @res = Rack::MockRequest.env_for("/")
+      @res = Rack::MockRequest.env_for("/", 'Content-Type' => 'text/html; charset=utf-8')
     end
 
     it "docomo 絵文字が変換されないこと" do
@@ -48,7 +48,8 @@ describe "絵文字が" do
     before(:each) do
       @res = Rack::MockRequest.env_for(
         "/",
-        'HTTP_USER_AGENT' => "DoCoMo/2.0 SH902i(c100;TB;W24H12)")
+        'HTTP_USER_AGENT' => "DoCoMo/2.0 SH902i(c100;TB;W24H12)",
+        'Content-Type' => 'text/html; charset=utf-8')
     end
 
     it "docomo 絵文字が変換されること" do
@@ -84,7 +85,8 @@ describe "絵文字が" do
       res = Rack::MockRequest.env_for(
         "/?#{query_string}",
         "REQUEST_METHOD" => "GET",
-        'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)')
+        'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)',
+        'Content-Type' => 'text/html; charset=utf-8')
       res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(Jpmobile::Rack::Filter.new(RenderParamApp.new))).call(res)
       req = Rack::Request.new(res[1])
       req.params['q'].should == utf8("\xee\x98\xbe")
@@ -96,7 +98,8 @@ describe "絵文字が" do
     before(:each) do
       @res = Rack::MockRequest.env_for(
         "/",
-        'HTTP_USER_AGENT' => "KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0")
+        'HTTP_USER_AGENT' => "KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0",
+        'Content-Type' => 'text/html; charset=utf-8')
     end
 
     it "docomo 絵文字が変換されること" do
@@ -132,7 +135,8 @@ describe "絵文字が" do
       res = Rack::MockRequest.env_for(
         "/?#{query_string}",
         "REQUEST_METHOD" => "GET",
-        'HTTP_USER_AGENT' => "KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0")
+        'HTTP_USER_AGENT' => "KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0",
+        'Content-Type' => 'text/html; charset=utf-8')
       res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(Jpmobile::Rack::Filter.new(RenderParamApp.new))).call(res)
       req = Rack::Request.new(res[1])
       req.params['q'].should == [0xe488].pack("U")
@@ -144,7 +148,8 @@ describe "絵文字が" do
     before(:each) do
       @res = Rack::MockRequest.env_for(
         "/",
-        'HTTP_USER_AGENT' => "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1")
+        'HTTP_USER_AGENT' => "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1",
+        'Content-Type' => 'text/html; charset=utf-8')
     end
 
     it "docomo 絵文字が変換されること" do
@@ -177,7 +182,8 @@ describe "絵文字が" do
       res = Rack::MockRequest.env_for(
         "/?#{query_string}",
         "REQUEST_METHOD" => "GET",
-        'HTTP_USER_AGENT' => "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1")
+        'HTTP_USER_AGENT' => "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1",
+        'Content-Type' => 'text/html; charset=utf-8')
       res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(Jpmobile::Rack::Filter.new(RenderParamApp.new))).call(res)
       req = Rack::Request.new(res[1])
       req.params['q'].should == [0xf04a].pack("U")
@@ -189,7 +195,8 @@ describe "絵文字が" do
     before(:each) do
       @res = Rack::MockRequest.env_for(
         "/",
-        'HTTP_USER_AGENT' => "Vodafone/1.0/V705SH/SHJ001/SN000000000000000 Browser/VF-NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1")
+        'HTTP_USER_AGENT' => "Vodafone/1.0/V705SH/SHJ001/SN000000000000000 Browser/VF-NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1",
+        'Content-Type' => 'text/html; charset=utf-8')
     end
 
     it "softbank 絵文字が変換されること" do
@@ -205,7 +212,8 @@ describe "絵文字が" do
       res = Rack::MockRequest.env_for(
         "/?#{query_string}",
         "REQUEST_METHOD" => "GET",
-        'HTTP_USER_AGENT' => "Vodafone/1.0/V705SH/SHJ001/SN000000000000000 Browser/VF-NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1")
+        'HTTP_USER_AGENT' => "Vodafone/1.0/V705SH/SHJ001/SN000000000000000 Browser/VF-NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1",
+        'Content-Type' => 'text/html; charset=utf-8')
       res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(Jpmobile::Rack::Filter.new(RenderParamApp.new))).call(res)
       req = Rack::Request.new(res[1])
       req.params['q'].should == [0xf04a].pack("U")

@@ -16,10 +16,68 @@ describe Jpmobile::Rack::Filter do
         res = Rack::MockRequest.env_for(
           "/",
           "REQUEST_METHOD" => "GET",
-          'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)')
+          'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)',
+          'Content-Type' => 'text/html; charset=utf-8')
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@utf8))).call(res)
         res[1]['Content-Type'].should == "text/html; charset=Shift_JIS"
         response_body(res).should == @sjis
+      end
+
+      context "Content-Type" do
+        it "が application/xhtml+xml のときに変換されること" do
+          res = Rack::MockRequest.env_for(
+            "/",
+            "REQUEST_METHOD" => "GET",
+            'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)',
+            'Content-Type' => 'application/xhtml+xml; charset=utf-8')
+          res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@utf8))).call(res)
+          res[1]['Content-Type'].should == "application/xhtml+xml; charset=Shift_JIS"
+          response_body(res).should == @sjis
+        end
+
+        it "が application/xml のときに変換されないこと" do
+          res = Rack::MockRequest.env_for(
+            "/",
+            "REQUEST_METHOD" => "GET",
+            'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)',
+            'Content-Type' => 'application/xml; charset=utf-8')
+          res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@utf8))).call(res)
+          res[1]['Content-Type'].should == "application/xml; charset=utf-8"
+          response_body(res).should == @utf8
+        end
+
+        it "が image/jpeg のときに変換されないこと" do
+          res = Rack::MockRequest.env_for(
+            "/",
+            "REQUEST_METHOD" => "GET",
+            'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)',
+            'Content-Type' => 'image/jpeg')
+          res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@utf8))).call(res)
+          res[1]['Content-Type'].should == "image/jpeg"
+          response_body(res).should == @utf8
+        end
+
+        it "が application/octet-stream のときに変換されないこと" do
+          res = Rack::MockRequest.env_for(
+            "/",
+            "REQUEST_METHOD" => "GET",
+            'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)',
+            'Content-Type' => 'application/octet-stream')
+          res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@utf8))).call(res)
+          res[1]['Content-Type'].should == "application/octet-stream"
+          response_body(res).should == @utf8
+        end
+
+        it "が video/mpeg のときに変換されないこと" do
+          res = Rack::MockRequest.env_for(
+            "/",
+            "REQUEST_METHOD" => "GET",
+            'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)',
+            'Content-Type' => 'video/mpeg')
+          res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@utf8))).call(res)
+          res[1]['Content-Type'].should == "video/mpeg"
+          response_body(res).should == @utf8
+        end
       end
     end
 
@@ -28,7 +86,8 @@ describe Jpmobile::Rack::Filter do
         res = Rack::MockRequest.env_for(
           "/",
           "REQUEST_METHOD" => "GET",
-          'HTTP_USER_AGENT' => "KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0")
+          'HTTP_USER_AGENT' => "KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0",
+          'Content-Type' => 'text/html; charset=utf-8')
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@utf8))).call(res)
         res[1]['Content-Type'].should == "text/html; charset=Shift_JIS"
         response_body(res).should == @sjis
@@ -40,9 +99,10 @@ describe Jpmobile::Rack::Filter do
         res = Rack::MockRequest.env_for(
           "/",
           "REQUEST_METHOD" => "GET",
-          'HTTP_USER_AGENT' => "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1")
+          'HTTP_USER_AGENT' => "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1",
+          'Content-Type' => 'text/html; charset=utf-8')
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@utf8))).call(res)
-        res[1]['Content-Type'].should == "text/html"
+        res[1]['Content-Type'].should == "text/html; charset=utf-8"
         response_body(res).should == @utf8
       end
     end
@@ -51,7 +111,8 @@ describe Jpmobile::Rack::Filter do
       req = Rack::MockRequest.env_for(
         "/",
         "REQUEST_METHOD" => "GET",
-        'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)')
+        'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)',
+        'Content-Type' => 'text/html; charset=utf-8')
       res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new('<input name="utf8" type="hidden" value="&#x2713;" />'))).call(req)
       res[1]['Content-Type'].should == "text/html; charset=Shift_JIS"
       response_body(res).should == " "
@@ -65,7 +126,8 @@ describe Jpmobile::Rack::Filter do
       req = Rack::MockRequest.env_for(
         "/",
         "REQUEST_METHOD" => "GET",
-        'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)')
+        'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)',
+        'Content-Type' => 'text/html; charset=utf-8')
       res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new("<input name=\"utf8\" type=\"hidden\" value=\"#{[10003].pack("U")}\" />"))).call(req)
       res[1]['Content-Type'].should == "text/html; charset=Shift_JIS"
       response_body(res).should == " "
@@ -97,7 +159,8 @@ describe Jpmobile::Rack::Filter do
         res = Rack::MockRequest.env_for(
           "/",
           "REQUEST_METHOD" => "GET",
-          'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)')
+          'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)',
+          'Content-Type' => 'text/html; charset=utf-8')
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@utf8 + @emoji_docomo_cr))).call(res)
         response_body(res).should == @sjis + @docomo_emoji
       end
@@ -106,7 +169,8 @@ describe Jpmobile::Rack::Filter do
         res = Rack::MockRequest.env_for(
           "/",
           "REQUEST_METHOD" => "GET",
-          'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)')
+          'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)',
+          'Content-Type' => 'text/html; charset=utf-8')
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@utf8 + @emoji_docomo_utf8))).call(res)
         response_body(res).should == @sjis + @docomo_emoji
       end
@@ -115,7 +179,8 @@ describe Jpmobile::Rack::Filter do
         res = Rack::MockRequest.env_for(
           "/",
           "REQUEST_METHOD" => "GET",
-          'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)')
+          'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)',
+          'Content-Type' => 'text/html; charset=utf-8')
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@utf8 + @emoji_au_utf8))).call(res)
         response_body(res).should == @sjis + @docomo_emoji
       end
@@ -124,7 +189,8 @@ describe Jpmobile::Rack::Filter do
         res = Rack::MockRequest.env_for(
           "/",
           "REQUEST_METHOD" => "GET",
-          'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)')
+          'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)',
+          'Content-Type' => 'text/html; charset=utf-8')
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@utf8 + @emoji_softbank_utf8))).call(res)
         response_body(res).should == @sjis + @docomo_emoji
       end
@@ -135,7 +201,8 @@ describe Jpmobile::Rack::Filter do
         res = Rack::MockRequest.env_for(
           "/",
           "REQUEST_METHOD" => "GET",
-          'HTTP_USER_AGENT' => "KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0")
+          'HTTP_USER_AGENT' => "KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0",
+          'Content-Type' => 'text/html; charset=utf-8')
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@utf8 + @emoji_au_cr))).call(res)
         response_body(res).should == @sjis + @au_emoji
       end
@@ -144,7 +211,8 @@ describe Jpmobile::Rack::Filter do
         res = Rack::MockRequest.env_for(
           "/",
           "REQUEST_METHOD" => "GET",
-          'HTTP_USER_AGENT' => "KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0")
+          'HTTP_USER_AGENT' => "KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0",
+          'Content-Type' => 'text/html; charset=utf-8')
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@utf8 + @emoji_docomo_utf8))).call(res)
         response_body(res).should == @sjis + @au_emoji
       end
@@ -153,7 +221,8 @@ describe Jpmobile::Rack::Filter do
         res = Rack::MockRequest.env_for(
           "/",
           "REQUEST_METHOD" => "GET",
-          'HTTP_USER_AGENT' => "KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0")
+          'HTTP_USER_AGENT' => "KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0",
+          'Content-Type' => 'text/html; charset=utf-8')
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@utf8 + @emoji_au_utf8))).call(res)
         response_body(res).should == @sjis + @au_emoji
       end
@@ -162,7 +231,8 @@ describe Jpmobile::Rack::Filter do
         res = Rack::MockRequest.env_for(
           "/",
           "REQUEST_METHOD" => "GET",
-          'HTTP_USER_AGENT' => "KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0")
+          'HTTP_USER_AGENT' => "KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0",
+          'Content-Type' => 'text/html; charset=utf-8')
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@utf8 + @emoji_softbank_utf8))).call(res)
         response_body(res).should == @sjis + @au_emoji
       end
@@ -173,7 +243,8 @@ describe Jpmobile::Rack::Filter do
         res = Rack::MockRequest.env_for(
           "/",
           "REQUEST_METHOD" => "GET",
-          'HTTP_USER_AGENT' => "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1")
+          'HTTP_USER_AGENT' => "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1",
+          'Content-Type' => 'text/html; charset=utf-8')
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@utf8 + @emoji_softbank_cr))).call(res)
         response_body(res).should == @utf8 + @softbank_emoji
       end
@@ -182,7 +253,8 @@ describe Jpmobile::Rack::Filter do
         res = Rack::MockRequest.env_for(
           "/",
           "REQUEST_METHOD" => "GET",
-          'HTTP_USER_AGENT' => "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1")
+          'HTTP_USER_AGENT' => "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1",
+          'Content-Type' => 'text/html; charset=utf-8')
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@utf8 + @emoji_docomo_utf8))).call(res)
         response_body(res).should == @utf8 + @softbank_emoji
       end
@@ -191,7 +263,8 @@ describe Jpmobile::Rack::Filter do
         res = Rack::MockRequest.env_for(
           "/",
           "REQUEST_METHOD" => "GET",
-          'HTTP_USER_AGENT' => "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1")
+          'HTTP_USER_AGENT' => "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1",
+          'Content-Type' => 'text/html; charset=utf-8')
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@utf8 + @emoji_au_utf8))).call(res)
         response_body(res).should == @utf8 + @softbank_emoji
       end
@@ -200,7 +273,8 @@ describe Jpmobile::Rack::Filter do
         res = Rack::MockRequest.env_for(
           "/",
           "REQUEST_METHOD" => "GET",
-          'HTTP_USER_AGENT' => "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1")
+          'HTTP_USER_AGENT' => "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1",
+          'Content-Type' => 'text/html; charset=utf-8')
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@utf8 + @emoji_softbank_utf8))).call(res)
         response_body(res).should == @utf8 + @softbank_emoji
       end

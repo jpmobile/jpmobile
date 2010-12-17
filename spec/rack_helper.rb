@@ -4,7 +4,9 @@ require 'rack/test'
 require 'rspec'
 require 'jpmobile'
 require 'jpmobile/rack'
+require 'nkf'
 require 'pp' # for debug
+
 begin
   require File.dirname(__FILE__)+'/../vendor/jpmobile-ipaddresses/lib/jpmobile-ipaddresses'
 rescue LoadError

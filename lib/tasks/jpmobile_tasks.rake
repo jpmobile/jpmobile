@@ -39,7 +39,7 @@ namespace :test do
   task :rails, [:versions] do |t, args|
     rails_root     = "test/rails/rails_root"
     relative_root  = "../../../"
-    rails_versions = args.versions.split("/") rescue ["3.0.2"]
+    rails_versions = args.versions.split("/") rescue ["3.0.x"]
 
     puts "Running tests in Rails #{rails_versions.join(', ')}"
 

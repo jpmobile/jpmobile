@@ -57,12 +57,19 @@ module ActionView
     # collect cadidates of mobile_template
     def mobile_template_candidates(controller)
       candidates = []
+
+      prefix = case controller.request.mobile
+               when Jpmobile::Mobile::SmartPhone
+                 "smart_phone"
+               when Jpmobile::Mobile::AbstractMobile
+                 "mobile"
+               end
       c = controller.request.mobile.class
-      while c != Jpmobile::Mobile::AbstractMobile
-        candidates << "mobile_"+c.to_s.split(/::/).last.downcase
+      while c != Jpmobile::Mobile::AbstractMobile and c != Jpmobile::Mobile::SmartPhone
+        candidates << prefix+"_"+c.to_s.split(/::/).last.underscore
         c = c.superclass
       end
-      candidates << "mobile"
+      candidates << prefix
     end
   end
 

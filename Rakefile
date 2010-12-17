@@ -5,6 +5,7 @@ require 'rake/testtask'
 require 'rake/rdoctask'
 require 'fileutils'
 require 'pathname'
+require 'git'
 include FileUtils
 
 begin
@@ -14,14 +15,21 @@ begin
     gem.summary = "A Rails plugin for Japanese mobile-phones"
     gem.description = "A Rails plugin for Japanese mobile-phones"
     gem.email = "dara@shidara.net"
-    gem.homepage = "http://github.com/jpmobile/jpmobile"
+    gem.homepage = "http://jpmobile-rails.org"
     gem.authors = ["Yoji Shidara", "Shin-ichiro OGAWA"]
 
-    gem.test_files.exclude 'test/rails/rails_root'
+    gem.files.exclude 'test'
+    gem.files.exclude 'spec'
 
-    gem.add_development_dependency('rspec', '2.0.0.beta.17')
-    gem.add_development_dependency('rspec-rails', '2.0.0.beta.17')
-    gem.add_development_dependency('jeweler', '>=1.4.0')
+    gem.add_development_dependency('jeweler', '>=1.5.1')
+    gem.add_development_dependency('rspec', '>=2.3.0')
+    gem.add_development_dependency('rspec-rails', '>=2.3.0')
+    gem.add_development_dependency('webrat', '>=0.7.2')
+    gem.add_development_dependency('geokit', '>=1.5.0')
+    gem.add_development_dependency('sqlite3-ruby', '>=1.3.2')
+    gem.add_development_dependency('hpricot', '>=0.8.3')
+    gem.add_development_dependency('git', '>=1.2.5')
+    gem.add_development_dependency('rails', '>=3.0.3')
   end
 rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"

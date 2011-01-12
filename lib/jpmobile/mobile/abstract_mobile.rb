@@ -65,6 +65,18 @@ module Jpmobile::Mobile
     def default_charset
       "UTF-8"
     end
+
+    # メール送信用
+    def to_mail_subject(str)
+      "=?ISO-2022-JP?B?" + [str.encode(mail_charset)].pack('m').strip + "?="
+    end
+    def to_mail_body(str)
+      str.encode(mail_charset)
+    end
+    def mail_charset
+      "ISO-2022-JP"
+    end
+
     # リクエストがこのクラスに属するか調べる
     # メソッド名に関して非常に不安
     def self.check_carrier(env)

@@ -68,7 +68,7 @@ module Jpmobile::Mobile
 
     # メール送信用
     def to_mail_subject(str)
-      "=?ISO-2022-JP?B?" + [str.encode(mail_charset)].pack('m').strip + "?="
+      "=?#{mail_charset}?B?" + [str.encode(mail_charset)].pack('m').strip + "?="
     end
     def to_mail_body(str)
       str.encode(mail_charset)

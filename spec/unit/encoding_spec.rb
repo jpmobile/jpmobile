@@ -2,6 +2,8 @@
 require File.join(File.expand_path(File.dirname(__FILE__)), 'spec_helper')
 
 describe "Jpmobile::Mobile" do
+  include Jpmobile::Util
+
   describe "AbstractMobile" do
     before(:each) do
       @mobile = Jpmobile::Mobile::AbstractMobile.new(nil, nil)
@@ -15,7 +17,7 @@ describe "Jpmobile::Mobile" do
 
     context "to_mail_body" do
       it "should convert string to ISO-2022-JP when string contains Japanese" do
-        @mobile.to_mail_body("ほげ").should == "ほげ".encode(Encoding::ISO2022_JP)
+        @mobile.to_mail_body("ほげ").should == utf8_to_jis("ほげ")
       end
     end
   end
@@ -37,11 +39,11 @@ describe "Jpmobile::Mobile" do
 
     context "to_mail_body" do
       it "should convert string to Shift_JIS when string contains Japanese" do
-        @mobile.to_mail_body("ほげ").should == "ほげ".encode(Encoding::Shift_JIS)
+        @mobile.to_mail_body("ほげ").should == utf8_to_sjis("ほげ")
       end
 
       it "should convert emoticon &#xe63e; to \xf8\x9f" do
-        @mobile.to_mail_body("ほげ&#xe63e;").should == "ほげ".encode(Encoding::Shift_JIS) + "\xf8\x9f".force_encoding(Encoding::Shift_JIS)
+        @mobile.to_mail_body("ほげ&#xe63e;").should == utf8_to_sjis("ほげ") + sjis("\xf8\x9f")
       end
     end
   end

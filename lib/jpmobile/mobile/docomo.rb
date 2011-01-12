@@ -94,6 +94,17 @@ module Jpmobile::Mobile
       "Shift_JIS"
     end
 
+    # メール送信用
+    def to_mail_subject(str)
+      "=?#{mail_charset}?B?" + [str.encode(mail_charset)].pack('m').strip + "?="
+    end
+    def to_mail_body(str)
+      str.encode(mail_charset)
+    end
+    def mail_charset
+      "Shift_JIS"
+    end
+
     # i-mode ブラウザのバージョンを返す。
     # http://labs.unoh.net/2009/07/i_20.html
     def imode_browser_version

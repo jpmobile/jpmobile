@@ -96,10 +96,11 @@ module Jpmobile::Mobile
 
     # メール送信用
     def to_mail_subject(str)
-      "=?#{mail_charset}?B?" + [str.encode(mail_charset)].pack('m').strip + "?="
+      str = to_external(str, nil, nil).first
+      "=?#{mail_charset}?B?" + [str].pack('m').strip + "?="
     end
     def to_mail_body(str)
-      str.encode(mail_charset)
+      to_external(str, nil, nil).first
     end
     def mail_charset
       "Shift_JIS"

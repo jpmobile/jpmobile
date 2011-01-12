@@ -56,6 +56,13 @@ module Jpmobile
       ascii_8bit
     end
 
+    def jis(ascii_8bit)
+      if ascii_8bit.respond_to?(:force_encoding)
+        ascii_8bit.force_encoding("ISO-2022-JP")
+      end
+      ascii_8bit
+    end
+
     def ascii_8bit(str)
       if str.respond_to?(:force_encoding)
         str.force_encoding("ASCII-8BIT")
@@ -79,6 +86,22 @@ module Jpmobile
       end
     end
 
+    def utf8_to_jis(utf8_str)
+      if utf8_str.respond_to?(:encode)
+        utf8_str.encode("ISO-2022-JP", :crlf_newline => true)
+      else
+        NKF.nkf("-m0 -x -Wj", utf8_str).gsub(/\n/, "\r\n")
+      end
+    end
+
+    def jis_to_utf8(jis_str)
+      if jis_str.respond_to?(:encode)
+        jis_str.encode("UTF-8", :universal_newline => true)
+      else
+        NKF.nkf("-m0 -x -Jw", jis_str).gsub(/\r\n/, "\n")
+      end
+    end
+
     def regexp_utf8_to_sjis(utf8_str)
       if Object.const_defined?(:Encoding)
         Regexp.compile(Regexp.escape(utf8_to_sjis(utf8_str)))
@@ -91,6 +114,39 @@ module Jpmobile
       new_hash = {}
       hash.each do |keu, value|
         new_hash[utf8(key)] = utf8(value)
+      end
+    end
+
+    def sjis_regexp(sjis)
+      if Object.const_defined?(:Encoding)
+        Regexp.compile(Regexp.escape([sjis].pack('n').force_encoding("Shift_JIS")))
+      else
+        Regexp.compile(Regexp.escape([sjis].pack('n'),"s"),nil,'s')
+      end
+    end
+
+    def jis_regexp(jis)
+      if Object.const_defined?(:Encoding)
+        Regexp.compile(Regexp.escape([jis].pack('n').force_encoding("stateless-ISO-2022-JP-KDDI"))) # for au only
+      else
+        Regexp.compile(Regexp.escape([jis].pack('n'),"j"),nil,'j')
+      end
+    end
+
+    def encode(str, charset)
+      if Object.const_defined?(:Encoding)
+        str.encode(charset)
+      else
+        case charset
+        when /iso-2022-jp/i
+          NKF.nkf("-j", str)
+        when /shift_jis/
+          NKF.nkf("-s", str)
+        when /utf-8/
+          NKF.nkf("-w", str)
+        else
+          str
+        end
       end
     end
   end

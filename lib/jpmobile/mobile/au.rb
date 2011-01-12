@@ -104,5 +104,17 @@ module Jpmobile::Mobile
     def default_charset
       "Shift_JIS"
     end
+
+    # メール送信用
+    def to_mail_subject(str)
+      str = to_external(str, nil, nil).first
+      "=?#{mail_charset}?B?" + [str].pack('m').strip + "?="
+    end
+    def to_mail_body(str)
+      to_external(str, nil, nil).first
+    end
+    def mail_charset
+      "ISO-2022-JP"
+    end
   end
 end

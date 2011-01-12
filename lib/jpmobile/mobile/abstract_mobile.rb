@@ -68,10 +68,10 @@ module Jpmobile::Mobile
 
     # メール送信用
     def to_mail_subject(str)
-      "=?#{mail_charset}?B?" + [str.encode(mail_charset)].pack('m').strip + "?="
+      "=?#{mail_charset}?B?" + [Jpmobile::Util.encode(str, mail_charset)].pack('m').strip + "?="
     end
     def to_mail_body(str)
-      str.encode(mail_charset)
+      Jpmobile::Util.encode(str, mail_charset)
     end
     def mail_charset
       "ISO-2022-JP"

@@ -76,6 +76,16 @@ module Jpmobile::Mobile
     def mail_charset
       "ISO-2022-JP"
     end
+    def utf8_to_mail_encode(str)
+      case mail_charset
+      when /ISO-2022-JP/i
+        Jpmobile::Util.utf8_to_jis(str)
+      when /Shift_JIS/i
+        Jpmobile::Util.utf8_to_sjis(str)
+      else
+        str
+      end
+    end
 
     # リクエストがこのクラスに属するか調べる
     # メソッド名に関して非常に不安

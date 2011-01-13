@@ -73,4 +73,30 @@ describe "Jpmobile::Mobile" do
       end
     end
   end
+
+  describe "Softbank" do
+    before(:each) do
+      @mobile = Jpmobile::Mobile::Softbank.new(nil, nil)
+    end
+
+    context "to_mail_subject" do
+      it "should convert string to Shift_JIS B-Encoding when string contains Japanese" do
+        @mobile.to_mail_subject("ほげ").should == "=?Shift_JIS?B?gtmCsA==?="
+      end
+
+      it "should convert emoticon &#xe63e; to \xf9\x8b in B-Encoding" do
+        @mobile.to_mail_subject("ほげ&#xe63e;").should == "=?Shift_JIS?B?gtmCsPmL?="
+      end
+    end
+
+    context "to_mail_body" do
+      it "should convert string to Shift_JIS when string contains Japanese" do
+        @mobile.to_mail_body("ほげ").should == utf8_to_sjis("ほげ")
+      end
+
+      it "should convert emoticon &#xe63e; to \xf9\x8b" do
+        @mobile.to_mail_body("ほげ&#xe63e;").should == utf8_to_sjis("ほげ") + sjis("\xf9\x8b")
+      end
+    end
+  end
 end

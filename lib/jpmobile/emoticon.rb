@@ -179,7 +179,7 @@ module Jpmobile
         case converted
         when Integer
           if sjis = SOFTBANK_UNICODE_TO_SJIS[converted-0x1000]
-            [sjis].pack('n')
+            Jpmobile::Util.sjis([sjis].pack('n'))
           else
             match
           end

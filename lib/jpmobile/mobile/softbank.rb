@@ -58,5 +58,23 @@ module Jpmobile::Mobile
 
       [str, charset]
     end
+
+    # メール送信用
+    def to_mail_subject(str)
+      "=?#{mail_charset}?B?" + [to_mail_encoding(str)].pack('m').strip + "?="
+    end
+    def to_mail_body(str)
+      to_mail_encoding(str)
+    end
+    def mail_charset
+      "Shift_JIS"
+    end
+
+    private
+    def to_mail_encoding(str)
+      str = Jpmobile::Emoticon.utf8_to_unicodecr(str)
+      str = Jpmobile::Util.utf8_to_sjis(str)
+      Jpmobile::Emoticon.unicodecr_to_softbank_email(str)
+    end
   end
 end

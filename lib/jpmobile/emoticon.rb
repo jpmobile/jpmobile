@@ -138,26 +138,12 @@ module Jpmobile
       end
     end
 
-    # +str+ のなかでUnicode数値文字参照で表記された絵文字を
-    # +carrier+ 用のメール送信用コードに変換する
-    def self.unicodecr_to_email(str, carrier = nil, to_sjis = true)
-      case carrier
-      when Jpmobile::Mobile::Docomo
-        unicodecr_to_external(str, CONVERSION_TABLE_TO_DOCOMO, to_sjis)
-      when Jpmobile::Mobile::Au
-        unicodecr_to_au_email(str)
-      when Jpmobile::Mobile::Vodafone, Jpmobile::Mobile::Jphone
-        unicodecr_to_external(str, CONVERSION_TABLE_TO_PC, false)
-      when Jpmobile::Mobile::Softbank
-        unicodecr_to_softbank_email(str)
-      else
-        unicodecr_to_external(str, CONVERSION_TABLE_TO_PC, false)
-      end
-    end
-
-    private
-    def self.unicodecr_to_au_email(str)
-      str.gsub(/&#x([0-9a-f]{4});/i) do |match|
+    # +str+ のなかでUnicode数値文字参照で表記された絵文字をメール送信用JISコードに変換する
+    # au 専用
+    def self.unicodecr_to_au_email(in_str)
+      str = Jpmobile::Util.ascii_8bit(in_str)
+      regexp = Regexp.compile(Jpmobile::Util.ascii_8bit("&#x([0-9a-f]{4});"), Regexp::IGNORECASE)
+      str.gsub(regexp) do |match|
         unicode = $1.scanf("%x").first
         converted = CONVERSION_TABLE_TO_AU[unicode]
 
@@ -166,16 +152,16 @@ module Jpmobile
         when Integer
           if sjis = UNICODE_TO_SJIS[converted]
             if email_jis = SJIS_TO_EMAIL_JIS[sjis]
-              "\x1b\x24\x42#{[email_jis].pack('n')}\x1b\x28\x42"
+              Jpmobile::Util.ascii_8bit("\x1b\x24\x42#{[email_jis].pack('n')}\x1b\x28\x42")
             else
-              [sjis].pack('n')
+              Jpmobile::Util.ascii_8bit([sjis].pack('n'))
             end
           else
             match
           end
         when String
           # FIXME: 絵文字の代替が文章でいいかどうかの検証
-          Kconv::kconv(converted, Kconv::JIS, Kconv::UTF8)
+          Jpmobile::Util.ascii_8bit(Jpmobile::Util.utf8_to_jis(converted))
         else
           match
         end
@@ -199,7 +185,7 @@ module Jpmobile
           end
         when String
           # FIXME: 絵文字の代替が文章でいいかどうかの検証
-          Kconv::kconv(converted, Kconv::SJIS, Kconv::UTF8)
+          Jpmobile::Util.utf8_to_sjis(converted)
         else
           match
         end

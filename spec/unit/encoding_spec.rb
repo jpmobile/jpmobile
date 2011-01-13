@@ -47,4 +47,30 @@ describe "Jpmobile::Mobile" do
       end
     end
   end
+
+  describe "Au" do
+    before(:each) do
+      @mobile = Jpmobile::Mobile::Au.new(nil, nil)
+    end
+
+    context "to_mail_subject" do
+      it "should convert string to ISO-2022-JP B-Encoding when string contains Japanese" do
+        @mobile.to_mail_subject("ほげ").should == "=?ISO-2022-JP?B?GyRCJFskMhsoQg==?="
+      end
+
+      it "should convert emoticon &#xe63e; to \x75\x41 in B-Encoding" do
+        @mobile.to_mail_subject("ほげ&#xe63e;").should == "=?ISO-2022-JP?B?GyRCJFskMhsoQhskQnVBGyhC?="
+      end
+    end
+
+    context "to_mail_body" do
+      it "should convert string to ISO-2022-JP when string contains Japanese" do
+        @mobile.to_mail_body("ほげ").should == utf8_to_jis("ほげ")
+      end
+
+      it "should convert emoticon &#xe63e; to \x75\x41" do
+        ascii_8bit(@mobile.to_mail_body("ほげ&#xe63e;")).should == ascii_8bit(utf8_to_jis("ほげ") + jis("\x1b\x24\x42\x75\x41\x1b\x28\x42"))
+      end
+    end
+  end
 end

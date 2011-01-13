@@ -107,14 +107,20 @@ module Jpmobile::Mobile
 
     # メール送信用
     def to_mail_subject(str)
-      str = to_external(str, nil, nil).first
-      "=?#{mail_charset}?B?" + [str].pack('m').strip + "?="
+      "=?#{mail_charset}?B?" + [to_mail_encoding(str)].pack('m').strip + "?="
     end
     def to_mail_body(str)
-      to_external(str, nil, nil).first
+      to_mail_encoding(str)
     end
     def mail_charset
       "ISO-2022-JP"
+    end
+
+    private
+    def to_mail_encoding(str)
+      str = Jpmobile::Emoticon.utf8_to_unicodecr(str)
+      str = Jpmobile::Util.utf8_to_jis(str)
+      Jpmobile::Util.jis(Jpmobile::Emoticon.unicodecr_to_au_email(str))
     end
   end
 end

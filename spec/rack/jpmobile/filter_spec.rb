@@ -7,7 +7,7 @@ describe Jpmobile::Rack::Filter do
 
   context "漢字コード変換" do
     before(:each) do
-      @utf8 = "ゆーてぃーえふえいとの\n日本語ですが何か"
+      @utf8 = "ゆーてぃーえふえいとの\n日本語〜ですが何か"
       @sjis = utf8_to_sjis(@utf8)
     end
 

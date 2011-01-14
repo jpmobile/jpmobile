@@ -10,21 +10,21 @@ describe Jpmobile::Rack::ParamsFilter do
     before(:each) do
       @query_params = {
         "hoge"       => "ほげ",
-        "パラメータ" => "テストです■",
+        "パラメータ" => "テストです〜■",
       }
       @form_params = {
         "bar"        => "万葉集",
-        "アジャイル" => "僕の♪",
+        "アジャイル" => "僕の〜♪",
       }
     end
 
     context "Shift_JIS 変換の " do
       before(:each) do
         @query_string = @query_params.map {|k, v|
-          "%s=%s" % [::Rack::Utils.escape(NKF.nkf("-sWx", k)), ::Rack::Utils.escape(NKF.nkf("-sWx", v))]
+          "%s=%s" % [::Rack::Utils.escape(utf8_to_sjis(k)), ::Rack::Utils.escape(utf8_to_sjis(v))]
         }.join("&")
         @form_string = @form_params.map {|k, v|
-          "%s=%s" % [NKF.nkf("-sWx", k), NKF.nkf("-sWx", v)]
+          "%s=%s" % [utf8_to_sjis(k), utf8_to_sjis(v)]
         }.join("&")
       end
 

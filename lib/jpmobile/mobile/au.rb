@@ -86,7 +86,6 @@ module Jpmobile::Mobile
       str = Jpmobile::Util.sjis_to_utf8(str)
       # 数値参照を UTF-8 に変換
       Jpmobile::Emoticon::unicodecr_to_utf8(str)
-      # 半角->全角変換
     end
     def to_external(str, content_type, charset)
       # UTF-8を数値参照に

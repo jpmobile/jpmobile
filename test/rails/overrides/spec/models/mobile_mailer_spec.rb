@@ -101,7 +101,7 @@ describe MobileMailer do
       raw_mail = email.to_s
       # raw_mail.should match(/For docomo/) # TODO: revise Resolver in view selector
       raw_mail.should match(Regexp.escape("k/qWe4zqkeiWvPjX"))
-      raw_mail.should match(regexp_utf8_to_sjis("\xf8\xec"))
+      raw_mail.should match(regexp_to_sjis("\xf8\xec"))
     end
 
     it "半角カナがそのまま送信されること" do
@@ -198,7 +198,7 @@ describe MobileMailer do
       raw_mail = email.to_s
       # raw_mail.should match(/For softbank/) # TODO: revise Resolver in view selector
       raw_mail.should match(Regexp.escape("k/qWe4zqkeiWvPl8"))
-      raw_mail.should match(regexp_utf8_to_sjis("\xf7\x6a"))
+      raw_mail.should match(regexp_to_sjis("\xf7\x6a"))
     end
 
     it "quoted-printable ではないときに勝手に変換されないこと" do
@@ -240,7 +240,7 @@ describe MobileMailer do
       raw_mail = email.to_s
       # raw_mail.should match(/For softbank/) # TODO: revise Resolver in view selector
       raw_mail.should match(Regexp.escape("k/qWe4zqkeiWvPl8"))
-      raw_mail.should match(regexp_utf8_to_sjis("\xf7\x6a"))
+      raw_mail.should match(regexp_to_sjis("\xf7\x6a"))
     end
 
     it "quoted-printable ではないときに勝手に変換されないこと" do

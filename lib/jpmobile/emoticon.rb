@@ -91,11 +91,7 @@ module Jpmobile
           # 変換先がUnicodeで指定されている。つまり対応する絵文字がある。
           if sjis = UNICODE_TO_SJIS[converted]
             if to_sjis
-              sjis_emotion = [sjis].pack('n')
-              if sjis_emotion.respond_to?(:force_encoding)
-                sjis_emotion.force_encoding("Shift_JIS")
-              end
-              sjis_emotion
+              sjis_emotion = Jpmobile::Util.sjis([sjis].pack('n'))
             else
               [converted].pack("U")
             end

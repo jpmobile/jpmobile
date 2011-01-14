@@ -1,6 +1,11 @@
 require 'tempfile'
 module Jpmobile
   module Util
+    SJIS   = "Shift_JIS"
+    UTF8   = "UTF-8"
+    JIS    = "ISO-2022-JP"
+    BINARY = "ASCII-8BIT"
+
     module_function
     def deep_apply(obj, &proc)
       case obj
@@ -44,35 +49,35 @@ module Jpmobile
 
     def sjis(ascii_8bit)
       if ascii_8bit.respond_to?(:force_encoding)
-        ascii_8bit.force_encoding("Shift_JIS")
+        ascii_8bit.force_encoding(SJIS)
       end
       ascii_8bit
     end
 
     def utf8(ascii_8bit)
       if ascii_8bit.respond_to?(:force_encoding)
-        ascii_8bit.force_encoding("utf-8")
+        ascii_8bit.force_encoding(UTF8)
       end
       ascii_8bit
     end
 
     def jis(ascii_8bit)
       if ascii_8bit.respond_to?(:force_encoding)
-        ascii_8bit.force_encoding("ISO-2022-JP")
+        ascii_8bit.force_encoding(JIS)
       end
       ascii_8bit
     end
 
     def ascii_8bit(str)
       if str.respond_to?(:force_encoding)
-        str.force_encoding("ASCII-8BIT")
+        str.force_encoding(BINARY)
       end
       str
     end
 
     def utf8_to_sjis(utf8_str)
       if utf8_str.respond_to?(:encode)
-        utf8_str.encode("Shift_JIS", :crlf_newline => true)
+        utf8_str.encode(SJIS, :crlf_newline => true)
       else
         NKF.nkf("-m0 -x -Ws", utf8_str).gsub(/\n/, "\r\n")
       end
@@ -88,7 +93,7 @@ module Jpmobile
 
     def utf8_to_jis(utf8_str)
       if utf8_str.respond_to?(:encode)
-        utf8_str.encode("ISO-2022-JP", :crlf_newline => true)
+        utf8_str.encode(JIS, :crlf_newline => true)
       else
         NKF.nkf("-m0 -x -Wj", utf8_str).gsub(/\n/, "\r\n")
       end
@@ -96,7 +101,7 @@ module Jpmobile
 
     def jis_to_utf8(jis_str)
       if jis_str.respond_to?(:encode)
-        jis_str.encode("UTF-8", :universal_newline => true)
+        jis_str.encode(UTF8, :universal_newline => true)
       else
         NKF.nkf("-m0 -x -Jw", jis_str).gsub(/\r\n/, "\n")
       end
@@ -110,6 +115,14 @@ module Jpmobile
       end
     end
 
+    def regexp_to_sjis(sjis_str)
+      if Object.const_defined?(:Encoding)
+        Regexp.compile(Regexp.escape(sjis(sjis_str)))
+      else
+        Regexp.compile(Regexp.escape(sjis_str,"s"),nil,'s')
+      end
+    end
+
     def hash_to_utf8(hash)
       new_hash = {}
       hash.each do |keu, value|
@@ -119,7 +132,7 @@ module Jpmobile
 
     def sjis_regexp(sjis)
       if Object.const_defined?(:Encoding)
-        Regexp.compile(Regexp.escape([sjis].pack('n').force_encoding("Shift_JIS")))
+        Regexp.compile(Regexp.escape([sjis].pack('n').force_encoding(SJIS)))
       else
         Regexp.compile(Regexp.escape([sjis].pack('n'),"s"),nil,'s')
       end
@@ -140,9 +153,9 @@ module Jpmobile
         case charset
         when /iso-2022-jp/i
           NKF.nkf("-j", str)
-        when /shift_jis/
+        when /shift_jis/i
           NKF.nkf("-s", str)
-        when /utf-8/
+        when /utf-8/i
           NKF.nkf("-w", str)
         else
           str

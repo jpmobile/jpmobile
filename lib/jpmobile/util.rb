@@ -1,10 +1,15 @@
+# -*- coding: utf-8 -*-
 require 'tempfile'
 module Jpmobile
   module Util
-    SJIS   = "Shift_JIS"
+    # SJIS   = "Shift_JIS"
+    SJIS   = "Windows-31J"
     UTF8   = "UTF-8"
     JIS    = "ISO-2022-JP"
     BINARY = "ASCII-8BIT"
+
+    WAVE_DASH = [0x301c].pack("U")
+    FULLWIDTH_TILDE = [0xff5e].pack("U")
 
     module_function
     def deep_apply(obj, &proc)
@@ -76,6 +81,9 @@ module Jpmobile
     end
 
     def utf8_to_sjis(utf8_str)
+      # 波ダッシュ対策
+      utf8_str = wavedash_to_fullwidth_tilde(utf8_str)
+
       if utf8_str.respond_to?(:encode)
         utf8_str.encode(SJIS, :crlf_newline => true)
       else
@@ -84,11 +92,14 @@ module Jpmobile
     end
 
     def sjis_to_utf8(sjis_str)
-      if sjis_str.respond_to?(:encode)
-        sjis_str.encode("UTF-8", :universal_newline => true)
-      else
-        NKF.nkf("-m0 -x -Sw", sjis_str).gsub(/\r\n/, "\n")
-      end
+      utf8_str = if sjis_str.respond_to?(:encode)
+                   sjis_str.encode("UTF-8", :universal_newline => true)
+                 else
+                   NKF.nkf("-m0 -x -Sw", sjis_str).gsub(/\r\n/, "\n")
+                 end
+
+      # 波ダッシュ対策
+      fullwidth_tilde_to_wavedash(utf8_str)
     end
 
     def utf8_to_jis(utf8_str)
@@ -161,6 +172,14 @@ module Jpmobile
           str
         end
       end
+    end
+
+    def wavedash_to_fullwidth_tilde(utf8_str)
+      utf8_str.gsub(WAVE_DASH, FULLWIDTH_TILDE)
+    end
+
+    def fullwidth_tilde_to_wavedash(utf8_str)
+      utf8_str.gsub(FULLWIDTH_TILDE, WAVE_DASH)
     end
   end
 end

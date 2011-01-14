@@ -4,6 +4,7 @@ require File.join(File.expand_path(File.dirname(__FILE__)), '../../rack_helper.r
 describe "絵文字が" do
   include Rack::Test::Methods
   include Jpmobile::RackHelper
+  include Jpmobile::Util
 
   before(:each) do
     @docomo_cr          = "&#xE63E;";
@@ -77,10 +78,7 @@ describe "絵文字が" do
     end
 
     it "パラメータが変換されること" do
-      query_string = "q=" + URI.encode(sjis("\xf8\x9f"))
-      if query_string.respond_to?(:force_encoding)
-        query_string.force_encoding("ASCII-8BIT")
-      end
+      query_string = ascii_8bit("q=" + URI.encode(sjis("\xf8\x9f")))
 
       res = Rack::MockRequest.env_for(
         "/?#{query_string}",
@@ -127,10 +125,7 @@ describe "絵文字が" do
     end
 
     it "パラメータが変換されること" do
-      query_string = "q=" + URI.encode(sjis("\xf6\x60"))
-      if query_string.respond_to?(:force_encoding)
-        query_string.force_encoding("ASCII-8BIT")
-      end
+      query_string = ascii_8bit("q=" + URI.encode(sjis("\xf6\x60")))
 
       res = Rack::MockRequest.env_for(
         "/?#{query_string}",

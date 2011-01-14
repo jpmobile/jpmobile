@@ -34,12 +34,12 @@ describe MobileMailer do
     end
 
     it "絵文字がゲタ(〓)に変換されること", :broken => true do
-      email = MobileMailer.view_selection(@to, "題名&#xe676;", "本文&#xe68b;").deliver
+      email = MobileMailer.view_selection(@to, "題名&#xe676;", "本文&#xe68b;".html_safe).deliver
 
       ActionMailer::Base.deliveries.size.should == 1
 
       raw_mail = ascii_8bit(email.to_s)
-      raw_mail.should match(Regexp.compile(Regexp.escape(ascii_8bit([utf8_to_jis("題名〓")].pack('m').strip))))
+      raw_mail.should match(Regexp.escape("GyRCQmpMPiIuGyhC"))
       raw_mail.should match(Regexp.compile(Regexp.escape(ascii_8bit(utf8_to_jis("本文〓")))))
     end
 

@@ -68,13 +68,17 @@ module Jpmobile::Mobile
 
     # メール送信用
     def to_mail_subject(str)
-      "=?#{mail_charset}?B?" + [Jpmobile::Util.encode(str, mail_charset)].pack('m').strip + "?="
+      "=?#{mail_charset}?B?" + [to_mail_encoding(str)].pack('m').strip + "?="
     end
     def to_mail_body(str)
-      Jpmobile::Util.encode(str, mail_charset)
+      to_mail_encoding(str)
     end
     def mail_charset
       "ISO-2022-JP"
+    end
+    def to_mail_encoding(str)
+      str = Jpmobile::Emoticon.unicodecr_to_external(str, Jpmobile::Emoticon::CONVERSION_TABLE_TO_PC_EMAIL, false)
+      Jpmobile::Util.encode(str, mail_charset)
     end
     def utf8_to_mail_encode(str)
       case mail_charset

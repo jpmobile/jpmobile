@@ -97,6 +97,9 @@ module Jpmobile
             end
           elsif webcode = SOFTBANK_UNICODE_TO_WEBCODE[converted-0x1000]
             [converted-0x1000].pack('U')
+          elsif converted == GETA
+            # PCで〓を表示する場合
+            [GETA].pack("U")
           else
             # キャリア変換テーブルに指定されていたUnicodeに対応する
             # 携帯側エンコーディングが見つからない(変換テーブルの不備の可能性あり)。

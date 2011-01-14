@@ -49,6 +49,8 @@ module Jpmobile
     autoload :Config,        'jpmobile/rack/config'
   end
   autoload :Configuration, 'jpmobile/rack'
+
+  autoload :Mailer, 'jpmobile/hook_action_mailer'
 end
 
 if defined?(Rails)

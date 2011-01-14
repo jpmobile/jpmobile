@@ -1,13 +1,6 @@
 # -*- coding: utf-8 -*-
 require 'mail'
 
-module Jpmobile
-  module Mail
-    def self.included(base)
-    end
-  end
-end
-
 module Mail
   # encoding patch
   if self.const_defined?(:Ruby19)
@@ -38,17 +31,13 @@ module Mail
 
         ready_to_send!
         @body.mobile = @mobile
-        header['Content-Transfer-Encoding'] = nil
+        header['Content-Transfer-Encoding'] = '8bit'
 
         buffer = header.encoded
         buffer << "\r\n"
         buffer = @mobile.utf8_to_mail_encode(buffer)
         buffer << body.encoded(content_transfer_encoding)
-        if buffer.encoding.ascii_compatible? and false
-          buffer
-        else
-          Jpmobile::Util.ascii_8bit(buffer)
-        end
+        buffer
       else
         encoded_without_jpmobile
       end

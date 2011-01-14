@@ -27,6 +27,11 @@ RSpec.configure do |config|
   config.include Webrat::HaveTagMatcher
   config.include Jpmobile::Util
   config.before(:each) { Webrat.configuration.mode = :rails }
+
+  config.filter_run :focus => true
+  config.run_all_when_everything_filtered = true
+  config.full_backtrace = true
+  config.color_enabled = true
 end
 
 require 'pp'

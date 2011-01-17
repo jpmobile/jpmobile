@@ -10,14 +10,20 @@ describe "Jpmobile::Mail" do
     @mail         = Mail.new
     @mail.subject = "万葉"
     @mail.body    = "ほげ"
-    @mail.from    = "rust.stnard@gmail.com"
+    @mail.from    = "info@jpmobile-rails.org"
+  end
+
+  context "Mail#to" do
+    it "sets multi-tos" do
+      expect{@mail.to = ["a@hoge.com", "b@hoge.com"]}.to_not raise_error
+    end
   end
 
   describe "AbstractMobile" do
     before(:each) do
       @mobile = Jpmobile::Mobile::AbstractMobile.new(nil, nil)
       @mail.mobile = @mobile
-      @mail.to = "rust.stnard+to@gmail.com"
+      @mail.to = "info+to@jpmobile-rails.org"
     end
 
     context "to_s" do
@@ -35,7 +41,7 @@ describe "Jpmobile::Mail" do
     before(:each) do
       @mobile = Jpmobile::Mobile::Docomo.new(nil, nil)
       @mail.mobile = @mobile
-      @mail.to = "rust.stnard+to@gmail.com"
+      @mail.to = "info+to@jpmobile-rails.org"
     end
 
     context "to_s" do
@@ -47,7 +53,13 @@ describe "Jpmobile::Mail" do
         @mail.to_s.should match(Regexp.escape(utf8_to_sjis("ほげ")))
       end
 
-      # TODO: emoticon
+      it "should contains encoded emoticon" do
+        @mail.subject += "&#xe63e;"
+        @mail.body = "#{@mail.body}&#xe63e;"
+
+        @mail.to_s.should match(Regexp.escape("=?Shift_JIS?B?lpyXdPif?="))
+        @mail.to_s.should match(Regexp.escape(sjis("\xF8\x9F")))
+      end
     end
   end
 
@@ -55,7 +67,7 @@ describe "Jpmobile::Mail" do
     before(:each) do
       @mobile = Jpmobile::Mobile::Au.new(nil, nil)
       @mail.mobile = @mobile
-      @mail.to = "rust.stnard+to@gmail.com"
+      @mail.to = "info+to@jpmobile-rails.org"
     end
 
     context "to_s" do
@@ -81,7 +93,7 @@ describe "Jpmobile::Mail" do
     before(:each) do
       @mobile = Jpmobile::Mobile::Softbank.new(nil, nil)
       @mail.mobile = @mobile
-      @mail.to = "rust.stnard+to@gmail.com"
+      @mail.to = "info+to@jpmobile-rails.org"
     end
 
     context "to_s" do
@@ -93,7 +105,13 @@ describe "Jpmobile::Mail" do
         @mail.to_s.should match(Regexp.escape(utf8_to_sjis("ほげ")))
       end
 
-      # TODO: emoticon
+      it "should contains encoded emoticon" do
+        @mail.subject += "&#xe63e;"
+        @mail.body = "#{@mail.body}&#xe63e;"
+
+        @mail.to_s.should match(Regexp.escape("=?Shift_JIS?B?lpyXdPmL?="))
+        @mail.to_s.should match(Regexp.escape(sjis("\xf9\x8b")))
+      end
     end
   end
 end

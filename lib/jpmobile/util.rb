@@ -67,7 +67,7 @@ module Jpmobile
       if utf8_str.respond_to?(:encode)
         utf8_str.encode("Shift_JIS", :crlf_newline => true)
       else
-        NKF.nkf("-m0 -x -Ws", utf8_str).gsub(/\n/, "\r\n")
+        NKF.nkf("-m0 -x -W --oc=cp932", utf8_str).gsub(/\n/, "\r\n")
       end
     end
 
@@ -75,7 +75,7 @@ module Jpmobile
       if sjis_str.respond_to?(:encode)
         sjis_str.encode("UTF-8", :universal_newline => true)
       else
-        NKF.nkf("-m0 -x -Sw", sjis_str).gsub(/\r\n/, "\n")
+        NKF.nkf("-m0 -x -w --ic=cp932", sjis_str).gsub(/\r\n/, "\n")
       end
     end
 

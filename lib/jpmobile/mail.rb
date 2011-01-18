@@ -22,6 +22,17 @@ module Mail
         str.encode("utf-8", :invalid => :replace, :replace => "") rescue Jpmobile::Util.ascii_8bit(str)
       end
     end
+  elsif self.const_defined?(:Ruby18)
+    Ruby18.class_eval do
+      def self.b_value_decode(str)
+        match = str.match(/\=\?(.+)?\?[Bb]\?(.+)?\?\=/m)
+        if match
+          encoding = match[1]
+          str = Ruby18.decode_base64(match[2])
+        end
+        str
+      end
+    end
   end
 
   class Message
@@ -169,8 +180,8 @@ module Mail
 
       result = @mobile.to_mail_internal(result, value) if @mobile
 
-      result.encode!(value.encoding || "UTF-8") if RUBY_VERSION >= '1.9' && !result.blank?
-      result
+      # result.encode!(value.encoding || "UTF-8") if RUBY_VERSION >= '1.9' && !result.blank?
+      Jpmobile::Util.force_encode(result, nil, "UTF-8")
     end
   end
 

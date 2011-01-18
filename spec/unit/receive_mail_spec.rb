@@ -20,7 +20,7 @@ describe "Jpmobile::Mail#receive" do
     end
 
     it "subject should be parsed correctly" do
-      @mail.body.should == "本文です"
+      @mail.body.to_s.should == "本文です"
     end
   end
 
@@ -35,7 +35,7 @@ describe "Jpmobile::Mail#receive" do
 
     it "subject should be parsed correctly" do
       @mail.body.parts.size.should == 2
-      @mail.body.parts.first.body.should == "本文です"
+      @mail.body.parts.first.body.to_s.should == "本文です"
     end
   end
 
@@ -50,7 +50,7 @@ describe "Jpmobile::Mail#receive" do
       end
 
       it "should contain encoded body" do
-        @mail.body.should == "本文&#xe6e2;\nFor docomo"
+        @mail.body.to_s.should == "本文&#xe6e2;\nFor docomo"
       end
     end
   end
@@ -66,7 +66,7 @@ describe "Jpmobile::Mail#receive" do
       end
 
       it "should contain encoded body" do
-        @mail.body.should == "本文&#xe522;\nFor au"
+        @mail.body.to_s.should == "本文&#xe522;\nFor au"
       end
     end
   end
@@ -82,7 +82,7 @@ describe "Jpmobile::Mail#receive" do
       end
 
       it "should contain encoded body" do
-        @mail.body.should == "本文&#xf21c;\nFor softbank"
+        @mail.body.to_s.should == "本文&#xf21c;\nFor softbank"
       end
     end
   end

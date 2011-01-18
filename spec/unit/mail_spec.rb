@@ -46,7 +46,7 @@ describe "Jpmobile::Mail" do
 
     context "to_s" do
       it "should contain encoded subject" do
-        @mail.to_s.should match(Regexp.escape(sjis("=?Shift_JIS?B?lpyXdA==?=")))
+        @mail.to_s.should match(sjis_regexp("=?Shift_JIS?B?lpyXdA==?="))
       end
 
       it "should contain encoded body" do
@@ -58,7 +58,7 @@ describe "Jpmobile::Mail" do
         @mail.body = "#{@mail.body}&#xe63e;"
 
         @mail.to_s.should match(Regexp.escape("=?Shift_JIS?B?lpyXdPif?="))
-        @mail.to_s.should match(Regexp.escape(sjis("\xF8\x9F")))
+        @mail.to_s.should match(sjis_regexp("\xF8\x9F"))
       end
     end
   end
@@ -110,7 +110,7 @@ describe "Jpmobile::Mail" do
         @mail.body = "#{@mail.body}&#xe63e;"
 
         @mail.to_s.should match(Regexp.escape("=?Shift_JIS?B?lpyXdPmL?="))
-        @mail.to_s.should match(Regexp.escape(sjis("\xf9\x8b")))
+        @mail.to_s.should match(sjis_regexp("\xf9\x8b"))
       end
     end
   end

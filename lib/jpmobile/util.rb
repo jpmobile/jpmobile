@@ -142,18 +142,22 @@ module Jpmobile
     end
 
     def sjis_regexp(sjis)
+      sjis_str = sjis.kind_of?(Numeric) ? [sjis].pack('n') : sjis
+
       if Object.const_defined?(:Encoding)
-        Regexp.compile(Regexp.escape([sjis].pack('n').force_encoding(SJIS)))
+        Regexp.compile(Regexp.escape(sjis_str.force_encoding(SJIS)))
       else
-        Regexp.compile(Regexp.escape([sjis].pack('n'),"s"),nil,'s')
+        Regexp.compile(Regexp.escape(sjis_str,"s"),nil,'s')
       end
     end
 
     def jis_regexp(jis)
+      jis_str = jis.kind_of?(Numeric) ? [jis].pack('n') : jis
+
       if Object.const_defined?(:Encoding)
-        Regexp.compile(Regexp.escape([jis].pack('n').force_encoding("stateless-ISO-2022-JP-KDDI"))) # for au only
+        Regexp.compile(Regexp.escape(jis_str.force_encoding("stateless-ISO-2022-JP-KDDI"))) # for au only
       else
-        Regexp.compile(Regexp.escape([jis].pack('n'),"j"),nil,'j')
+        Regexp.compile(Regexp.escape(jis_str,"j"),nil,'j')
       end
     end
 
@@ -184,6 +188,7 @@ module Jpmobile
 
     def force_encode(str, from, to)
       s = str.dup
+      return str if detect_encoding(str) == to
 
       if Object.const_defined?(:Encoding)
         to = SJIS if to =~ /shift_jis/i
@@ -191,33 +196,35 @@ module Jpmobile
         to_enc = ::Encoding.find(to)
         return str if s.encoding == to_enc
 
-        from_enc = ::Encoding.find(from)
-
-        s.force_encoding(from) unless s.encoding == from_enc
+        if from
+          from_enc = ::Encoding.find(from)
+          s.force_encoding(from) unless s.encoding == from_enc
+        end
 
         s.encode(to)
       else
-        opt = case from
-              when /iso-2022-jp/i
-                "-Jx"
-              when /shift_jis/i
-                "-Sx"
-              when /utf-8/i
-                "-Wx"
-              else
-                ""
-              end
-        opt += case to
+        opt = []
+        opt << case from
+               when /iso-2022-jp/i
+                 "-Jx"
+               when /shift_jis/i
+                 "-Sx"
+               when /utf-8/i
+                 "-Wx"
+               else
+                 ""
+               end
+        opt << case to
                when /iso-2022-jp/i
                  "-j"
-               when /shift_jis/i
+               when /shift_jis/i, /windows_31j/i
                  "-s"
                when /utf-8/i
                  "-w"
                else
                  ""
                end
-        NKF.nkf(opt, str)
+        NKF.nkf(opt.join(" "), str)
       end
     end
 
@@ -264,6 +271,8 @@ module Jpmobile
           JIS
         when NKF::UTF8
           UTF8
+        when NKF::BINARY
+          BINARY
         else
           BINARY
         end

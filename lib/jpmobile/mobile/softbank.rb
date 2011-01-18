@@ -69,6 +69,14 @@ module Jpmobile::Mobile
     def mail_charset
       "Shift_JIS"
     end
+    def to_mail_internal(str, val)
+      if Jpmobile::Util.shift_jis?(str) or Jpmobile::Util.ascii_8bit?(str)
+        # 絵文字を数値参照に変換
+        str = Jpmobile::Emoticon.external_to_unicodecr_softbank_sjis(Jpmobile::Util.sjis(str))
+      end
+
+      str
+    end
 
     private
     def to_mail_encoding(str)

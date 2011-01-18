@@ -115,6 +115,15 @@ module Jpmobile::Mobile
       "ISO-2022-JP"
     end
 
+    def to_mail_internal(str, val)
+      if Jpmobile::Util.jis?(str) or Jpmobile::Util.ascii_8bit?(str)
+        # 絵文字を数値参照に変換
+        str = Jpmobile::Emoticon.external_to_unicodecr_au_mail(Jpmobile::Util.jis(str))
+        str = Jpmobile::Util.jis_to_utf8(Jpmobile::Util.jis(str))
+      end
+      str
+    end
+
     private
     def to_mail_encoding(str)
       str = Jpmobile::Emoticon.utf8_to_unicodecr(str)

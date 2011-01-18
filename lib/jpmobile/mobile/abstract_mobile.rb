@@ -90,6 +90,9 @@ module Jpmobile::Mobile
         str
       end
     end
+    def to_mail_internal(str, val)
+      str
+    end
 
     # リクエストがこのクラスに属するか調べる
     # メソッド名に関して非常に不安

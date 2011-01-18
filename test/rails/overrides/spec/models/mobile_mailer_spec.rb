@@ -310,12 +310,12 @@ describe MobileMailer, " mail address" do
   end
 
   it "複数のアドレスが有効になること" do
-    to = [".ruby.rails.@domomo-ezweb.ne.jp", "ruby.rails.@domomo-ezweb.ne.jp", "ruby...rails@domomo-ezweb.ne.jp"]
+    to = [".ruby.rails.@domomo-ezweb.ne.jp", "ruby.rails.@domomo-ezweb.ne.jp", "ruby...rails@domomo-ezweb.ne.jp"].join(", ")
     MobileMailer.view_selection(to, @subject, @text).deliver
 
     emails = ActionMailer::Base.deliveries
     emails.size.should == 1
     emails.first.to.should == to
-    emails.first.destinations.should == to
+    emails.first.destinations.should == [to]
   end
 end

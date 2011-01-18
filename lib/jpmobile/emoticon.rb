@@ -39,7 +39,7 @@ module Jpmobile
       end
     end
 
-    # +str+ のなかでDoCoMo絵文字をUnicode数値文字参照に置換した文字列を返す。
+    # +str+ のなかでau絵文字をUnicode数値文字参照に置換した文字列を返す。
     def self.external_to_unicodecr_au(str)
       str.gsub(AU_SJIS_REGEXP) do |match|
         sjis = match.unpack('n').first
@@ -49,11 +49,12 @@ module Jpmobile
     end
 
     # +str+ のなかでau絵文字をUnicode数値文字参照に置換した文字列を返す。(メール専用)
-    def self.external_to_unicodecr_au_mail(str)
+    def self.external_to_unicodecr_au_mail(in_str)
+      str = Jpmobile::Util.ascii_8bit(in_str)
       str.gsub(AU_EMAILJIS_REGEXP) do |match|
         jis = match.unpack('n').first
         unicode = AU_EMAILJIS_TO_UNICODE[jis]
-        unicode ? ("&#x%04x;"%unicode) : match
+        unicode ? Jpmobile::Util.ascii_8bit("\x1b\x28\x42&#x%04x;\x1b\x24\x42"%unicode) : match
       end
     end
 
@@ -62,6 +63,14 @@ module Jpmobile
       # SoftBank Unicode
       str.gsub(SOFTBANK_UNICODE_REGEXP) do |match|
         unicode = match.unpack('U').first
+        "&#x%04x;" % (unicode+0x1000)
+      end
+    end
+    def self.external_to_unicodecr_softbank_sjis(str)
+      # SoftBank Shift_JIS
+      str.gsub(SOFTBANK_SJIS_REGEXP) do |match|
+        sjis = match.unpack('n').first
+        unicode = SOFTBANK_SJIS_TO_UNICODE[sjis]
         "&#x%04x;" % (unicode+0x1000)
       end
     end

@@ -181,5 +181,106 @@ module Jpmobile
     def fullwidth_tilde_to_wavedash(utf8_str)
       utf8_str.gsub(FULLWIDTH_TILDE, WAVE_DASH)
     end
+
+    def force_encode(str, from, to)
+      s = str.dup
+
+      if Object.const_defined?(:Encoding)
+        to = SJIS if to =~ /shift_jis/i
+
+        to_enc = ::Encoding.find(to)
+        return str if s.encoding == to_enc
+
+        from_enc = ::Encoding.find(from)
+
+        s.force_encoding(from) unless s.encoding == from_enc
+
+        s.encode(to)
+      else
+        opt = case from
+              when /iso-2022-jp/i
+                "-Jx"
+              when /shift_jis/i
+                "-Sx"
+              when /utf-8/i
+                "-Wx"
+              else
+                ""
+              end
+        opt += case to
+               when /iso-2022-jp/i
+                 "-j"
+               when /shift_jis/i
+                 "-s"
+               when /utf-8/i
+                 "-w"
+               else
+                 ""
+               end
+        NKF.nkf(opt, str)
+      end
+    end
+
+    def set_encoding(str, encoding)
+      if encoding and Object.const_defined?(:Encoding)
+        str.force_encoding(encoding)
+      end
+
+      str
+    end
+
+    def extract_charset(str)
+      case str
+      when /iso-2022-jp/i
+        "ISO-2022-JP"
+      when /shift_jis/i
+        "Shift_JIS"
+      when /utf-8/i
+        "UTF-8"
+      else
+        ""
+      end
+    end
+
+    def detect_encoding(str)
+      if Object.const_defined?(:Encoding)
+        case str.encoding
+        when ::Encoding::ISO2022_JP
+          JIS
+        when ::Encoding::Shift_JIS, ::Encoding::Windows_31J, ::Encoding::CP932
+          SJIS
+        when ::Encoding::UTF_8
+          UTF8
+        when ::Encoding::ASCII_8BIT
+          BINARY
+        else
+          BINARY
+        end
+      else
+        case NKF.guess(str)
+        when NKF::SJIS
+          SJIS
+        when NKF::JIS
+          JIS
+        when NKF::UTF8
+          UTF8
+        else
+          BINARY
+        end
+      end
+    end
+
+    def ascii_8bit?(str)
+      detect_encoding(str) == BINARY
+    end
+    def utf8?(str)
+      detect_encoding(str) == UTF8
+    end
+    def shift_jis?(str)
+      detect_encoding(str) == SJIS
+    end
+    def jis?(str)
+      detect_encoding(str) == JIS
+    end
   end
 end

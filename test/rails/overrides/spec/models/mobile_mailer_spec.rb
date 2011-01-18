@@ -33,7 +33,7 @@ describe MobileMailer do
       raw_mail.should match(Regexp.compile(Regexp.escape(ascii_8bit(utf8_to_jis("本文")))))
     end
 
-    it "絵文字がゲタ(〓)に変換されること", :broken => true do
+    it "絵文字がゲタ(〓)に変換されること" do
       email = MobileMailer.view_selection(@to, "題名&#xe676;", "本文&#xe68b;".html_safe).deliver
 
       ActionMailer::Base.deliveries.size.should == 1
@@ -269,6 +269,180 @@ describe MobileMailer do
 
     it_behaves_like "PC宛メール"
   end
+
+  describe "multipart メールを送信するとき", :broken => true do
+    before(:each) do
+      ActionMailer::Base.deliveries = []
+
+      @subject = "題名"
+      @plain   = "平文本文"
+      @html    = "html本文"
+      @from    = "info@jpmobile-rails.org"
+    end
+
+    describe "PC の場合" do
+      before(:each) do
+        @to = "gate@bill.com"
+      end
+
+      it "漢字コードが変換されること" do
+        ActionMailer::Base.pc_convert = true
+        MobileMailer.deliver_multi_message(@to, @subject, @html, @plain, @from)
+
+        emails = ActionMailer::Base.deliveries
+        emails.size.should == 1
+        email = emails.first
+
+        email.parts.size.should == 2
+
+        NKF.nkf("-mQ", email.parts.first.quoted_body).should match(/#{Regexp.escape(NKF.nkf("-jWx", "万葉"))}/)
+
+        email.parts.last.charset.should match(/^iso-2022-jp$/i)
+        email.parts.last.quoted_body.should match(/#{Regexp.escape(NKF.nkf("-jWx", @plain))}/)
+      end
+    end
+
+    describe "docomo の場合" do
+      before(:each) do
+        @to     = "docomo@docomo.ne.jp"
+      end
+
+      it "漢字コードが変換されること" do
+        MobileMailer.deliver_multi_message(@to, @subject, @html, @plain, @from)
+
+        emails = ActionMailer::Base.deliveries
+        emails.size.should == 1
+        email = emails.first
+
+        email.parts.size.should == 2
+
+        email.parts.first.quoted_body.unpack("m").first.should match(Regexp.compile(Regexp.escape(NKF.nkf("-sWx", @html), 's'), nil, 's'))
+
+        email.parts.last.charset.should match(/^shift_jis$/i)
+        email.parts.last.quoted_body.should match(/#{Regexp.escape(NKF.nkf("-sWx", @plain))}/)
+      end
+
+      it "絵文字が変換されること" do
+        @html  += "&#xe68b;"
+        @plain += "&#xe676;"
+        MobileMailer.deliver_multi_message(@to, @subject, @html, @plain, @from)
+
+        emails = ActionMailer::Base.deliveries
+        emails.size.should == 1
+        email = emails.first
+
+        email.parts.size.should == 2
+        email.parts.first.quoted_body.unpack("m").first.should match(Regexp.compile(Regexp.escape([0xf8ec].pack('n'), 's'), nil, 's'))
+        email.parts.last.quoted_body.should match(Regexp.compile(Regexp.escape([0xf8d7].pack('n'), 's'), nil, 's'))
+      end
+    end
+
+    describe "au の場合" do
+      before(:each) do
+        @to     = "au@ezweb.ne.jp"
+      end
+
+      it "漢字コードが変換されること" do
+        MobileMailer.deliver_multi_message(@to, @subject, @html, @plain, @from)
+
+        emails = ActionMailer::Base.deliveries
+        emails.size.should == 1
+        email = emails.first
+
+        email.parts.size.should == 2
+
+        NKF.nkf("-mQ", email.parts.first.quoted_body).should match(/#{Regexp.escape(NKF.nkf("-jWx", @html))}/)
+
+        email.parts.last.charset.should match(/^iso-2022-jp$/i)
+        email.parts.last.quoted_body.should match(/#{Regexp.escape(NKF.nkf("-jWx", @plain))}/)
+      end
+
+      it "絵文字が変換されること" do
+        @plain += "&#xe676;"
+        @html  += "&#xe68b;"
+        MobileMailer.deliver_multi_message(@to, @subject, @html, @plain, @from)
+
+        emails = ActionMailer::Base.deliveries
+        emails.size.should == 1
+        email = emails.first
+
+        email.parts.size.should == 2
+
+        NKF.nkf("-mQ", email.parts.first.quoted_body).should match(/#{Regexp.escape([0x7621].pack('n'))}/)
+        email.parts.last.quoted_body.should match(/#{Regexp.escape([0x765e].pack('n'))}/)
+      end
+    end
+
+    describe "softbank の場合" do
+      before(:each) do
+        @to     = "softbank@softbank.ne.jp"
+      end
+
+      it "漢字コードが変換されること" do
+        MobileMailer.deliver_multi_message(@to, @subject, @html, @plain, @from)
+
+        emails = ActionMailer::Base.deliveries
+        emails.size.should == 1
+        email = emails.first
+
+        email.parts.size.should == 2
+
+        email.parts.first.quoted_body.unpack("m").first.should match(Regexp.compile(Regexp.escape(NKF.nkf("-sWx", @html), 's'), nil, 's'))
+
+        email.parts.last.charset.should match(/^shift_jis$/i)
+        email.parts.last.quoted_body.should match(/#{Regexp.escape(NKF.nkf("-sWx", @plain))}/)
+      end
+
+      it "絵文字が変換されること" do
+        @html  += "&#xe68a;"
+        @plain += "&#xe676;"
+        MobileMailer.deliver_multi_message(@to, @subject, @html, @plain, @from)
+
+        emails = ActionMailer::Base.deliveries
+        emails.size.should == 1
+        email = emails.first
+
+        email.parts.size.should == 2
+        email.parts.first.quoted_body.unpack("m").first.should match(Regexp.compile(Regexp.escape([0xf76a].pack('n'), 's'), nil, 's'))
+        email.parts.last.quoted_body.should match(Regexp.compile(Regexp.escape([0xf97c].pack('n'), 's'), nil, 's'))
+      end
+    end
+
+    describe "vodafone の場合" do
+      before(:each) do
+        @to     = "vodafone@d.vodafone.ne.jp"
+      end
+
+      it "漢字コードが変換されること" do
+        MobileMailer.deliver_multi_message(@to, @subject, @html, @plain, @from)
+
+        emails = ActionMailer::Base.deliveries
+        emails.size.should == 1
+        email = emails.first
+
+        email.parts.size.should == 2
+
+        NKF.nkf("-mQ", email.parts.first.quoted_body).should match(/#{Regexp.escape(NKF.nkf("-jWx", @html))}/)
+
+        email.parts.last.charset.should match(/^iso-2022-jp$/i)
+        email.parts.last.quoted_body.should match(/#{Regexp.escape(NKF.nkf("-jWx", @plain))}/)
+      end
+
+      it "絵文字が変換されること" do
+        @html  += "&#xe68a;"
+        @plain += "&#xe676;"
+        MobileMailer.deliver_multi_message(@to, @subject, @html, @plain, @from)
+
+        emails = ActionMailer::Base.deliveries
+        emails.size.should == 1
+        email = emails.first
+
+        email.parts.size.should == 2
+        NKF.nkf("-mQwJ", email.parts.first.quoted_body).should match(/〓/)
+        NKF.nkf("-wJ", email.parts.last.quoted_body).should match(/〓/)
+      end
+    end
+  end
 end
 
 describe MobileMailer, " mail address" do
@@ -317,5 +491,264 @@ describe MobileMailer, " mail address" do
     emails.size.should == 1
     emails.first.to.should == to
     emails.first.destinations.should == [to]
+  end
+end
+
+describe MobileMailer, "receiving", :broken => true do
+  describe "blank mail" do
+    it "softbank からの空メールがで受信できること" do
+      email = open(Rails.root + "spec/fixtures/mobile_mailer/softbank-blank.eml").read
+      lambda {
+        email = MobileMailer.receive(email)
+      }.should_not raise_exception
+
+      email.subject.should == ""
+      email.body.should == "\n"
+    end
+  end
+
+  describe "docomo からのメールを受信するとき" do
+    before(:each) do
+      @email = open(Rails.root + "spec/fixtures/mobile_mailer/docomo-emoji.eml").read
+    end
+
+    it "漢字コードを適切に変換できること" do
+      email = MobileMailer.receive(@email)
+      email.subject.should match(/題名/)
+      email.body.should match(/本文/)
+    end
+
+    it "絵文字が数値参照に変わること" do
+      email = MobileMailer.receive(@email)
+
+      email.subject.should match(/&#xe676;/)
+      email.body.should match(/&#xe6e2;/)
+    end
+
+    describe "jis コードの場合に" do
+      before(:each) do
+        @email = open(Rails.root + "spec/fixtures/mobile_mailer/docomo-jis.eml").read
+      end
+
+      it "適切に変換できること" do
+        email = MobileMailer.receive(@email)
+
+        email.subject.should match(/テスト/)
+        email.body.should match(/テスト本文/)
+      end
+    end
+  end
+
+  describe "au からのメールを受信するとき" do
+    describe "jpmobile で送信したメールの場合" do
+      before(:each) do
+        @email = open(Rails.root + "spec/fixtures/mobile_mailer/au-emoji.eml").read
+      end
+
+      it "漢字コードを適切に変換できること" do
+        email = MobileMailer.receive(@email)
+
+        email.subject.should match(/題名/)
+        email.body.should match(/本文/)
+      end
+
+      it "絵文字が数値参照に変わること" do
+        email = MobileMailer.receive(@email)
+
+        email.subject.should match(/&#xe503;/)
+        email.body.should match(/&#xe522;/)
+      end
+    end
+
+    describe "実機からのメールの場合" do
+      before(:each) do
+        @email = open(Rails.root + "spec/fixtures/mobile_mailer/au-emoji2.eml").read
+      end
+
+      it "漢字コードを適切に変換できること" do
+        email = MobileMailer.receive(@email)
+
+        email.subject.should match(/題名/)
+        email.body.should match(/本文/)
+      end
+
+      it "絵文字が数値参照に変わること" do
+        email = MobileMailer.receive(@email)
+
+        email.subject.should match(/&#xe4f4;/)
+        email.body.should match(/&#xe471;/)
+      end
+    end
+  end
+
+  describe "softbank からのメールを受信するとき" do
+    describe "shift_jis のとき" do
+      before(:each) do
+        @email = open(Rails.root + "spec/fixtures/mobile_mailer/softbank-emoji.eml").read
+      end
+
+      it "漢字コードを適切に変換できること" do
+        email = MobileMailer.receive(@email)
+
+        email.subject.should match(/題名/)
+        email.body.should match(/本文/)
+      end
+
+      it "絵文字が数値参照に変わること" do
+        email = MobileMailer.receive(@email)
+
+        email.subject.should match(/&#xf03c;/)
+        email.body.should match(/&#xf21c;/)
+      end
+    end
+
+    describe "utf-8 のとき" do
+      before(:each) do
+        @email = open(Rails.root + "spec/fixtures/mobile_mailer/softbank-emoji-utf8.eml").read
+      end
+
+      it "漢字コードを適切に変換できること" do
+        email = MobileMailer.receive(@email)
+
+        email.subject.should match(/題名/)
+        email.body.should match(/本文/)
+      end
+
+      it "絵文字が数値参照に変わること" do
+        email = MobileMailer.receive(@email)
+
+        email.subject.should match(/&#xf03c;/)
+        email.body.should match(/&#xf21c;/)
+      end
+    end
+  end
+
+  describe "multipart メールを受信するとき" do
+    describe "docomo の場合" do
+      # NOTE: 要検証
+      before(:each) do
+        @email = open(Rails.root + "spec/fixtures/mobile_mailer/docomo-gmail-sjis.eml").read
+      end
+
+      it "正常に受信できること" do
+        lambda {
+          MobileMailer.receive(@email)
+        }.should_not raise_exception
+      end
+
+      it "絵文字が変換されること" do
+        email = MobileMailer.receive(@email)
+
+        email.subject.should match(/&#xe6ec;/)
+
+        email.parts.size.should == 1
+        email.parts.first.parts.size == 2
+
+        parts = email.parts.first.parts
+        parts.first.body.should match(/テストです&#xe72d;/)
+        parts.last.body.should match(/テストです&#xe72d;/)
+      end
+    end
+
+    describe "au の場合" do
+      before(:each) do
+        @email = open(Rails.root + "spec/fixtures/mobile_mailer/au-decomail.eml").read
+      end
+
+      it "正常に受信できること" do
+        lambda {
+          MobileMailer.receive(@email)
+        }.should_not raise_exception
+      end
+
+      it "絵文字が変換されること" do
+        email = MobileMailer.receive(@email)
+
+        email.subject.should match(/&#xe4f4;/)
+
+        email.parts.size.should == 1
+        email.parts.first.parts.size == 2
+
+        parts = email.parts.first.parts
+        parts.first.body.should match(/テストです&#xe595;/)
+        parts.last.body.should match(/テストです&#xe595;/)
+      end
+    end
+
+    describe "softbank(sjis) の場合" do
+      # NOTE: 要検証
+      before(:each) do
+        @email = open(Rails.root + "spec/fixtures/mobile_mailer/softbank-gmail-sjis.eml").read
+      end
+
+      it "正常に受信できること" do
+        lambda {
+          MobileMailer.receive(@email)
+        }.should_not raise_exception
+      end
+
+      it "絵文字が変換されること" do
+        email = MobileMailer.receive(@email)
+
+        email.subject.should match(/&#xf221;&#xf223;&#xf221;/)
+
+        email.parts.size.should == 2
+
+        email.parts.first.body.should match(/テストです&#xf018;/)
+        email.parts.last.body.should match(/テストです&#xf231;/)
+      end
+    end
+
+    describe "softbank(utf8) の場合" do
+      # NOTE: 要検証
+      before(:each) do
+        @email = open(Rails.root + "spec/fixtures/mobile_mailer/softbank-gmail-utf8.eml").read
+      end
+
+      it "正常に受信できること" do
+        lambda {
+          MobileMailer.receive(@email)
+        }.should_not raise_exception
+      end
+
+      it "絵文字が変換されること" do
+        email = MobileMailer.receive(@email)
+
+        email.subject.should match(/テストです&#xf221;/)
+
+        email.parts.size.should == 2
+
+        email.parts.first.body.should match(/テストです&#xf223;/)
+        email.parts.last.body.should match(/テストです&#xf223;/)
+      end
+    end
+
+    describe "添付ファイルがある場合" do
+      # NOTE: au のみテスト
+      before(:each) do
+        @email = open(Rails.root + "spec/fixtures/mobile_mailer/au-attached.eml").read
+      end
+
+      it "正常に受信できること" do
+        lambda {
+          MobileMailer.receive(@email)
+        }.should_not raise_exception
+      end
+
+      it "添付ファイルが壊れないこと" do
+        email = MobileMailer.receive(@email)
+
+        email.subject.should match(/&#xe481;/)
+
+        email.parts.size.should == 2
+
+        email.parts.first.body.should match(/カレンダーだ&#xe4f4;/)
+
+        email.has_attachments?.should be_true
+        email.attachments.size.should == 1
+        email.attachments.first.content_type.should == "image/jpeg"
+        email.attachments.first.read[6..9].should == "JFIF"
+      end
+    end
   end
 end

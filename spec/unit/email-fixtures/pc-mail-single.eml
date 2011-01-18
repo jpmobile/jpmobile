@@ -1,0 +1,29 @@
+X-Account-Key: account2
+X-Mozilla-Keys:                                                                                 
+Return-Path: <info@jp.mobile>
+X-Original-To: info+to@jp.mobile
+Delivered-To: info+to@jp.mobile
+Received: from localhost (localhost [127.0.0.1])
+	by mx1.jp.mobile (Postfix) with ESMTP id D33B182C23
+	for <info+to@jp.mobile>; Mon, 17 Jan 2011 15:56:29 +0900 (JST)
+Received: from mx1.jp.mobile ([127.0.0.1])
+	by localhost (mx1.jp.mobile [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id zNVpFb+lhwLD for <info+to@jp.mobile>;
+	Mon, 17 Jan 2011 15:56:29 +0900 (JST)
+Received: by mx1.jp.mobile (Postfix, from userid 58)
+	id ABECA82B4C; Mon, 17 Jan 2011 15:56:29 +0900 (JST)
+Message-ID: <4D33E819.9060703@jp.mobile>
+Date: Mon, 17 Jan 2011 15:56:25 +0900
+From: Shin-ichiro OGAWA <info@jp.mobile>
+User-Agent: Mozilla-Thunderbird 2.0.0.24 (X11/20100329)
+MIME-Version: 1.0
+To: info+to@jp.mobile
+Subject: =?ISO-2022-JP?B?GyRCJT8lJCVIJWskTkQ5JCQlYSE8JWskTj5sOWckTkJQGyhC?=
+ =?ISO-2022-JP?B?GyRCPWgkcjxCQXUkOSRrJD8kYSROJUYlOSVIJTEhPCU5JEgkNyRGGyhC?=
+ =?ISO-2022-JP?B?GyRCJE4lYSE8JWskSzReJF4kbCRGJCQkazdvTD4kRyQiJGslNSVWGyhC?=
+ =?ISO-2022-JP?B?GyRCJTglJyUvJUhJdEosGyhC?=
+Content-Type: text/plain; charset=ISO-2022-JP
+Content-Transfer-Encoding: 7bit
+
+本文です
+

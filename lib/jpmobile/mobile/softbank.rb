@@ -77,6 +77,9 @@ module Jpmobile::Mobile
 
       str
     end
+    def to_mail_body_encoded?(str)
+      Jpmobile::Util.shift_jis?(str)
+    end
 
     private
     def to_mail_encoding(str)

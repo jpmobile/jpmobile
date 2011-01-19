@@ -32,6 +32,18 @@ describe "Jpmobile::Mail#receive" do
         ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape(ascii_8bit(utf8_to_jis("本文です")))))
       end
     end
+
+    context "modify and to_s" do
+      it "should encode subject correctly" do
+        @mail.subject = "大江戸"
+        ascii_8bit(@mail.to_s).should match("GyRCQmc5PjhNGyhC")
+      end
+
+      it "should encode body correctly" do
+        @mail.body = "会議が開催"
+        ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape(ascii_8bit(utf8_to_jis("会議が開催")))))
+      end
+    end
   end
 
   describe "multipart PC mail" do
@@ -61,6 +73,28 @@ describe "Jpmobile::Mail#receive" do
     it "body should be parsed correctly" do
       @mail.body.to_s.should == "本文&#xe6e2;\nFor docomo"
     end
+
+    context "to_s" do
+      it "should have subject which is same as original" do
+        @mail.to_s.should match(Regexp.escape("=?shift_jis?B?keiWvPjX?="))
+      end
+
+      it "should have body which is same as original" do
+        @mail.to_s.should match(sjis_regexp(utf8_to_sjis("本文")))
+      end
+    end
+
+    context "modify and to_s" do
+      it "should encode subject correctly" do
+        @mail.subject = "大江戸&#xe63e;"
+        @mail.to_s.should match(Regexp.escape("keWNXYzL+J8="))
+      end
+
+      it "should encode body correctly" do
+        @mail.body = "会議が開催&#xe646;"
+        @mail.to_s.should match(sjis_regexp(sjis("\x89\xEF\x8Bc\x82\xAA\x8AJ\x8D\xC3\xF8\xA7")))
+      end
+    end
   end
 
   describe "Au" do
@@ -75,6 +109,28 @@ describe "Jpmobile::Mail#receive" do
     it "body should be parsed correctly" do
       @mail.body.to_s.should == "本文&#xe522;\nFor au"
     end
+
+    context "to_s" do
+      it "should have subject which is same as original" do
+        ascii_8bit(@mail.to_s).should match(Regexp.escape("=?iso-2022-jp?B?GyRCQmpMPnZeGyhC?="))
+      end
+
+      it "should have body which is same as original" do
+        ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape(ascii_8bit(utf8_to_jis("本文")))))
+      end
+    end
+
+    context "modify and to_s" do
+      it "should encode subject correctly" do
+        @mail.subject = "大江戸&#xe63e;"
+        ascii_8bit(@mail.to_s).should match("GyRCQmc5PjhNGyhCGyRCdUEbKEI=")
+      end
+
+      it "should encode body correctly" do
+        @mail.body = "会議が開催&#xe646;"
+        ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape(ascii_8bit("\x1b\x24\x42\x32\x71\x35\x44\x24\x2C\x33\x2B\x3A\x45\x1b\x28\x42\x1b\x24\x42\x75\x48\x1b\x28\x42"))))
+      end
+    end
   end
 
   describe "Softbank" do
@@ -88,6 +144,28 @@ describe "Jpmobile::Mail#receive" do
 
     it "body should be parsed correctly" do
       @mail.body.to_s.should == "本文&#xf21c;\nFor softbank"
+    end
+
+    context "to_s" do
+      it "should have subject which is same as original" do
+        @mail.to_s.should match(sjis_regexp("=?shift_jis?B?keiWvPl8?="))
+      end
+
+      it "should have body which is same as original" do
+        @mail.to_s.should match(sjis_regexp(utf8_to_sjis("本文")))
+      end
+    end
+
+    context "modify and to_s" do
+      it "should encode subject correctly" do
+        @mail.subject = "大江戸&#xe63e;"
+        @mail.to_s.should match(Regexp.escape("keWNXYzL+Ys="))
+      end
+
+      it "should encode body correctly" do
+        @mail.body = "会議が開催&#xe646;"
+        @mail.to_s.should match(sjis_regexp(utf8_to_sjis("会議が開催") + sjis("\xf7\xdf")))
+      end
     end
   end
 

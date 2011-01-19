@@ -112,7 +112,7 @@ module Mail
     def parse_message_with_jpmobile
       parse_message_without_jpmobile
 
-      unless multipart?
+      if !multipart? and self.header['Content-Type']
         self.body.charset = case self.header['Content-Type'].value
                             when /iso-2022-jp/i
                               "ISO-2022-JP"
@@ -134,7 +134,11 @@ module Mail
     # convert encoding
     def encoded_with_jpmobile(transfer_encoding = '8bit')
       if @mobile and !multipart?
-        @mobile.to_mail_body(Jpmobile::Util.force_encode(raw_source, @charset, Jpmobile::Util::UTF8))
+        if @mobile.to_mail_body_encoded?(raw_source)
+          raw_source
+        else
+          @mobile.to_mail_body(Jpmobile::Util.force_encode(raw_source, @charset, Jpmobile::Util::UTF8))
+        end
       else
         encoded_without_jpmobile(transfer_encoding)
       end
@@ -181,7 +185,7 @@ module Mail
       result = @mobile.to_mail_internal(result, value) if @mobile
 
       # result.encode!(value.encoding || "UTF-8") if RUBY_VERSION >= '1.9' && !result.blank?
-      result.blank? ? result : Jpmobile::Util.force_encode(result, nil, "UTF-8")
+      result.blank? ? result : Jpmobile::Util.force_encode(result, nil, Jpmobile::Util::UTF8)
     end
   end
 
@@ -191,7 +195,7 @@ module Mail
     def encoded_with_jpmobile
       if @mobile
         if @mobile.to_mail_subject_encoded?(value)
-          value
+          "#{name}: #{value}\r\n"
         else
           # convert encoding
           "#{name}: " + @mobile.to_mail_subject(value) + "\r\n"

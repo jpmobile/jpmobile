@@ -94,7 +94,10 @@ module Jpmobile::Mobile
       str
     end
     def to_mail_subject_encoded?(str)
-      str =~ /=\?#{mail_charset}\?B\?.*\?=/
+      str.match(/\=\?#{mail_charset}\?B.+\?\=/i)
+    end
+    def to_mail_body_encoded?(str)
+      Jpmobile::Util.jis?(str)
     end
 
     # リクエストがこのクラスに属するか調べる

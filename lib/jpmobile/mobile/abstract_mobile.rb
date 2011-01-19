@@ -93,6 +93,9 @@ module Jpmobile::Mobile
     def to_mail_internal(str, val)
       str
     end
+    def to_mail_subject_encoded?(str)
+      str =~ /=\?#{mail_charset}\?B\?.*\?=/
+    end
 
     # リクエストがこのクラスに属するか調べる
     # メソッド名に関して非常に不安

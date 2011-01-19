@@ -22,6 +22,16 @@ describe "Jpmobile::Mail#receive" do
     it "body should be parsed correctly" do
       @mail.body.to_s.should == "本文です"
     end
+
+    context "to_s" do
+      it "should have subject which is same as original" do
+        ascii_8bit(@mail.to_s).should match("GyRCJT8lJCVIJWskTkQ5JCQlYSE8JWskTj5sOWckTkJQGyhC")
+      end
+
+      it "should have body which is same as original" do
+        ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape(ascii_8bit(utf8_to_jis("本文です")))))
+      end
+    end
   end
 
   describe "multipart PC mail" do

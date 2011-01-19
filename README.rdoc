@@ -147,24 +147,24 @@ jpmobileを読み込むとDoCoMo、Au、SoftBankの絵文字を透過的に扱�
     # Rack middleware を追加するメソッド
     Rails.application.config.jpmobile.mobile_filter
 
-** 下記の設定を追加することで、<form> タグの accept-charset が変更される。
-  # <form accept-charset="Shift_JIS" ...> などに変更する
-  Rails.application.config.jpmobile.form_accept_charset_conversion = true
+  * 下記の設定を追加することで、<form> タグの accept-charset が変更される。
+      # <form accept-charset="Shift_JIS" ...> などに変更する
+      Rails.application.config.jpmobile.form_accept_charset_conversion = true
 
 携帯電話上では特に問題とならない。PCブラウザでテストする際に問題となるためのオプション。
 
 * Sinatra の場合は下記のように指定する。
-  $LOAD_PATH << './lib/jpmobile/lib'
-  require 'jpmobile'
-  require 'jpmobile/rack'
+    $LOAD_PATH << './lib/jpmobile/lib'
+    require 'jpmobile'
+    require 'jpmobile/rack'
 
-  use Jpmobile::Rack::MobileCarrier
-  use Jpmobile::Rack::ParamsFilter
-  use Jpmobile::Rack::Filter
+    use Jpmobile::Rack::MobileCarrier
+    use Jpmobile::Rack::ParamsFilter
+    use Jpmobile::Rack::Filter
 
-  get '/' do
-    erb :index
-  end
+    get '/' do
+      erb :index
+    end
 
 Rails のみ半角・全角の自動変換フィルターが用意されている。用いるには
   class MyController

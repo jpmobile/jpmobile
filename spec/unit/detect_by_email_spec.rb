@@ -24,4 +24,28 @@ describe 'Jpmobile::Email' do
       Jpmobile::Email.detect(email_addr).should == carrier
     end
   end
+
+  [
+    ['From: Jpmobile Rails <example@example.ne.jp>'     , nil                        ],
+    ['From: Jpmobile Rails <test@docomo.ne.jp>'         , Jpmobile::Mobile::Docomo   ],
+    ['From: Jpmobile Rails <test@docomo.ne.jp.jp>'      , nil                        ],
+    ['From: Jpmobile Rails <a(--)l@ezweb.ne.jp>'        , Jpmobile::Mobile::Au       ],
+    ['From: Jpmobile Rails <a(--)l@ezweb.ne.jp.jp>'     , nil                        ],
+    ['From: Jpmobile Rails <dadaea@pdx.ne.jp>'          , Jpmobile::Mobile::Willcom  ],
+    ['From: Jpmobile Rails <dadaea@pdx.ne.jp.jp>'       , nil                        ],
+    ['From: Jpmobile Rails <xxxe@dj.pdx.ne.jp>'         , Jpmobile::Mobile::Willcom  ],
+    ['From: Jpmobile Rails <xxxe@dj.pdx.ne.jp.jp>'      , nil                        ],
+    ['From: Jpmobile Rails <xxxe@willcom.com>'          , Jpmobile::Mobile::Willcom  ],
+    ['From: Jpmobile Rails <xxxe@willcom.com.jp>'       , nil                        ],
+    ['From: Jpmobile Rails <oeeikx@softbank.ne.jp>'     , Jpmobile::Mobile::Softbank ],
+    ['From: Jpmobile Rails <oeeikx@softbank.ne.jp.jp>'  , nil                        ],
+    ['From: Jpmobile Rails <eaae@disney.ne.jp>'         , Jpmobile::Mobile::Softbank ],
+    ['From: Jpmobile Rails <eaae@disney.ne.jp.jp>'      , nil                        ],
+    ['From: Jpmobile Rails <iiiaa@r.vodafone.ne.jp>'    , Jpmobile::Mobile::Vodafone ],
+    ['From: Jpmobile Rails <iiiaa@r.vodafone.ne.jp.jp>' , nil                        ],
+  ].each do |line, carrier|
+    it "#detect should return #{carrier} when take mail header #{line}}" do
+      Jpmobile::Email.detect_from_mail_header(line).should == carrier
+    end
+  end
 end

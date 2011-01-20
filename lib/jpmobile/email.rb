@@ -21,7 +21,11 @@ module Jpmobile
     def detect_from_mail_header(str)
       Mobile.carriers.each do |const|
         c = Mobile.const_get(const)
-        return c if c::MAIL_ADDRESS_REGEXP && str.match(/#{c::MAIL_ADDRESS_REGEXP}#{c::NOT_DOMAIN_REGEXP}/)
+        if c::MAIL_ADDRESS_REGEXP &&
+            str.match(/(\S+@[A-Za-z0-9\-\.\_]+)/) &&
+            $1.match(/^#{c::MAIL_ADDRESS_REGEXP}$/)
+          return c
+        end
       end
       nil
     end

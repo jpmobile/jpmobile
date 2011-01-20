@@ -28,8 +28,10 @@ describe 'Jpmobile::Email' do
   [
     ['From: Jpmobile Rails <example@example.ne.jp>'     , nil                        ],
     ['From: Jpmobile Rails <test@docomo.ne.jp>'         , Jpmobile::Mobile::Docomo   ],
+    ['From: test@docomo.ne.jp'                          , Jpmobile::Mobile::Docomo   ],
     ['From: Jpmobile Rails <test@docomo.ne.jp.jp>'      , nil                        ],
     ['From: Jpmobile Rails <a(--)l@ezweb.ne.jp>'        , Jpmobile::Mobile::Au       ],
+    ['From: a(--)l@ezweb.ne.jp'                         , Jpmobile::Mobile::Au       ],
     ['From: Jpmobile Rails <a(--)l@ezweb.ne.jp.jp>'     , nil                        ],
     ['From: Jpmobile Rails <dadaea@pdx.ne.jp>'          , Jpmobile::Mobile::Willcom  ],
     ['From: Jpmobile Rails <dadaea@pdx.ne.jp.jp>'       , nil                        ],
@@ -38,6 +40,7 @@ describe 'Jpmobile::Email' do
     ['From: Jpmobile Rails <xxxe@willcom.com>'          , Jpmobile::Mobile::Willcom  ],
     ['From: Jpmobile Rails <xxxe@willcom.com.jp>'       , nil                        ],
     ['From: Jpmobile Rails <oeeikx@softbank.ne.jp>'     , Jpmobile::Mobile::Softbank ],
+    ['From: oeeikx@softbank.ne.jp'                      , Jpmobile::Mobile::Softbank ],
     ['From: Jpmobile Rails <oeeikx@softbank.ne.jp.jp>'  , nil                        ],
     ['From: Jpmobile Rails <eaae@disney.ne.jp>'         , Jpmobile::Mobile::Softbank ],
     ['From: Jpmobile Rails <eaae@disney.ne.jp.jp>'      , nil                        ],

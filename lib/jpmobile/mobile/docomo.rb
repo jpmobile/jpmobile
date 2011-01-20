@@ -7,7 +7,7 @@ module Jpmobile::Mobile
     # 対応するUser-Agentの正規表現
     USER_AGENT_REGEXP = /^DoCoMo/
     # 対応するメールアドレスの正規表現
-    MAIL_ADDRESS_REGEXP = /^.+@docomo\.ne\.jp$/
+    MAIL_ADDRESS_REGEXP = /.+@docomo\.ne\.jp/
 
     # オープンiエリアがあればエリアコードを +String+ で返す。無ければ +nil+ を返す。
     def areacode

@@ -11,6 +11,8 @@ describe 'Jpmobile::Email' do
     ['dadaea@pdx.ne.jp.jp'       , nil                        ],
     ['xxxe@dj.pdx.ne.jp'         , Jpmobile::Mobile::Willcom  ],
     ['xxxe@dj.pdx.ne.jp.jp'      , nil                        ],
+    ['xxxe@willcom.com'          , Jpmobile::Mobile::Willcom  ],
+    ['xxxe@willcom.com.jp'       , nil                        ],
     ['oeeikx@softbank.ne.jp'     , Jpmobile::Mobile::Softbank ],
     ['oeeikx@softbank.ne.jp.jp'  , nil                        ],
     ['eaae@disney.ne.jp'         , Jpmobile::Mobile::Softbank ],

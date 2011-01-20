@@ -7,7 +7,7 @@ module Jpmobile::Mobile
     # 対応するUser-Agentの正規表現
     USER_AGENT_REGEXP = /^(Vodafone|Vemulator)/
     # 対応するメールアドレスの正規表現
-    MAIL_ADDRESS_REGEXP = /^.+@[dhtcrknsq]\.vodafone\.ne\.jp$/
+    MAIL_ADDRESS_REGEXP = /.+@[dhtcrknsq]\.vodafone\.ne\.jp/
 
     # cookieに対応しているか？
     def supports_cookie?

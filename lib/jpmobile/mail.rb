@@ -76,9 +76,10 @@ module Mail
     def init_with_string_with_jpmobile(string)
       # Jpmobile::Mobile class from 'From: ' header
       s = Jpmobile::Util.ascii_8bit(string)
+
       mobile_class = nil
       s.split(/\n|\r/).each do |line|
-        break if line =~ /^From:/ and mobile_class = Jpmobile::Email.detect(line)
+        break if line =~ /^From:/ and mobile_class = Jpmobile::Email.detect_from_mail_header(line)
       end
 
       @mobile = (mobile_class || Jpmobile::Mobile::AbstractMobile).new(nil, nil)
@@ -87,6 +88,12 @@ module Mail
 
       self.body.mobile = @mobile
       self.body.set_encoding_jpmobile
+      if self.body.multipart?
+        self.body.parts.each do |part|
+          part.body.mobile = @mobile
+          part.body.set_encoding_jpmobile
+        end
+      end
     end
 
     def process_body_raw_with_jpmobile
@@ -166,6 +173,16 @@ module Mail
       @raw_source = Jpmobile::Util.set_encoding(@raw_source, @charset)
     end
 
+    def mobile=(m)
+      if self.multipart?
+        self.parts.each do |part|
+          part.body.mobile = @mobile
+        end
+      end
+
+      @mobile = m
+    end
+
     alias_method :encoded_without_jpmobile, :encoded
     alias_method :encoded, :encoded_with_jpmobile
 
@@ -205,14 +222,14 @@ module Mail
       end
     end
 
-    def decoded_with_jpmobile
-      decoded_without_jpmobile
-    end
+    # def decoded_with_jpmobile
+    #   decoded_without_jpmobile
+    # end
 
     alias_method :encoded_without_jpmobile, :encoded
     alias_method :encoded, :encoded_with_jpmobile
 
-    alias_method :decoded_without_jpmobile, :decoded
-    alias_method :decoded, :decoded_with_jpmobile
+    # alias_method :decoded_without_jpmobile, :decoded
+    # alias_method :decoded, :decoded_with_jpmobile
   end
 end

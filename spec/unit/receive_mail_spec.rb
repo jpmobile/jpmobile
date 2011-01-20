@@ -46,18 +46,84 @@ describe "Jpmobile::Mail#receive" do
     end
   end
 
-  describe "multipart PC mail" do
-    before(:each) do
-      @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "email-fixtures/pc-mail-multi.eml")).read)
+  describe "multipart" do
+    describe "PC mail" do
+      before(:each) do
+        @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "email-fixtures/pc-mail-multi.eml")).read)
+      end
+
+      it "subject should be parsed correctly" do
+        @mail.subject.should == "タイトルの長いメールの場合の対処を実装するためのテストケースとしてのメールに含まれている件名であるサブジェクト部分"
+      end
+
+      it "body should be parsed correctly" do
+        @mail.body.parts.size.should == 2
+        @mail.body.parts.first.body.to_s.should == "本文です"
+      end
     end
 
-    it "subject should be parsed correctly" do
-      @mail.subject.should == "タイトルの長いメールの場合の対処を実装するためのテストケースとしてのメールに含まれている件名であるサブジェクト部分"
+    describe "Docomo" do
+      before(:each) do
+        @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "../../test/rails/overrides/spec/fixtures/mobile_mailer/docomo-gmail-sjis.eml")).read)
+      end
+
+      it "subject should be parsed correctly" do
+        @mail.subject.should == "テスト&#xe6ec;"
+      end
+
+      it "body should be parsed correctly" do
+        @mail.body.parts.size.should == 1
+        @mail.body.parts.first.parts.size == 1
+        @mail.body.parts.first.parts.first.body.to_s.should == "テストです&#xe72d;"
+      end
     end
 
-    it "body should be parsed correctly" do
-      @mail.body.parts.size.should == 2
-      @mail.body.parts.first.body.to_s.should == "本文です"
+    describe "Au" do
+      before(:each) do
+        @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "../../test/rails/overrides/spec/fixtures/mobile_mailer/au-decomail.eml")).read)
+      end
+
+      it "subject should be parsed correctly" do
+        @mail.subject.should == "テスト&#xe4f4;"
+      end
+
+      it "body should be parsed correctly" do
+        @mail.body.parts.size.should == 1
+        @mail.body.parts.first.parts.size == 1
+        @mail.body.parts.first.parts.first.body.to_s.should == "テストです&#xe595;"
+      end
+    end
+
+    describe "Softbank" do
+      context "Shift_JIS" do
+        before(:each) do
+          @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "../../test/rails/overrides/spec/fixtures/mobile_mailer/softbank-gmail-sjis.eml")).read)
+        end
+
+        it "subject should be parsed correctly" do
+          @mail.subject.should == "テスト&#xf221;&#xf223;&#xf221;"
+        end
+
+        it "body should be parsed correctly" do
+          @mail.body.parts.size.should == 2
+          @mail.body.parts.first.body.to_s.should == "テストです&#xf018;"
+        end
+      end
+
+      context "UTF-8" do
+        before(:each) do
+          @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "../../test/rails/overrides/spec/fixtures/mobile_mailer/softbank-gmail-utf8.eml")).read)
+        end
+
+        it "subject should be parsed correctly" do
+          @mail.subject.should == "テストです&#xf221;"
+        end
+
+        it "body should be parsed correctly" do
+          @mail.body.parts.size.should == 2
+          @mail.body.parts.first.body.to_s.should == "テストです&#xf223;"
+        end
+      end
     end
   end
 

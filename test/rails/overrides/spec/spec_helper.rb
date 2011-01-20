@@ -30,9 +30,9 @@ RSpec.configure do |config|
 
   config.filter_run :focus => true
   config.run_all_when_everything_filtered = true
-  config.full_backtrace = true
   config.color_enabled = true
   config.filter_run_excluding :broken => true
+  config.full_backtrace = false
 end
 
 require 'pp'

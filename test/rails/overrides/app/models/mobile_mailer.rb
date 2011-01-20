@@ -7,4 +7,8 @@ class MobileMailer < Jpmobile::Mailer::Base
     # mail(:from => from_mail, :to => to_mail, :subject => subject_text)
     mail(:to => to_mail, :subject => subject_text)
   end
+
+  def receive(email)
+    email
+  end
 end

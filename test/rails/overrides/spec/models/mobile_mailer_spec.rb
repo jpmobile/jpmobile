@@ -494,16 +494,16 @@ describe MobileMailer, " mail address" do
   end
 end
 
-describe MobileMailer, "receiving", :broken => true do
+describe MobileMailer, "receiving" do
   describe "blank mail" do
     it "softbank からの空メールがで受信できること" do
       email = open(Rails.root + "spec/fixtures/mobile_mailer/softbank-blank.eml").read
-      lambda {
+      # expect {
         email = MobileMailer.receive(email)
-      }.should_not raise_exception
+      # }.to_not raise_error
 
-      email.subject.should == ""
-      email.body.should == "\n"
+      email.subject.should be_blank
+      email.body.should be_blank
     end
   end
 
@@ -614,7 +614,7 @@ describe MobileMailer, "receiving", :broken => true do
         email.body.should match(/本文/)
       end
 
-      it "絵文字が数値参照に変わること" do
+      it "絵文字が数値参照に変わること", :broken => true do
         email = MobileMailer.receive(@email)
 
         email.subject.should match(/&#xf03c;/)
@@ -623,7 +623,7 @@ describe MobileMailer, "receiving", :broken => true do
     end
   end
 
-  describe "multipart メールを受信するとき" do
+  describe "multipart メールを受信するとき", :broken => true do
     describe "docomo の場合" do
       # NOTE: 要検証
       before(:each) do

@@ -44,7 +44,8 @@ module Mail
         self.charset             = @mobile.mail_charset
 
         ready_to_send!
-        @body.mobile = @mobile
+
+        self.body.mobile = @mobile
         header['Content-Transfer-Encoding'] = '8bit'
 
         buffer = header.encoded
@@ -78,21 +79,29 @@ module Mail
       s = Jpmobile::Util.ascii_8bit(string)
 
       mobile_class = nil
+      content_has_from = false
       s.split(/\n|\r/).each do |line|
-        break if line =~ /^From:/ and mobile_class = Jpmobile::Email.detect_from_mail_header(line)
+        if line =~ /^From:/
+          content_has_from = true
+          break if mobile_class = Jpmobile::Email.detect_from_mail_header(line)
+        end
       end
 
-      @mobile = (mobile_class || Jpmobile::Mobile::AbstractMobile).new(nil, nil)
+      if content_has_from
+        @mobile = (mobile_class || Jpmobile::Mobile::AbstractMobile).new(nil, nil)
 
-      init_with_string_without_jpmobile(s)
+        init_with_string_without_jpmobile(s)
 
-      self.body.mobile = @mobile
-      self.body.set_encoding_jpmobile
-      if self.body.multipart?
-        self.body.parts.each do |part|
-          part.body.mobile = @mobile
-          part.body.set_encoding_jpmobile
+        self.body.mobile = @mobile
+        self.body.set_encoding_jpmobile
+        if self.body.multipart?
+          self.body.parts.each do |part|
+            part.body.mobile = @mobile
+            part.body.set_encoding_jpmobile
+          end
         end
+      else
+        init_with_string_without_jpmobile(s)
       end
     end
 
@@ -120,14 +129,15 @@ module Mail
       parse_message_without_jpmobile
 
       if !multipart? and self.header['Content-Type']
-        self.body.charset = case self.header['Content-Type'].value
-                            when /iso-2022-jp/i
-                              "ISO-2022-JP"
-                            when /shift_jis/i
-                              "Shift_JIS"
-                            else
-                              "UTF-8"
-                            end
+        @charset = case self.header['Content-Type'].value
+                   when /iso-2022-jp/i
+                     "ISO-2022-JP"
+                   when /shift_jis/i
+                     "Shift_JIS"
+                   else
+                     "UTF-8"
+                   end
+        self.body.charset = @charset
       end
     end
 
@@ -177,10 +187,12 @@ module Mail
       if self.multipart?
         self.parts.each do |part|
           part.body.mobile = @mobile
+          part.body.set_encoding_jpmobile
         end
       end
 
       @mobile = m
+      self.set_encoding_jpmobile
     end
 
     alias_method :encoded_without_jpmobile, :encoded

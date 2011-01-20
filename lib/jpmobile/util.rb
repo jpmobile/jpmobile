@@ -10,11 +10,12 @@ module Jpmobile
         end
       when Array
         obj.collect!{|value| deep_apply(value, &proc)}
-      when NilClass, TrueClass, FalseClass, Tempfile, StringIO
-        return obj
-      else
+      when String
         obj = obj.to_param if obj.respond_to?(:to_param)
         proc.call(obj)
+      else
+        # NilClass, TrueClass, FalseClass, Tempfile, StringIO, etc...
+        return obj
       end
     end
 
@@ -32,11 +33,12 @@ module Jpmobile
         end
       when Symbol
         new_obj = proc.call(obj.to_s).to_sym
-      when NilClass, TrueClass, FalseClass, Tempfile, StringIO
-        new_obj = obj
-      else
+      when String
         obj = obj.to_param if obj.respond_to?(:to_param)
         new_obj = proc.call(obj)
+      else
+        # NilClass, TrueClass, FalseClass, Tempfile, StringIO, etc...
+        new_obj = obj
       end
 
       new_obj

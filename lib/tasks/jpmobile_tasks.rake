@@ -36,54 +36,55 @@ namespace :test do
     t.verbose = true
   end
   desc "Generate rails app and run jpmobile tests in the app"
-  task :rails, [:versions] do |t, args|
+  task :rails, [:skip] do |t, args|
     rails_root     = "test/rails/rails_root"
     relative_root  = "../../../"
-    rails_versions = args.versions.split("/") rescue ["3.0.x"]
 
-    puts "Running tests in Rails #{rails_versions.join(', ')}"
+    puts "Running tests in Rails"
+    skip = args.skip == "true"
 
-    rails_versions.each do |rails_version|
-      puts "  for #{rails_version}"
+    unless skip
       # generate rails app
       FileUtils.rm_rf(rails_root)
       FileUtils.mkdir_p(rails_root)
       system "rails new #{rails_root}"
+    end
 
-      # setup jpmobile
-      plugin_path = File.join(rails_root, 'vendor', 'plugins', 'jpmobile')
+    # setup jpmobile
+    plugin_path = File.join(rails_root, 'vendor', 'plugins', 'jpmobile')
+    FileUtils.mkdir_p(plugin_path)
+    FileList["*"].exclude("test").exclude("spec").each do |file|
+      FileUtils.cp_r(file, plugin_path)
+    end
+
+    # setup jpmobile-ipaddresses
+    begin
+      plugin_path = File.join(rails_root, 'vendor', 'plugins', 'jpmobile-ipaddresses')
       FileUtils.mkdir_p(plugin_path)
-      FileList["*"].exclude("test").exclude("spec").each do |file|
+      FileList["vendor/jpmobile-ipaddresses/*"].exclude("test").each do |file|
         FileUtils.cp_r(file, plugin_path)
       end
+    rescue LoadError
+      puts "IP Address test requires jpmobile-ipaddresses module"
+    end
 
-      # setup jpmobile-ipaddresses
-      begin
-        plugin_path = File.join(rails_root, 'vendor', 'plugins', 'jpmobile-ipaddresses')
-        FileUtils.mkdir_p(plugin_path)
-        FileList["vendor/jpmobile-ipaddresses/*"].exclude("test").each do |file|
-          FileUtils.cp_r(file, plugin_path)
-        end
-      rescue LoadError
-        puts "IP Address test requires jpmobile-ipaddresses module"
+    # setup jpmobile-terminfo
+    begin
+      plugin_path = File.join(rails_root, 'vendor', 'plugins', 'jpmobile-terminfo')
+      FileUtils.mkdir_p(plugin_path)
+      FileList["vendor/jpmobile-terminfo/*"].exclude("test").each do |file|
+        FileUtils.cp_r(file, plugin_path)
       end
+    rescue LoadError
+      puts "Terminal display information test requires jpmobile-terminfo module"
+    end
 
-      # setup jpmobile-terminfo
-      begin
-        plugin_path = File.join(rails_root, 'vendor', 'plugins', 'jpmobile-terminfo')
-        FileUtils.mkdir_p(plugin_path)
-        FileList["vendor/jpmobile-terminfo/*"].exclude("test").each do |file|
-          FileUtils.cp_r(file, plugin_path)
-        end
-      rescue LoadError
-        puts "Terminal display information test requires jpmobile-terminfo module"
-      end
+    # setup tests
+    FileList["test/rails/overrides/*"].each do |file|
+      FileUtils.cp_r(file, rails_root)
+    end
 
-      # setup tests
-      FileList["test/rails/overrides/*"].each do |file|
-        FileUtils.cp_r(file, rails_root)
-      end
-
+    unless skip
       # for cookie_only option
       config_path = File.join(rails_root, 'config', 'initializers', 'session_store.rb')
       File.open(config_path, 'w') do |file|
@@ -92,16 +93,14 @@ Rails.application.config.session_store :active_record_store, :key => '_session_i
 Rails.application.config.session_options = {:cookie_only => false}
 END
       end
-
-      # run tests in rails
-      cd rails_root
-      # ruby "-S bundle install"
-      ruby "-S rake db:migrate test"
-      ruby "-S rake spec"
-      # ruby "-S rspec -b --color spec/requests/filter_spec.rb -e 'jpmobile integration spec HankakuInputFilterController SoftBank 910T からのアクセス it should behave like hankaku_filter :input => true のとき はtextareaの中では半角に変換されないこと'"
-
-      cd relative_root
     end
+
+    # run tests in rails
+    cd rails_root
+    # ruby "-S bundle install"
+    ruby "-S rake db:migrate test" unless skip
+    ruby "-S rake spec"
+    # ruby "-S rspec -b --color spec/requests/filter_spec.rb -e 'jpmobile integration spec HankakuInputFilterController SoftBank 910T からのアクセス it should behave like hankaku_filter :input => true のとき はtextareaの中では半角に変換されないこと'"
   end
   desc "Run sinatra on jpmobile tests"
   Rake::TestTask.new(:sinatra) do |t|

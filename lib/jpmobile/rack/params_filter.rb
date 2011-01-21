@@ -37,7 +37,7 @@ module Jpmobile
           k, v = param_pair.split("=")
           k = to_internal(k) if k
           v = to_internal(v) if v
-          new_array << "#{k}=#{v}" if k and v
+          new_array << "#{k}=#{v}" if k
         end
 
         new_array.join("&")

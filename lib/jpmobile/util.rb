@@ -233,6 +233,7 @@ module Jpmobile
     def set_encoding(str, encoding)
       if encoding and Object.const_defined?(:Encoding)
         encoding = SJIS if encoding =~ /shift_jis/i
+
         str.force_encoding(encoding)
       end
 

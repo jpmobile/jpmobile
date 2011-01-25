@@ -9,7 +9,7 @@ module Jpmobile
     %w( DOCOMO_SJIS_TO_UNICODE DOCOMO_UNICODE_TO_SJIS ).each do |const|
       autoload const, 'jpmobile/emoticon/docomo'
     end
-    %w( AU_SJIS_TO_UNICODE AU_UNICODE_TO_EMAILJIS AU_SJIS_TO_EMAIL_JIS ).each do |const|
+    %w( AU_SJIS_TO_UNICODE AU_UNICODE_TO_EMAILJIS AU_SJIS_TO_EMAIL_JIS AU_EMAILJIS_TO_UNICODE ).each do |const|
       autoload const, 'jpmobile/emoticon/au'
     end
     %w(

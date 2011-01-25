@@ -46,7 +46,7 @@ describe "Jpmobile::Mail#receive" do
     end
   end
 
-  describe "multipart", :broken => true do
+  describe "multipart" do
     describe "PC mail" do
       before(:each) do
         @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "email-fixtures/pc-mail-multi.eml")).read)

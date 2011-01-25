@@ -44,6 +44,6 @@ describe Jpmobile::Util, ".deep_apply" do
 
   it "jis_string_regexpでISO-2022-JPの文字列がマッチすること" do
     jis_string_regexp.match(ascii_8bit(utf8_to_jis("abcしからずんばこじをえずdef"))).should_not be_nil
-    jis("\x1b\x24\x42#{$1}\x1b\x28\x42").encode("UTF-8").should == "しからずんばこじをえず"
+    jis_to_utf8(jis("\x1b\x24\x42#{$1}\x1b\x28\x42")).should == "しからずんばこじをえず"
   end
 end

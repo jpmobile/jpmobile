@@ -51,10 +51,13 @@ module Jpmobile
     # +str+ のなかでau絵文字をUnicode数値文字参照に置換した文字列を返す。(メール専用)
     def self.external_to_unicodecr_au_mail(in_str)
       str = Jpmobile::Util.ascii_8bit(in_str)
-      str.gsub(AU_EMAILJIS_REGEXP) do |match|
-        jis = match.unpack('n').first
-        unicode = AU_EMAILJIS_TO_UNICODE[jis]
-        unicode ? Jpmobile::Util.ascii_8bit("\x1b\x28\x42&#x%04x;\x1b\x24\x42"%unicode) : match
+      str.gsub(Jpmobile::Util.jis_string_regexp) do |jis_string|
+        # jis_string.gsub(AU_EMAILJIS_REGEXP) do |match|
+        jis_string.gsub(/[\x21-\x7e]{2}/) do |match|
+          jis = match.unpack('n').first
+          unicode = AU_EMAILJIS_TO_UNICODE[jis]
+          unicode ? Jpmobile::Util.ascii_8bit("\x1b\x28\x42&#x%04x;\x1b\x24\x42"%unicode) : match
+        end
       end
     end
 

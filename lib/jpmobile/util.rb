@@ -54,29 +54,29 @@ module Jpmobile
       new_obj
     end
 
-    def sjis(ascii_8bit)
-      if ascii_8bit.respond_to?(:force_encoding)
-        ascii_8bit.force_encoding(SJIS)
+    def sjis(str)
+      if str.respond_to?(:force_encoding) and !shift_jis?(str)
+        str.force_encoding(SJIS)
       end
-      ascii_8bit
+      str
     end
 
-    def utf8(ascii_8bit)
-      if ascii_8bit.respond_to?(:force_encoding)
-        ascii_8bit.force_encoding(UTF8)
+    def utf8(str)
+      if str.respond_to?(:force_encoding) and !utf8?(str)
+        str.force_encoding(UTF8)
       end
-      ascii_8bit
+      str
     end
 
-    def jis(ascii_8bit)
-      if ascii_8bit.respond_to?(:force_encoding)
-        ascii_8bit.force_encoding(JIS)
+    def jis(str)
+      if str.respond_to?(:force_encoding) and !jis?(str)
+        str.force_encoding(JIS)
       end
-      ascii_8bit
+      str
     end
 
     def ascii_8bit(str)
-      if str.respond_to?(:force_encoding)
+      if str.respond_to?(:force_encoding) and !ascii_8bit?(str)
         str.force_encoding(BINARY)
       end
       str
@@ -157,10 +157,15 @@ module Jpmobile
       jis_str = jis.kind_of?(Numeric) ? [jis].pack('n') : jis
 
       if Object.const_defined?(:Encoding)
-        Regexp.compile(Regexp.escape(jis_str.force_encoding("stateless-ISO-2022-JP-KDDI"))) # for au only
+        # Regexp.compile(Regexp.escape(jis_str.force_encoding("stateless-ISO-2022-JP-KDDI"))) # for au only
+        Regexp.compile(Regexp.escape(jis_str.force_encoding(BINARY))) # for au only
       else
         Regexp.compile(Regexp.escape(jis_str,"j"),nil,'j')
       end
+    end
+
+    def jis_string_regexp
+      Regexp.compile(Regexp.escape(ascii_8bit("\x1b\x24\x42")) + "(.+)" + Regexp.escape(ascii_8bit("\x1b\x28\x42")))
     end
 
     def encode(str, charset)

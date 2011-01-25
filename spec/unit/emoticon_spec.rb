@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require File.join(File.expand_path(File.dirname(__FILE__)), 'spec_helper')
 
 describe Jpmobile::Emoticon do
@@ -68,6 +69,22 @@ describe Jpmobile::Emoticon do
 
     it "should not convert docomo encoding of koukai-sjis emoticons to unicodecr" do
       Jpmobile::Emoticon::external_to_unicodecr_docomo(sjis("\x8c\xf6\x8a\x4a")).should == sjis("\x8c\xf6\x8a\x4a")
+    end
+  end
+
+  context "for email" do
+    describe "au" do
+      it "should not convert 助助 that does not contain emoticons" do
+        Jpmobile::Emoticon.external_to_unicodecr_au_mail(utf8_to_jis("助助")).should_not match(/e484/i)
+      end
+
+      it "should not convert exterior of 2byte Kanji-code" do
+        Jpmobile::Emoticon.external_to_unicodecr_au_mail(utf8_to_jis("abcd=uしから=uずんば=u")).should_not match(/e484/i)
+      end
+
+      it "should not convert ascii string to unicodecr" do
+        Jpmobile::Emoticon.external_to_unicodecr_au_mail(utf8_to_jis("-------=_NextPart_15793_72254_63179")).should_not match(/e5c2/i)
+      end
     end
   end
 end

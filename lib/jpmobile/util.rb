@@ -170,7 +170,7 @@ module Jpmobile
 
     def encode(str, charset)
       if Object.const_defined?(:Encoding)
-        str.encode(charset)
+        charset.blank? ? str : str.encode(charset)
       else
         case charset
         when /iso-2022-jp/i

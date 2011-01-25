@@ -60,6 +60,10 @@ describe "Jpmobile::Mail#receive" do
         @mail.body.parts.size.should == 2
         @mail.body.parts.first.body.to_s.should == "本文です"
       end
+
+      it "should encode correctly" do
+        ascii_8bit(@mail.to_s).should match(/GyRCJT8lJCVIJWskTkQ5JCQlYSE8JWskTj5s/)
+      end
     end
 
     describe "Docomo" do
@@ -75,6 +79,10 @@ describe "Jpmobile::Mail#receive" do
         @mail.body.parts.size.should == 1
         @mail.body.parts.first.parts.size == 1
         @mail.body.parts.first.parts.first.body.to_s.should == "テストです&#xe72d;"
+      end
+
+      it "should encode correctly" do
+        @mail.to_s.should match(Regexp.escape("g2WDWINn+ZE"))
       end
     end
 
@@ -92,6 +100,10 @@ describe "Jpmobile::Mail#receive" do
         @mail.body.parts.first.parts.size == 1
         @mail.body.parts.first.parts.first.body.to_s.should == "テストです&#xe595;"
       end
+
+      it "should encode correctly" do
+        ascii_8bit(@mail.to_s).should match(Regexp.escape("GyRCJUYlOSVIGyhCGyRCdk8bKEI="))
+      end
     end
 
     describe "Softbank" do
@@ -108,6 +120,10 @@ describe "Jpmobile::Mail#receive" do
           @mail.body.parts.size.should == 2
           @mail.body.parts.first.body.to_s.should == "テストです&#xf018;"
         end
+
+        it "should encode correctly" do
+          @mail.to_s.should match(Regexp.escape("g2WDWINn98H3w/fB"))
+        end
       end
 
       context "UTF-8" do
@@ -122,6 +138,10 @@ describe "Jpmobile::Mail#receive" do
         it "body should be parsed correctly" do
           @mail.body.parts.size.should == 2
           @mail.body.parts.first.body.to_s.should == "テストです&#xf223;"
+        end
+
+        it "should encode correctly to Shift_JIS" do
+          @mail.to_s.should match(Regexp.escape("g2WDWINngsWCt/fB"))
         end
       end
     end

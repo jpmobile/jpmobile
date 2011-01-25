@@ -52,7 +52,6 @@ module Jpmobile
     def self.external_to_unicodecr_au_mail(in_str)
       str = Jpmobile::Util.ascii_8bit(in_str)
       str.gsub(Jpmobile::Util.jis_string_regexp) do |jis_string|
-        # jis_string.gsub(AU_EMAILJIS_REGEXP) do |match|
         jis_string.gsub(/[\x21-\x7e]{2}/) do |match|
           jis = match.unpack('n').first
           unicode = AU_EMAILJIS_TO_UNICODE[jis]

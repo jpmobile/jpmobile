@@ -48,11 +48,6 @@ module Mail
         self.body.mobile = @mobile
         self.header['Content-Transfer-Encoding'] = '8bit'
 
-        # if self.header['Content-Type']
-        #   self.header['Content-Type'].parameters[:charset] = @mobile.mail_charset
-        #   self.body.charset = @mobile.mail_charset
-        # end
-
         buffer = header.encoded
         buffer << "\r\n"
         buffer = @mobile.utf8_to_mail_encode(buffer)
@@ -96,9 +91,6 @@ module Mail
         end
       end
 
-      # # setting jpmobile-mail charset if blank
-      # @charset = @mobile.mail_charset if @mobile and @charset.blank?
-
       if body_part and @mobile
         body_part = Jpmobile::Util.set_encoding(body_part, @charset)
         body_part = @mobile.to_mail_internal(body_part, nil)
@@ -115,31 +107,6 @@ module Mail
       set_envelope_header
       parse_message
       @separate_parts = multipart?
-
-      # mobile_class = nil
-      # content_has_from = false
-      # s.split(/\n|\r/).each do |line|
-      #   if line =~ /^From:/
-      #     content_has_from = true
-      #     break if mobile_class = Jpmobile::Email.detect_from_mail_header(line)
-      #   end
-      # end
-
-      # if content_has_from
-      #   @mobile = (mobile_class || Jpmobile::Mobile::AbstractMobile).new(nil, nil)
-
-
-      #   self.body.mobile = @mobile
-      #   self.body.set_encoding_jpmobile
-      #   if self.body.multipart?
-      #     self.body.parts.each do |part|
-      #       part.body.mobile = @mobile
-      #       part.body.set_encoding_jpmobile
-      #     end
-      #   end
-      # else
-      #   init_with_string_without_jpmobile(s)
-      # end
     end
 
     def process_body_raw_with_jpmobile
@@ -156,17 +123,6 @@ module Mail
       end
     end
 
-    # def charset_with_jpmobile=( val )
-    #   charset_without_jpmobile = val
-
-    #   if self.multipart?
-    #     self.parts.each do |part|
-    #       part.charset      = @charset
-    #       part.body.charset = @charset
-    #     end
-    #   end
-    # end
-
     def body_lazy_with_jpmobile(value, index)
       body_lazy_without_jpmobile(value, index)
     end
@@ -177,14 +133,8 @@ module Mail
     alias_method :parse_message_without_jpmobile, :parse_message
     alias_method :parse_message, :parse_message_with_jpmobile
 
-    # alias_method :init_with_string_without_jpmobile, :init_with_string
-    # alias_method :init_with_string, :init_with_string_with_jpmobile
-
     alias_method :process_body_raw_without_jpmobile, :process_body_raw
     alias_method :process_body_raw, :process_body_raw_with_jpmobile
-
-    # alias_method :charset_without_jpmobile=, :charset=
-    # alias_method :charset=, :charset_with_jpmobile=
 
     alias_method :body_lazy_without_jpmobile, :body_lazy
     alias_method :body_lazy, :body_lazy_with_jpmobile
@@ -246,9 +196,6 @@ module Mail
 
     alias_method :parse_message_without_jpmobile, :parse_message
     alias_method :parse_message, :parse_message_with_jpmobile
-
-    # alias_method :init_with_string_without_jpmobile, :init_with_string
-    # alias_method :init_with_string, :init_with_string_with_jpmobile
   end
 
   class Body
@@ -276,15 +223,8 @@ module Mail
       @charset ||= only_us_ascii? ? 'US-ASCII' : nil
     end
 
-    # set encoding to @raw_source in init
-    def set_encoding_jpmobile
-      @raw_source = Jpmobile::Util.set_encoding(@raw_source, @charset)
-    end
-
     def mobile=(m)
       @mobile = m
-
-      # @raw_source = Jpmobile::Util.force_encode(@raw_source, @charset, Jpmobile::Util::UTF8)
 
       if self.multipart?
         self.parts.each do |part|
@@ -292,19 +232,6 @@ module Mail
           part.body.mobile = @mobile
         end
       end
-    end
-
-    # def only_us_ascii_with_jpmobile?
-    #   if @mobile
-    #     true
-    #   else
-    #     only_us_ascii_without_jpmobile?
-    #   end
-    # end
-
-    def split_with_jpmobile!(boundary)
-      r = split_without_jpmobile!(boundary)
-r
     end
 
     alias_method :encoded_without_jpmobile, :encoded
@@ -315,25 +242,10 @@ r
 
     alias_method :set_charset_without_jpmobile, :set_charset
     alias_method :set_charset, :set_charset_with_jpmobile
-
-    # alias_method :only_us_ascii_without_jpmobile?, :only_us_ascii?
-    # alias_method :only_us_ascii?, :only_us_ascii_with_jpmobile?
-
-    alias_method :split_without_jpmobile!, :split!
-    alias_method :split!, :split_with_jpmobile!
   end
 
   class UnstructuredField
     attr_accessor :mobile
-
-    # def do_decode
-    #   result = value.blank? ? nil : Encodings.decode_encode(value, :decode)
-
-    #   result = @mobile.to_mail_internal(result, value) if @mobile
-
-    #   # result.encode!(value.encoding || "UTF-8") if RUBY_VERSION >= '1.9' && !result.blank?
-    #   result.blank? ? result : Jpmobile::Util.force_encode(result, nil, Jpmobile::Util::UTF8)
-    # end
   end
 
   # for subject
@@ -352,14 +264,7 @@ r
       end
     end
 
-    # def decoded_with_jpmobile
-    #   decoded_without_jpmobile
-    # end
-
     alias_method :encoded_without_jpmobile, :encoded
     alias_method :encoded, :encoded_with_jpmobile
-
-    # alias_method :decoded_without_jpmobile, :decoded
-    # alias_method :decoded, :decoded_with_jpmobile
   end
 end

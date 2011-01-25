@@ -29,12 +29,6 @@ rescue LoadError
 end
 
 namespace :test do
-  desc "run jpmobile legacy tests"
-  Rake::TestTask.new(:legacy) do |t|
-    t.libs << 'lib'
-    t.pattern = 'test/legacy/**/*_test.rb'
-    t.verbose = true
-  end
   desc "Generate rails app and run jpmobile tests in the app"
   task :rails, [:skip] do |t, args|
     rails_root     = "test/rails/rails_root"

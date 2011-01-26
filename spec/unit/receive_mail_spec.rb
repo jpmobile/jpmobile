@@ -268,4 +268,20 @@ describe "Jpmobile::Mail#receive" do
       @mail.body.to_s.should be_blank
     end
   end
+
+  describe "JIS mail" do
+    context "Docomo" do
+      before(:each) do
+        @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "email-fixtures/docomo-jis.eml")).read)
+      end
+
+      it "subject should be parsed correctly" do
+        @mail.subject.should == "テスト"
+      end
+
+      it "body should be parsed correctly" do
+        @mail.body.to_s.should == "テスト本文"
+      end
+    end
+  end
 end

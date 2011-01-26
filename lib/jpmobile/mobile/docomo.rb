@@ -8,6 +8,8 @@ module Jpmobile::Mobile
     USER_AGENT_REGEXP = /^DoCoMo/
     # 対応するメールアドレスの正規表現
     MAIL_ADDRESS_REGEXP = /.+@docomo\.ne\.jp/
+    # メールのデフォルトのcharset
+    MAIL_CHARSET = "Shift_JIS"
 
     # オープンiエリアがあればエリアコードを +String+ で返す。無ければ +nil+ を返す。
     def areacode
@@ -101,9 +103,6 @@ module Jpmobile::Mobile
     end
     def to_mail_body(str)
       to_external(str, nil, nil).first
-    end
-    def mail_charset
-      "Shift_JIS"
     end
     def to_mail_internal(str, val)
       if Jpmobile::Util.shift_jis?(str) or Jpmobile::Util.ascii_8bit?(str)

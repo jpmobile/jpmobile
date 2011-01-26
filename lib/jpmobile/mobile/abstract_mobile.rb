@@ -4,6 +4,9 @@ require 'ipaddr'
 module Jpmobile::Mobile
   # 携帯電話の抽象クラス。
   class AbstractMobile
+    # メールのデフォルトのcharset
+    MAIL_CHARSET = "ISO-2022-JP"
+
     def initialize(env, request)
       @env     = env
       @request = request
@@ -73,8 +76,8 @@ module Jpmobile::Mobile
     def to_mail_body(str)
       to_mail_encoding(str)
     end
-    def mail_charset
-      "ISO-2022-JP"
+    def mail_charset(charset = nil)
+      (charset.nil? or charset == "") ? self.class::MAIL_CHARSET : charset
     end
     def to_mail_encoding(str)
       str = Jpmobile::Emoticon.unicodecr_to_external(str, Jpmobile::Emoticon::CONVERSION_TABLE_TO_PC_EMAIL, false)

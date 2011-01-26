@@ -111,9 +111,6 @@ module Jpmobile::Mobile
     def to_mail_body(str)
       to_mail_encoding(str)
     end
-    def mail_charset
-      "ISO-2022-JP"
-    end
 
     def to_mail_internal(str, val)
       if Jpmobile::Util.jis?(str) or Jpmobile::Util.ascii_8bit?(str)

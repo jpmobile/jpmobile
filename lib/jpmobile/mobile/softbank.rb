@@ -9,6 +9,8 @@ module Jpmobile::Mobile
     USER_AGENT_REGEXP = /^(?:SoftBank|Semulator)/
     # 対応するメールアドレスの正規表現　ディズニーモバイル対応
     MAIL_ADDRESS_REGEXP = /.+@(?:softbank\.ne\.jp|disney\.ne\.jp)/
+    # メールのデフォルトのcharset
+    MAIL_CHARSET = "Shift_JIS"
 
     # 製造番号を返す。無ければ +nil+ を返す。
     def serial_number
@@ -65,9 +67,6 @@ module Jpmobile::Mobile
     end
     def to_mail_body(str)
       to_mail_encoding(str)
-    end
-    def mail_charset
-      "Shift_JIS"
     end
     def to_mail_internal(str, val)
       # 絵文字を数値参照に変換

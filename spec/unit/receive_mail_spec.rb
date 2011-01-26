@@ -99,7 +99,8 @@ describe "Jpmobile::Mail#receive" do
       it "body should be parsed correctly" do
         @mail.body.parts.size.should == 1
         @mail.body.parts.first.parts.size == 1
-        @mail.body.parts.first.parts.first.body.to_s.should == "テストです&#xe595;"
+        @mail.body.parts.first.parts.first.body.to_s.should match("テストです&#xe595;")
+        @mail.body.parts.first.parts.last.body.raw_source.should match("テストです&#xe595;")
       end
 
       it "should encode correctly" do

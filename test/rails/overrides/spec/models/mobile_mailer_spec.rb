@@ -596,7 +596,7 @@ describe MobileMailer, "receiving" do
         email.body.should match(/本文/)
       end
 
-      it "絵文字が数値参照に変わること", :broken => true do
+      it "絵文字が数値参照に変わること" do
         email = MobileMailer.receive(@email)
 
         email.subject.should match(/&#xf03c;/)

@@ -38,6 +38,15 @@ module Mail
   class Message
     attr_accessor :mobile
 
+    def mobile=(m)
+      @mobile  = m
+      @charset = m.mail_charset
+      if @body
+        @body.mobile = m
+        @body.charset = @charset
+      end
+    end
+
     def encoded_with_jpmobile
       if @mobile
         header['subject'].mobile = @mobile if header['subject']
@@ -135,7 +144,7 @@ module Mail
         if @mobile
           v = @mobile.to_mail_internal(
             Encodings.value_decode(self.header['Subject'].value), self.header['Subject'].value)
-          self.header['Subject'].value = Jpmobile::Util.force_encode(v, @mobile.mail_charset, Jpmobile::Util::UTF8)
+          self.header['Subject'].value = Jpmobile::Util.force_encode(v, @mobile.mail_charset(@charset), Jpmobile::Util::UTF8)
         end
       end
 
@@ -187,7 +196,6 @@ module Mail
           @mobile.to_mail_body(Jpmobile::Util.force_encode(@raw_source, @charset, Jpmobile::Util::UTF8))
         end
       else
-        # ([preamble] + encoded_parts).join(crlf_boundary) + end_boundary + epilogue.to_s
         encoded_without_jpmobile(transfer_encoding)
       end
     end

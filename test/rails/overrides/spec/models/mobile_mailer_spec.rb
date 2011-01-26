@@ -270,14 +270,13 @@ describe MobileMailer do
     it_behaves_like "PC宛メール"
   end
 
-  describe "multipart メールを送信するとき", :broken => true do
+  describe "multipart メールを送信するとき" do
     before(:each) do
       ActionMailer::Base.deliveries = []
 
       @subject = "題名"
-      @plain   = "平文本文"
-      @html    = "html本文"
-      @from    = "info@jpmobile-rails.org"
+      @text    = "本文"
+      @html    = "万葉"
     end
 
     describe "PC の場合" do
@@ -286,19 +285,15 @@ describe MobileMailer do
       end
 
       it "漢字コードが変換されること" do
-        ActionMailer::Base.pc_convert = true
-        MobileMailer.deliver_multi_message(@to, @subject, @html, @plain, @from)
+        email = MobileMailer.multi_message(@to, @subject, @text, @html).deliver
 
-        emails = ActionMailer::Base.deliveries
-        emails.size.should == 1
-        email = emails.first
+        ActionMailer::Base.deliveries.size.should == 1
 
         email.parts.size.should == 2
 
-        NKF.nkf("-mQ", email.parts.first.quoted_body).should match(/#{Regexp.escape(NKF.nkf("-jWx", "万葉"))}/)
-
-        email.parts.last.charset.should match(/^iso-2022-jp$/i)
-        email.parts.last.quoted_body.should match(/#{Regexp.escape(NKF.nkf("-jWx", @plain))}/)
+        raw_mail = ascii_8bit(email.to_s)
+        raw_mail.should match(Regexp.escape(ascii_8bit(utf8_to_jis(@text))))
+        raw_mail.should match(Regexp.escape(ascii_8bit(utf8_to_jis(@html))))
       end
     end
 
@@ -308,32 +303,29 @@ describe MobileMailer do
       end
 
       it "漢字コードが変換されること" do
-        MobileMailer.deliver_multi_message(@to, @subject, @html, @plain, @from)
+        email = MobileMailer.multi_message(@to, @subject, @text, @html).deliver
 
-        emails = ActionMailer::Base.deliveries
-        emails.size.should == 1
-        email = emails.first
+        ActionMailer::Base.deliveries.size.should == 1
 
         email.parts.size.should == 2
 
-        email.parts.first.quoted_body.unpack("m").first.should match(Regexp.compile(Regexp.escape(NKF.nkf("-sWx", @html), 's'), nil, 's'))
-
-        email.parts.last.charset.should match(/^shift_jis$/i)
-        email.parts.last.quoted_body.should match(/#{Regexp.escape(NKF.nkf("-sWx", @plain))}/)
+        raw_mail = email.to_s
+        raw_mail.should match(sjis_regexp(utf8_to_sjis(@text)))
+        raw_mail.should match(sjis_regexp(utf8_to_sjis(@html)))
       end
 
       it "絵文字が変換されること" do
-        @html  += "&#xe68b;"
-        @plain += "&#xe676;"
-        MobileMailer.deliver_multi_message(@to, @subject, @html, @plain, @from)
+        @text  += "&#xe68b;"
+        @html  += "&#xe676;"
+        email = MobileMailer.multi_message(@to, @subject, @text, @html).deliver
 
-        emails = ActionMailer::Base.deliveries
-        emails.size.should == 1
-        email = emails.first
+        ActionMailer::Base.deliveries.size.should == 1
 
         email.parts.size.should == 2
-        email.parts.first.quoted_body.unpack("m").first.should match(Regexp.compile(Regexp.escape([0xf8ec].pack('n'), 's'), nil, 's'))
-        email.parts.last.quoted_body.should match(Regexp.compile(Regexp.escape([0xf8d7].pack('n'), 's'), nil, 's'))
+
+        raw_mail = email.to_s
+        raw_mail.should match(sjis_regexp(sjis("\xf8\xec")))
+        raw_mail.should match(sjis_regexp(sjis("\xf8\xd7")))
       end
     end
 
@@ -343,33 +335,29 @@ describe MobileMailer do
       end
 
       it "漢字コードが変換されること" do
-        MobileMailer.deliver_multi_message(@to, @subject, @html, @plain, @from)
+        email = MobileMailer.multi_message(@to, @subject, @text, @html).deliver
 
-        emails = ActionMailer::Base.deliveries
-        emails.size.should == 1
-        email = emails.first
+        ActionMailer::Base.deliveries.size.should == 1
 
         email.parts.size.should == 2
 
-        NKF.nkf("-mQ", email.parts.first.quoted_body).should match(/#{Regexp.escape(NKF.nkf("-jWx", @html))}/)
-
-        email.parts.last.charset.should match(/^iso-2022-jp$/i)
-        email.parts.last.quoted_body.should match(/#{Regexp.escape(NKF.nkf("-jWx", @plain))}/)
+        raw_mail = ascii_8bit(email.to_s)
+        raw_mail.should match(Regexp.escape(ascii_8bit(utf8_to_jis(@text))))
+        raw_mail.should match(Regexp.escape(ascii_8bit(utf8_to_jis(@html))))
       end
 
       it "絵文字が変換されること" do
-        @plain += "&#xe676;"
-        @html  += "&#xe68b;"
-        MobileMailer.deliver_multi_message(@to, @subject, @html, @plain, @from)
+        @text += "&#xe68b;"
+        @html += "&#xe676;"
+        email = MobileMailer.multi_message(@to, @subject, @text, @html).deliver
 
-        emails = ActionMailer::Base.deliveries
-        emails.size.should == 1
-        email = emails.first
+        ActionMailer::Base.deliveries.size.should == 1
 
         email.parts.size.should == 2
 
-        NKF.nkf("-mQ", email.parts.first.quoted_body).should match(/#{Regexp.escape([0x7621].pack('n'))}/)
-        email.parts.last.quoted_body.should match(/#{Regexp.escape([0x765e].pack('n'))}/)
+        raw_mail = ascii_8bit(email.to_s)
+        raw_mail.should match(jis_regexp("\x76\x21"))
+        raw_mail.should match(jis_regexp("\x76\x5e"))
       end
     end
 
@@ -379,32 +367,29 @@ describe MobileMailer do
       end
 
       it "漢字コードが変換されること" do
-        MobileMailer.deliver_multi_message(@to, @subject, @html, @plain, @from)
+        email = MobileMailer.multi_message(@to, @subject, @text, @html).deliver
 
-        emails = ActionMailer::Base.deliveries
-        emails.size.should == 1
-        email = emails.first
+        ActionMailer::Base.deliveries.size.should == 1
 
         email.parts.size.should == 2
 
-        email.parts.first.quoted_body.unpack("m").first.should match(Regexp.compile(Regexp.escape(NKF.nkf("-sWx", @html), 's'), nil, 's'))
-
-        email.parts.last.charset.should match(/^shift_jis$/i)
-        email.parts.last.quoted_body.should match(/#{Regexp.escape(NKF.nkf("-sWx", @plain))}/)
+        raw_mail = email.to_s
+        raw_mail.should match(sjis_regexp(utf8_to_sjis(@text)))
+        raw_mail.should match(sjis_regexp(utf8_to_sjis(@html)))
       end
 
       it "絵文字が変換されること" do
-        @html  += "&#xe68a;"
-        @plain += "&#xe676;"
-        MobileMailer.deliver_multi_message(@to, @subject, @html, @plain, @from)
+        @text  += "&#xe68a;"
+        @html  += "&#xe676;"
+        email = MobileMailer.multi_message(@to, @subject, @text, @html).deliver
 
-        emails = ActionMailer::Base.deliveries
-        emails.size.should == 1
-        email = emails.first
+        ActionMailer::Base.deliveries.size.should == 1
 
         email.parts.size.should == 2
-        email.parts.first.quoted_body.unpack("m").first.should match(Regexp.compile(Regexp.escape([0xf76a].pack('n'), 's'), nil, 's'))
-        email.parts.last.quoted_body.should match(Regexp.compile(Regexp.escape([0xf97c].pack('n'), 's'), nil, 's'))
+
+        raw_mail = email.to_s
+        raw_mail.should match(sjis_regexp(sjis("\xf7\x6a")))
+        raw_mail.should match(sjis_regexp(sjis("\xf9\x7c")))
       end
     end
 
@@ -414,32 +399,29 @@ describe MobileMailer do
       end
 
       it "漢字コードが変換されること" do
-        MobileMailer.deliver_multi_message(@to, @subject, @html, @plain, @from)
+        email = MobileMailer.multi_message(@to, @subject, @text, @html).deliver
 
-        emails = ActionMailer::Base.deliveries
-        emails.size.should == 1
-        email = emails.first
+        ActionMailer::Base.deliveries.size.should == 1
 
         email.parts.size.should == 2
 
-        NKF.nkf("-mQ", email.parts.first.quoted_body).should match(/#{Regexp.escape(NKF.nkf("-jWx", @html))}/)
-
-        email.parts.last.charset.should match(/^iso-2022-jp$/i)
-        email.parts.last.quoted_body.should match(/#{Regexp.escape(NKF.nkf("-jWx", @plain))}/)
+        raw_mail = email.to_s
+        raw_mail.should match(sjis_regexp(utf8_to_sjis(@text)))
+        raw_mail.should match(sjis_regexp(utf8_to_sjis(@html)))
       end
 
       it "絵文字が変換されること" do
-        @html  += "&#xe68a;"
-        @plain += "&#xe676;"
-        MobileMailer.deliver_multi_message(@to, @subject, @html, @plain, @from)
+        @text  += "&#xe68a;"
+        @html  += "&#xe676;"
+        email = MobileMailer.multi_message(@to, @subject, @text, @html).deliver
 
-        emails = ActionMailer::Base.deliveries
-        emails.size.should == 1
-        email = emails.first
+        ActionMailer::Base.deliveries.size.should == 1
 
         email.parts.size.should == 2
-        NKF.nkf("-mQwJ", email.parts.first.quoted_body).should match(/〓/)
-        NKF.nkf("-wJ", email.parts.last.quoted_body).should match(/〓/)
+
+        raw_mail = email.to_s
+        raw_mail.should match(sjis_regexp(sjis("\xf7\x6a")))
+        raw_mail.should match(sjis_regexp(sjis("\xf9\x7c")))
       end
     end
   end

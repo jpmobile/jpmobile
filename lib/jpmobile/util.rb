@@ -170,17 +170,21 @@ module Jpmobile
 
     def encode(str, charset)
       if Object.const_defined?(:Encoding)
-        charset.blank? ? str : str.encode(charset)
+        (charset.nil? or charset == "" or str.nil? or str == "") ? str : str.encode(charset)
       else
-        case charset
-        when /iso-2022-jp/i
-          NKF.nkf("-j", str)
-        when /shift_jis/i
-          NKF.nkf("-s", str)
-        when /utf-8/i
-          NKF.nkf("-w", str)
-        else
+        if str.nil?
           str
+        else
+          case charset
+          when /iso-2022-jp/i
+            NKF.nkf("-j", str)
+          when /shift_jis/i
+            NKF.nkf("-s", str)
+          when /utf-8/i
+            NKF.nkf("-w", str)
+          else
+            str
+          end
         end
       end
     end

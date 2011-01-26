@@ -4,11 +4,16 @@ class MobileMailer < Jpmobile::Mailer::Base
 
   def view_selection(to_mail, subject_text, text)
     @text = text
-    # mail(:from => from_mail, :to => to_mail, :subject => subject_text)
     mail(:to => to_mail, :subject => subject_text)
   end
 
   def receive(email)
     email
+  end
+
+  def multi_message(to_mail, subject_text, text, html)
+    @html = html
+    @text = text
+    mail(:to => to_mail, :subject => subject)
   end
 end

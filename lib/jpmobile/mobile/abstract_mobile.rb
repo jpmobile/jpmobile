@@ -102,6 +102,11 @@ module Jpmobile::Mobile
     def to_mail_body_encoded?(str)
       Jpmobile::Util.jis?(str)
     end
+    def decode_transfer_encoding(body, charset)
+      body = Jpmobile::Util.set_encoding(body, charset)
+      body = to_mail_internal(body, nil)
+      Jpmobile::Util.force_encode(body, charset, Jpmobile::Util::UTF8)
+    end
 
     # リクエストがこのクラスに属するか調べる
     # メソッド名に関して非常に不安

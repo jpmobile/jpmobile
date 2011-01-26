@@ -77,8 +77,9 @@ describe "Jpmobile::Mail#receive" do
 
       it "body should be parsed correctly" do
         @mail.body.parts.size.should == 1
-        @mail.body.parts.first.parts.size == 1
-        @mail.body.parts.first.parts.first.body.to_s.should == "テストです&#xe72d;"
+        @mail.body.parts.first.parts.size == 2
+        @mail.body.parts.first.parts.first.body.should match("テストです&#xe72d;")
+        @mail.body.parts.first.parts.last.body.raw_source.should match("テストです&#xe72d;")
       end
 
       it "should encode correctly" do
@@ -137,7 +138,7 @@ describe "Jpmobile::Mail#receive" do
 
         it "body should be parsed correctly" do
           @mail.body.parts.size.should == 2
-          @mail.body.parts.first.body.to_s.should == "テストです&#xf223;"
+          @mail.body.parts.first.body.raw_source.should == "テストです&#xf223;"
         end
 
         it "should encode correctly to Shift_JIS" do

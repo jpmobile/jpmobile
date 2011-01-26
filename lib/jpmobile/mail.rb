@@ -40,7 +40,8 @@ module Mail
 
     def mobile=(m)
       @mobile  = m
-      @charset = m.mail_charset
+      @charset = m.mail_charset(@charset)
+
       if @body
         @body.mobile = m
         @body.charset = @charset
@@ -50,7 +51,7 @@ module Mail
     def encoded_with_jpmobile
       if @mobile
         header['subject'].mobile = @mobile if header['subject']
-        self.charset             = @mobile.mail_charset
+        self.charset             = @mobile.mail_charset(@charset)
 
         ready_to_send!
 
@@ -93,6 +94,11 @@ module Mail
 
       @body.charset = @charset
       @body.mobile = @mobile
+
+      if has_content_transfer_encoding? and
+          ["base64", "quoted-printable"].include?(content_transfer_encoding)
+        @body.decode_transfer_encoding
+      end
 
       if @body.multipart?
         @body.parts.each do |p|
@@ -149,9 +155,7 @@ module Mail
       end
 
       if @body_part_jpmobile and @mobile
-        @body_part_jpmobile = Jpmobile::Util.set_encoding(@body_part_jpmobile, @charset)
-        @body_part_jpmobile = @mobile.to_mail_internal(@body_part_jpmobile, nil)
-        @body_part_jpmobile = Jpmobile::Util.force_encode(@body_part_jpmobile, @charset, Jpmobile::Util::UTF8)
+        @body_part_jpmobile = @mobile.decode_transfer_encoding(@body_part_jpmobile, @charset)
       end
     end
   end
@@ -220,6 +224,13 @@ module Mail
           part.body.charset = @charset
         end
       end
+    end
+
+    def decode_transfer_encoding
+      _raw_source = Encodings.get_encoding(encoding).decode(@raw_source)
+      _raw_source = Jpmobile::Util.set_encoding(_raw_source, @charset)
+
+      @raw_source = @mobile.decode_transfer_encoding(_raw_source, @charset)
     end
 
     def preamble_with_jpmobile

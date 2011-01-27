@@ -605,9 +605,9 @@ describe MobileMailer, "receiving" do
     end
   end
 
-  describe "multipart メールを受信するとき", :broken => true do
+  describe "multipart メールを受信するとき" do
     describe "docomo の場合" do
-      # NOTE: 要検証
+      # NOTE: キャリアメールサーバで絵文字を変換するため検証は困難
       before(:each) do
         @email = open(Rails.root + "spec/fixtures/mobile_mailer/docomo-gmail-sjis.eml").read
       end
@@ -627,8 +627,8 @@ describe MobileMailer, "receiving" do
         email.parts.first.parts.size == 2
 
         parts = email.parts.first.parts
-        parts.first.body.should match(/テストです&#xe72d;/)
-        parts.last.body.should match(/テストです&#xe72d;/)
+        parts.first.body.should match("テストです&#xe72d;")
+        parts.last.body.raw_source.should  match("テストです&#xe72d;")
       end
     end
 
@@ -653,12 +653,12 @@ describe MobileMailer, "receiving" do
 
         parts = email.parts.first.parts
         parts.first.body.should match(/テストです&#xe595;/)
-        parts.last.body.should match(/テストです&#xe595;/)
+        parts.last.body.raw_source.should match(/テストです&#xe595;/)
       end
     end
 
     describe "softbank(sjis) の場合" do
-      # NOTE: 要検証
+      # NOTE: キャリアメールサーバで絵文字を変換するため検証は困難
       before(:each) do
         @email = open(Rails.root + "spec/fixtures/mobile_mailer/softbank-gmail-sjis.eml").read
       end
@@ -677,12 +677,12 @@ describe MobileMailer, "receiving" do
         email.parts.size.should == 2
 
         email.parts.first.body.should match(/テストです&#xf018;/)
-        email.parts.last.body.should match(/テストです&#xf231;/)
+        email.parts.last.body.raw_source.should match(/テストです&#xf231;/)
       end
     end
 
     describe "softbank(utf8) の場合" do
-      # NOTE: 要検証
+      # NOTE: キャリアメールサーバで絵文字を変換するため検証は困難
       before(:each) do
         @email = open(Rails.root + "spec/fixtures/mobile_mailer/softbank-gmail-utf8.eml").read
       end
@@ -701,7 +701,7 @@ describe MobileMailer, "receiving" do
         email.parts.size.should == 2
 
         email.parts.first.body.should match(/テストです&#xf223;/)
-        email.parts.last.body.should match(/テストです&#xf223;/)
+        email.parts.last.body.raw_source.should match(/テストです&#xf223;/)
       end
     end
 
@@ -728,8 +728,9 @@ describe MobileMailer, "receiving" do
 
         email.has_attachments?.should be_true
         email.attachments.size.should == 1
-        email.attachments.first.content_type.should == "image/jpeg"
-        email.attachments.first.read[6..9].should == "JFIF"
+        email.attachments['20098calendar01.jpg'].content_type.should match("image/jpeg")
+        email.attachments['20098calendar01.jpg'].body.to_s[2..6] == "JFIF"
+        email.attachments['20098calendar01.jpg'].body.to_s.size == 86412
       end
     end
   end

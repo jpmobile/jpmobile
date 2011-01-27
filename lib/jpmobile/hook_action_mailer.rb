@@ -7,13 +7,15 @@ module Jpmobile
       def mail(headers={}, &block)
         m = super(headers, &block)
 
-        if m.to.size == 1
-          # for mobile
-          m.mobile = (Jpmobile::Email.detect(m.to.first) || Jpmobile::Mobile::AbstractMobile).new(nil, nil)
-        else
-          # for multi to addresses
-          m.mobile = Jpmobile::Mobile::AbstractMobile.new(nil, nil)
-        end
+        @mobile = if m.to.size == 1
+                    # for mobile
+                    (Jpmobile::Email.detect(m.to.first) || Jpmobile::Mobile::AbstractMobile).new(nil, nil)
+                  else
+                    # for multi to addresses
+                    Jpmobile::Mobile::AbstractMobile.new(nil, nil)
+                  end
+        m.mobile  = @mobile
+        m.charset = @mobile.mail_charset
 
         m
       end

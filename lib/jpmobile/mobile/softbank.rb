@@ -68,14 +68,14 @@ module Jpmobile::Mobile
     def to_mail_body(str)
       to_mail_encoding(str)
     end
-    def to_mail_internal(str, val)
+    def to_mail_internal(str, charset)
       # 絵文字を数値参照に変換
-      if Jpmobile::Util.shift_jis?(str) or Jpmobile::Util.ascii_8bit?(str)
-        # Shift_JIS
-        str = Jpmobile::Emoticon.external_to_unicodecr_softbank_sjis(Jpmobile::Util.sjis(str))
-      elsif Jpmobile::Util.utf8?(str)
+      if Jpmobile::Util.utf8?(str) or charset == "UTF-8"
         # UTF-8
         str = Jpmobile::Emoticon.external_to_unicodecr_softbank(Jpmobile::Util.utf8(str))
+      elsif Jpmobile::Util.shift_jis?(str) or Jpmobile::Util.ascii_8bit?(str) or charset == mail_charset
+        # Shift_JIS
+        str = Jpmobile::Emoticon.external_to_unicodecr_softbank_sjis(Jpmobile::Util.sjis(str))
       end
 
       str

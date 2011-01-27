@@ -93,7 +93,7 @@ module Jpmobile::Mobile
         str
       end
     end
-    def to_mail_internal(str, val)
+    def to_mail_internal(str, charset)
       str
     end
     def to_mail_subject_encoded?(str)

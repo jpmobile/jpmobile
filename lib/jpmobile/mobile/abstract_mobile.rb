@@ -69,6 +69,29 @@ module Jpmobile::Mobile
       "UTF-8"
     end
 
+    # for view selector
+    def variants
+      return @_variants if @_variants
+
+      @_variants = self.class.ancestors.select {|c| c.to_s =~ /^Jpmobile/}.map do |klass|
+        klass = klass.to_s.
+          gsub(/Jpmobile::/, '').
+          gsub(/AbstractMobile::/, '').
+          gsub(/Mobile::SmartPhone/, 'smart_phone').
+          gsub(/::/, '_').
+          gsub(/([A-Z]+)([A-Z][a-z])/, '\1_\2').
+          gsub(/([a-z\d])([A-Z])/, '\1_\2').
+          downcase
+        klass =~ /abstract/ ? "mobile" : klass
+      end
+
+      if @_variants.include?("smart_phone")
+        @_variants = @_variants.reject{|v| v == "mobile"}.map{|v| v.gsub(/mobile/, "smart_phone")}
+      end
+
+      @_variants
+    end
+
     # メール送信用
     def to_mail_subject(str)
       "=?#{mail_charset}?B?" + [to_mail_encoding(str)].pack('m').strip + "?="

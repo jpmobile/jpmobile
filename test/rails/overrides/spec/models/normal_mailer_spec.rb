@@ -12,7 +12,7 @@ describe NormalMailer do
     @text    = "日本語テキスト"
   end
 
-  context "PC宛メール", :focus => true do
+  context "PC宛メール" do
     it "正常に送信できること" do
       email = NormalMailer.msg(@to, "題名", "本文").deliver
 

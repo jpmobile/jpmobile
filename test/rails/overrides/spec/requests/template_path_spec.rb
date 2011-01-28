@@ -13,7 +13,7 @@ describe TemplatePathController, "DoCoMo SH902i からのアクセス" do
   it 'テンプレートの探索順が正しいこと' do
     get "/template_path/index", {}, { "HTTP_USER_AGENT" => @user_agent}
 
-    controller.view_paths.mobile_template_candidates.should == [ 'mobile_docomo', 'mobile' ]
+    controller.lookup_context.mobile.should == [ 'mobile_docomo', 'mobile' ]
   end
 end
 
@@ -24,7 +24,7 @@ describe TemplatePathController, "au CA32 からのアクセス" do
   it 'テンプレートの探索順が正しいこと' do
     get "/template_path/index", {}, { "HTTP_USER_AGENT" => @user_agent}
 
-    controller.view_paths.mobile_template_candidates.should == [ 'mobile_au', 'mobile' ]
+    controller.lookup_context.mobile.should == [ 'mobile_au', 'mobile' ]
   end
 end
 
@@ -35,7 +35,7 @@ describe TemplatePathController, "Vodafone V903T からのアクセス" do
   it 'テンプレートの探索順が正しいこと' do
     get "/template_path/index", {}, { "HTTP_USER_AGENT" => @user_agent}
 
-    controller.view_paths.mobile_template_candidates.should == [ 'mobile_vodafone', 'mobile_softbank', 'mobile' ]
+    controller.lookup_context.mobile.should == [ 'mobile_vodafone', 'mobile_softbank', 'mobile' ]
   end
 end
 
@@ -46,7 +46,7 @@ describe TemplatePathController, "SoftBank 910T からのアクセス" do
   it 'テンプレートの探索順が正しいこと' do
     get "/template_path/index", {}, { "HTTP_USER_AGENT" => @user_agent}
 
-    controller.view_paths.mobile_template_candidates.should == [ 'mobile_softbank', 'mobile' ]
+    controller.lookup_context.mobile.should == [ 'mobile_softbank', 'mobile' ]
   end
 end
 
@@ -57,7 +57,7 @@ describe TemplatePathController, "iPhone からのアクセス" do
   it 'テンプレートの探索順が正しいこと' do
     get "/template_path/index", {}, { "HTTP_USER_AGENT" => @user_agent}
 
-    controller.view_paths.mobile_template_candidates.should == [ 'smart_phone_iphone', 'smart_phone' ]
+    controller.lookup_context.mobile.should == [ 'smart_phone_iphone', 'smart_phone' ]
   end
 end
 
@@ -68,7 +68,7 @@ describe TemplatePathController, "Android からのアクセス" do
   it 'テンプレートの探索順が正しいこと' do
     get "/template_path/index", {}, { "HTTP_USER_AGENT" => @user_agent}
 
-    controller.view_paths.mobile_template_candidates.should == [ 'smart_phone_android', 'smart_phone' ]
+    controller.lookup_context.mobile.should == [ 'smart_phone_android', 'smart_phone' ]
   end
 end
 
@@ -79,7 +79,7 @@ describe TemplatePathController, "Windows Phone からのアクセス" do
   it 'テンプレートの探索順が正しいこと' do
     get "/template_path/index", {}, { "HTTP_USER_AGENT" => @user_agent}
 
-    controller.view_paths.mobile_template_candidates.should == [ 'smart_phone_windows_phone', 'smart_phone' ]
+    controller.lookup_context.mobile.should == [ 'smart_phone_windows_phone', 'smart_phone' ]
   end
 end
 

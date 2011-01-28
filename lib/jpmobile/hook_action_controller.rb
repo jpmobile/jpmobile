@@ -1,17 +1,4 @@
 # -*- coding: utf-8 -*-
-module AbstractController
-  module ViewPaths
-    def lookup_context_with_jpmobile
-      jpmobile_context = lookup_context_without_jpmobile
-      jpmobile_context.view_paths.controller = self
-
-      jpmobile_context
-    end
-
-    alias_method_chain :lookup_context, :jpmobile
-  end
-end
-
 module ActionController
   class Base
     include Jpmobile::Helpers
@@ -29,3 +16,4 @@ module ActionController
 end
 
 ActionController::Request.send :include, Jpmobile::Encoding
+ActionView::LookupContext.register_detail(:mobile) {nil}

@@ -85,7 +85,7 @@ describe MobileMailer do
 
       raw_mail = email.to_s
       raw_mail.should match(/shift_jis/i)
-      # raw_mail.should match(/For docomo/) # TODO: revise Resolver in view selector
+      # raw_mail.should match(/For docomo/)
       raw_mail.should match(Regexp.escape("k/qWe4zqkeiWvA=="))
       raw_mail.should match(Regexp.compile(utf8_to_sjis(@text)))
     end
@@ -99,7 +99,7 @@ describe MobileMailer do
       ActionMailer::Base.deliveries.size.should == 1
 
       raw_mail = email.to_s
-      # raw_mail.should match(/For docomo/) # TODO: revise Resolver in view selector
+      raw_mail.should match(/For docomo/)
       raw_mail.should match(Regexp.escape("k/qWe4zqkeiWvPjX"))
       raw_mail.should match(regexp_to_sjis("\xf8\xec"))
     end
@@ -113,7 +113,7 @@ describe MobileMailer do
       ActionMailer::Base.deliveries.size.should == 1
 
       raw_mail = email.to_s
-      # raw_mail.should match(/For docomo/) # TODO: revise Resolver in view selector
+      raw_mail.should match(/For docomo/)
       raw_mail.should match(Regexp.escape("k/qWe4zqkeiWvLnesNE="))
       raw_mail.should match(Regexp.compile(Regexp.escape(utf8_to_sjis(half_kana_text))))
     end
@@ -154,7 +154,7 @@ describe MobileMailer do
       ActionMailer::Base.deliveries.size.should == 1
 
       raw_mail = ascii_8bit(email.to_s)
-      # raw_mail.should match(/For au/) # TODO: revise Resolver in view selector
+      raw_mail.should match(/For au/)
       raw_mail.should match(Regexp.escape("GyRCRnxLXDhsQmpMPhsoQhskQnZeGyhC"))
       raw_mail.should match(Regexp.compile(ascii_8bit("\x76\x21")))
     end
@@ -182,7 +182,7 @@ describe MobileMailer do
 
       raw_mail = email.to_s
       raw_mail.should match(/shift_jis/i)
-      # raw_mail.should match(/For softbank/) # TODO: revise Resolver in view selector
+      raw_mail.should match(/For softbank/)
       raw_mail.should match(Regexp.escape("k/qWe4zqkeiWvA=="))
       raw_mail.should match(Regexp.compile(utf8_to_sjis(@text)))
     end
@@ -196,7 +196,7 @@ describe MobileMailer do
       ActionMailer::Base.deliveries.size.should == 1
 
       raw_mail = email.to_s
-      # raw_mail.should match(/For softbank/) # TODO: revise Resolver in view selector
+      raw_mail.should match(/For softbank/)
       raw_mail.should match(Regexp.escape("k/qWe4zqkeiWvPl8"))
       raw_mail.should match(regexp_to_sjis("\xf7\x6a"))
     end
@@ -224,7 +224,7 @@ describe MobileMailer do
 
       raw_mail = email.to_s
       raw_mail.should match(/shift_jis/i)
-      # raw_mail.should match(/For softbank/) # TODO: revise Resolver in view selector
+      raw_mail.should match(/For vodafone/)
       raw_mail.should match(Regexp.escape("k/qWe4zqkeiWvA=="))
       raw_mail.should match(Regexp.compile(utf8_to_sjis(@text)))
     end
@@ -238,7 +238,7 @@ describe MobileMailer do
       ActionMailer::Base.deliveries.size.should == 1
 
       raw_mail = email.to_s
-      # raw_mail.should match(/For softbank/) # TODO: revise Resolver in view selector
+      raw_mail.should match(/For vodafone/)
       raw_mail.should match(Regexp.escape("k/qWe4zqkeiWvPl8"))
       raw_mail.should match(regexp_to_sjis("\xf7\x6a"))
     end

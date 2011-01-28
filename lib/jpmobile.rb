@@ -50,7 +50,8 @@ module Jpmobile
   end
   autoload :Configuration, 'jpmobile/rack'
 
-  autoload :Mailer, 'jpmobile/hook_action_mailer'
+  autoload :Mailer,   'jpmobile/mailer'
+  autoload :Resolver, 'jpmobile/resolver'
 end
 
 if defined?(Rails)

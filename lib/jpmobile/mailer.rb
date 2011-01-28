@@ -4,16 +4,23 @@ require 'jpmobile/mail'
 module Jpmobile
   module Mailer
     class Base < ActionMailer::Base
-      def mail(headers={}, &block)
-        m = super(headers, &block)
+      self._view_paths = self._view_paths.dup
+      self.view_paths.unshift(Jpmobile::Resolver.new(File.join(Rails.root, "app/views")))
 
-        @mobile = if m.to.size == 1
+      def mail(headers={}, &block)
+        tos = headers[:to].split(/,/)
+
+        @mobile = if tos.size == 1
                     # for mobile
-                    (Jpmobile::Email.detect(m.to.first) || Jpmobile::Mobile::AbstractMobile).new(nil, nil)
+                    (Jpmobile::Email.detect(tos.first) || Jpmobile::Mobile::AbstractMobile).new(nil, nil)
                   else
                     # for multi to addresses
                     Jpmobile::Mobile::AbstractMobile.new(nil, nil)
                   end
+        self.lookup_context.mobile = @mobile.variants
+
+        m = super(headers, &block)
+
         m.mobile  = @mobile
         m.charset = @mobile.mail_charset
 

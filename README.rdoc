@@ -214,7 +214,11 @@ Auの場合は、index_mobile_au.html.erb、Softbankの場合はindex_mobile_sof
 の順でテンプレートを検索する。
 Androidの場合はindex_smart_phone_android.html.erb、Windows Phoneの場合はindex_smart_phone_windows_phone.html.erbが最初に検索される。
 
-携帯専用サイトであれば、index.html.erbがなくとも問題ない。
+自動振り分けを無効化するには、アクションにおいて以下のように設定する
+
+  def index
+    self.lookup_context.mobile = nil
+  end
 
 === 位置情報の取得用リンクの生成
 

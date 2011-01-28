@@ -111,6 +111,12 @@ describe TemplatePathController, "integrated_views" do
 
         response.should have_tag("h1", :content => "show_mobile_docomo.html.erb")
       end
+
+      it 'disable_mobile_view! のときには index.html.erb が使用されること' do
+        get "/template_path/index", {:pc => true}, { "HTTP_USER_AGENT" => @user_agent}
+
+        response.should have_tag("h1", :content => "index.html.erb")
+      end
     end
 
     context "SoftBankからのアクセスの場合" do

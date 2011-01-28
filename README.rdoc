@@ -13,6 +13,10 @@
 * ディスプレイ情報(画面サイズ、ブラウザ画面サイズ、カラー・白黒、色数)の取得
   * ディスプレイ情報の取得には {jpmobile-terminfo}[http://github.com/jpmobile/jpmobile-terminfo] が必要です。
 * 文字コード変換機能／絵文字のキャリア間相互変換
+* メールの送信
+  * 絵文字と漢字コードの変換
+* メールの受信(experimental)
+  * 絵文字と漢字コードの変換
 
 また Rails 3.0 に以下の機能を追加する
 * ビューへの自動振分け
@@ -189,7 +193,13 @@ Jpmobile内では、各キャリアの絵文字はUnicode私的領域上にマ�
 * 絵文字はキャリアにあわせて変換されて送出される。
 * 携帯電話からの絵文字はUnicode私的領域にマップされ、UTF-8でparamsに格納される。
 
-=== ビューの自動振分け
+=== ビューの自動振り分け
+ビューの自動振り分けを行うには、以下の設定が必要です。
+
+  class ApplicationController < ActionController::Base
+    include Jpmobile::ViewSelector
+  end
+
 DoCoMo携帯電話からアクセスすると、
 * index_mobile_docomo.html.erb
 * index_mobile.html.erb
@@ -236,6 +246,28 @@ trans_sid を使用する際には、例えば config/initializers/session_store
 のようにリンク先を直接指定するとセッションIDは付加されません。
   link_to "hoge", :controller => "controller", :action => "action", :id => "id"
 のように指定する必要があります。
+
+=== メールの送受信
+メールにて絵文字や漢字コードの変換、ビューの自動振り分けを行なうには Jpmobile::Mailer::Base を使う。
+
+  class MobileMailer < Jpmobile::Mailer::Base
+    default :from => "info@jpmobile-rails.org"
+
+    def registration(to)
+      mail(:to => to)
+    end
+
+    def receive(email)
+      email
+    end
+  end
+
+* デフォルトで ISO-2022-JP エンコードで送信
+* docomo/SoftBank には Shift_JIS で送信
+* au は ISO-2022-JP エンコードで送信
+* ビューやレイアウトの自動振り分け
+  * docomo であれば app/views/mobile_mailer/registration_mobile_docomo.html.erb など
+* 受信に関しては、docomo/SoftBank でテストできないため、実験版とします。
 
 == テストに必要なgemパッケージ
 テストを実行するためには以下のgemパッケージが必要です。

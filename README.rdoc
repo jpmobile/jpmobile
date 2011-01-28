@@ -217,7 +217,7 @@ Androidの場合はindex_smart_phone_android.html.erb、Windows Phoneの場合�
 自動振り分けを無効化するには、アクションにおいて以下のように設定する
 
   def index
-    self.lookup_context.mobile = nil
+    disable_mobile_view!
   end
 
 === 位置情報の取得用リンクの生成

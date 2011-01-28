@@ -5,20 +5,22 @@
 
 Gem::Specification.new do |s|
   s.name = %q{jpmobile}
-  s.version = "0.1.3"
+  s.version = "1.0.0.pre"
 
-  s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
+  s.required_rubygems_version = Gem::Requirement.new("> 1.3.1") if s.respond_to? :required_rubygems_version=
   s.authors = ["Yoji Shidara", "Shin-ichiro OGAWA"]
-  s.date = %q{2010-12-17}
+  s.date = %q{2011-01-28}
   s.description = %q{A Rails plugin for Japanese mobile-phones}
   s.email = %q{dara@shidara.net}
   s.extra_rdoc_files = [
+    "README",
     "README.rdoc"
   ]
   s.files = [
     "CHANGELOG",
     "Gemfile",
     "MIT-LICENSE",
+    "README",
     "README.rdoc",
     "Rakefile",
     "VERSION.yml",
@@ -39,6 +41,8 @@ Gem::Specification.new do |s|
     "lib/jpmobile/helpers.rb",
     "lib/jpmobile/hook_action_controller.rb",
     "lib/jpmobile/hook_action_view.rb",
+    "lib/jpmobile/mail.rb",
+    "lib/jpmobile/mailer.rb",
     "lib/jpmobile/mobile/abstract_mobile.rb",
     "lib/jpmobile/mobile/android.rb",
     "lib/jpmobile/mobile/au.rb",
@@ -51,6 +55,7 @@ Gem::Specification.new do |s|
     "lib/jpmobile/mobile/vodafone.rb",
     "lib/jpmobile/mobile/willcom.rb",
     "lib/jpmobile/mobile/windows_phone.rb",
+    "lib/jpmobile/path_set.rb",
     "lib/jpmobile/position.rb",
     "lib/jpmobile/rack.rb",
     "lib/jpmobile/rack/filter.rb",
@@ -58,6 +63,7 @@ Gem::Specification.new do |s|
     "lib/jpmobile/rack/params_filter.rb",
     "lib/jpmobile/rails.rb",
     "lib/jpmobile/request_with_mobile.rb",
+    "lib/jpmobile/resolver.rb",
     "lib/jpmobile/trans_sid.rb",
     "lib/jpmobile/util.rb",
     "lib/tasks/jpmobile_tasks.rake",
@@ -87,12 +93,14 @@ Gem::Specification.new do |s|
     "spec/rack_helper.rb",
     "spec/spec_helper.rb",
     "spec/unit/detect_by_email_spec.rb",
+    "spec/unit/emoticon_spec.rb",
+    "spec/unit/encoding_spec.rb",
     "spec/unit/is_carrier_spec.rb",
+    "spec/unit/mail_spec.rb",
+    "spec/unit/receive_mail_spec.rb",
     "spec/unit/spec_helper.rb",
     "spec/unit/util_spec.rb",
     "spec/unit/valid_ip_spec.rb",
-    "test/legacy/emoticon_test.rb",
-    "test/legacy/helper.rb",
     "test/rails/overrides/app/controllers/application_controller.rb",
     "test/rails/overrides/app/controllers/docomo_guid_always_controller.rb",
     "test/rails/overrides/app/controllers/docomo_guid_base_controller.rb",
@@ -110,6 +118,8 @@ Gem::Specification.new do |s|
     "test/rails/overrides/app/controllers/trans_sid_metal_controller.rb",
     "test/rails/overrides/app/controllers/trans_sid_mobile_controller.rb",
     "test/rails/overrides/app/controllers/trans_sid_none_controller.rb",
+    "test/rails/overrides/app/models/mobile_mailer.rb",
+    "test/rails/overrides/app/models/normal_mailer.rb",
     "test/rails/overrides/app/models/user.rb",
     "test/rails/overrides/autotest/discover.rb",
     "test/rails/overrides/config/initializers/jpmobile_generator.rb",
@@ -117,6 +127,8 @@ Gem::Specification.new do |s|
     "test/rails/overrides/db/migrate/001_add_sessions_table.rb",
     "test/rails/overrides/db/migrate/20100824062306_create_users.rb",
     "test/rails/overrides/spec/helpers/helpers_spec.rb",
+    "test/rails/overrides/spec/models/mobile_mailer_spec.rb",
+    "test/rails/overrides/spec/models/normal_mailer_spec.rb",
     "test/rails/overrides/spec/requests/docomo_guid_spec.rb",
     "test/rails/overrides/spec/requests/docomo_spec.rb",
     "test/rails/overrides/spec/requests/emobile_spec.rb",
@@ -145,6 +157,8 @@ Gem::Specification.new do |s|
     "test/rails/rails_root/app/controllers/trans_sid_mobile_controller.rb",
     "test/rails/rails_root/app/controllers/trans_sid_none_controller.rb",
     "test/rails/rails_root/app/helpers/application_helper.rb",
+    "test/rails/rails_root/app/models/mobile_mailer.rb",
+    "test/rails/rails_root/app/models/normal_mailer.rb",
     "test/rails/rails_root/app/models/user.rb",
     "test/rails/rails_root/autotest/discover.rb",
     "test/rails/rails_root/config/application.rb",
@@ -165,6 +179,8 @@ Gem::Specification.new do |s|
     "test/rails/rails_root/db/schema.rb",
     "test/rails/rails_root/db/seeds.rb",
     "test/rails/rails_root/spec/helpers/helpers_spec.rb",
+    "test/rails/rails_root/spec/models/mobile_mailer_spec.rb",
+    "test/rails/rails_root/spec/models/normal_mailer_spec.rb",
     "test/rails/rails_root/spec/requests/docomo_guid_spec.rb",
     "test/rails/rails_root/spec/requests/docomo_spec.rb",
     "test/rails/rails_root/spec/requests/emobile_spec.rb",
@@ -206,6 +222,8 @@ Gem::Specification.new do |s|
     "test/rails/rails_root/vendor/plugins/jpmobile/lib/jpmobile/helpers.rb",
     "test/rails/rails_root/vendor/plugins/jpmobile/lib/jpmobile/hook_action_controller.rb",
     "test/rails/rails_root/vendor/plugins/jpmobile/lib/jpmobile/hook_action_view.rb",
+    "test/rails/rails_root/vendor/plugins/jpmobile/lib/jpmobile/mail.rb",
+    "test/rails/rails_root/vendor/plugins/jpmobile/lib/jpmobile/mailer.rb",
     "test/rails/rails_root/vendor/plugins/jpmobile/lib/jpmobile/mobile/abstract_mobile.rb",
     "test/rails/rails_root/vendor/plugins/jpmobile/lib/jpmobile/mobile/android.rb",
     "test/rails/rails_root/vendor/plugins/jpmobile/lib/jpmobile/mobile/au.rb",
@@ -218,6 +236,7 @@ Gem::Specification.new do |s|
     "test/rails/rails_root/vendor/plugins/jpmobile/lib/jpmobile/mobile/vodafone.rb",
     "test/rails/rails_root/vendor/plugins/jpmobile/lib/jpmobile/mobile/willcom.rb",
     "test/rails/rails_root/vendor/plugins/jpmobile/lib/jpmobile/mobile/windows_phone.rb",
+    "test/rails/rails_root/vendor/plugins/jpmobile/lib/jpmobile/path_set.rb",
     "test/rails/rails_root/vendor/plugins/jpmobile/lib/jpmobile/position.rb",
     "test/rails/rails_root/vendor/plugins/jpmobile/lib/jpmobile/rack.rb",
     "test/rails/rails_root/vendor/plugins/jpmobile/lib/jpmobile/rack/filter.rb",
@@ -225,6 +244,7 @@ Gem::Specification.new do |s|
     "test/rails/rails_root/vendor/plugins/jpmobile/lib/jpmobile/rack/params_filter.rb",
     "test/rails/rails_root/vendor/plugins/jpmobile/lib/jpmobile/rails.rb",
     "test/rails/rails_root/vendor/plugins/jpmobile/lib/jpmobile/request_with_mobile.rb",
+    "test/rails/rails_root/vendor/plugins/jpmobile/lib/jpmobile/resolver.rb",
     "test/rails/rails_root/vendor/plugins/jpmobile/lib/jpmobile/trans_sid.rb",
     "test/rails/rails_root/vendor/plugins/jpmobile/lib/jpmobile/util.rb",
     "test/rails/rails_root/vendor/plugins/jpmobile/tmp/conversion-table.rb",

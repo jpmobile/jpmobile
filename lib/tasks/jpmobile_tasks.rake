@@ -41,7 +41,7 @@ namespace :test do
       # generate rails app
       FileUtils.rm_rf(rails_root)
       FileUtils.mkdir_p(rails_root)
-      system "rails new #{rails_root}"
+      `rails new #{rails_root}`
     end
 
     # setup jpmobile

@@ -21,3 +21,23 @@ ActiveSupport.on_load(:before_configuration) do
     end
   end
 end
+
+module Jpmobile
+  module ViewSelector
+    def self.included(base)
+      base.class_eval do
+        before_filter :register_mobile
+
+        self._view_paths = self._view_paths.dup
+        self.view_paths.unshift(Jpmobile::Resolver.new(File.join(Rails.root, "app/views")))
+      end
+    end
+
+    def register_mobile
+      if request.mobile
+        # register mobile
+        self.lookup_context.mobile = request.mobile.variants
+      end
+    end
+  end
+end

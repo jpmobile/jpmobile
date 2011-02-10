@@ -10,11 +10,11 @@ describe Jpmobile::Rack::ParamsFilter do
     before(:each) do
       @query_params = {
         "hoge"       => "ほげ",
-        "パラメータ" => "テストです〜■",
+        "パラメータ" => "(‾_‾)y-~~~ テストです〜■",
       }
       @form_params = {
         "bar"        => "万葉集",
-        "アジャイル" => "僕の〜♪",
+        "アジャイル" => "(‾_‾)y-~~~ 僕の〜♪",
       }
     end
 

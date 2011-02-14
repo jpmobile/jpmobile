@@ -11,6 +11,9 @@ module Jpmobile
     WAVE_DASH = [0x301c].pack("U")
     FULLWIDTH_TILDE = [0xff5e].pack("U")
 
+    OVERLINE = [0x203e].pack("U")
+    FULLWIDTH_MACRON = [0xffe3].pack("U")
+
     module_function
     def deep_apply(obj, &proc)
       case obj
@@ -85,6 +88,8 @@ module Jpmobile
     def utf8_to_sjis(utf8_str)
       # 波ダッシュ対策
       utf8_str = wavedash_to_fullwidth_tilde(utf8_str)
+      # オーバーライン対策(不可逆的)
+      utf8_str = overline_to_fullwidth_macron(utf8_str)
 
       if utf8_str.respond_to?(:encode)
         utf8_str.encode(SJIS, :crlf_newline => true)
@@ -195,6 +200,14 @@ module Jpmobile
 
     def fullwidth_tilde_to_wavedash(utf8_str)
       utf8_str.gsub(FULLWIDTH_TILDE, WAVE_DASH)
+    end
+
+    def overline_to_fullwidth_macron(utf8_str)
+      utf8_str.gsub(OVERLINE, FULLWIDTH_MACRON)
+    end
+
+    def fullwidth_macron_to_overline(utf8_str)
+      utf8_str.gsub(FULLWIDTH_MACRON, OVERLINE)
     end
 
     def force_encode(str, from, to)

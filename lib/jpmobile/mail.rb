@@ -316,8 +316,13 @@ module Mail
 
   class Sendmail
     def Sendmail.call(path, arguments, destinations, mail)
+      encoded_mail = mail.encoded
+      if Jpmobile::Util.jis?(encoded_mail)
+        encoded_mail = Jpmobile::Util.ascii_8bit(encoded_mail)
+      end
+
       IO.popen("#{path} #{arguments} #{destinations}", "w+") do |io|
-        io.puts Jpmobile::Util.ascii_8bit(mail.encoded).gsub(/\r\n/, "\n")
+        io.puts encoded_mail.gsub(/\r\r\n/, "\n").to_lf
         io.flush
       end
     end

@@ -33,7 +33,7 @@ module Jpmobile
         def set_payload_for_mail(payload, mail) #:nodoc:
           super
 
-          payload[:mail] = Jpmobile::Util.ascii_8bit(mail.encoded)
+          payload[:mail] = Jpmobile::Util.ascii_8bit(mail.encoded).gsub(/\r\n/, "\n")
         end
       end
     end

@@ -313,4 +313,13 @@ module Mail
     alias_method :encoded_without_jpmobile, :encoded
     alias_method :encoded, :encoded_with_jpmobile
   end
+
+  class Sendmail
+    def Sendmail.call(path, arguments, destinations, mail)
+      IO.popen("#{path} #{arguments} #{destinations}", "w+") do |io|
+        io.puts Jpmobile::Util.ascii_8bit(mail.encoded).gsub(/\r\n/, "\n")
+        io.flush
+      end
+    end
+  end
 end

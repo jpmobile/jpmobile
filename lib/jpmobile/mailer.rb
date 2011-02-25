@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 require 'jpmobile/mail'
+require 'jpmobile/lookup_context'
 
 module Jpmobile
   module Mailer
@@ -25,6 +26,15 @@ module Jpmobile
         m.charset = @mobile.mail_charset
 
         m
+      end
+
+      class << self
+        protected
+        def set_payload_for_mail(payload, mail) #:nodoc:
+          super
+
+          payload[:mail] = Jpmobile::Util.ascii_8bit(mail.encoded)
+        end
       end
     end
   end

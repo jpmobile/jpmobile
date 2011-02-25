@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+require 'jpmobile/lookup_context'
+
 module ActionController
   class Base
     include Jpmobile::Helpers
@@ -16,4 +18,3 @@ module ActionController
 end
 
 ActionController::Request.send :include, Jpmobile::Encoding
-ActionView::LookupContext.register_detail(:mobile) {nil}

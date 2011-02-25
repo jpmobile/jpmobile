@@ -103,6 +103,7 @@ module Jpmobile::Mobile
       (charset.nil? or charset == "") ? self.class::MAIL_CHARSET : charset
     end
     def to_mail_encoding(str)
+      str = Jpmobile::Emoticon.utf8_to_unicodecr(str)
       str = Jpmobile::Emoticon.unicodecr_to_external(str, Jpmobile::Emoticon::CONVERSION_TABLE_TO_PC_EMAIL, false)
       Jpmobile::Util.encode(str, mail_charset)
     end

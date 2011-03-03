@@ -46,6 +46,10 @@ describe Jpmobile::Util, ".deep_apply" do
     utf8_to_sjis([0x203e].pack("U")).should == sjis("\x81\x50")
   end
 
+  it "U+2014が0x815Cに変換されること" do
+    utf8_to_sjis([0x2014].pack("U")).should == sjis("\x81\x5C")
+  end
+
   it "jis_string_regexpでISO-2022-JPの文字列がマッチすること" do
     jis_string_regexp.match(ascii_8bit(utf8_to_jis("abcしからずんばこじをえずdef"))).should_not be_nil
     jis_to_utf8(jis("\x1b\x24\x42#{$1}\x1b\x28\x42")).should == "しからずんばこじをえず"

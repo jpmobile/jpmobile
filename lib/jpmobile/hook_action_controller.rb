@@ -16,5 +16,3 @@ module ActionController
     end
   end
 end
-
-ActionController::Request.send :include, Jpmobile::Encoding

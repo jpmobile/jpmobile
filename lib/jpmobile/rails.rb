@@ -7,6 +7,9 @@ ActiveSupport.on_load(:action_controller) do
   require 'jpmobile/hook_action_view'
   require 'jpmobile/trans_sid'
 end
+ActiveSupport.on_load(:action_dispatch) do
+  require 'jpmobile/hook_action_dispatch'
+end
 
 ActiveSupport.on_load(:before_configuration) do
   # MobileCarrierのみデフォルトで有効

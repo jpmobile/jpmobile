@@ -99,7 +99,7 @@ module Jpmobile
       # ダッシュ対策（不可逆的）
       utf8_str = emdash_to_horizontal_bar(utf8_str)
       # マイナス対策（不可逆的）
-      utf8_str = minus_sign_to_fullwidth_pyphen_minus(utf8_str)
+      utf8_str = minus_sign_to_fullwidth_hyphen_minus(utf8_str)
 
       if utf8_str.respond_to?(:encode)
         utf8_str.encode(SJIS, :crlf_newline => true)
@@ -224,11 +224,11 @@ module Jpmobile
       utf8_str.gsub(EM_DASH, HORIZONTAL_BAR)
     end
 
-    def minus_sign_to_fullwidth_pyphen_minus(utf8_str)
+    def minus_sign_to_fullwidth_hyphen_minus(utf8_str)
       utf8_str.gsub(MINUS_SIGN, FULLWIDTH_HYPHEN_MINUS)
     end
 
-    def fullwidth_pyphen_minus_to_minus_sign(utf8_str)
+    def fullwidth_hyphen_minus_to_minus_sign(utf8_str)
       utf8_str.gsub(FULLWIDTH_HYPHEN_MINUS, MINUS_SIGN)
     end
 

@@ -339,5 +339,32 @@ module Jpmobile
     def jis?(str)
       detect_encoding(str) == JIS
     end
+
+    def fold_text(str, size = 15)
+      folded_texts = []
+
+      while texts = split_text(str, size) and texts.first.size != 0
+        folded_texts << texts.first
+        str = texts.last
+      end
+
+      folded_texts
+    end
+
+    def split_text(str, size = 15)
+      return nil if str.nil? or str == ''
+
+      if Object.const_defined?(:Encoding)
+        [str[0..(size-1)], str[size..-1]]
+      else
+        str    = str.split(//u)
+        text   = str[0..(size-1)]
+        text   = text.join if text
+        remain = str[size..-1]
+        remain = remain.join if remain
+        [text, remain]
+      end
+
+    end
   end
 end

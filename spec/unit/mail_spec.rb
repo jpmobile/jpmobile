@@ -131,10 +131,12 @@ describe "Jpmobile::Mail" do
       end
 
       it "should contain encoded subject" do
-        @mail.to_s.should match(sjis_regexp("=?Shift_JIS?B?lb6O0I3Ml3CJnpXlgtaCzIKokFyNnoLdkL2CyYKgguiCqoLGgqSCsoK0gqKC?="))
-        @mail.to_s.should match(sjis_regexp("=?Shift_JIS?B?3IK3gsaMvoKigr2CooLGgrGC64K+gqqCu4Kkgs2KyJJQgsmCzZWojpaCzYle?="))
-        @mail.to_s.should match(sjis_regexp("=?Shift_JIS?B?gs6CyIKigrGCxoLwkFOCtYLEgqiCooLEguCC54Kigr2CooLGi+qMvoLwkuaC?="))
-        @mail.to_s.should match(sjis_regexp("=?Shift_JIS?B?t4LpjMyCyZW+jtCCzYjbjp2CtYLEgqKC6YLMgsWCtw==?="))
+        @mail.to_s.should match(sjis_regexp("=?Shift_JIS?B?lb6O0I3Ml3CJnpXlgtaCzIKokFyNnoLdkL2CyYKg?="))
+        @mail.to_s.should match(sjis_regexp("=?Shift_JIS?B?guiCqoLGgqSCsoK0gqKC3IK3gsaMvoKigr2CooLG?="))
+        @mail.to_s.should match(sjis_regexp("=?Shift_JIS?B?grGC64K+gqqCu4Kkgs2KyJJQgsmCzZWojpaCzYle?="))
+        @mail.to_s.should match(sjis_regexp("=?Shift_JIS?B?gs6CyIKigrGCxoLwkFOCtYLEgqiCooLEguCC54Ki?="))
+        @mail.to_s.should match(sjis_regexp("=?Shift_JIS?B?gr2CooLGi+qMvoLwkuaCt4LpjMyCyZW+jtCCzYjb?="))
+        @mail.to_s.should match(sjis_regexp("=?Shift_JIS?B?jp2CtYLEgqKC6YLMgsWCtw==?="))
       end
     end
 
@@ -146,10 +148,12 @@ describe "Jpmobile::Mail" do
       end
 
       it "should contain encoded subject" do
-        ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape("=?ISO-2022-JP?B?GyRCSkA8UjpOTVExfkpnJFgkTiQqPz05fiRfQD8kSyQiJGokLCRIJCYkNCQ2?=")))
-        ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape("=?ISO-2022-JP?B?JCQkXiQ5JEg4QCQkJD8kJCRIJDMkbSRAJCwkPSQmJE80SkMxJEskT0oqO3Yk?=")))
-        ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape("=?ISO-2022-JP?B?TzE/JFAkSiQkJDMkSCRyPzQkNyRGJCokJCRGJGIkaSQkJD8kJCRINmw4QCRy?=")))
-        ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape("=?ISO-2022-JP?B?RGgkOSRrOE4kS0pAPFIkTzBdO30kNyRGJCQkayROJEckORsoQg==?=")))
+        ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape("=?ISO-2022-JP?B?GyRCSkA8UjpOTVExfkpnJFgkTiQqPz05fiRfQD8kSyQiGyhC?=")))
+        ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape("=?ISO-2022-JP?B?GyRCJGokLCRIJCYkNCQ2JCQkXiQ5JEg4QCQkJD8kJCRIGyhC?=")))
+        ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape("=?ISO-2022-JP?B?GyRCJDMkbSRAJCwkPSQmJE80SkMxJEskT0oqO3YkTzE/GyhC?=")))
+        ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape("=?ISO-2022-JP?B?GyRCJFAkSiQkJDMkSCRyPzQkNyRGJCokJCRGJGIkaSQkGyhC?=")))
+        ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape("=?ISO-2022-JP?B?GyRCJD8kJCRINmw4QCRyRGgkOSRrOE4kS0pAPFIkTzBdGyhC?=")))
+        ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape("=?ISO-2022-JP?B?GyRCO30kNyRGJCQkayROJEckORsoQg==?=")))
       end
     end
 
@@ -161,10 +165,12 @@ describe "Jpmobile::Mail" do
       end
 
       it "should contain encoded subject" do
-        @mail.to_s.should match(sjis_regexp("=?Shift_JIS?B?lb6O0I3Ml3CJnpXlgtaCzIKokFyNnoLdkL2CyYKgguiCqoLGgqSCsoK0gqKC?="))
-        @mail.to_s.should match(sjis_regexp("=?Shift_JIS?B?3IK3gsaMvoKigr2CooLGgrGC64K+gqqCu4Kkgs2KyJJQgsmCzZWojpaCzYle?="))
-        @mail.to_s.should match(sjis_regexp("=?Shift_JIS?B?gs6CyIKigrGCxoLwkFOCtYLEgqiCooLEguCC54Kigr2CooLGi+qMvoLwkuaC?="))
-        @mail.to_s.should match(sjis_regexp("=?Shift_JIS?B?t4LpjMyCyZW+jtCCzYjbjp2CtYLEgqKC6YLMgsWCtw==?="))
+        @mail.to_s.should match(sjis_regexp("=?Shift_JIS?B?lb6O0I3Ml3CJnpXlgtaCzIKokFyNnoLdkL2CyYKg?="))
+        @mail.to_s.should match(sjis_regexp("=?Shift_JIS?B?guiCqoLGgqSCsoK0gqKC3IK3gsaMvoKigr2CooLG?="))
+        @mail.to_s.should match(sjis_regexp("=?Shift_JIS?B?grGC64K+gqqCu4Kkgs2KyJJQgsmCzZWojpaCzYle?="))
+        @mail.to_s.should match(sjis_regexp("=?Shift_JIS?B?gs6CyIKigrGCxoLwkFOCtYLEgqiCooLEguCC54Ki?="))
+        @mail.to_s.should match(sjis_regexp("=?Shift_JIS?B?gr2CooLGi+qMvoLwkuaCt4LpjMyCyZW+jtCCzYjb?="))
+        @mail.to_s.should match(sjis_regexp("=?Shift_JIS?B?jp2CtYLEgqKC6YLMgsWCtw==?="))
       end
     end
 
@@ -177,10 +183,12 @@ describe "Jpmobile::Mail" do
 
       context "to_s" do
         it "should contain encoded subject" do
-          ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape("=?ISO-2022-JP?B?GyRCSkA8UjpOTVExfkpnJFgkTiQqPz05fiRfQD8kSyQiJGokLCRIJCYkNCQ2?=")))
-          ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape("=?ISO-2022-JP?B?JCQkXiQ5JEg4QCQkJD8kJCRIJDMkbSRAJCwkPSQmJE80SkMxJEskT0oqO3Yk?=")))
-          ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape("=?ISO-2022-JP?B?TzE/JFAkSiQkJDMkSCRyPzQkNyRGJCokJCRGJGIkaSQkJD8kJCRINmw4QCRy?=")))
-          ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape("=?ISO-2022-JP?B?RGgkOSRrOE4kS0pAPFIkTzBdO30kNyRGJCQkayROJEckORsoQg==?=")))
+          ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape("=?ISO-2022-JP?B?GyRCSkA8UjpOTVExfkpnJFgkTiQqPz05fiRfQD8kSyQiGyhC?=")))
+          ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape("=?ISO-2022-JP?B?GyRCJGokLCRIJCYkNCQ2JCQkXiQ5JEg4QCQkJD8kJCRIGyhC?=")))
+          ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape("=?ISO-2022-JP?B?GyRCJDMkbSRAJCwkPSQmJE80SkMxJEskT0oqO3YkTzE/GyhC?=")))
+          ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape("=?ISO-2022-JP?B?GyRCJFAkSiQkJDMkSCRyPzQkNyRGJCokJCRGJGIkaSQkGyhC?=")))
+          ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape("=?ISO-2022-JP?B?GyRCJD8kJCRINmw4QCRyRGgkOSRrOE4kS0pAPFIkTzBdGyhC?=")))
+          ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape("=?ISO-2022-JP?B?GyRCO30kNyRGJCQkayROJEckORsoQg==?=")))
         end
       end
     end

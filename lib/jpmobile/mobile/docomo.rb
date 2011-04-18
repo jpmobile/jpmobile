@@ -97,11 +97,10 @@ module Jpmobile::Mobile
     end
 
     # メール送信用
-    def to_mail_subject(str)
-      str = to_external(str, nil, nil).first
-      "=?#{mail_charset}?B?" + [str].pack('m').strip + "?="
-    end
     def to_mail_body(str)
+      to_external(str, nil, nil).first
+    end
+    def to_mail_encoding(str)
       to_external(str, nil, nil).first
     end
     def to_mail_internal(str, charset)

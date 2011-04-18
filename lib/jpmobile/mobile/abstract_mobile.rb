@@ -94,7 +94,7 @@ module Jpmobile::Mobile
 
     # メール送信用
     def to_mail_subject(str)
-      "=?#{mail_charset}?B?" + [to_mail_encoding(str)].pack('m').strip + "?="
+      [to_mail_encoding(str)].pack('m').strip.split(/\n|\r\n/).map{|subj| "=?#{mail_charset}?B?#{subj}?="}.join("\n ")
     end
     def to_mail_body(str)
       to_mail_encoding(str)

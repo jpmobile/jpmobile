@@ -96,6 +96,11 @@ module Jpmobile::TransSid #:nodoc:
     return result unless apply_trans_sid?
     return result.merge({ session_key => jpmobile_session_id })
   end
+  def reset_session
+    super
+    form_authenticity_token
+    request.session_options[:id] ||= ActiveSupport::SecureRandom.hex(16)
+  end
 
   private
   # session_keyを返す。

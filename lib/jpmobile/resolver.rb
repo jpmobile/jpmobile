@@ -1,10 +1,10 @@
 module Jpmobile
   class Resolver < ActionView::FileSystemResolver
-    # EXTENSION_ORDER = [:variants, :locale, :formats, :handlers]
 
     def find_templates(name, prefix, partial, details)
       path = build_path(name, prefix, partial, details)
-      query(path, EXTENSION_ORDER.map { |ext| details[ext] }, details[:formats], details[:mobile])
+      extensions = defined?(EXTENSION_ORDER) ? EXTENSION_ORDER : EXTENSIONS
+      query(path, extensions.map { |ext| details[ext] }, details[:formats], details[:mobile])
     end
 
     def build_path(name, prefix, partial, details)

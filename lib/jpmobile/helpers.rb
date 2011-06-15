@@ -168,7 +168,7 @@ module Jpmobile
     private
     # 外部へのリンク
     def link_to_url(str, url)
-      %{<a href="#{html_escape(url)}">#{html_escape(str)}</a>}.html_safe
+      %{<a href="#{ERB::Util.html_escape(url)}">#{ERB::Util.html_escape(str)}</a>}.html_safe
     end
   end
 end

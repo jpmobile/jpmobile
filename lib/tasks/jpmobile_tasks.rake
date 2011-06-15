@@ -6,7 +6,7 @@
 
 begin
   require 'rspec/core/rake_task'
-
+  require "rake/testtask"
   namespace :spec do
     desc 'run unit testing (core test)'
     RSpec::Core::RakeTask.new(:unit) do |t|
@@ -97,6 +97,7 @@ END
     # ruby "-S rspec -b --color spec/requests/filter_spec.rb -e 'jpmobile integration spec HankakuInputFilterController SoftBank 910T からのアクセス it should behave like hankaku_filter :input => true のとき はtextareaの中では半角に変換されないこと'"
   end
   desc "Run sinatra on jpmobile tests"
+
   Rake::TestTask.new(:sinatra) do |t|
     t.libs << 'lib'
     t.libs << 'test/sinatra'

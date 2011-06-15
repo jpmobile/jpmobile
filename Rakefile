@@ -1,12 +1,8 @@
 require 'rubygems'
-require 'rake'
-require 'rake/clean'
+ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../Gemfile', __FILE__)
+require 'bundler/setup' if File.exists?(ENV['BUNDLE_GEMFILE'])
 require 'rake/testtask'
 require 'rake/rdoctask'
-require 'fileutils'
-require 'pathname'
-require 'git'
-include FileUtils
 
 begin
   require 'jeweler'

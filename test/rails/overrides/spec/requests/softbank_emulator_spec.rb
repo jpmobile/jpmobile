@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-
-require File.dirname(__FILE__) + '/../spec_helper'
+require File.expand_path(File.join(File.dirname(__FILE__), '/../spec_helper'))
 
 describe "Softbank Emulator からのアクセスのとき" do
   it "request.mobile は Softbank のインスタンスであること" do

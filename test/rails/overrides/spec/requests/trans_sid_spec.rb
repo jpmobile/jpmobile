@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-
-require File.dirname(__FILE__) + '/../spec_helper'
+require File.expand_path(File.join(File.dirname(__FILE__), '/../spec_helper'))
 
 def get_with_session(controller, action, user_agent)
   open_session do |sess|

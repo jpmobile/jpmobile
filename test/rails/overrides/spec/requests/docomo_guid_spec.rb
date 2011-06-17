@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-
-require File.dirname(__FILE__) + '/../spec_helper'
+require File.expand_path(File.join(File.dirname(__FILE__), '/../spec_helper'))
 
 shared_examples_for "docomo_guid が起動しないとき" do
   it "で link_to の自動書き換えが行われない" do

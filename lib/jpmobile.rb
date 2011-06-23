@@ -46,7 +46,6 @@ module Jpmobile
     autoload :MobileCarrier, 'jpmobile/rack/mobile_carrier'
     autoload :ParamsFilter,  'jpmobile/rack/params_filter'
     autoload :Filter,        'jpmobile/rack/filter'
-    autoload :Config,        'jpmobile/rack/config'
   end
   autoload :Configuration, 'jpmobile/rack'
 

@@ -39,12 +39,13 @@ module Mail
     attr_accessor :mobile
 
     def mobile=(m)
-      @mobile  = m
-      @charset = m.mail_charset(@charset)
+      if @mobile  = m
+        @charset = m.mail_charset(@charset)
 
-      if @body
-        @body.charset = @charset
-        @body.mobile = m
+        if @body
+          @body.charset = @charset
+          @body.mobile = m
+        end
       end
     end
 
@@ -93,19 +94,21 @@ module Mail
     def process_body_raw_with_jpmobile
       process_body_raw_without_jpmobile
 
-      @body.charset = @charset
-      @body.mobile = @mobile
+      if @mobile
+        @body.charset = @charset
+        @body.mobile = @mobile
 
-      if has_content_transfer_encoding? and
-          ["base64", "quoted-printable"].include?(content_transfer_encoding) and
-          ["text", nil].include?(@mobile_main_type)
-        @body.decode_transfer_encoding
-      end
+        if has_content_transfer_encoding? and
+            ["base64", "quoted-printable"].include?(content_transfer_encoding) and
+            ["text"].include?(@mobile_main_type)
+          @body.decode_transfer_encoding
+        end
 
-      if @body.multipart?
-        @body.parts.each do |p|
-          p.charset = @charset
-          p.mobile = @mobile
+        if @body.multipart?
+          @body.parts.each do |p|
+            p.charset = @charset
+            p.mobile = @mobile
+          end
         end
       end
     end
@@ -131,14 +134,21 @@ module Mail
       # decide mobile carrier
       if self.header['From']
         mobile_class = Jpmobile::Email.detect_from_mail_header(self.header['From'].value)
-        @mobile ||= (mobile_class || Jpmobile::Mobile::AbstractMobile ).new(nil, nil)
+        @mobile ||= mobile_class.new(nil, nil) if mobile_class
       end
 
       # override charset
       if self.header['Content-Type']
-        @charset = Jpmobile::Util.extract_charset(self.header['Content-Type'].value)
-        self.header['Content-Type'].parameters[:charset] = @charset
-        @mobile_main_type = self.header['Content-Type'].main_type
+        content_type_charset = Jpmobile::Util.extract_charset(self.header['Content-Type'].value)
+        unless content_type_charset.blank?
+          @charset = content_type_charset
+          self.header['Content-Type'].parameters[:charset] = @charset
+          @mobile_main_type = self.header['Content-Type'].main_type
+        end
+
+        if !Jpmobile::Email.convertable?(self.header['Content-Type'].value) and content_type_charset.blank?
+          @charset = ''
+        end
       end
 
       # convert header(s)
@@ -146,9 +156,8 @@ module Mail
         subject_charset = Jpmobile::Util.extract_charset(self.header['Subject'].value)
 
         # override subject encoding if @charset is blank
-        @charset = subject_charset if !subject_charset.blank? and @charset.blank?
-
-        self.header['Subject'].charset = subject_charset
+        @charset = subject_charset if !subject_charset.blank? # and @charset.blank?
+        self.header['Subject'].charset = subject_charset unless subject_charset.blank?
 
         if @mobile
           v = @mobile.to_mail_internal(
@@ -183,7 +192,6 @@ module Mail
       @body_part_jpmobile = body_part
       convert_encoding_jpmobile
       body_part = @body_part_jpmobile
-
       self.body   = body_part
     end
 
@@ -219,7 +227,7 @@ module Mail
     def mobile=(m)
       @mobile = m
 
-      if self.multipart?
+      if self.multipart? and @mobile
         self.parts.each do |part|
           part.charset      = @charset
           part.mobile       = @mobile
@@ -232,7 +240,6 @@ module Mail
     def decode_transfer_encoding
       _raw_source = Encodings.get_encoding(encoding).decode(@raw_source)
       _raw_source = Jpmobile::Util.set_encoding(_raw_source, @charset)
-
       @raw_source = @mobile.decode_transfer_encoding(_raw_source, @charset)
     end
 

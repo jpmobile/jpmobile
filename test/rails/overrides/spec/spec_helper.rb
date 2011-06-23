@@ -32,7 +32,7 @@ RSpec.configure do |config|
   config.run_all_when_everything_filtered = true
   config.color_enabled = true
   config.filter_run_excluding :broken => true
-  # config.full_backtrace = true
+  config.full_backtrace = true
 end
 
 require 'pp'

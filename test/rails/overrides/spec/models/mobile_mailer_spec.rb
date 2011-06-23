@@ -734,4 +734,40 @@ describe MobileMailer, "receiving" do
       end
     end
   end
+
+  describe "PCからメールを受信するとき" do
+    describe "日本語ではない場合" do
+      before(:each) do
+        @email = open(Rails.root + "spec/fixtures/mobile_mailer/non-jp.eml").read
+      end
+
+      it "正常に受信できること" do
+        lambda {
+          MobileMailer.receive(@email)
+        }.should_not raise_exception
+      end
+
+      it "mobile が nil であること" do
+        mail = MobileMailer.receive(@email)
+        mail.mobile.should be_nil
+      end
+    end
+
+    describe "From がない場合" do
+      before(:each) do
+        @email = open(Rails.root + "spec/fixtures/mobile_mailer/no-from.eml").read
+      end
+
+      it "正常に受信できること" do
+        lambda {
+          MobileMailer.receive(@email)
+        }.should_not raise_exception
+      end
+
+      it "mobile が nil であること" do
+        mail = MobileMailer.receive(@email)
+        mail.mobile.should be_nil
+      end
+    end
+  end
 end

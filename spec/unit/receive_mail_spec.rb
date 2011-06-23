@@ -8,6 +8,7 @@ describe "Jpmobile::Mail#receive" do
 
   before(:each) do
     @to = "info@jpmobile-rails.org"
+    Jpmobile::Email.japanese_mail_address_regexp = Regexp.new(/\.jp[^a-zA-Z\.\-]/)
   end
 
   describe "PC mail" do
@@ -283,6 +284,30 @@ describe "Jpmobile::Mail#receive" do
 
       it "body should be parsed correctly" do
         @mail.body.to_s.should == "テスト本文"
+      end
+    end
+  end
+
+  describe "non-Japanese mail" do
+    context "us-ascii" do
+      before(:each) do
+        @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "../../test/rails/overrides/spec/fixtures/mobile_mailer/non-jp.eml")).read)
+      end
+
+      it "mobile should be nil" do
+        @mail.mobile.should be_nil
+        @mail.parts.first.charset.should == 'us-ascii'
+      end
+    end
+
+    context "no From header" do
+      before(:each) do
+        @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "../../test/rails/overrides/spec/fixtures/mobile_mailer/no-from.eml")).read)
+      end
+
+      it "mobile should be nil" do
+        @mail.mobile.should be_nil
+        @mail.parts.first.charset.should == 'iso-8859-1'
       end
     end
   end

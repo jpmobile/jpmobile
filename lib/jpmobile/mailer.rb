@@ -2,6 +2,8 @@
 require 'jpmobile/mail'
 require 'jpmobile/lookup_context'
 
+Jpmobile::Email.japanese_mail_address_regexp = Regexp.new(/\.jp[^a-zA-Z\.\-]/)
+
 module Jpmobile
   module Mailer
     class Base < ActionMailer::Base

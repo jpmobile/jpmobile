@@ -21,6 +21,7 @@ describe 'Jpmobile::Email' do
     ['iiiaa@r.vodafone.ne.jp.jp' , nil                        ],
   ].each do |email_addr, carrier|
     it "#detect should return #{carrier} when take #{email_addr} as EmailAddr" do
+      Jpmobile::Email.japanese_mail_address_regexp = nil
       Jpmobile::Email.detect(email_addr).should == carrier
     end
   end
@@ -47,8 +48,16 @@ describe 'Jpmobile::Email' do
     ['From: Jpmobile Rails <iiiaa@r.vodafone.ne.jp>'    , Jpmobile::Mobile::Vodafone ],
     ['From: Jpmobile Rails <iiiaa@r.vodafone.ne.jp.jp>' , nil                        ],
   ].each do |line, carrier|
-    it "#detect should return #{carrier} when take mail header #{line}}" do
+    it "#detect_from_mail_header should return #{carrier} when take mail header #{line}}" do
+      Jpmobile::Email.japanese_mail_address_regexp = nil
       Jpmobile::Email.detect_from_mail_header(line).should == carrier
+    end
+  end
+
+  describe "japanese_mail_address_regexp" do
+    it "#detect_from_mail_header should return Jpmobile::Mobile::AbstractMobile when hoge.jp" do
+      Jpmobile::Email.japanese_mail_address_regexp = Regexp.new(/\.jp[^a-zA-Z\.\-]/)
+      Jpmobile::Email.detect_from_mail_header('From: Hoge Fuga <fuga@hoge.jp>').should == Jpmobile::Mobile::AbstractMobile
     end
   end
 end

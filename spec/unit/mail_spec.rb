@@ -10,7 +10,7 @@ describe "Jpmobile::Mail" do
     @mail         = Mail.new
     @mail.subject = "万葉"
     @mail.body    = "ほげ"
-    @mail.from    = "info@jpmobile-rails.org"
+    @mail.from    = "ちはやふる <info@jpmobile-rails.org>"
   end
 
   context "Mail#to" do
@@ -23,7 +23,7 @@ describe "Jpmobile::Mail" do
     before(:each) do
       @mobile = Jpmobile::Mobile::AbstractMobile.new(nil, nil)
       @mail.mobile = @mobile
-      @mail.to = "info+to@jpmobile-rails.org"
+      @mail.to = "むすめふさほせ <info+to@jpmobile-rails.org>"
     end
 
     context "to_s" do
@@ -34,6 +34,18 @@ describe "Jpmobile::Mail" do
       it "should contain encoded body" do
         ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape(ascii_8bit("\x1b\x24\x42\x24\x5B\x24\x32\e\x28\x42"))))
       end
+
+      it "should contain encoded from"do
+        ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape(ascii_8bit("=?ISO-2022-JP?B?GyRCJEEkTyRkJFUkaxsoQg==?="))))
+      end
+
+      it "should contain encoded to" do
+        ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape(ascii_8bit("=?ISO-2022-JP?B?GyRCJGAkOSRhJFUkNSRbJDsbKEI=?="))))
+      end
+
+      it "should contain correct Content-Type:" do
+        ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape(ascii_8bit("charset=ISO-2022-JP"))))
+      end
     end
   end
 
@@ -41,7 +53,7 @@ describe "Jpmobile::Mail" do
     before(:each) do
       @mobile = Jpmobile::Mobile::Docomo.new(nil, nil)
       @mail.mobile = @mobile
-      @mail.to = "info+to@jpmobile-rails.org"
+      @mail.to = "むすめふさほせ <info+to@jpmobile-rails.org>"
     end
 
     context "to_s" do
@@ -51,6 +63,14 @@ describe "Jpmobile::Mail" do
 
       it "should contain encoded body" do
         @mail.to_s.should match(Regexp.escape(utf8_to_sjis("ほげ")))
+      end
+
+      it "should contain encoded from" do
+        @mail.to_s.should match(sjis_regexp("gr+CzYLigtOC6Q=="))
+      end
+
+      it "should contain encoded to" do
+        @mail.to_s.should match(sjis_regexp("gt6Ct4LfgtOCs4LZgrk="))
       end
 
       it "should contains encoded emoticon" do
@@ -67,7 +87,7 @@ describe "Jpmobile::Mail" do
     before(:each) do
       @mobile = Jpmobile::Mobile::Au.new(nil, nil)
       @mail.mobile = @mobile
-      @mail.to = "info+to@jpmobile-rails.org"
+      @mail.to = "むすめふさほせ <info+to@jpmobile-rails.org>"
     end
 
     context "to_s" do
@@ -77,6 +97,14 @@ describe "Jpmobile::Mail" do
 
       it "should contain encoded body" do
         ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape(ascii_8bit("\x1b\x24\x42\x24\x5B\x24\x32\e\x28\x42"))))
+      end
+
+      it "should contain encoded from" do
+        ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape(ascii_8bit("=?ISO-2022-JP?B?GyRCJEEkTyRkJFUkaxsoQg==?="))))
+      end
+
+      it "should contain encoded to" do
+        ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape(ascii_8bit("=?ISO-2022-JP?B?GyRCJGAkOSRhJFUkNSRbJDsbKEI=?="))))
       end
 
       it "should contain encoded emoticon" do
@@ -93,7 +121,7 @@ describe "Jpmobile::Mail" do
     before(:each) do
       @mobile = Jpmobile::Mobile::Softbank.new(nil, nil)
       @mail.mobile = @mobile
-      @mail.to = "info+to@jpmobile-rails.org"
+      @mail.to = "むすめふさほせ <info+to@jpmobile-rails.org>"
     end
 
     context "to_s" do
@@ -103,6 +131,14 @@ describe "Jpmobile::Mail" do
 
       it "should contain encoded body" do
         @mail.to_s.should match(Regexp.escape(utf8_to_sjis("ほげ")))
+      end
+
+      it "should contain encoded from" do
+        @mail.to_s.should match(sjis_regexp("gr+CzYLigtOC6Q=="))
+      end
+
+      it "should contain encoded to" do
+        @mail.to_s.should match(sjis_regexp("gt6Ct4LfgtOCs4LZgrk="))
       end
 
       it "should contains encoded emoticon" do
@@ -127,7 +163,7 @@ describe "Jpmobile::Mail" do
       before(:each) do
         @mobile = Jpmobile::Mobile::Docomo.new(nil, nil)
         @mail.mobile = @mobile
-        @mail.to = "info+to@jpmobile-rails.org"
+        @mail.to = "むすめふさほせ <info+to@jpmobile-rails.org>"
       end
 
       it "should contain encoded subject" do
@@ -144,7 +180,7 @@ describe "Jpmobile::Mail" do
       before(:each) do
         @mobile = Jpmobile::Mobile::Au.new(nil, nil)
         @mail.mobile = @mobile
-        @mail.to = "info+to@jpmobile-rails.org"
+        @mail.to = "むすめふさほせ <info+to@jpmobile-rails.org>"
       end
 
       it "should contain encoded subject" do
@@ -161,7 +197,7 @@ describe "Jpmobile::Mail" do
       before(:each) do
         @mobile = Jpmobile::Mobile::Softbank.new(nil, nil)
         @mail.mobile = @mobile
-        @mail.to = "info+to@jpmobile-rails.org"
+        @mail.to = "むすめふさほせ <info+to@jpmobile-rails.org>"
       end
 
       it "should contain encoded subject" do
@@ -178,7 +214,7 @@ describe "Jpmobile::Mail" do
       before(:each) do
         @mobile = Jpmobile::Mobile::AbstractMobile.new(nil, nil)
         @mail.mobile = @mobile
-        @mail.to = "info+to@jpmobile-rails.org"
+        @mail.to = "むすめふさほせ <info+to@jpmobile-rails.org>"
       end
 
       context "to_s" do

@@ -102,7 +102,8 @@ module Jpmobile::Mobile
       to_mail_encoding(str)
     end
     def mail_charset(charset = nil)
-      (charset.nil? or charset == "") ? self.class::MAIL_CHARSET : charset
+      # (charset.nil? or charset == "") ? self.class::MAIL_CHARSET : charset
+      self.class::MAIL_CHARSET
     end
     def to_mail_encoding(str)
       str = Jpmobile::Emoticon.utf8_to_unicodecr(str)

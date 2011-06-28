@@ -151,6 +151,18 @@ module Jpmobile::Mobile
       end
     end
 
+    def self.carrier(env)
+      ::Jpmobile::Mobile.carriers.each do |const|
+        c = ::Jpmobile::Mobile.const_get(const)
+        if c.check_carrier(env)
+          res = ::Rack::Request.new(env)
+          return c.new(env, res)
+        end
+      end
+
+      nil
+    end
+
     private
     # リクエストのパラメータ。
     def params

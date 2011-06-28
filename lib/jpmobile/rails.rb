@@ -6,6 +6,7 @@ ActiveSupport.on_load(:action_controller) do
   require 'jpmobile/hook_action_controller'
   require 'jpmobile/hook_action_view'
   require 'jpmobile/trans_sid'
+  require 'jpmobile/hook_test_request'
 end
 ActiveSupport.on_load(:action_dispatch) do
   require 'jpmobile/hook_action_dispatch'

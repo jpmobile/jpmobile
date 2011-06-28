@@ -29,9 +29,10 @@ module Jpmobile
         handler, format = extract_handler_and_format(p, formats)
 
         contents = File.open(p, "rb") {|io| io.read }
+        variant = p.match(/.+#{path}(.+)\.#{format}.*$/) ? $1 : ''
 
         ActionView::Template.new(contents, File.expand_path(p), handler,
-          :virtual_path => path, :format => format)
+          :virtual_path => path + variant, :format => format)
       end
     end
   end

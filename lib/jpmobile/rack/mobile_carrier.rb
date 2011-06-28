@@ -8,21 +8,9 @@ module Jpmobile
       end
 
       def call(env)
-        env['rack.jpmobile'] = carrier(env)
+        env['rack.jpmobile'] = Jpmobile::Mobile::AbstractMobile.carrier(env)
 
         @app.call(env)
-      end
-
-      def carrier(env)
-        ::Jpmobile::Mobile.carriers.each do |const|
-          c = ::Jpmobile::Mobile.const_get(const)
-          if c.check_carrier(env)
-            res = ::Rack::Request.new(env)
-            return c.new(env, res)
-          end
-        end
-
-        nil
       end
     end
   end

@@ -42,4 +42,10 @@ module Jpmobile
       env['rack.jpmobile']
     end
   end
+
+  module RequestWithMobileTesting
+    def mobile
+      Jpmobile::Mobile::AbstractMobile.carrier(env)
+    end
+  end
 end

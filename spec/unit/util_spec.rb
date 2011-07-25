@@ -30,6 +30,10 @@ describe Jpmobile::Util, ".deep_apply" do
     deep_apply(string_io) {|obj| obj }.should equal(string_io)
   end
 
+  it "utf8_to_sjis で変換できない文字列が含んでいた場合?に変換される" do
+    utf8_to_sjis("اللغة العربية").should == sjis("????? ???????")
+  end
+
   it "utf8_to_sjis で改行コードが CRLF に変更されること" do
     utf8_to_sjis("UTF8\nTEXT\n").should == sjis("UTF8\r\nTEXT\r\n")
   end

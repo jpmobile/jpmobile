@@ -62,7 +62,7 @@ module ActionController
   end
 
   class Metal #:nodoc:
-    class_inheritable_accessor :trans_sid_mode
+    class_attribute :trans_sid_mode
 
     class << self
       def trans_sid(mode = :mobile)

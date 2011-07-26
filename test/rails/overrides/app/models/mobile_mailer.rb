@@ -14,6 +14,6 @@ class MobileMailer < Jpmobile::Mailer::Base
   def multi_message(to_mail, subject_text, text, html)
     @html = html
     @text = text
-    mail(:to => to_mail, :subject => subject)
+    mail(:to => to_mail, :subject => subject_text)
   end
 end

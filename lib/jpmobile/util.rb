@@ -102,9 +102,9 @@ module Jpmobile
       utf8_str = minus_sign_to_fullwidth_hyphen_minus(utf8_str)
 
       if utf8_str.respond_to?(:encode)
-        utf8_str.encode(SJIS, :crlf_newline => true)
+        utf8_str.encode(SJIS, :crlf_newline => true,:undef => :replace,:replace => '?')
       else
-        NKF.nkf("-m0 -x -W --oc=cp932", utf8_str).gsub(/\n/, "\r\n")
+        NKF.nkf("-m0 -x -W --oc=cp932 --fb-subchar=63", utf8_str).gsub(/\n/, "\r\n")
       end
     end
 

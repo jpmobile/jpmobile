@@ -1,5 +1,5 @@
 --- 
+:build: 
 :major: 1
-:minor: 0
 :patch: 0
-:build: pre.7
+:minor: 0

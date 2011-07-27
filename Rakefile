@@ -22,14 +22,14 @@ begin
     gem.files.exclude 'spec'
 
     gem.add_development_dependency('jeweler', '>=1.5.1')
-    gem.add_development_dependency('rspec', '>=2.3.0')
-    gem.add_development_dependency('rspec-rails', '>=2.3.0')
+    gem.add_development_dependency('rspec', '>=2.6.0')
+    gem.add_development_dependency('rspec-rails', '>=2.6.0')
     gem.add_development_dependency('webrat', '>=0.7.2')
     gem.add_development_dependency('geokit', '>=1.5.0')
     gem.add_development_dependency('sqlite3-ruby', '>=1.3.2')
     gem.add_development_dependency('hpricot', '>=0.8.3')
     gem.add_development_dependency('git', '>=1.2.5')
-    gem.add_development_dependency('rails', '>=3.0.3')
+    gem.add_development_dependency('rails', '>=3.1.0.rc5')
   end
 rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"

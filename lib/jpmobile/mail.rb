@@ -406,6 +406,48 @@ module Mail
     alias_method :encoded, :encoded_with_jpmobile
   end
 
+  class ContentTypeElement # :nodoc:
+    def initialize_with_jpmobile(string)
+      if m = string.match(/\A(.*?)(name|filename)=("|')(.+)("|')(.*?)\z/) and
+          m[4].each_byte.detect { |b| (b == 0 || b > 127)}
+        name = [m[4]].pack('m').strip
+        string = "#{m[1]}#{m[2]}=#{m[3]}#{name}#{m[5]}#{m[6]}"
+      end
+
+      initialize_without_jpmobile(string)
+    end
+    alias_method :initialize_without_jpmobile, :initialize
+    alias_method :initialize, :initialize_with_jpmobile
+  end
+
+  class ContentDispositionElement # :nodoc:
+    def initialize_with_jpmobile(string)
+      if m = string.match(/\A(.*?)(name|filename)=("|')(.+)("|')(.*?)\z/) and
+          m[4].each_byte.detect { |b| (b == 0 || b > 127)}
+        name = [m[4]].pack('m').strip
+        string = "#{m[1]}#{m[2]}=#{m[3]}#{name}#{m[5]}#{m[6]}"
+      end
+
+      initialize_without_jpmobile(string)
+    end
+    alias_method :initialize_without_jpmobile, :initialize
+    alias_method :initialize, :initialize_with_jpmobile
+  end
+
+  class ContentLocationElement # :nodoc:
+    def initialize_with_jpmobile(string)
+      if m = string.match(/\A(.*?)(name|filename)=("|')(.+)("|')(.*?)\z/) and
+          m[4].each_byte.detect { |b| (b == 0 || b > 127)}
+        name = [m[4]].pack('m').strip
+        string = "#{m[1]}#{m[2]}=#{m[3]}#{name}#{m[5]}#{m[6]}"
+      end
+
+      initialize_without_jpmobile(string)
+    end
+    alias_method :initialize_without_jpmobile, :initialize
+    alias_method :initialize, :initialize_with_jpmobile
+  end
+
   class Sendmail
     def Sendmail.call(path, arguments, destinations, mail)
       encoded_mail = mail.encoded

@@ -64,7 +64,7 @@ module Jpmobile
 
         doc = convert_text_content(doc)
 
-        doc.to_html
+        doc.to_html.gsub("\xc2\xa0","&nbsp;")
       end
     end
 

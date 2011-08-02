@@ -22,4 +22,7 @@ class FilterControllerBase < ApplicationController
   def input_tag
     render :text => '<input hoge="fuu" value="アブラカダブラ" />'
   end
+  def nbsp_char
+    render :text => '<a>アブラ&nbsp;カダブラ</a>'
+  end
 end

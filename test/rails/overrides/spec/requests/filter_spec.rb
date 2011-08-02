@@ -13,6 +13,10 @@ describe "jpmobile integration spec" do
       get "/#{@controller}/input_tag", {}, {"HTTP_USER_AGENT" => @user_agent}
       body.should == send(@conversion_method, '<input hoge="fuu" value="アブラカダブラ">')
     end
+    it "は&nbsp;変換されない" do
+      get "/#{@controller}/nbsp_char", {}, {"HTTP_USER_AGENT" => @user_agent}
+      body.should == send(@conversion_method, '<a>ｱﾌﾞﾗ&nbsp;ｶﾀﾞﾌﾞﾗ</a>')
+    end
   end
 
   shared_examples_for "hankaku_filter :input => false のとき" do
@@ -23,6 +27,10 @@ describe "jpmobile integration spec" do
     it "はinputのvalueの中も半角に変換されること" do
       get "/#{@controller}/input_tag", {}, {"HTTP_USER_AGENT" => @user_agent}
       body.should == send(@conversion_method, '<input hoge="fuu" value="ｱﾌﾞﾗｶﾀﾞﾌﾞﾗ" />')
+    end
+    it "は&nbsp;変換されない" do
+      get "/#{@controller}/nbsp_char", {}, {"HTTP_USER_AGENT" => @user_agent}
+      body.should == send(@conversion_method, '<a>ｱﾌﾞﾗ&nbsp;ｶﾀﾞﾌﾞﾗ</a>')
     end
   end
 

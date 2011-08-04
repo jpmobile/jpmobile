@@ -27,7 +27,12 @@ module ActionDispatch
       class SessionHash
         def destroy_with_jpmobile
           destroy_without_jpmobile
-          @env[ENV_SESSION_OPTIONS_KEY][:id] = ActiveSupport::SecureRandom.hex(16)
+
+          # for TestSession
+          begin
+            @env[ENV_SESSION_OPTIONS_KEY][:id] = ActiveSupport::SecureRandom.hex(16)
+          rescue
+          end
         end
 
         alias_method_chain :destroy, :jpmobile

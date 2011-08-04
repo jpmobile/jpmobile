@@ -23,7 +23,27 @@ module ActionDispatch
   module Session
     class AbstractStore
       include ParamsOverCookie
+
+      class SessionHash
+        def destroy_with_jpmobile
+          destroy_without_jpmobile
+          @env[ENV_SESSION_OPTIONS_KEY][:id] = ActiveSupport::SecureRandom.hex(16)
+        end
+
+        alias_method_chain :destroy, :jpmobile
+      end
     end
+  end
+end
+
+module ActiveRecord
+  class SessionStore
+    def destroy_with_jpmobile(env)
+      destroy_without_jpmobile(env)
+      env[SESSION_RECORD_KEY] = nil
+    end
+
+    alias_method_chain :destroy, :jpmobile
   end
 end
 

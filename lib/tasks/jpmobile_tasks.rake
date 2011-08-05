@@ -47,7 +47,7 @@ namespace :test do
     # setup jpmobile
     plugin_path = File.join(rails_root, 'vendor', 'plugins', 'jpmobile')
     FileUtils.mkdir_p(plugin_path)
-    FileList["*"].exclude("test").exclude("spec").each do |file|
+    FileList["*"].exclude("test").exclude("spec").exclude('vendor').each do |file|
       FileUtils.cp_r(file, plugin_path)
     end
 

@@ -2,53 +2,51 @@
 # = セッションIDの付与
 require 'active_support/version'
 
-module ParamsOverCookie
-  def self.included(base)
-    base.class_eval do
-      # cookie よりも params を先に見るパッチ
-      def extract_session_id_with_jpmobile(env)
-        request = ActionDispatch::Request.new(env.dup)
-        if request.params[@key] and !@cookie_only
-          sid = request.params[@key]
+module Jpmobile
+  module TransSid
+    module ParamsOverCookie
+      def self.included(base)
+        base.class_eval do
+          # cookie よりも params を先に見るパッチ
+          def extract_session_id_with_jpmobile(env)
+            request = ::Rack::Request.new(env)
+            if request.params[@key] and !@cookie_only
+              sid = request.params[@key]
+            end
+            sid ||= request.cookies[@key]
+            sid
+          end
+          alias_method_chain :extract_session_id, :jpmobile
         end
-        sid ||= request.cookies[@key]
-        sid
       end
-      alias_method_chain :extract_session_id, :jpmobile
     end
+
+    ActionDispatch::Session::AbstractStore.send :include, ParamsOverCookie
+  end
+
+  module SessionID
+    module_function
+
+    include ActionDispatch::Session::Compatibility
   end
 end
 
-module ActionDispatch
-  module Session
-    class AbstractStore
-      include ParamsOverCookie
 
+module Rack
+  module Session
+    module Abstract
       class SessionHash
         def destroy_with_jpmobile
           destroy_without_jpmobile
 
-          # for TestSession
-          begin
-            @env[ENV_SESSION_OPTIONS_KEY][:id] = ActiveSupport::SecureRandom.hex(16)
-          rescue
-          end
+          options = @env[::Rack::Session::Abstract::ENV_SESSION_OPTIONS_KEY] if @env
+          options ||= {}
+          options[:id] = Jpmobile::SessionID.generate_sid
         end
 
         alias_method_chain :destroy, :jpmobile
       end
     end
-  end
-end
-
-module ActiveRecord
-  class SessionStore
-    def destroy_with_jpmobile(env)
-      destroy_without_jpmobile(env)
-      env[SESSION_RECORD_KEY] = nil
-    end
-
-    alias_method_chain :destroy, :jpmobile
   end
 end
 

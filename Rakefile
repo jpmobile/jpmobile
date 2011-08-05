@@ -20,6 +20,7 @@ begin
 
     gem.files.exclude 'test'
     gem.files.exclude 'spec'
+    gem.files.exclude 'vendor'
 
     gem.add_development_dependency('jeweler', '>=1.5.1')
     gem.add_development_dependency('rspec', '>=2.6.0')

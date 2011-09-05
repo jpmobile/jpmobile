@@ -52,6 +52,14 @@ describe MobileMailer do
       raw_mail = ascii_8bit(email.to_s)
       raw_mail.should match(/ZVG%0FE%16%5E%07%04%21P%5CZ%06%00%0D%1D%40L/)
     end
+
+    context ":toの指定が" do
+      it "ない場合でも正常に送信できること" do
+        email = MobileMailer.default_to_mail('題名', '本文').deliver
+
+        ActionMailer::Base.deliveries.size.should == 1
+      end
+    end
   end
 
   describe "PC宛に送るとき" do

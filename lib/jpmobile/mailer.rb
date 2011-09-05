@@ -11,7 +11,8 @@ module Jpmobile
       self.view_paths.unshift(Jpmobile::Resolver.new(File.join(::Rails.root, "app/views")))
 
       def mail(headers={}, &block)
-        tos = headers[:to].split(/,/)
+        tos = headers[:to] || self.default_params[:to]
+        tos = tos.split(/,/)
 
         @mobile = if tos.size == 1
                     # for mobile

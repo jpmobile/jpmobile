@@ -223,7 +223,7 @@ Androidの場合はindex_smart_phone_android.html.erb、Windows Phoneの場合�
 === 位置情報の取得用リンクの生成
 
 以下のようなコードで、端末に位置情報を要求するリンクを出力する。
-  <%= get_position_link_to(:action=>:gps) %>
+  <%= get_position_link_to("位置情報を取得する", :action=>:gps) %>
 
 === セッションIDの付与(Trans SID)
 ==== Cookie非対応携帯だけに付与する

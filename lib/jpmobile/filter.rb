@@ -40,6 +40,9 @@ module Jpmobile
     # 内部コードから外部コードに変換
     def after(controller, options = {})
       if apply_outgoing?(controller) and controller.response.body.is_a?(String)
+        if controller.request.mobile?
+          options.merge!(:charset => controller.request.mobile.default_charset)
+        end
         controller.response.body = to_external(controller.response.body, options)
       end
     end
@@ -64,7 +67,9 @@ module Jpmobile
 
         doc = convert_text_content(doc)
 
-        doc.to_html.gsub("\xc2\xa0","&nbsp;")
+        html = doc.to_html.gsub("\xc2\xa0","&nbsp;")
+        html = html.gsub(/charset=[a-z0-9\-]+/i, "charset=#{options[:charset]}") if options[:charset]
+        html
       end
     end
 

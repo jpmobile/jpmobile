@@ -4,4 +4,7 @@ class HankakuInputFilterController < FilterControllerBase
   def index_xhtml
     render "index_xhtml", :layout => "xhtml"
   end
+
+  def with_charset
+  end
 end

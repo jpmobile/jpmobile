@@ -85,6 +85,10 @@ describe Jpmobile::Emoticon do
       it "should not convert ascii string to unicodecr" do
         Jpmobile::Emoticon.external_to_unicodecr_au_mail(utf8_to_jis("-------=_NextPart_15793_72254_63179")).should_not match(/e5c2/i)
       end
+
+      it "should not include extra JIS escape sequence between Kanji-code and emoticon" do
+        Jpmobile::Emoticon.unicodecr_to_au_email(utf8_to_jis("&#xe481;掲示板")).should == Jpmobile::Util.ascii_8bit("\x1b\x24\x42\x75\x3a\x37\x47\x3C\x28\x48\x44\x1b\x28\x42")
+      end
     end
   end
 end

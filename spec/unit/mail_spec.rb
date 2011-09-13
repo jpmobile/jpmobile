@@ -111,8 +111,8 @@ describe "Jpmobile::Mail" do
         @mail.subject += "&#xe63e;"
         @mail.body = "#{@mail.body}&#xe63e;"
 
-        ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape("=?ISO-2022-JP?B?GyRCS3xNVRsoQhskQnVBGyhC?=")))
-        ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape(ascii_8bit("\x1b\x24\x42\x75\x41\x1b\x28\x42"))))
+        ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape("=?ISO-2022-JP?B?GyRCS3xNVXVBGyhC?=")))
+        ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape(ascii_8bit("\e\x24\x42\x24\x5B\x24\x32\x75\x41\e\x28\x42"))))
       end
     end
   end

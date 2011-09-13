@@ -59,7 +59,7 @@ describe "Jpmobile::Mobile" do
       end
 
       it "should convert emoticon &#xe63e; to \x75\x41 in B-Encoding" do
-        @mobile.to_mail_subject("ほげ&#xe63e;").should == "=?ISO-2022-JP?B?GyRCJFskMhsoQhskQnVBGyhC?="
+        @mobile.to_mail_subject("ほげ&#xe63e;").should == "=?ISO-2022-JP?B?GyRCJFskMnVBGyhC?="
       end
     end
 
@@ -69,7 +69,7 @@ describe "Jpmobile::Mobile" do
       end
 
       it "should convert emoticon &#xe63e; to \x75\x41" do
-        ascii_8bit(@mobile.to_mail_body("ほげ&#xe63e;")).should == ascii_8bit(utf8_to_jis("ほげ") + jis("\x1b\x24\x42\x75\x41\x1b\x28\x42"))
+        ascii_8bit(@mobile.to_mail_body("ほげ&#xe63e;")).should == ascii_8bit(jis("\e\x24\x42\x24\x5B\x24\x32\x75\x41\x1b\x28\x42"))
       end
     end
   end

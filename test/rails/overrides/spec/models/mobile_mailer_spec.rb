@@ -163,7 +163,7 @@ describe MobileMailer do
 
       raw_mail = ascii_8bit(email.to_s)
       raw_mail.should match(/For au/)
-      raw_mail.should match(Regexp.escape("GyRCRnxLXDhsQmpMPhsoQhskQnZeGyhC"))
+      raw_mail.should match(Regexp.escape("GyRCRnxLXDhsQmpMPnZeGyhC"))
       raw_mail.should match(Regexp.compile(ascii_8bit("\x76\x21")))
     end
 

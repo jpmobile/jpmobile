@@ -153,7 +153,7 @@ module Jpmobile
     def self.unicodecr_to_au_email(in_str)
       str = Jpmobile::Util.ascii_8bit(in_str)
       regexp = Regexp.compile(Jpmobile::Util.ascii_8bit("&#x([0-9a-f]{4});"), Regexp::IGNORECASE)
-      str.gsub(regexp) do |match|
+      str = str.gsub(regexp) do |match|
         unicode = $1.scanf("%x").first
         converted = CONVERSION_TABLE_TO_AU[unicode]
 
@@ -176,6 +176,8 @@ module Jpmobile
           match
         end
       end
+      regexp = Regexp.compile(Regexp.escape(Jpmobile::Util.ascii_8bit("\x1b\x28\x42\x1b\x24\x42")), Regexp::IGNORECASE)
+      str.gsub(regexp, '')
     end
 
     # +str+ のなかでUnicode数値文字参照で表記された絵文字をメール送信用JISコードに変換する

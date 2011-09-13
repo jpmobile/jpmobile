@@ -215,6 +215,11 @@ describe "jpmobile integration spec" do
     end
     it_should_behave_like "Shift_JISで通信する端末との通信(半角変換付き)"
     it_should_behave_like "hankaku_filter :input => true のとき"
+
+    it "Content-Type が Shift_JIS であること" do
+      get "/#{@controller}/with_charset", {}, {"HTTP_USER_AGENT" => @user_agent}
+      body.should match(/Shift_JIS/)
+    end
   end
 
   describe HankakuInputFilterController, "SoftBank 910T からのアクセス" do
@@ -225,5 +230,10 @@ describe "jpmobile integration spec" do
     end
     it_should_behave_like "UTF-8で通信する端末との通信(半角変換付き)"
     it_should_behave_like "hankaku_filter :input => true のとき"
+
+    it "Content-Type が UTF-8 であること" do
+      get "/#{@controller}/with_charset", {}, {"HTTP_USER_AGENT" => @user_agent}
+      body.should match(/UTF-8/)
+    end
   end
 end

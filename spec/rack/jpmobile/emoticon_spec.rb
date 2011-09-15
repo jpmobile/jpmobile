@@ -16,6 +16,9 @@ describe "絵文字が" do
 
     @softbank_cr        = "&#xF04A;"
     @softbank_utf8      = [0xf04a].pack("U")
+
+    @emoticon_yaml   = File.join(File.expand_path(File.dirname(__FILE__)), "../../../tmp/emoticon.yml")
+    @emoticon_images = File.join(File.expand_path(File.dirname(__FILE__)), "../../../tmp/emoticons")
   end
 
   context "PC のとき" do
@@ -40,6 +43,55 @@ describe "絵文字が" do
     it "softbank 絵文字が変換されないこと" do
       response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@softbank_cr))).call(@res)[2]
       response_body(response).should == @softbank_cr
+      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)[2]
+      response_body(response).should == @softbank_utf8
+    end
+  end
+
+  context "PC で絵文字を変換するとき" do
+    before(:each) do
+      unless FileTest.exist?(File.join(File.expand_path(File.dirname(__FILE__)), '../../../tmp/emoticon.yaml')) and
+          FileTest.directory?(File.join(File.expand_path(File.dirname(__FILE__)), '../../../tmp/emoticons'))
+        pending "emoticon.yaml and emoticons directory don't exists"
+      end
+
+      @res = Rack::MockRequest.env_for("/", 'Content-Type' => 'text/html; charset=utf-8')
+
+      Jpmobile::Rack::Filter.pc_emoticon_yaml               = "tmp/emoticon.yaml"
+      Jpmobile::Rack::Filter.pc_emoticon_image_path = @path = "tmp/emoticons"
+    end
+
+    after(:each) do
+      Jpmobile::Rack::Filter.pc_emoticon_yaml       = nil
+      Jpmobile::Rack::Filter.pc_emoticon_image_path = nil
+    end
+
+    it "docomo 絵文字が画像に変換されること" do
+      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@docomo_cr))).call(@res)[2]
+      response_body(response).should == "<img src=\"#{@path}/sun.gif\" alt=\"sun\" />"
+    end
+
+    it "docomo 絵文字コードの埋込みは変換されないこと" do
+      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@docomo_utf8))).call(@res)[2]
+      response_body(response).should == @docomo_utf8
+    end
+
+    it "au 絵文字が画像に変換されること" do
+      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@au_cr))).call(@res)[2]
+      response_body(response).should == "<img src=\"#{@path}/sun.gif\" alt=\"sun\" />"
+    end
+
+    it "au 絵文字コードの埋込みは変換されないこと" do
+      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@au_utf8))).call(@res)[2]
+      response_body(response).should == @au_utf8
+    end
+
+    it "softbank 絵文字が画像に変換されること" do
+      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@softbank_cr))).call(@res)[2]
+      response_body(response).should == "<img src=\"#{@path}/sun.gif\" alt=\"sun\" />"
+    end
+
+    it "softbank 絵文字コードの埋込みは変換されないこと" do
       response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)[2]
       response_body(response).should == @softbank_utf8
     end

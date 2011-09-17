@@ -1,0 +1,2 @@
+require './guestbook'
+run Guestbook

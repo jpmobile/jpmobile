@@ -1,26 +1,25 @@
 require 'rubygems'
 require 'sinatra'
-require 'jpmobile'
+require File.join(File.dirname(__FILE__), '../../lib/jpmobile')
 require 'jpmobile/rack'
 require 'singleton'
 require 'pp'
 
-require 'jpmobile'
-require 'jpmobile/rack'
+require 'jpmobile/sinatra'
 
 class SinatraTestHelper
   include Singleton
   attr_accessor :last_app
 end
 
-class Guestbook < Sinatra::Base
+class Guestbook < Jpmobile::Sinatra::Base
   use Jpmobile::Rack::MobileCarrier
   use Jpmobile::Rack::ParamsFilter
   use Jpmobile::Rack::Filter
 
   def call(env)
     _dup = dup
-    SinatraTestHelper.instance.last_app = _dup
+    ::SinatraTestHelper.instance.last_app = _dup
     _dup.call!(env)
   end
 
@@ -35,6 +34,8 @@ class Guestbook < Sinatra::Base
   post '/' do
     @p = params[:p]
   end
-end
 
-Guestbook.run
+  get '/top' do
+    erb :index
+  end
+end

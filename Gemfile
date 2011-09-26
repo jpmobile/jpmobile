@@ -2,9 +2,9 @@ source 'http://rubygems.org'
 
 group :development, :test do
   gem 'jeweler'
-  gem 'rails', '>= 3.0.9'
-  gem 'rspec', '>= 2.6.0'
-  gem 'rspec-rails', '>= 2.6.0'
+  gem 'rails', '~>3.0.10'
+  gem 'rspec', '~>2.6.0'
+  gem 'rspec-rails', '~>2.6.0'
   gem 'webrat'
   gem 'geokit'
   gem 'sqlite3-ruby'

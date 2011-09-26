@@ -9,7 +9,7 @@ module Jpmobile
 
       def call(env)
         # 入力
-        if @mobile = env['rack.jpmobile']
+        if @mobile = env['rack.jpmobile'] and @mobile.apply_params_filter?
           # パラメータをkey, valueに分解
           # form_params
           if env['REQUEST_METHOD'] == 'POST'

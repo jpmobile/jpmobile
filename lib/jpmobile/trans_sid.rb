@@ -27,7 +27,7 @@ module Jpmobile
   module SessionID
     module_function
 
-    include ActionDispatch::Session::Compatibility
+    extend ActionDispatch::Session::Compatibility
   end
 end
 

@@ -17,5 +17,15 @@ module Jpmobile::Mobile
     def smart_phone?
       true
     end
+
+    # Jpmobile::Rack::Filter は適用しない
+    def apply_filter?
+      false
+    end
+
+    # Jpmobile::Rack::ParamsFilter は適用しない
+    def apply_params_filter?
+      false
+    end
   end
 end

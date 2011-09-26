@@ -15,7 +15,7 @@ module Jpmobile
 
         status, env, response = @app.call(env)
 
-        if mobile and env['Content-Type'] =~ %r!text/html|application/xhtml\+xml!
+        if mobile and mobile.apply_filter? and env['Content-Type'] =~ %r!text/html|application/xhtml\+xml!
           type, charset = env['Content-Type'].split(/;\s*charset=/)
 
           body = response_to_body(response)

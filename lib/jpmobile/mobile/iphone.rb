@@ -7,6 +7,16 @@ module Jpmobile::Mobile
     # 対応するUser-Agentの正規表現
     USER_AGENT_REGEXP = /iPhone/
 
+    # Jpmobile::Rack::Filter を適用する
+    def apply_filter?
+      true
+    end
+
+    # Jpmobile::Rack::ParamsFilter を適用する
+    def apply_params_filter?
+      true
+    end
+
     # 文字コード変換
     def to_internal(str)
       # 絵文字を数値参照に変換

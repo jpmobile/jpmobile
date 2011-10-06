@@ -30,7 +30,7 @@ module Jpmobile
         elsif pc_emoticon?
           body = response_to_body(response)
 
-          response = body.gsub(/&#x([0-9a-f]{4});/i) do |match|
+          response = Jpmobile::Emoticon.utf8_to_unicodecr(body).gsub(/&#x([0-9a-f]{4});/i) do |match|
             img = @pc_emoticon_hash[$1.upcase] || (@pc_emoticon_hash[("%x" % ($1.scanf("%x").first - 0x1000)).upcase] rescue nil)
             if img
               "<img src=\"#{@@pc_emoticon_image_path}/#{img}.gif\" alt=\"#{img}\" />"
@@ -46,8 +46,7 @@ module Jpmobile
 
       private
       def pc_emoticon?
-        if @@pc_emoticon_yaml and File.exist?(@@pc_emoticon_yaml) and
-            @@pc_emoticon_image_path and FileTest.directory?(@@pc_emoticon_image_path)
+        if @@pc_emoticon_yaml and File.exist?(@@pc_emoticon_yaml) and @@pc_emoticon_image_path
 
           unless @pc_emoticon_hash
             begin

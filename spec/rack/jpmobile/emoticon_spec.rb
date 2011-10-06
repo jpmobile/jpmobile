@@ -71,9 +71,9 @@ describe "絵文字が" do
       response_body(response).should == "<img src=\"#{@path}/sun.gif\" alt=\"sun\" />"
     end
 
-    it "docomo 絵文字コードの埋込みは変換されないこと" do
+    it "docomo 絵文字コードが画像に変換されること" do
       response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@docomo_utf8))).call(@res)[2]
-      response_body(response).should == @docomo_utf8
+      response_body(response).should == "<img src=\"#{@path}/sun.gif\" alt=\"sun\" />"
     end
 
     it "au 絵文字が画像に変換されること" do
@@ -81,9 +81,9 @@ describe "絵文字が" do
       response_body(response).should == "<img src=\"#{@path}/sun.gif\" alt=\"sun\" />"
     end
 
-    it "au 絵文字コードの埋込みは変換されないこと" do
+    it "au 絵文字コードが画像に変換されること" do
       response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@au_utf8))).call(@res)[2]
-      response_body(response).should == @au_utf8
+      response_body(response).should == "<img src=\"#{@path}/sun.gif\" alt=\"sun\" />"
     end
 
     it "softbank 絵文字が画像に変換されること" do
@@ -91,9 +91,9 @@ describe "絵文字が" do
       response_body(response).should == "<img src=\"#{@path}/sun.gif\" alt=\"sun\" />"
     end
 
-    it "softbank 絵文字コードの埋込みは変換されないこと" do
+    it "softbank 絵文字コードが画像に変換されること" do
       response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)[2]
-      response_body(response).should == @softbank_utf8
+      response_body(response).should == "<img src=\"#{@path}/sun.gif\" alt=\"sun\" />"
     end
   end
 

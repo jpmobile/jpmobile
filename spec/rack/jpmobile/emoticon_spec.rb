@@ -57,13 +57,17 @@ describe "絵文字が" do
 
       @res = Rack::MockRequest.env_for("/", 'Content-Type' => 'text/html; charset=utf-8')
 
-      Jpmobile::Rack::Filter.pc_emoticon_yaml               = "tmp/emoticon.yaml"
-      Jpmobile::Rack::Filter.pc_emoticon_image_path = @path = "tmp/emoticons"
+      Jpmobile::Emoticon.pc_emoticon_yaml               = "tmp/emoticon.yaml"
+      Jpmobile::Emoticon.pc_emoticon_image_path = @path = "tmp/emoticons"
     end
 
     after(:each) do
-      Jpmobile::Rack::Filter.pc_emoticon_yaml       = nil
-      Jpmobile::Rack::Filter.pc_emoticon_image_path = nil
+      Jpmobile::Emoticon.pc_emoticon_yaml       = nil
+      Jpmobile::Emoticon.pc_emoticon_image_path = nil
+    end
+
+    it "Jpmobile::Emoticon.pc_emoticon? がtrueになること" do
+      Jpmobile::Emoticon.pc_emoticon?.should be_true
     end
 
     it "docomo 絵文字が画像に変換されること" do

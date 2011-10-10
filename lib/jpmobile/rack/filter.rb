@@ -27,17 +27,10 @@ module Jpmobile
           if type and charset
             env['Content-Type'] = "#{type}; charset=#{charset}"
           end
-        elsif pc_emoticon?
+        elsif Jpmobile::Emoticon.pc_emoticon?
           body = response_to_body(response)
 
-          response = Jpmobile::Emoticon.utf8_to_unicodecr(body).gsub(/&#x([0-9a-f]{4});/i) do |match|
-            img = @pc_emoticon_hash[$1.upcase] || (@pc_emoticon_hash[("%x" % ($1.scanf("%x").first - 0x1000)).upcase] rescue nil)
-            if img
-              "<img src=\"#{@@pc_emoticon_image_path}/#{img}.gif\" alt=\"#{img}\" />"
-            else
-              ""
-            end
-          end
+          response = Jpmobile::Emoticon.emoticons_to_image(body)
         end
 
         new_response = ::Rack::Response.new(response, status, env)
@@ -45,24 +38,6 @@ module Jpmobile
       end
 
       private
-      def pc_emoticon?
-        if @@pc_emoticon_yaml and File.exist?(@@pc_emoticon_yaml) and @@pc_emoticon_image_path
-
-          unless @pc_emoticon_hash
-            begin
-              yaml_hash = YAML.load_file(@@pc_emoticon_yaml)
-              @pc_emoticon_hash = Hash[*(yaml_hash.values.inject([]){ |r, v| r += v.to_a.flatten; r})]
-              @@pc_emoticon_image_path.chop if @@pc_emoticon_image_path.match(/\/$/)
-
-              return true
-            rescue => ex
-            end
-          end
-        end
-
-        return false
-      end
-
       def response_to_body(response)
         if response.respond_to?(:to_str)
           response.to_str
@@ -74,18 +49,6 @@ module Jpmobile
           body.join("\n")
         else
           body
-        end
-      end
-
-      @@pc_emoticon_image_path = nil
-      @@pc_emoticon_yaml       = nil
-      class << self
-        def pc_emoticon_image_path=(path)
-          @@pc_emoticon_image_path = path
-        end
-
-        def pc_emoticon_yaml=(file)
-          @@pc_emoticon_yaml = file
         end
       end
     end

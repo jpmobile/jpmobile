@@ -10,6 +10,8 @@ module Jpmobile::Mobile
     MAIL_ADDRESS_REGEXP = /.+@docomo\.ne\.jp/
     # メールのデフォルトのcharset
     MAIL_CHARSET = "Shift_JIS"
+    # テキスト部分の content-transfer-encoding
+    MAIL_CONTENT_TRANSFER_ENCODING = '8bit'
 
     # オープンiエリアがあればエリアコードを +String+ で返す。無ければ +nil+ を返す。
     def areacode

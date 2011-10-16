@@ -11,6 +11,8 @@ module Jpmobile::Mobile
     MAIL_ADDRESS_REGEXP = /.+@(?:softbank\.ne\.jp|disney\.ne\.jp)/
     # メールのデフォルトのcharset
     MAIL_CHARSET = "Shift_JIS"
+    # テキスト部分の content-transfer-encoding
+    MAIL_CONTENT_TRANSFER_ENCODING = '8bit'
 
     # 製造番号を返す。無ければ +nil+ を返す。
     def serial_number

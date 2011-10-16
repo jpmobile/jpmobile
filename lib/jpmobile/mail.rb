@@ -66,7 +66,7 @@ module Mail
 
         self.body.charset = @charset
         self.body.mobile  = @mobile
-        self.header['Content-Transfer-Encoding'] = '8bit'
+        self.header['Content-Transfer-Encoding'] = @mobile.content_transfer_encoding(self.header)
 
         buffer = header.encoded
         buffer << "\r\n"
@@ -219,6 +219,9 @@ module Mail
       if @mobile and !multipart?
         if @mobile.to_mail_body_encoded?(@raw_source)
           @raw_source
+        elsif Jpmobile::Util.ascii_8bit?(@raw_source)
+          enc = Mail::Encodings::get_encoding(get_best_encoding(transfer_encoding))
+          Jpmobile::Util.force_encode(enc.encode(@raw_source), nil, @charset)
         else
           @mobile.to_mail_body(Jpmobile::Util.force_encode(@raw_source, @charset, Jpmobile::Util::UTF8))
         end

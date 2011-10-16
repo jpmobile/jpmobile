@@ -16,6 +16,8 @@ module Jpmobile::Mobile
     USER_AGENT_REGEXP = nil
     # 対応するメールアドレスの正規表現
     MAIL_ADDRESS_REGEXP = nil
+    # テキスト部分の content-transfer-encoding
+    MAIL_CONTENT_TRANSFER_ENCODING = '7bit'
 
     # 緯度経度があれば Position のインスタンスを返す。
     def position; return nil; end
@@ -114,6 +116,14 @@ module Jpmobile::Mobile
     def mail_charset(charset = nil)
       # (charset.nil? or charset == "") ? self.class::MAIL_CHARSET : charset
       self.class::MAIL_CHARSET
+    end
+    def content_transfer_encoding(headers)
+      transfer_encoding = headers['Content-Transfer-Encoding']
+      if headers['Content-Type'].to_s.match(/text/)
+        transfer_encoding.to_s == MAIL_CONTENT_TRANSFER_ENCODING ? transfer_encoding : MAIL_CONTENT_TRANSFER_ENCODING
+      else
+        transfer_encoding
+      end
     end
     def to_mail_encoding(str)
       str = Jpmobile::Emoticon.utf8_to_unicodecr(str)

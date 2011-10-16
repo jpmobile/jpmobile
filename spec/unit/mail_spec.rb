@@ -229,4 +229,29 @@ describe "Jpmobile::Mail" do
       end
     end
   end
+
+  context "with attachments" do
+    before(:each) do
+      @mobile = Jpmobile::Mobile::AbstractMobile.new(nil, nil)
+      @mail.mobile = @mobile
+      @mail.to = "むすめふさほせ <info+to@jpmobile-rails.org>"
+      @photo = open(File.join(File.expand_path(File.dirname(__FILE__)), "email-fixtures/photo.jpg")).read
+    end
+
+    it "should encodes itself successfully" do
+      @mail.attachments['photo.jpg'] = @photo
+
+      lambda {
+        @mail.to_s
+      }.should_not raise_error
+    end
+
+    it "should encodes itself successfully with an inline attachment" do
+      @mail.attachments.inline['photo.jpg'] = @photo
+
+      lambda {
+        @mail.to_s
+      }.should_not raise_error
+    end
+  end
 end

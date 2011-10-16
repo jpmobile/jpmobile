@@ -154,6 +154,12 @@ module Jpmobile::Mobile
       body = to_mail_internal(body, nil)
       Jpmobile::Util.force_encode(body, charset, Jpmobile::Util::UTF8)
     end
+    def decoratable?
+      false
+    end
+    def require_related_part?
+      false
+    end
 
     # リクエストがこのクラスに属するか調べる
     # メソッド名に関して非常に不安

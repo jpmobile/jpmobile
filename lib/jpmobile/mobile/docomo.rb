@@ -116,6 +116,12 @@ module Jpmobile::Mobile
     def to_mail_body_encoded?(str)
       Jpmobile::Util.shift_jis?(str)
     end
+    def decoratable?
+      true
+    end
+    def require_related_part?
+      true
+    end
 
     # i-mode ブラウザのバージョンを返す。
     # http://labs.unoh.net/2009/07/i_20.html

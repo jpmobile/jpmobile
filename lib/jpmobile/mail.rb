@@ -137,6 +137,72 @@ module Mail
     alias_method :body_lazy_without_jpmobile, :body_lazy
     alias_method :body_lazy, :body_lazy_with_jpmobile
 
+# -- docomo
+# multipart/mixed
+#   |- multipart/related
+#   |    |- multipart/alternative
+#   |    |    |- text/plain
+#   |    |    |- text/html
+#   |    |- image/xxxx (インライン画像)
+#   |- image/xxxx (添付画像)
+
+# -- au
+# multipart/mixed
+#   |- multipart/alternative
+#   |    |- text/plain
+#   |    |- text/html
+#   |- image/xxxx (インライン画像)
+#   |- image/xxxx (添付画像)
+
+# -- normal
+# multipart/mixed
+#   |- multipart/alternative
+#   |    |- text/plain
+#   |    |- text/html
+#   |    |- image/xxxx (インライン画像)
+#   |- image/xxxx (添付画像)
+
+    def rearrange!
+      if @mobile and @mobile.decoratable?
+        text_body_part = self.parts.find{|p| p.content_type.match(/^text\/plain/)}
+        html_body_part = self.parts.find{|p| p.content_type.match(/^text\/html/)}
+        inline_images  = []
+        attached_files = []
+        self.parts.each do |p|
+          if p.content_type.match(/^image\//)  and p.content_disposition.match(/^inline/)
+            inline_images << p
+          elsif p.content_disposition
+            attached_files << p
+          end
+        end
+
+        alternative_part = Mail::Part.new{content_type 'multipart/alternative'}
+        alternative_part.add_part(text_body_part)
+        alternative_part.add_part(html_body_part)
+
+        if @mobile.require_related_part?
+          related_part = Mail::Part.new{content_type 'multipart/related'}
+          related_part.add_part(alternative_part)
+          inline_images.each do |inline_image|
+            related_part.add_part(inline_image)
+          end
+        else
+          related_part = alternative_part
+        end
+
+        unless self.header['Content-Type'].sub_type == 'mixed'
+          self.header['Content-Type'] = self.content_type.gsub(/#{self.header['Content-Type'].sub_type}/, 'mixed')
+        end
+        self.parts.clear
+        self.body = nil
+
+        self.add_part(related_part)
+        attached_files.each do |attached_file|
+          self.add_part(attached_file)
+        end
+      end
+    end
+
     private
     def convert_encoding_jpmobile
       # decide mobile carrier

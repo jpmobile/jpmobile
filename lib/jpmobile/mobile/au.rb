@@ -118,6 +118,10 @@ module Jpmobile::Mobile
       str
     end
 
+    def decoratable?
+      true
+    end
+
     private
     def to_mail_encoding(str)
       str = Jpmobile::Emoticon.utf8_to_unicodecr(str)

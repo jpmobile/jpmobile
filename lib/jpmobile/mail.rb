@@ -67,6 +67,7 @@ module Mail
         self.body.charset = @charset
         self.body.mobile  = @mobile
         self.header['Content-Transfer-Encoding'] = @mobile.content_transfer_encoding(self.header)
+        self.header['Content-ID'] = nil if @mobile.decorated? and !self.content_type.match(/image\//)
 
         buffer = header.encoded
         buffer << "\r\n"
@@ -164,12 +165,15 @@ module Mail
 
     def rearrange!
       if @mobile and @mobile.decoratable?
-        text_body_part = self.parts.find{|p| p.content_type.match(/^text\/plain/)}
-        html_body_part = self.parts.find{|p| p.content_type.match(/^text\/html/)}
+        @mobile.decorated = true
+        text_body_part = find_part_by_content_type("text/plain").first
+        html_body_part = find_part_by_content_type("text/html").first
+        html_body_part.transport_encoding = 'quoted-printable' if html_body_part
         inline_images  = []
         attached_files = []
-        self.parts.each do |p|
+        attachments.each do |p|
           if p.content_type.match(/^image\//)  and p.content_disposition.match(/^inline/)
+            p.header['Content-Disposition'] = nil
             inline_images << p
           elsif p.content_disposition
             attached_files << p
@@ -177,8 +181,8 @@ module Mail
         end
 
         alternative_part = Mail::Part.new{content_type 'multipart/alternative'}
-        alternative_part.add_part(text_body_part)
-        alternative_part.add_part(html_body_part)
+        alternative_part.add_part(text_body_part) if text_body_part
+        alternative_part.add_part(html_body_part) if html_body_part
 
         if @mobile.require_related_part?
           related_part = Mail::Part.new{content_type 'multipart/related'}
@@ -186,6 +190,7 @@ module Mail
           inline_images.each do |inline_image|
             related_part.add_part(inline_image)
           end
+          inline_images.clear
         else
           related_part = alternative_part
         end
@@ -197,10 +202,27 @@ module Mail
         self.body = nil
 
         self.add_part(related_part)
+        inline_images.each do |inline_image|
+          self.add_part(inline_image)
+        end
         attached_files.each do |attached_file|
           self.add_part(attached_file)
         end
       end
+    end
+
+    def find_part_by_content_type(content_type)
+      finded_parts = []
+
+      self.parts.each do |part|
+        if part.multipart?
+          finded_parts << part.find_part_by_content_type(content_type)
+        elsif part.content_type.match(/^#{content_type}/)
+          finded_parts << part
+        end
+      end
+
+      finded_parts.flatten
     end
 
     private
@@ -289,7 +311,13 @@ module Mail
           enc = Mail::Encodings::get_encoding(get_best_encoding(transfer_encoding))
           Jpmobile::Util.force_encode(enc.encode(@raw_source), nil, @charset)
         else
-          @mobile.to_mail_body(Jpmobile::Util.force_encode(@raw_source, @charset, Jpmobile::Util::UTF8))
+          if transfer_encoding == 'quoted-printable'
+            # [str].pack("M").gsub(/\n/, "\r\n")
+            Jpmobile::Util.force_encode([@mobile.to_mail_body(Jpmobile::Util.force_encode(@raw_source, @charset, Jpmobile::Util::UTF8))].pack("M").gsub(/\n/, "\r\n"), Jpmobile::Util::BINARY, @charset)
+            # @mobile.to_mail_body(Jpmobile::Util.force_encode(@raw_source, @charset, Jpmobile::Util::UTF8))
+          else
+            @mobile.to_mail_body(Jpmobile::Util.force_encode(@raw_source, @charset, Jpmobile::Util::UTF8))
+          end
         end
       else
         encoded_without_jpmobile(transfer_encoding)

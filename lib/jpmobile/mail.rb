@@ -375,7 +375,7 @@ module Mail
       if @mobile
         Jpmobile::Util.encode(crlf_boundary_without_jpmobile, @charset)
       else
-        epilogue_without_jpmobile
+        crlf_boundary_without_jpmobile
       end
     end
 
@@ -383,7 +383,7 @@ module Mail
       if @mobile
         Jpmobile::Util.encode(end_boundary_without_jpmobile, @charset)
       else
-        epilogue_without_jpmobile
+        end_boundary_without_jpmobile
       end
     end
 

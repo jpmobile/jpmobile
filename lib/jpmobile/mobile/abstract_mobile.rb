@@ -119,8 +119,15 @@ module Jpmobile::Mobile
     end
     def content_transfer_encoding(headers)
       transfer_encoding = headers['Content-Transfer-Encoding']
-      if headers['Content-Type'].to_s.match(/text/)
+      case headers['Content-Type'].to_s
+      when /text\/plain/
         transfer_encoding.to_s == MAIL_CONTENT_TRANSFER_ENCODING ? transfer_encoding : MAIL_CONTENT_TRANSFER_ENCODING
+      when /text\/html/
+        if self.decorated?
+          'quoted-printable'
+        else
+          transfer_encoding.to_s == MAIL_CONTENT_TRANSFER_ENCODING ? transfer_encoding : MAIL_CONTENT_TRANSFER_ENCODING
+        end
       else
         transfer_encoding
       end
@@ -159,6 +166,12 @@ module Jpmobile::Mobile
     end
     def require_related_part?
       false
+    end
+    def decorated=(boolean)
+      @decorated = boolean
+    end
+    def decorated?
+      @decorated
     end
 
     # リクエストがこのクラスに属するか調べる

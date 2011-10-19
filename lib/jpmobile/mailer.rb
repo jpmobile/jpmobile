@@ -23,10 +23,15 @@ module Jpmobile
                   end
         self.lookup_context.mobile = @mobile.variants
 
+        @mobile.decorated = headers.delete(:decorated)
+
         m = super(headers, &block)
 
         m.mobile  = @mobile
         m.charset = @mobile.mail_charset
+
+        # for decorated-mail manipulation
+        m.rearrange! if @mobile.decorated?
 
         m
       end

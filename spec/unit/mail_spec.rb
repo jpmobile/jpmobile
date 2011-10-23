@@ -19,6 +19,31 @@ describe "Jpmobile::Mail" do
     end
   end
 
+  describe "Non-mobile" do
+    before(:each) do
+      @mail = Mail.new do
+        subject "万葉"
+        from "ちはやふる <info@jpmobile-rails.org>"
+      end
+    end
+    context "has multipart body" do
+      before(:each) do
+        @mail.parts << Mail::Part.new { body "ほげ" }
+        @mail.parts << Mail::Part.new { body "ほげほげ" }
+        @mail.parts.each{|p| p.charset = "ISO-2022-JP" }
+      end
+      context "to_s" do
+        subject {
+          Mail.new ascii_8bit(@mail.to_s)
+        }
+        it "should be able to decode bodies" do
+          subject.parts[0].body == "ほげ"
+          subject.parts[1].body == "ほげほげ"
+        end
+      end
+    end
+  end
+
   describe "AbstractMobile" do
     before(:each) do
       @mobile = Jpmobile::Mobile::AbstractMobile.new(nil, nil)

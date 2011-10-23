@@ -34,8 +34,8 @@ describe Jpmobile::Util do
     utf8_to_sjis("اللغة العربية").should == sjis("????? ???????")
   end
 
-  it "utf8_to_sjis で改行コードが CRLF に変更されること" do
-    utf8_to_sjis("UTF8\nTEXT\n").should == sjis("UTF8\r\nTEXT\r\n")
+  it "utf8_to_sjis ですべての改行コードが CRLF に変更されること" do
+    utf8_to_sjis("UTF8\rSAMPLE\nTEXT\r\n").should == sjis("UTF8\r\nSAMPLE\r\nTEXT\r\n")
   end
 
   it "0x8150がU+FFE3に変換されること" do
@@ -61,6 +61,22 @@ describe Jpmobile::Util do
   it "jis_string_regexpでISO-2022-JPの文字列がマッチすること" do
     jis_string_regexp.match(ascii_8bit(utf8_to_jis("abcしからずんばこじをえずdef"))).should_not be_nil
     jis_to_utf8(jis("\x1b\x24\x42#{$1}\x1b\x28\x42")).should == "しからずんばこじをえず"
+  end
+
+  it "sjis_to_utf8 ですべての改行コードが LF に変更されること" do
+    sjis_to_utf8("SJIS\rSAMPLE\nTEXT\r\n").should == utf8("SJIS\nSAMPLE\nTEXT\n")
+  end
+
+  it "utf8_to_sjis で変換できない文字列が含んでいた場合?に変換される" do
+    utf8_to_jis("اللغة العربية").should == jis("????? ???????")
+  end
+
+  it "utf8_to_jis ですべての改行コードが CRLF に変更されること" do
+    utf8_to_jis("UTF8\rSAMPLE\nTEXT\r\n").should == jis("UTF8\r\nSAMPLE\r\nTEXT\r\n")
+  end
+
+  it "jis_to_utf8 ですべての改行コードが LF に変更されること" do
+    jis_to_utf8("JIS\rSAMPLE\nTEXT\r\n").should == utf8("JIS\nSAMPLE\nTEXT\n")
   end
 
   it "fold_textでUTF-8の日本語文字列が指定文字数で折り返された配列で返ること" do

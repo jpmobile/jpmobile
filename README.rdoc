@@ -271,7 +271,10 @@ trans_sid を使用する際には、例えば config/initializers/session_store
 * au は ISO-2022-JP エンコードで送信
 * ビューやレイアウトの自動振り分け
   * docomo であれば app/views/mobile_mailer/registration_mobile_docomo.html.erb など
-* 受信に関しては、docomo/SoftBank でテストできないため、実験版とします。
+* 受信に関しては、docomo/SoftBank でテストできていないため、実験版とします。
+  * テストして問題あれば随時報告してください。
+* オプションに :decorated => true を追加すると、各キャリアのデコメに適したフォーマットで送信します。
+  * ただし docomo/SoftBank でテスト出来ていないため、実験版とします。
 
 == テストに必要なgemパッケージ
 テストを実行するためには以下のgemパッケージが必要です。

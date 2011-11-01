@@ -120,6 +120,9 @@ module Jpmobile
     end
 
     def utf8_to_jis(utf8_str)
+      # 波ダッシュ対策
+      utf8_str = fullwidth_tilde_to_wavedash(utf8_str)
+
       if utf8_str.respond_to?(:encode)
         utf8_str.encode(JIS, :crlf_newline => true)
       else
@@ -184,11 +187,17 @@ module Jpmobile
     end
 
     def encode(str, charset)
-      if Object.const_defined?(:Encoding)
-        (charset.nil? or charset == "" or str.nil? or str == "") ? str : str.encode(charset)
+      if (charset.nil? or charset == "" or str.nil? or str == "")
+        str
+      elsif utf8?(str) and charset.match(/iso-2022-jp/i)
+        utf8_to_jis(str)
+      elsif utf8?(str) and charset.match(/shift_jis/i)
+        utf8_to_sjis(str)
+      elsif utf8?(str) and charset.match(/utf-8/i)
+        str
       else
-        if str.nil?
-          str
+        if Object.const_defined?(:Encoding)
+          str.encode(charset)
         else
           case charset
           when /iso-2022-jp/i

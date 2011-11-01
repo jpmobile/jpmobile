@@ -254,4 +254,25 @@ describe "Jpmobile::Mail" do
       }.should_not raise_error
     end
   end
+
+  context "encoding conversion" do
+    before(:each) do
+      @mobile = Jpmobile::Mobile::AbstractMobile.new(nil, nil)
+      @mail.mobile = @mobile
+      @mail.to = "むすめふさほせ <info+to@jpmobile-rails.org>"
+      @photo = open(File.join(File.expand_path(File.dirname(__FILE__)), "email-fixtures/photo.jpg")).read
+    end
+
+    it "wave dash converting correctly" do
+      @mail.body = '10:00〜12:00'
+
+      ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape(ascii_8bit("\x31\x30\x3a\x30\x30\x1b\x24\x42\x21\x41\x1b\x28\x42\x31\x32\x3a\x30\x30"))))
+    end
+
+    it "full width tilde converting correctly" do
+      @mail.body = "10:00#{[0xff5e].pack("U")}12:00"
+
+      ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape(ascii_8bit("\x31\x30\x3a\x30\x30\x1b\x24\x42\x21\x41\x1b\x28\x42\x31\x32\x3a\x30\x30"))))
+    end
+  end
 end

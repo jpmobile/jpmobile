@@ -3,7 +3,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), 'spec_helper'))
 require 'stringio'
 require 'nkf'
 
-describe Jpmobile::Util, ".deep_apply" do
+describe Jpmobile::Util do
   include Jpmobile::Util
 
   it 'nilのときはnilを返すこと' do
@@ -86,5 +86,10 @@ describe Jpmobile::Util, ".deep_apply" do
   it "split_textでnilかblankの場合はnilが返ること" do
     split_text('', 15).should be_nil
     split_text(nil, 15).should be_nil
+  end
+
+  it "全角チルダがjisに適切に変換されること" do
+    ascii_8bit(utf8_to_jis("\xef\xbd\x9e")).should == ascii_8bit("\x1b\x24\x42\x21\x41\x1b\x28\x42")
+    ascii_8bit(encode("\xef\xbd\x9e", "ISO-2022-JP")).should == ascii_8bit("\x1b\x24\x42\x21\x41\x1b\x28\x42")
   end
 end

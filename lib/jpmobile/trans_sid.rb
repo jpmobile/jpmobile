@@ -31,22 +31,15 @@ module Jpmobile
   end
 end
 
+module ActiveRecord
+  class SessionStore
+    def destroy_session_with_jpmobile(env, session_id, options)
+      destroy_session_without_jpmobile(env, session_id, options)
 
-module Rack
-  module Session
-    module Abstract
-      class SessionHash
-        def destroy_with_jpmobile
-          destroy_without_jpmobile
-
-          options = @env[::Rack::Session::Abstract::ENV_SESSION_OPTIONS_KEY] if @env
-          options ||= {}
-          options[:id] = Jpmobile::SessionID.generate_sid
-        end
-
-        alias_method_chain :destroy, :jpmobile
-      end
+      session_id || Jpmobile::SessionID.generate_sid
     end
+
+    alias_method_chain :destroy_session, :jpmobile
   end
 end
 

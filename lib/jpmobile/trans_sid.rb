@@ -21,25 +21,20 @@ module Jpmobile
       end
     end
 
-    ActionDispatch::Session::AbstractStore.send :include, ParamsOverCookie
+    case Rails.application.config.session_store.to_s
+    when "ActionDispatch::Session::MemCacheStore"
+      require 'jpmobile/session/mem_cache_store'
+      ActionDispatch::Session::MemCacheStore.send :include, ParamsOverCookie
+    when "ActiveRecord::SessionStore"
+      require 'jpmobile/session/active_record_store'
+      ActionDispatch::Session::AbstractStore.send :include, ParamsOverCookie
+    end
   end
 
   module SessionID
     module_function
 
     extend ActionDispatch::Session::Compatibility
-  end
-end
-
-module ActiveRecord
-  class SessionStore
-    def destroy_session_with_jpmobile(env, session_id, options)
-      destroy_session_without_jpmobile(env, session_id, options)
-
-      session_id || Jpmobile::SessionID.generate_sid
-    end
-
-    alias_method_chain :destroy_session, :jpmobile
   end
 end
 

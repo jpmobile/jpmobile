@@ -67,7 +67,16 @@ module Mail
         self.body.charset = @charset
         self.body.mobile  = @mobile
         self.header['Content-Transfer-Encoding'] = @mobile.content_transfer_encoding(self.header)
-        self.header['Content-ID'] = nil if @mobile.decorated? and !self.content_type.match(/image\//)
+        if @mobile.decorated?
+          unless self.content_type.match(/image\//)
+            self.header['Content-ID'] = nil
+          end
+
+          unless self.header['Content-Type'].sub_type == 'mixed'
+            self.header['Date']         = nil
+            self.header['Mime-Version'] = nil
+          end
+        end
 
         buffer = header.encoded
         buffer << "\r\n"
@@ -173,7 +182,9 @@ module Mail
         attached_files = []
         attachments.each do |p|
           if p.content_type.match(/^image\//)  and p.content_disposition.match(/^inline/)
-            p.header['Content-Disposition'] = nil
+            if p.header['Content-Type'].parameters['filename']
+              p.header['Content-Type'].parameters['name'] = p.header['Content-Type'].parameters['filename'].to_s
+            end
             inline_images << p
           elsif p.content_disposition
             attached_files << p

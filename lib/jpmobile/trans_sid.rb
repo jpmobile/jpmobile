@@ -21,13 +21,15 @@ module Jpmobile
       end
     end
 
-    case Rails.application.config.session_store.to_s
-    when "ActionDispatch::Session::MemCacheStore"
-      require 'jpmobile/session/mem_cache_store'
-      ActionDispatch::Session::MemCacheStore.send :include, ParamsOverCookie
-    when "ActiveRecord::SessionStore"
-      require 'jpmobile/session/active_record_store'
-      ActionDispatch::Session::AbstractStore.send :include, ParamsOverCookie
+    ActiveSupport.on_load(:after_initialize) do
+      case Rails.application.config.session_store.to_s
+      when "ActionDispatch::Session::MemCacheStore"
+        require 'jpmobile/session/mem_cache_store'
+        ActionDispatch::Session::MemCacheStore.send :include, ParamsOverCookie
+      when "ActiveRecord::SessionStore"
+        require 'jpmobile/session/active_record_store'
+        ActionDispatch::Session::AbstractStore.send :include, ParamsOverCookie
+      end
     end
   end
 

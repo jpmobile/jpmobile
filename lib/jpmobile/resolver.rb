@@ -1,36 +1,12 @@
 module Jpmobile
   class Resolver < ActionView::FileSystemResolver
-    def find_templates(name, prefix, partial, details)
-      path = build_path(name, prefix, partial, details)
-      query(path, EXTENSIONS.map { |ext| details[ext] }, details[:formats], details[:mobile])
-    end
+    EXTENSIONS = [:locale, :formats, :handlers, :mobile]
+    DEFAULT_PATTERN = ":prefix/:action{_:mobile,}{.:locale,}{.:formats,}{.:handlers,}"
 
-    def build_path(name, prefix, partial, details)
-      path = ""
-      path << "#{prefix}/" unless prefix.empty?
-      path << (partial ? "_#{name}" : name)
-      path
-    end
-
-    def query(path, exts, formats, mobile)
-      query = File.join(@path, path)
-      query << '{' << mobile.map {|v| "_#{v}"}.join(',') << ',}' if mobile and mobile.respond_to?(:map)
-      exts.each do |ext|
-        query << '{' << ext.map {|e| e && ".#{e}" }.join(',') << ',}'
-      end
-
-      query.gsub!(/\{\.html,/, "{.html,.text.html,")
-      query.gsub!(/\{\.text,/, "{.text,.text.plain,")
-
-      Dir[query].reject { |p| File.directory?(p) }.map do |p|
-        handler, format = extract_handler_and_format(p, formats)
-
-        contents = File.open(p, "rb") {|io| io.read }
-        variant = p.match(/.+#{path}(.+)\.#{format.to_sym.to_s}.*$/) ? $1 : ''
-
-        ActionView::Template.new(contents, File.expand_path(p), handler,
-          :virtual_path => path + variant, :format => format)
-      end
+    def initialize(path, pattern=nil)
+      raise ArgumentError, "path already is a Resolver class" if path.is_a?(Resolver)
+      super(path, pattern || DEFAULT_PATTERN)
+      @path = File.expand_path(path)
     end
   end
 end

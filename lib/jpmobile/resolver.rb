@@ -13,21 +13,26 @@ module Jpmobile
 
     def query(path, details, formats)
       query = build_query(path, details)
-      templates = []
-      sanitizer = Hash.new { |h,k| h[k] = Dir["#{File.dirname(k)}/*"] }
 
-      Dir[query].each do |p|
-        next if File.directory?(p) || !sanitizer[p].include?(p)
+      # deals with case-insensitive file systems.
+      sanitizer = Hash.new { |h,dir| h[dir] = Dir["#{dir}/*"] }
 
-        handler, format = extract_handler_and_format(p, formats)
-        contents = File.open(p, "rb") { |io| io.read }
-        variant = p.match(/.+#{path}(.+)\.#{format.to_sym.to_s}.*$/) ? $1 : ''
+      template_paths = Dir[query].reject { |filename|
+        File.directory?(filename) ||
+          !sanitizer[File.dirname(filename)].include?(filename)
+      }
 
-        templates << ActionView::Template.new(contents, File.expand_path(p), handler,
-          :virtual_path => path.name + variant, :format => format, :updated_at => mtime(p))
-      end
 
-      templates
+      template_paths.map { |template|
+        handler, format = extract_handler_and_format(template, formats)
+        contents = File.binread template
+        variant = template.match(/.+#{path}(.+)\.#{format.to_sym.to_s}.*$/) ? $1 : ''
+
+        ActionView::Template.new(contents, File.expand_path(template), handler,
+          :virtual_path => path.name + variant,
+          :format       => format,
+          :updated_at   => mtime(template))
+      }
     end
   end
 end

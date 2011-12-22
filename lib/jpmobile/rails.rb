@@ -45,7 +45,7 @@ module Jpmobile
     end
 
     def disable_mobile_view!
-      self.lookup_context.mobile = nil
+      self.lookup_context.mobile = []
     end
   end
 end

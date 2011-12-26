@@ -22,14 +22,15 @@ module Jpmobile
           !sanitizer[File.dirname(filename)].include?(filename)
       }
 
-
       template_paths.map { |template|
         handler, format = extract_handler_and_format(template, formats)
         contents = File.binread template
+
         variant = template.match(/.+#{path}(.+)\.#{format.to_sym.to_s}.*$/) ? $1 : ''
+        virtual_path = variant.blank? ? nil : path + variant
 
         ActionView::Template.new(contents, File.expand_path(template), handler,
-          :virtual_path => path.name + variant,
+          :virtual_path => virtual_path,
           :format       => format,
           :updated_at   => mtime(template))
       }

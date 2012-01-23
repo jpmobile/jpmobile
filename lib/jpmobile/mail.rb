@@ -66,7 +66,7 @@ module Mail
 
         self.body.charset = @charset
         self.body.mobile  = @mobile
-        self.header['Content-Transfer-Encoding'] = @mobile.content_transfer_encoding(self.header)
+        self.header['Content-Transfer-Encoding'].value = @mobile.content_transfer_encoding(self.header)
         if @mobile.decorated?
           unless self.content_type.match(/image\//)
             self.header['Content-ID'] = nil
@@ -131,10 +131,6 @@ module Mail
       end
     end
 
-    def body_lazy_with_jpmobile(value, index)
-      body_lazy_without_jpmobile(value, index)
-    end
-
     alias_method :encoded_without_jpmobile, :encoded
     alias_method :encoded, :encoded_with_jpmobile
 
@@ -143,9 +139,6 @@ module Mail
 
     alias_method :process_body_raw_without_jpmobile, :process_body_raw
     alias_method :process_body_raw, :process_body_raw_with_jpmobile
-
-    alias_method :body_lazy_without_jpmobile, :body_lazy
-    alias_method :body_lazy, :body_lazy_with_jpmobile
 
 # -- docomo
 # multipart/mixed
@@ -422,6 +415,12 @@ module Mail
 
   class UnstructuredField
     attr_accessor :mobile
+  end
+
+  class OptionalField
+    def charset
+      @charset =~ /iso-2022-jp/i ? 'UTF-8' : @charset
+    end
   end
 
   # for subject

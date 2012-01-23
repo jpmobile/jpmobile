@@ -46,7 +46,7 @@ namespace :test do
     end
 
     # setup jpmobile
-    plugin_path = File.join(rails_root, 'vendor', 'plugins', 'jpmobile')
+    plugin_path = File.join(rails_root, 'lib', 'jpmobile')
     FileUtils.mkdir_p(plugin_path)
     FileList["*"].exclude("test").exclude("spec").exclude('vendor').each do |file|
       FileUtils.cp_r(file, plugin_path)
@@ -54,7 +54,7 @@ namespace :test do
 
     # setup jpmobile-ipaddresses
     begin
-      plugin_path = File.join(rails_root, 'vendor', 'plugins', 'jpmobile-ipaddresses')
+      plugin_path = File.join(rails_root, 'lib', 'jpmobile-ipaddresses')
       FileUtils.mkdir_p(plugin_path)
       FileList["vendor/jpmobile-ipaddresses/*"].exclude("test").each do |file|
         FileUtils.cp_r(file, plugin_path)
@@ -65,7 +65,7 @@ namespace :test do
 
     # setup jpmobile-terminfo
     begin
-      plugin_path = File.join(rails_root, 'vendor', 'plugins', 'jpmobile-terminfo')
+      plugin_path = File.join(rails_root, 'lib', 'jpmobile-terminfo')
       FileUtils.mkdir_p(plugin_path)
       FileList["vendor/jpmobile-terminfo/*"].exclude("test").each do |file|
         FileUtils.cp_r(file, plugin_path)
@@ -92,7 +92,7 @@ END
 
     # run tests in rails
     cd rails_root
-    # ruby "-S bundle install"
+    ruby "-S bundle install"
     ruby "-S rake db:migrate test" unless skip
     ruby "-S rake spec"
     # ruby "-S rspec -b --color spec/requests/filter_spec.rb -e 'jpmobile integration spec HankakuInputFilterController SoftBank 910T からのアクセス it should behave like hankaku_filter :input => true のとき はtextareaの中では半角に変換されないこと'"

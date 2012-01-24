@@ -1,7 +1,7 @@
 = jpmobile: A Rails plugin for Japanese mobile-phones
 
 == jpmobileとは
-携帯電話特有の機能を Rails 3.1 や Rack middleware で利用するためのプラグイン。
+携帯電話特有の機能を Rails 3.2 や Rack middleware で利用するためのプラグイン。
 以下の機能を備える。
 
 * 携帯電話のキャリア判別
@@ -18,10 +18,12 @@
 * メールの受信(experimental)
   * 絵文字と漢字コードの変換
 
-また Rails 3.1 に以下の機能を追加する
+また Rails 3.2 に以下の機能を追加する
 * ビューへの自動振分け
 * 位置情報取得などのリンクヘルパーの追加
 * セッションIDをフォーム／リンクに付与(Trans SID)
+
+他のバージョンのRailsについては{Versions : Jpmobile vs Rails}[https://github.com/jpmobile/jpmobile/wiki/Version-:-Jpmobile-vs-Rails]を参照。
 
 == インストール
 === Rails pluginとしてインストールする場合
@@ -237,7 +239,7 @@ Androidの場合はindex_smart_phone_android.html.erb、Windows Phoneの場合�
   end
 
 trans_sid 機能を使う場合には cookie session store を使用することができません。
-また Rails 3.1 では Cookie が使える場合にはそちらが優先されてしまうため、:always を指定した場合に問題になる場合があります。
+また Rails 3.2 では Cookie が使える場合にはそちらが優先されてしまうため、:always を指定した場合に問題になる場合があります。
 trans_sid を使用する際には、例えば config/initializers/session_store.rb で
   Rails.application.config.session_store :active_record_store
   Rails.application.config.session_options = {:cookie_only => false}

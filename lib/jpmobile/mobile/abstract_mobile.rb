@@ -101,7 +101,7 @@ module Jpmobile::Mobile
         @_variants = @_variants.reject{|v| v == "mobile"}.map{|v| v.gsub(/mobile/, "smart_phone")}
       end
 
-      @_variants
+      @_variants || []
     end
 
     # メール送信用

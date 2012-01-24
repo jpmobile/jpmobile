@@ -23,7 +23,7 @@
 * 位置情報取得などのリンクヘルパーの追加
 * セッションIDをフォーム／リンクに付与(Trans SID)
 
-他のバージョンのRailsについては{Versions : Jpmobile vs Rails}[https://github.com/jpmobile/jpmobile/wiki/Version-:-Jpmobile-vs-Rails]を参照。
+他のバージョンの Rails については {Versions : Jpmobile vs Rails}[https://github.com/jpmobile/jpmobile/wiki/Version-:-Jpmobile-vs-Rails] を参照。
 
 == インストール
 === Rails pluginとしてインストールする場合

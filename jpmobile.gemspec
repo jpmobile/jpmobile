@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{jpmobile}
-  s.version = "1.0.0.pre"
+  s.version = "2.0.6"
 
   s.required_rubygems_version = Gem::Requirement.new("> 1.3.1") if s.respond_to? :required_rubygems_version=
   s.authors = ["Yoji Shidara", "Shin-ichiro OGAWA"]

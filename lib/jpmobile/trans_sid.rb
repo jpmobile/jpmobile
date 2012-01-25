@@ -32,6 +32,7 @@ module Jpmobile
   end
 
   module SessionID
+    require 'action_dispatch/middleware/session/abstract_store'
     module_function
 
     extend ActionDispatch::Session::Compatibility

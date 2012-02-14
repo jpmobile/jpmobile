@@ -177,7 +177,7 @@ Rails のみ半角・全角の自動変換フィルターが用意されてい�
     hankaku_filter
   end
 
-と指定する。またtextareaやhidden/text/passwordのinputタグで半角に変換したくない場合は :input => true を指定する。
+と指定する。またtextareaやhidden/text/passwordのinputタグで半角に変換したくない場合は :input => true を指定する。このときNokogiriが必要となるため、Gemfileに追記してインストールする必要がある。
   class MyController
     hankaku_filter :input => true
   end

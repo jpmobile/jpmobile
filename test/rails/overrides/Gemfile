@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
-gem 'rails', '~> 3.1.0'
-gem 'mail', '2.3.0'
+gem 'rails', '~> 3.1.4'
+gem 'mail', '~> 2.3.0'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -28,7 +28,7 @@ gem 'hpricot'
 
 # Bundle gems for certain environments:
 group :development, :test do
-  gem "rspec", ">= 2.1.0"
-  gem "rspec-rails", ">= 2.1.0"
+  gem "rspec", ">= 2.8.0"
+  gem "rspec-rails", ">= 2.8.0"
   gem 'webrat'
 end

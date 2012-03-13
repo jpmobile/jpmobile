@@ -37,4 +37,8 @@ class TransSidBaseController < ApplicationController
   def redirect_path_admin
     redirect_to [:admin, @user]
   end
+
+  def redirect_action
+    redirect_to :action => "form"
+  end
 end

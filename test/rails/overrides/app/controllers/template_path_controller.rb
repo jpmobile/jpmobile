@@ -13,5 +13,8 @@ class TemplatePathController < ApplicationController
   def optioned_index
     render :action => "index"
   end
+
+  def full_path_partial
+  end
 end
 

@@ -91,6 +91,13 @@ module Jpmobile
       str
     end
 
+    def ascii_compatible!(str)
+      if str.respond_to?(:encoding) and !str.encoding.ascii_compatible?
+        str.force_encoding(BINARY)
+      end
+      str
+    end
+
     def utf8_to_sjis(utf8_str)
       # 波ダッシュ対策
       utf8_str = wavedash_to_fullwidth_tilde(utf8_str)

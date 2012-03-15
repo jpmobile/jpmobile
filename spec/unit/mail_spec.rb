@@ -300,4 +300,21 @@ describe "Jpmobile::Mail" do
       ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape(ascii_8bit("\x31\x30\x3a\x30\x30\x1b\x24\x42\x21\x41\x1b\x28\x42\x31\x32\x3a\x30\x30"))))
     end
   end
+
+  context "delivering" do
+    before(:each) do
+      @mobile = Jpmobile::Mobile::AbstractMobile.new(nil, nil)
+      @mail.mobile = @mobile
+      @mail.to = "むすめふさほせ <info+to@jpmobile-rails.org>"
+    end
+
+    it "delivers through SMTP" do
+      @mail.delivery_method :smtp
+      lambda {
+        @mail.deliver
+      }.should_not raise_error
+
+      Mail.deliveries.size
+    end
+  end
 end

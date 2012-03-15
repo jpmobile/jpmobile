@@ -82,7 +82,8 @@ module Mail
         buffer << "\r\n"
         buffer = @mobile.utf8_to_mail_encode(buffer)
         buffer << body.encoded(content_transfer_encoding)
-        buffer
+
+        ascii_compatible!(buffer)
       else
         encoded_without_jpmobile
       end
@@ -274,6 +275,10 @@ module Mail
         @body_part_jpmobile = @mobile.decode_transfer_encoding(@body_part_jpmobile, @charset)
       end
     end
+
+    def ascii_compatible!(str)
+      Jpmobile::Util.ascii_compatible!(str)
+    end
   end
 
   class Part
@@ -301,6 +306,11 @@ module Mail
 
     alias_method :parse_message_without_jpmobile, :parse_message
     alias_method :parse_message, :parse_message_with_jpmobile
+
+    private
+    def ascii_compatible!(str)
+      str
+    end
   end
 
   class Body

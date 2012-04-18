@@ -309,12 +309,12 @@ describe "Jpmobile::Mail" do
     end
 
     it "delivers through SMTP" do
-      @mail.delivery_method :smtp
+      @mail.delivery_method :smtp, {:enable_starttls_auto => false}
       lambda {
         @mail.deliver
       }.should_not raise_error
 
-      Mail.deliveries.size
+      Mail::TestMailer.deliveries.size
     end
   end
 end

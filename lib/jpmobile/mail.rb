@@ -261,8 +261,9 @@ module Mail
         self.header[:subject].charset = subject_charset unless subject_charset.blank?
 
         if @mobile
-          v = @mobile.to_mail_internal(
-            Encodings.value_decode(self.header[:subject].value), subject_charset)
+          subject_value = Encodings.value_decode(self.header[:subject].value)
+          subject_converting_encoding = Jpmobile::Util.detect_encoding(subject_value)
+          v = @mobile.to_mail_internal(subject_value, subject_converting_encoding)
           if @charset == subject_charset and @mobile.mail_charset != @charset
             self.header[:subject].value = Jpmobile::Util.force_encode(v, @charset, Jpmobile::Util::UTF8)
           else

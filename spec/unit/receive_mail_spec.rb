@@ -220,6 +220,12 @@ describe "Jpmobile::Mail#receive" do
         ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape(ascii_8bit("\x1b\x24\x42\x32\x71\x35\x44\x24\x2C\x33\x2B\x3A\x45\x75\x48\x1b\x28\x42"))))
       end
     end
+
+    it "should not be raised when parsing incoming email #41" do
+      lambda {
+        @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "email-fixtures/au-email.eml")).read)
+      }.should_not raise_error
+    end
   end
 
   describe "Softbank" do

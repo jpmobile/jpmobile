@@ -16,5 +16,14 @@ class TemplatePathController < ApplicationController
 
   def full_path_partial
   end
+
+  def smart_phone_only
+  end
+
+  def with_tblt
+  end
+
+  def with_ipd
+  end
 end
 

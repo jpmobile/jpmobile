@@ -169,6 +169,78 @@ describe TemplatePathController, "integrated_views" do
     end
   end
 
+  context 'only smart_phone view' do
+    context 'iPadからのアクセスの場合' do
+      before do
+        @user_agent = 'Mozilla/5.0 (iPad; U; CPU OS 4_3 like Mac OS X; ja-jp) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8F191 Safari/6533.18.5'
+      end
+      it 'smart_phone_only.html.erbが使用されること' do
+        get '/template_path/smart_phone_only', {}, {'HTTP_USER_AGENT' => @user_agent}
+
+        response.should have_tag('h1', :content => 'smart_phone_only_smart_phone.html.erb')
+      end
+    end
+
+    context 'Android Tabletからのアクセスの場合' do
+      before do
+        @user_agent = 'Mozilla/5.0 (Linux; U; Android 2.2; ja-jp; SC-01C Build/FROYO) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1'
+      end
+      it 'smart_phone_only.html.erbが使用されること' do
+        get '/template_path/smart_phone_only', {}, {'HTTP_USER_AGENT' => @user_agent}
+
+        response.should have_tag('h1', :content => 'smart_phone_only_smart_phone.html.erb')
+      end
+    end
+  end
+
+  context 'with_tblt view' do
+    context 'iPadからのアクセスの場合' do
+      before do
+        @user_agent = 'Mozilla/5.0 (iPad; U; CPU OS 4_3 like Mac OS X; ja-jp) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8F191 Safari/6533.18.5'
+      end
+      it 'with_tblt_tablet.html.erbが使用されること' do
+        get '/template_path/with_tblt', {}, {'HTTP_USER_AGENT' => @user_agent}
+
+        response.should have_tag('h1', :content => 'with_tblt_tablet.html.erb')
+      end
+    end
+
+    context 'Android Tabletからのアクセスの場合' do
+      before do
+        @user_agent = 'Mozilla/5.0 (Linux; U; Android 2.2; ja-jp; SC-01C Build/FROYO) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1'
+      end
+      it 'with_tblt_tablet.html.erbが使用されること' do
+        get '/template_path/with_tblt', {}, {'HTTP_USER_AGENT' => @user_agent}
+
+        response.should have_tag('h1', :content => 'with_tblt_tablet.html.erb')
+      end
+    end
+  end
+
+  context 'with_ipd view' do
+    context 'iPadからのアクセスの場合' do
+      before do
+        @user_agent = 'Mozilla/5.0 (iPad; U; CPU OS 4_3 like Mac OS X; ja-jp) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8F191 Safari/6533.18.5'
+      end
+      it 'with_ipd_tablet_ipad.html.erbが使用されること' do
+        get '/template_path/with_ipd', {}, {'HTTP_USER_AGENT' => @user_agent}
+
+        response.should have_tag('h1', :content => 'with_ipd_tablet_ipad.html.erb')
+      end
+    end
+
+    context 'Android Tabletからのアクセスの場合' do
+      before do
+        @user_agent = 'Mozilla/5.0 (Linux; U; Android 2.2; ja-jp; SC-01C Build/FROYO) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1'
+      end
+      it 'with_ipd.html.erbが使用されること' do
+        get '/template_path/with_ipd', {}, {'HTTP_USER_AGENT' => @user_agent}
+
+        response.should have_tag('h1', :content => 'with_ipd.html.erb')
+      end
+    end
+  end
+
   context "partial" do
     context "PCからのアクセスの場合" do
       before do

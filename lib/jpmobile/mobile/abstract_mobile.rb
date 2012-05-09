@@ -29,16 +29,6 @@ module Jpmobile::Mobile
     # 端末を識別する文字列があれば返す。
     def ident_device; nil; end
 
-    # 当該キャリアのIPアドレス帯域からのアクセスであれば +true+ を返す。
-    # そうでなければ +false+ を返す。
-    # IP空間が定義されていない場合は +nil+ を返す。
-    def self.valid_ip? remote_addr
-      @ip_list ||= ip_address_class
-      return false unless @ip_list
-
-      @ip_list.valid_ip?(remote_addr)
-    end
-
     def valid_ip?
       @__valid_ip ||= self.class.valid_ip? @request.ip
     end
@@ -57,6 +47,11 @@ module Jpmobile::Mobile
 
     # smartphone かどうか
     def smart_phone?
+      false
+    end
+
+    # tablet かどうか
+    def tablet?
       false
     end
 
@@ -90,6 +85,7 @@ module Jpmobile::Mobile
           gsub(/Jpmobile::/, '').
           gsub(/AbstractMobile::/, '').
           gsub(/Mobile::SmartPhone/, 'smart_phone').
+          gsub(/Mobile::Tablet/, 'tablet').
           gsub(/::/, '_').
           gsub(/([A-Z]+)([A-Z][a-z])/, '\1_\2').
           gsub(/([a-z\d])([A-Z])/, '\1_\2').
@@ -97,8 +93,10 @@ module Jpmobile::Mobile
         klass =~ /abstract/ ? "mobile" : klass
       end
 
-      if @_variants.include?("smart_phone")
-        @_variants = @_variants.reject{|v| v == "mobile"}.map{|v| v.gsub(/mobile/, "smart_phone")}
+      if @_variants.include?('tablet')
+        @_variants = @_variants.reject{|v| v == "mobile"}.map{|v| v.gsub(/mobile_/, "tablet_")}
+      elsif @_variants.include?("smart_phone")
+        @_variants = @_variants.reject{|v| v == "mobile"}.map{|v| v.gsub(/mobile_/, "smart_phone_")}
       end
 
       @_variants
@@ -174,10 +172,47 @@ module Jpmobile::Mobile
       @decorated
     end
 
-    # リクエストがこのクラスに属するか調べる
-    # メソッド名に関して非常に不安
-    def self.check_carrier(env)
-      self::USER_AGENT_REGEXP && env['HTTP_USER_AGENT'] =~ self::USER_AGENT_REGEXP
+    class << self
+      # 当該キャリアのIPアドレス帯域からのアクセスであれば +true+ を返す。
+      # そうでなければ +false+ を返す。
+      # IP空間が定義されていない場合は +nil+ を返す。
+      def valid_ip? remote_addr
+        @ip_list ||= ip_address_class
+        return false unless @ip_list
+
+        @ip_list.valid_ip?(remote_addr)
+      end
+
+      # リクエストがこのクラスに属するか調べる
+      # メソッド名に関して非常に不安
+      def check_carrier(env)
+        user_agent_regexp && user_agent_regexp.match(env['HTTP_USER_AGENT'])
+      end
+
+      def user_agent_regexp
+        @_user_agent_regexp ||= self::USER_AGENT_REGEXP
+      end
+
+      def add_user_agent_regexp(regexp)
+        @_user_agent_regexp = Regexp.union(user_agent_regexp, regexp)
+      end
+
+      def carrier(env)
+        ::Jpmobile::Mobile.carriers.each do |const|
+          c = ::Jpmobile::Mobile.const_get(const)
+          if c.check_carrier(env)
+            res = ::Rack::Request.new(env)
+            return c.new(env, res)
+          end
+        end
+
+        nil
+      end
+
+      #
+      def ip_address_class
+        eval("::Jpmobile::Mobile::IpAddresses::#{self.to_s.split(/::/).last}").new rescue nil
+      end
     end
 
     #XXX: lib/jpmobile.rbのautoloadで先に各キャリアの定数を定義しているから動くのです
@@ -190,18 +225,6 @@ module Jpmobile::Mobile
       end
     end
 
-    def self.carrier(env)
-      ::Jpmobile::Mobile.carriers.each do |const|
-        c = ::Jpmobile::Mobile.const_get(const)
-        if c.check_carrier(env)
-          res = ::Rack::Request.new(env)
-          return c.new(env, res)
-        end
-      end
-
-      nil
-    end
-
     private
     # リクエストのパラメータ。
     def params
@@ -210,11 +233,6 @@ module Jpmobile::Mobile
       else
         @request.params
       end
-    end
-
-    #
-    def self.ip_address_class
-      eval("::Jpmobile::Mobile::IpAddresses::#{self.to_s.split(/::/).last}").new rescue nil
     end
   end
 end

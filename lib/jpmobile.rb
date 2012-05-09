@@ -14,13 +14,20 @@ module Jpmobile
     autoload :Emobile,   'jpmobile/mobile/emobile'
     autoload :Willcom,   'jpmobile/mobile/willcom'
     autoload :Ddipocket, 'jpmobile/mobile/willcom'
+
     autoload :SmartPhone,   'jpmobile/mobile/smart_phone'
     autoload :Iphone,       'jpmobile/mobile/iphone'
     autoload :Android,      'jpmobile/mobile/android'
     autoload :WindowsPhone, 'jpmobile/mobile/windows_phone'
 
+    autoload :Tablet,        'jpmobile/mobile/tablet'
+    autoload :AndroidTablet, 'jpmobile/mobile/android_tablet'
+    autoload :Ipad,          'jpmobile/mobile/ipad'
+
+    DEFAULT_CARRIERS = %w(Docomo Au Softbank Vodafone Jphone Emobile Willcom Ddipocket Ipad AndroidTablet Iphone Android WindowsPhone)
+
     def self.carriers
-      @carriers ||= constants
+      @carriers ||= DEFAULT_CARRIERS.dup
     end
 
     def self.carriers=(ary)

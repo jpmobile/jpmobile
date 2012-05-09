@@ -89,6 +89,28 @@ describe TemplatePathController, "Windows Phone からのアクセス" do
   end
 end
 
+describe TemplatePathController, "iPad からのアクセス" do
+  before do
+    request.user_agent = 'Mozilla/5.0 (iPad; U; CPU OS 4_3 like Mac OS X; ja-jp) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8F191 Safari/6533.18.5'
+  end
+  it 'テンプレートの探索順が正しいこと' do
+    get :index
+
+    response.template.mobile_template_candidates.should == [ 'tablet_ipad', 'tablet', 'smart_phone' ]
+  end
+end
+
+describe TemplatePathController, "Android tablet からのアクセス" do
+  before do
+    request.user_agent = 'Mozilla/5.0 (Linux; U; Android 2.2; ja-jp; SC-01C Build/FROYO) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1'
+  end
+  it 'テンプレートの探索順が正しいこと' do
+    get :index
+
+    response.template.mobile_template_candidates.should == [ 'tablet_android_tablet', 'tablet', 'smart_phone' ]
+  end
+end
+
 describe TemplatePathController, "integrated_views" do
   integrate_views
   describe "index" do

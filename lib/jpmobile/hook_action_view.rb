@@ -94,6 +94,8 @@ module ActionView
       candidates = []
 
       prefix = case controller.request.mobile
+               when Jpmobile::Mobile::Tablet
+                 'tablet'
                when Jpmobile::Mobile::SmartPhone
                  "smart_phone"
                when Jpmobile::Mobile::AbstractMobile
@@ -101,10 +103,16 @@ module ActionView
                end
       c = controller.request.mobile.class
       while c != Jpmobile::Mobile::AbstractMobile and c != Jpmobile::Mobile::SmartPhone
-        candidates << prefix+"_"+c.to_s.split(/::/).last.underscore
+        if c == Jpmobile::Mobile::Tablet
+          candidates << 'tablet'
+        else
+          candidates << prefix+"_"+c.to_s.split(/::/).last.underscore
+        end
         c = c.superclass
       end
-      candidates << prefix
+      candidates << (prefix == 'tablet' ? 'smart_phone' : prefix)
+
+      candidates
     end
 
     def mobile_template_partial mobile_path

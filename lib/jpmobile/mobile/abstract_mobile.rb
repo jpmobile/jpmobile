@@ -23,20 +23,6 @@ module Jpmobile::Mobile
     # 端末を識別する文字列があれば返す。
     def ident_device; nil; end
 
-    # 当該キャリアのIPアドレス帯域からのアクセスであれば +true+ を返す。
-    # そうでなければ +false+ を返す。
-    # IP空間が定義されていない場合は +nil+ を返す。
-    def self.valid_ip? remote_addr
-      addrs = nil
-      begin
-        addrs = self::IP_ADDRESSES
-      rescue NameError => e
-        return nil
-      end
-      remote = IPAddr.new(remote_addr)
-      addrs.any? {|ip| ip.include? remote }
-    end
-
     def valid_ip?
       @__valid_ip ||= self.class.valid_ip? @request.remote_addr
     end
@@ -56,10 +42,39 @@ module Jpmobile::Mobile
       false
     end
 
-    # リクエストがこのクラスに属するか調べる
-    # メソッド名に関して非常に不安
-    def self.check_request(request)
-      self::USER_AGENT_REGEXP && request.user_agent =~ self::USER_AGENT_REGEXP
+    # tablet かどうか
+    def tablet?
+      false
+    end
+
+    class << self
+      # 当該キャリアのIPアドレス帯域からのアクセスであれば +true+ を返す。
+      # そうでなければ +false+ を返す。
+      # IP空間が定義されていない場合は +nil+ を返す。
+      def valid_ip? remote_addr
+        addrs = nil
+        begin
+          addrs = self::IP_ADDRESSES
+        rescue NameError => e
+          return nil
+        end
+        remote = IPAddr.new(remote_addr)
+        addrs.any? {|ip| ip.include? remote }
+      end
+
+      # リクエストがこのクラスに属するか調べる
+      # メソッド名に関して非常に不安
+      def check_request(request)
+        user_agent_regexp && user_agent_regexp.match(request.user_agent)
+      end
+
+      def user_agent_regexp
+        @_user_agent_regexp ||= self::USER_AGENT_REGEXP
+      end
+
+      def add_user_agent_regexp(regexp)
+        @_user_agent_regexp = Regexp.union(user_agent_regexp, regexp)
+      end
     end
 
     #XXX: lib/jpmobile.rbのautoloadで先に各キャリアの定数を定義しているから動くのです

@@ -9,7 +9,7 @@ begin
   namespace :spec do
     desc 'run unit testing (core test)'
     Spec::Rake::SpecTask.new(:unit) do |t|
-      spec_dir = File.join(File.dirname(__FILE__), '..', 'spec')
+      spec_dir = File.join(File.dirname(__FILE__), '../../', 'spec')
       t.spec_opts = File.read(File.join(spec_dir, 'spec.opts')).split
       t.spec_files = FileList[File.join(spec_dir, 'unit', '**', '*_spec.rb')]
     end
@@ -29,7 +29,7 @@ namespace :test do
   task :rails, [:versions] do |t, args|
     rails_root     = "test/rails/rails_root"
     relative_root  = "../../../"
-    rails_versions = args.versions.split("/") rescue ["2.3.12"]
+    rails_versions = args.versions.split("/") rescue ["2.3.14"]
 
     puts "Running tests in Rails #{rails_versions.join(', ')}"
 

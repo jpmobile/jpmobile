@@ -99,6 +99,12 @@ describe "絵文字が" do
       response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)[2]
       response_body(response).should == "<img src=\"#{@path}/sun.gif\" alt=\"sun\" />"
     end
+
+    it "Content-Type が変換できないものである場合には変換しないこと" do
+      @res = Rack::MockRequest.env_for("/", 'Content-Type' => 'image/jpeg')
+      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)[2]
+      response_body(response).should == @softbank_utf8
+    end
   end
 
   context "docomo のとき" do

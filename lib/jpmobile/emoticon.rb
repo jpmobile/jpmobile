@@ -26,8 +26,15 @@ module Jpmobile
       SJIS_REGEXP SOFTBANK_WEBCODE_REGEXP DOCOMO_SJIS_REGEXP AU_SJIS_REGEXP SOFTBANK_UNICODE_REGEXP
       EMOTICON_UNICODES UTF8_REGEXP
       CONVERSION_TABLE_TO_PC_EMAIL SOFTBANK_SJIS_REGEXP AU_EMAILJIS_REGEXP
+      IPHONE_UNICODE_REGEXP ANDROID_UNICODE_REGEXP
     ).each do |const|
       autoload const, 'jpmobile/emoticon/z_combine'
+    end
+    %w( GOOGLE_TO_DOCOMO_UNICODE ).each do |const|
+      autoload const, 'jpmobile/emoticon/google'
+    end
+    %w( IPHONE_UNICODE_TO_SOFTBANK_UNICODE ).each do |const|
+      autoload const, 'jpmobile/emoticon/unicode'
     end
 
     # +str+ のなかでDoCoMo絵文字をUnicode数値文字参照に置換した文字列を返す。
@@ -78,6 +85,48 @@ module Jpmobile
     end
     def self.external_to_unicodecr_vodafone(str)
       external_to_unicodecr_softbank(str)
+    end
+
+    # iPhoneでのUnicode絵文字対応
+    def self.external_to_unicodecr_iphone(str)
+      str.gsub(IPHONE_UNICODE_REGEXP) do |match|
+        unicodes = match.unpack('U*')
+        unicodes = unicodes.first if unicodes.size == 1
+
+        if (softbank = IPHONE_UNICODE_TO_SOFTBANK_UNICODE[unicodes]) == 0x3013
+          "&#x3013;"
+        elsif softbank
+          case softbank
+          when Integer
+            "&#x%04x;" % softbank
+          when String
+            softbank
+          end
+        else
+          # 変換できなければ〓に
+          "&#x3013;"
+        end
+      end
+    end
+
+    # AndroidでのGoogle絵文字対応
+    def self.external_to_unicodecr_android(str)
+      str.gsub(ANDROID_UNICODE_REGEXP) do |match|
+        unicodes = match.unpack('U*')
+        unicodes = unicodes.first if unicodes.size == 1
+
+        if docomo = GOOGLE_TO_DOCOMO_UNICODE[unicodes]
+          case docomo
+          when Integer
+            "&#x%04x;" % docomo
+          when String
+            docomo
+          end
+        else
+          # 変換できなければ〓に
+          "&#x3013;"
+        end
+      end
     end
 
     # +str+ のなかでUnicode数値文字参照で表記された絵文字を携帯側エンコーディングに置換する。

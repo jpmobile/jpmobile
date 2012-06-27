@@ -18,5 +18,5 @@ RSpec.configure do |c|
   c.run_all_when_everything_filtered = true
   c.color_enabled = true
   c.filter_run_excluding :broken => true
-  c.full_backtrace = true
+  # c.full_backtrace = true
 end

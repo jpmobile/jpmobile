@@ -32,5 +32,8 @@ module Jpmobile
 
     SOFTBANK_SJIS_REGEXP = Regexp.union(*SOFTBANK_SJIS_TO_UNICODE.keys.map{|s| Jpmobile::Util.sjis_regexp(s)}).freeze
     AU_EMAILJIS_REGEXP = Regexp.union(*AU_EMAILJIS_TO_UNICODE.keys.map{|s| Jpmobile::Util.jis_regexp(s)})
+
+    IPHONE_UNICODE_REGEXP = Regexp.union(*IPHONE_UNICODE_TO_SOFTBANK_UNICODE.keys.map{|x| x.kind_of?(Array) ? x.pack('UU') : [x].pack('U')}).freeze
+    ANDROID_UNICODE_REGEXP = Regexp.union(*GOOGLE_TO_DOCOMO_UNICODE.keys.map{|x| x.kind_of?(Array) ? x.pack('UU') : [x].pack('U')}).freeze
   end
 end

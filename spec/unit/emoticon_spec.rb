@@ -73,21 +73,21 @@ describe Jpmobile::Emoticon do
 
     context 'at iPhone emoticon' do
       it 'should convert iPhone Unicode emoticon to SoftBank emoticon' do
-        Jpmobile::Emoticon::external_to_unicodecr_iphone("\342\230\200").should == "&#xf04a;"
+        Jpmobile::Emoticon::external_to_unicodecr_unicode60("\342\230\200").should == "&#xf04a;"
       end
 
       it 'should convert iPhone Unicode emoticon to multi SoftBank emoticons' do
-        Jpmobile::Emoticon::external_to_unicodecr_iphone("\342\233\205").should == "&#xF04A;,&#xF049;"
+        Jpmobile::Emoticon::external_to_unicodecr_unicode60("\342\233\205").should == "&#xF04A;,&#xF049;"
       end
     end
 
     context 'at Android emoticon' do
       it 'should convert Android Google Unicode emoticon to Docomo emoticon' do
-        Jpmobile::Emoticon::external_to_unicodecr_android("\363\276\200\200").should == "&#xe63e;"
+        Jpmobile::Emoticon::external_to_unicodecr_google("\363\276\200\200").should == "&#xe63e;"
       end
 
       it 'should convert Android Google Unicode emoticon to multi Docomo emoticon' do
-        Jpmobile::Emoticon::external_to_unicodecr_android("\363\276\200\217").should == "&#xE63E;&#xE63F;"
+        Jpmobile::Emoticon::external_to_unicodecr_google("\363\276\200\217").should == "&#xE63E;&#xE63F;"
       end
     end
   end

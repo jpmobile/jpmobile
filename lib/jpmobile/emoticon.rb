@@ -26,14 +26,15 @@ module Jpmobile
       SJIS_REGEXP SOFTBANK_WEBCODE_REGEXP DOCOMO_SJIS_REGEXP AU_SJIS_REGEXP SOFTBANK_UNICODE_REGEXP
       EMOTICON_UNICODES UTF8_REGEXP
       CONVERSION_TABLE_TO_PC_EMAIL SOFTBANK_SJIS_REGEXP AU_EMAILJIS_REGEXP
-      IPHONE_UNICODE_REGEXP ANDROID_UNICODE_REGEXP
+      UNICODE_EMOTICONS UNICODE_EMOTICON_REGEXP UNICODE_EMOTICON_TO_CARRIER_EMOTICON
+      GOOGLE_EMOTICONS GOOGLE_EMOTICON_REGEXP GOOGLE_EMOTICON_TO_CARRIER_EMOTICON
     ).each do |const|
       autoload const, 'jpmobile/emoticon/z_combine'
     end
-    %w( GOOGLE_TO_DOCOMO_UNICODE ).each do |const|
+    %w( GOOGLE_TO_DOCOMO_UNICODE GOOGLE_TO_AU_UNICODE GOOGLE_TO_SOFTBANK_UNICODE ).each do |const|
       autoload const, 'jpmobile/emoticon/google'
     end
-    %w( IPHONE_UNICODE_TO_SOFTBANK_UNICODE ).each do |const|
+    %w( UNICODE_TO_DOCOMO_UNICODE UNICODE_TO_AU_UNICODE UNICODE_TO_SOFTBANK_UNICODE ).each do |const|
       autoload const, 'jpmobile/emoticon/unicode'
     end
 
@@ -87,20 +88,20 @@ module Jpmobile
       external_to_unicodecr_softbank(str)
     end
 
-    # iPhoneでのUnicode絵文字対応
-    def self.external_to_unicodecr_iphone(str)
-      str.gsub(IPHONE_UNICODE_REGEXP) do |match|
+    # Unicode 6.0絵文字の変換
+    def self.external_to_unicodecr_unicode60(str)
+      str.gsub(UNICODE_EMOTICON_REGEXP) do |match|
         unicodes = match.unpack('U*')
         unicodes = unicodes.first if unicodes.size == 1
 
-        if (softbank = IPHONE_UNICODE_TO_SOFTBANK_UNICODE[unicodes]) == 0x3013
+        if (emoticon = UNICODE_EMOTICON_TO_CARRIER_EMOTICON[unicodes]) == 0x3013
           "&#x3013;"
-        elsif softbank
-          case softbank
+        elsif emoticon
+          case emoticon
           when Integer
-            "&#x%04x;" % softbank
+            "&#x%04x;" % emoticon
           when String
-            softbank
+            emoticon
           end
         else
           # 変換できなければ〓に
@@ -109,18 +110,18 @@ module Jpmobile
       end
     end
 
-    # AndroidでのGoogle絵文字対応
-    def self.external_to_unicodecr_android(str)
-      str.gsub(ANDROID_UNICODE_REGEXP) do |match|
+    # Google絵文字の変換
+    def self.external_to_unicodecr_google(str)
+      str.gsub(GOOGLE_EMOTICON_REGEXP) do |match|
         unicodes = match.unpack('U*')
         unicodes = unicodes.first if unicodes.size == 1
 
-        if docomo = GOOGLE_TO_DOCOMO_UNICODE[unicodes]
-          case docomo
+        if emoticon = GOOGLE_EMOTICON_TO_CARRIER_EMOTICON[unicodes]
+          case emoticon
           when Integer
-            "&#x%04x;" % docomo
+            "&#x%04x;" % emoticon
           when String
-            docomo
+            emoticon
           end
         else
           # 変換できなければ〓に

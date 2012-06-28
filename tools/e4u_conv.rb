@@ -46,7 +46,7 @@ xml.xpath('//e').each do |emoji|
   end
   # fix softbank code
   if softbank.match(/\+/)
-    softbank = '"' + softbank.split('+').delete_if{|e| e.strip == ''}.map{|s| '&#x%X;' % (s.gsub(/[^0-9a-fA-F\+]/, '').scanf("%x").first + 0x1000)}.join(',') + '"'
+    softbank = '"' + softbank.split('+').delete_if{|e| e.strip == ''}.map{|s| '&#x%X;' % (s.gsub(/[^0-9a-fA-F\+]/, '').scanf("%x").first + 0x1000)}.join('') + '"'
   else
     if softbank.match(/3013/)
       softbank = '0x%s' % softbank

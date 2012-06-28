@@ -70,6 +70,26 @@ describe Jpmobile::Emoticon do
     it "should not convert docomo encoding of koukai-sjis emoticons to unicodecr" do
       Jpmobile::Emoticon::external_to_unicodecr_docomo(sjis("\x8c\xf6\x8a\x4a")).should == sjis("\x8c\xf6\x8a\x4a")
     end
+
+    context 'at iPhone emoticon' do
+      it 'should convert iPhone Unicode emoticon to SoftBank emoticon' do
+        Jpmobile::Emoticon::external_to_unicodecr_unicode60("\342\230\200").should == "&#xf04a;"
+      end
+
+      it 'should convert iPhone Unicode emoticon to multi SoftBank emoticons' do
+        Jpmobile::Emoticon::external_to_unicodecr_unicode60("\342\233\205").should == "&#xF04A;,&#xF049;"
+      end
+    end
+
+    context 'at Android emoticon' do
+      it 'should convert Android Google Unicode emoticon to Docomo emoticon' do
+        Jpmobile::Emoticon::external_to_unicodecr_google("\363\276\200\200").should == "&#xe63e;"
+      end
+
+      it 'should convert Android Google Unicode emoticon to multi Docomo emoticon' do
+        Jpmobile::Emoticon::external_to_unicodecr_google("\363\276\200\217").should == "&#xE63E;&#xE63F;"
+      end
+    end
   end
 
   context "for email" do

@@ -108,4 +108,18 @@ describe Jpmobile::Util do
     ascii_8bit(utf8_to_jis("\xef\xbd\x9e")).should == ascii_8bit("\x1b\x24\x42\x21\x41\x1b\x28\x42")
     ascii_8bit(encode("\xef\xbd\x9e", "ISO-2022-JP")).should == ascii_8bit("\x1b\x24\x42\x21\x41\x1b\x28\x42")
   end
+
+  describe 'invert_table' do
+    it 'pickups the first(least) of duplicated values when inverting hash table' do
+      hash = invert_table({:a => 1, :b => 1, :c => 2, :d => 3, :e => 2})
+      hash[1].should == :a
+      hash[2].should == :c
+    end
+
+    it 'should not raise error when hash has Array keys' do
+      hash = invert_table({[:a, :b] => 1, :c => 1, :d => 2, [:e, :f] => 3, :g => 3})
+      hash[1].should == [:a, :b]
+      hash[2].should == :d
+    end
+  end
 end

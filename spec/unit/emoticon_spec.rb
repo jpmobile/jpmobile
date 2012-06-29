@@ -30,6 +30,30 @@ describe Jpmobile::Emoticon do
         Jpmobile::Emoticon::unicodecr_to_external("&#xE48E;", Jpmobile::Emoticon::CONVERSION_TABLE_TO_SOFTBANK, true).should == [0xe04a, 0xe049].pack('U*')
       end
     end
+
+    it 'should convert docomo unicodecr to Unicode 6.0 emoticon' do
+      Jpmobile::Emoticon.unicodecr_to_external("&#xe63e;", Jpmobile::Emoticon::CONVERSION_TABLE_TO_UNICODE_EMOTICON, false).should == [0x2600].pack('U')
+    end
+
+    it 'should convert au unicodecr to Unicode 6.0 emoticon' do
+      Jpmobile::Emoticon.unicodecr_to_external("&#xe48e;", Jpmobile::Emoticon::CONVERSION_TABLE_TO_UNICODE_EMOTICON, false).should == [0x26C5].pack('U')
+    end
+
+    it 'should convert Softbank unicodecr to Unicode 6.0 emoticon' do
+      Jpmobile::Emoticon.unicodecr_to_external("&#xf001;", Jpmobile::Emoticon::CONVERSION_TABLE_TO_UNICODE_EMOTICON, false).should == [0x1F466].pack('U')
+    end
+
+    it 'should convert docomo unicodecr to Google emoticon' do
+      Jpmobile::Emoticon.unicodecr_to_external("&#xe63e;", Jpmobile::Emoticon::CONVERSION_TABLE_TO_GOOGLE_EMOTICON, false).should == [0xFE000].pack('U')
+    end
+
+    it 'should convert au unicodecr to Google emoticon' do
+      Jpmobile::Emoticon.unicodecr_to_external("&#xe48e;", Jpmobile::Emoticon::CONVERSION_TABLE_TO_GOOGLE_EMOTICON, false).should == [0xFE00F].pack('U')
+    end
+
+    it 'should convert Softbank unicodecr to Google emoticon' do
+      Jpmobile::Emoticon.unicodecr_to_external("&#xf001;", Jpmobile::Emoticon::CONVERSION_TABLE_TO_GOOGLE_EMOTICON, false).should == [0xFE19B].pack('U')
+    end
   end
 
   describe "unicodecr_to_utf8" do

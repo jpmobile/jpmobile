@@ -277,4 +277,135 @@ describe "絵文字が" do
       response_body(res).should == [0xe04a].pack('U')
     end
   end
+
+  context 'for iPhone' do
+    context 'lower iOS 4' do
+      before(:each) do
+        @res = Rack::MockRequest.env_for(
+          "/",
+          'HTTP_USER_AGENT' => "Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_0_1 like Mac OS X; ja-jp) AppleWebKit/532.9 (KHTML, like Gecko) Version/4.0.5 Mobile/8A306 Safari/6531.22.7",
+          'Content-Type' => 'text/html; charset=utf-8')
+      end
+
+      it 'should convert Softbank emoticon' do
+        response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@softbank_cr))).call(@res)[2]
+        response_body(response).should == [0xe04a].pack('U')
+        response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)[2]
+        response_body(response).should == [0xe04a].pack('U')
+      end
+
+      it "converts query parameters" do
+        query_string = "q=" + URI.encode([0xe04A].pack("U"))
+
+        res = Rack::MockRequest.env_for(
+          "/?#{query_string}",
+          "REQUEST_METHOD" => "GET",
+          'HTTP_USER_AGENT' => "Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_0_1 like Mac OS X; ja-jp) AppleWebKit/532.9 (KHTML, like Gecko) Version/4.0.5 Mobile/8A306 Safari/6531.22.7",
+          'Content-Type' => 'text/html; charset=utf-8')
+        res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(Jpmobile::Rack::Filter.new(RenderParamApp.new))).call(res)
+        req = Rack::Request.new(res[1])
+        req.params['q'].should == [0xf04a].pack("U")
+        response_body(res).should == [0xe04a].pack('U')
+      end
+    end
+
+    context 'upper iOS 5' do
+      before(:each) do
+        @res = Rack::MockRequest.env_for(
+          "/",
+          'HTTP_USER_AGENT' => "Mozilla/5.0 (iPhone; U; CPU iPhone OS 5_0 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Mobile/9A334 Safari/7534.48.3",
+          'Content-Type' => 'text/html; charset=utf-8')
+        @unicode_single = "\342\230\200"
+        @unicode_multi  = "\342\233\205"
+      end
+
+      it "should convert Unicode emoticon" do
+        response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@unicode_single))).call(@res)[2]
+        response_body(response).should == [0x2600].pack('U*')
+        response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@unicode_multi))).call(@res)[2]
+        response_body(response).should == [0x26C5].pack('U*')
+      end
+
+      it "converts query parameters" do
+        query_string = "q=" + URI.encode(@unicode_multi)
+
+        res = Rack::MockRequest.env_for(
+          "/?#{query_string}",
+          "REQUEST_METHOD" => "GET",
+          'HTTP_USER_AGENT' => "Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_0_1 like Mac OS X; ja-jp) AppleWebKit/532.9 (KHTML, like Gecko) Version/4.0.5 Mobile/8A306 Safari/6531.22.7",
+          'Content-Type' => 'text/html; charset=utf-8')
+        res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(Jpmobile::Rack::Filter.new(RenderParamApp.new))).call(res)
+        req = Rack::Request.new(res[1])
+        req.params['q'].should == [0x26C5].pack("U")
+        response_body(res).should == [0x26C5].pack('U')
+      end
+    end
+  end
+
+  context 'for Android' do
+    before(:each) do
+      @google_single = "\363\276\200\200"
+      @google_multi  = "\363\276\200\217"
+    end
+
+    context 'mobile' do
+      before(:each) do
+        @res = Rack::MockRequest.env_for(
+          "/",
+          'HTTP_USER_AGENT' => 'Mozilla/5.0 (Linux; U; Android 1.6; ja-jp; SonyEriccsonSO-01B Build/R1EA018) AppleWebKit/528.5+ (KHTML, like Gecko) Version/3.1.2 Mobile Safari/525.20.1',
+          'Content-Type' => 'text/html; charset=utf-8')
+      end
+
+      it "should convert Google emoticon" do
+        response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@google_single))).call(@res)[2]
+        response_body(response).should == [0xFE000].pack('U*')
+        response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@google_multi))).call(@res)[2]
+        response_body(response).should == [0xFE00F].pack('U*')
+      end
+
+      it "converts query parameters" do
+        query_string = "q=" + URI.encode(@google_multi)
+
+        res = Rack::MockRequest.env_for(
+          "/?#{query_string}",
+          "REQUEST_METHOD" => "GET",
+          'HTTP_USER_AGENT' => "Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_0_1 like Mac OS X; ja-jp) AppleWebKit/532.9 (KHTML, like Gecko) Version/4.0.5 Mobile/8A306 Safari/6531.22.7",
+          'Content-Type' => 'text/html; charset=utf-8')
+        res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(Jpmobile::Rack::Filter.new(RenderParamApp.new))).call(res)
+        req = Rack::Request.new(res[1])
+        req.params['q'].should == [0xFE00F].pack("U")
+        response_body(res).should == [0xFE00F].pack('U')
+      end
+    end
+
+    context 'tablet' do
+      before(:each) do
+        @res = Rack::MockRequest.env_for(
+          "/",
+          'HTTP_USER_AGENT' => 'Mozilla/5.0 (Linux; U; Android 2.2; ja-jp; SC-01C Build/FROYO) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1',
+          'Content-Type' => 'text/html; charset=utf-8')
+      end
+
+      it "should convert Google emoticon" do
+        response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@google_single))).call(@res)[2]
+        response_body(response).should == [0xFE000].pack('U*')
+        response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@google_multi))).call(@res)[2]
+        response_body(response).should == [0xFE00F].pack('U*')
+      end
+
+      it "converts query parameters" do
+        query_string = "q=" + URI.encode(@google_multi)
+
+        res = Rack::MockRequest.env_for(
+          "/?#{query_string}",
+          "REQUEST_METHOD" => "GET",
+          'HTTP_USER_AGENT' => "Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_0_1 like Mac OS X; ja-jp) AppleWebKit/532.9 (KHTML, like Gecko) Version/4.0.5 Mobile/8A306 Safari/6531.22.7",
+          'Content-Type' => 'text/html; charset=utf-8')
+        res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(Jpmobile::Rack::Filter.new(RenderParamApp.new))).call(res)
+        req = Rack::Request.new(res[1])
+        req.params['q'].should == [0xFE00F].pack("U")
+        response_body(res).should == [0xFE00F].pack('U')
+      end
+    end
+  end
 end

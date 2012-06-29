@@ -386,5 +386,19 @@ module Jpmobile
       end
 
     end
+
+    def invert_table(hash)
+      result = {}
+      hash.keys.each do |key|
+        if result[hash[key]]
+          if !key.kind_of?(Array) and !result[hash[key]].kind_of?(Array) and result[hash[key]] > key
+            result[hash[key]] = key
+          end
+        else
+          result[hash[key]] = key
+        end
+      end
+      result
+    end
   end
 end

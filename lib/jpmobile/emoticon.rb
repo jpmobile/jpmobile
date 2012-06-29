@@ -28,6 +28,7 @@ module Jpmobile
       CONVERSION_TABLE_TO_PC_EMAIL SOFTBANK_SJIS_REGEXP AU_EMAILJIS_REGEXP
       UNICODE_EMOTICONS UNICODE_EMOTICON_REGEXP UNICODE_EMOTICON_TO_CARRIER_EMOTICON
       GOOGLE_EMOTICONS GOOGLE_EMOTICON_REGEXP GOOGLE_EMOTICON_TO_CARRIER_EMOTICON
+      CONVERSION_TABLE_TO_UNICODE_EMOTICON CONVERSION_TABLE_TO_GOOGLE_EMOTICON
     ).each do |const|
       autoload const, 'jpmobile/emoticon/z_combine'
     end
@@ -161,6 +162,8 @@ module Jpmobile
           elsif converted == GETA
             # PCで〓を表示する場合
             [GETA].pack("U")
+          elsif UNICODE_EMOTICONS.include?(converted) or GOOGLE_EMOTICONS.include?(converted)
+            [converted].pack('U*')
           else
             # キャリア変換テーブルに指定されていたUnicodeに対応する
             # 携帯側エンコーディングが見つからない(変換テーブルの不備の可能性あり)。

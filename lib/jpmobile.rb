@@ -35,6 +35,9 @@ module Jpmobile
 
     autoload :Display,        'jpmobile/mobile/display'
 
+    autoload :UnicodeEmoticon, 'jpmobile/mobile/unicode_emoticon'
+    autoload :GoogleEmoticon, 'jpmobile/mobile/google_emoticon'
+
     DEFAULT_CARRIERS = %w(Docomo Au Softbank Vodafone Emobile Willcom Ddipocket Ipad AndroidTablet Iphone Android WindowsPhone BlackBerry)
 
     def self.carriers

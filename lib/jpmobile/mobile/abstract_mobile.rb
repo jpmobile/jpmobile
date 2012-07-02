@@ -80,7 +80,7 @@ module Jpmobile::Mobile
     def variants
       return @_variants if @_variants
 
-      @_variants = self.class.ancestors.select {|c| c.to_s =~ /^Jpmobile/}.map do |klass|
+      @_variants = self.class.ancestors.select {|c| c.to_s =~ /^Jpmobile/ && c.to_s !~ /Emoticon/}.map do |klass|
         klass = klass.to_s.
           gsub(/Jpmobile::/, '').
           gsub(/AbstractMobile::/, '').

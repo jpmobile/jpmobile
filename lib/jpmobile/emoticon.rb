@@ -150,8 +150,6 @@ module Jpmobile
 
         # 携帯側エンコーディングに変換する
         case converted
-        when 0x3013
-          '〓'
         when Integer
           # 変換先がUnicodeで指定されている。つまり対応する絵文字がある。
           if sjis = UNICODE_TO_SJIS[converted]

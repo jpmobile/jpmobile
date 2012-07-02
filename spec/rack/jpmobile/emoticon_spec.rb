@@ -301,6 +301,11 @@ describe "絵文字が" do
         req.params['q'].should == [0xf04a].pack("U")
         response_body(res).should == [0xe04a].pack('U')
       end
+
+      it 'should not convert 〓' do
+        response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new('〓'))).call(@res)[2]
+        response_body(response).should == '〓'
+      end
     end
 
     context 'upper iOS 5' do
@@ -332,6 +337,11 @@ describe "絵文字が" do
         req = Rack::Request.new(res[1])
         req.params['q'].should == [0x26C5].pack("U")
         response_body(res).should == [0x26C5].pack('U')
+      end
+
+      it 'should not convert 〓' do
+        response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new('〓'))).call(@res)[2]
+        response_body(response).should == '〓'
       end
     end
   end
@@ -370,6 +380,11 @@ describe "絵文字が" do
         req.params['q'].should == [0xFE00F].pack("U")
         response_body(res).should == [0xFE00F].pack('U')
       end
+
+      it 'should not convert 〓' do
+        response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new('〓'))).call(@res)[2]
+        response_body(response).should == '〓'
+      end
     end
 
     context 'tablet' do
@@ -399,6 +414,11 @@ describe "絵文字が" do
         req = Rack::Request.new(res[1])
         req.params['q'].should == [0xFE00F].pack("U")
         response_body(res).should == [0xFE00F].pack('U')
+      end
+
+      it 'should not convert 〓' do
+        response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new('〓'))).call(@res)[2]
+        response_body(response).should == '〓'
       end
     end
   end

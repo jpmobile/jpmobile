@@ -141,6 +141,7 @@ module Jpmobile
     def self.unicodecr_to_external(str, conversion_table=nil, to_sjis=true)
       str.gsub(/&#x([0-9a-f]{4});/i) do |match|
         unicode = $1.scanf("%x").first
+
         if conversion_table
           converted = conversion_table[unicode] # キャリア間変換
         else
@@ -149,6 +150,8 @@ module Jpmobile
 
         # 携帯側エンコーディングに変換する
         case converted
+        when 0x3013
+          '〓'
         when Integer
           # 変換先がUnicodeで指定されている。つまり対応する絵文字がある。
           if sjis = UNICODE_TO_SJIS[converted]
@@ -163,7 +166,11 @@ module Jpmobile
             # PCで〓を表示する場合
             [GETA].pack("U")
           elsif UNICODE_EMOTICONS.include?(converted) or GOOGLE_EMOTICONS.include?(converted)
-            [converted].pack('U*')
+            if unicode == GETA
+              [GETA].pack("U")
+            else
+              [converted].pack('U*')
+            end
           else
             # キャリア変換テーブルに指定されていたUnicodeに対応する
             # 携帯側エンコーディングが見つからない(変換テーブルの不備の可能性あり)。

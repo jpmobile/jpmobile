@@ -4,7 +4,8 @@ end
 
 module Jpmobile
   module Emoticon
-    GETA = 0x3013
+    GETA_CODE = 0x3013
+    GETA      = [GETA_CODE].pack('U')
 
     SJIS_TO_UNICODE = {}
     SJIS_TO_UNICODE.update(DOCOMO_SJIS_TO_UNICODE)

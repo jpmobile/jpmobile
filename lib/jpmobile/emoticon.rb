@@ -29,6 +29,7 @@ module Jpmobile
       UNICODE_EMOTICONS UNICODE_EMOTICON_REGEXP UNICODE_EMOTICON_TO_CARRIER_EMOTICON
       GOOGLE_EMOTICONS GOOGLE_EMOTICON_REGEXP GOOGLE_EMOTICON_TO_CARRIER_EMOTICON
       CONVERSION_TABLE_TO_UNICODE_EMOTICON CONVERSION_TABLE_TO_GOOGLE_EMOTICON
+      GETA_CODE GETA
     ).each do |const|
       autoload const, 'jpmobile/emoticon/z_combine'
     end
@@ -95,10 +96,12 @@ module Jpmobile
         unicodes = match.unpack('U*')
         unicodes = unicodes.first if unicodes.size == 1
 
-        if (emoticon = UNICODE_EMOTICON_TO_CARRIER_EMOTICON[unicodes]) == 0x3013
-          "&#x3013;"
+        if (emoticon = UNICODE_EMOTICON_TO_CARRIER_EMOTICON[unicodes]) == GETA_CODE
+          GETA
         elsif emoticon
           case emoticon
+          when GETA_CODE
+            GETA
           when Integer
             "&#x%04x;" % emoticon
           when String
@@ -106,7 +109,7 @@ module Jpmobile
           end
         else
           # 変換できなければ〓に
-          "&#x3013;"
+          GETA
         end
       end
     end
@@ -119,6 +122,8 @@ module Jpmobile
 
         if emoticon = GOOGLE_EMOTICON_TO_CARRIER_EMOTICON[unicodes]
           case emoticon
+          when GETA_CODE
+            GETA
           when Integer
             "&#x%04x;" % emoticon
           when String
@@ -126,7 +131,7 @@ module Jpmobile
           end
         else
           # 変換できなければ〓に
-          "&#x3013;"
+          GETA
         end
       end
     end
@@ -160,12 +165,12 @@ module Jpmobile
             end
           elsif webcode = SOFTBANK_UNICODE_TO_WEBCODE[converted-0x1000]
             [converted-0x1000].pack('U')
-          elsif converted == GETA
+          elsif converted == GETA_CODE
             # PCで〓を表示する場合
-            [GETA].pack("U")
+            GETA
           elsif UNICODE_EMOTICONS.include?(converted) or GOOGLE_EMOTICONS.include?(converted)
-            if unicode == GETA
-              [GETA].pack("U")
+            if unicode == GETA_CODE
+              GETA
             else
               [converted].pack('U*')
             end

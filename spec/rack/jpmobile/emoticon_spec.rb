@@ -373,18 +373,18 @@ describe "絵文字が" do
         response_body(response).should == [0xFE00F].pack('U*')
       end
 
-      it "converts query parameters" do
+      it "converts query parameters irreversibly" do
         query_string = "q=" + URI.encode(@google_multi)
 
         res = Rack::MockRequest.env_for(
           "/?#{query_string}",
           "REQUEST_METHOD" => "GET",
-          'HTTP_USER_AGENT' => "Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_0_1 like Mac OS X; ja-jp) AppleWebKit/532.9 (KHTML, like Gecko) Version/4.0.5 Mobile/8A306 Safari/6531.22.7",
+          'HTTP_USER_AGENT' => 'Mozilla/5.0 (Linux; U; Android 1.6; ja-jp; SonyEriccsonSO-01B Build/R1EA018) AppleWebKit/528.5+ (KHTML, like Gecko) Version/3.1.2 Mobile Safari/525.20.1',
           'Content-Type' => 'text/html; charset=utf-8')
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(Jpmobile::Rack::Filter.new(RenderParamApp.new))).call(res)
         req = Rack::Request.new(res[1])
-        req.params['q'].should == [0xFE00F].pack("U")
-        response_body(res).should == [0xFE00F].pack('U')
+        req.params['q'].should == [0xe63e, 0xe63f].pack("U*")
+        response_body(res).should == [0xfe000, 0xfe001].pack("U*")
       end
 
       it 'should not convert 〓' do
@@ -408,23 +408,37 @@ describe "絵文字が" do
         response_body(response).should == [0xFE00F].pack('U*')
       end
 
-      it "converts query parameters" do
+      it "converts query parameters irreversibly" do
         query_string = "q=" + URI.encode(@google_multi)
 
         res = Rack::MockRequest.env_for(
           "/?#{query_string}",
           "REQUEST_METHOD" => "GET",
-          'HTTP_USER_AGENT' => "Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_0_1 like Mac OS X; ja-jp) AppleWebKit/532.9 (KHTML, like Gecko) Version/4.0.5 Mobile/8A306 Safari/6531.22.7",
+          'HTTP_USER_AGENT' => 'Mozilla/5.0 (Linux; U; Android 2.2; ja-jp; SC-01C Build/FROYO) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1',
           'Content-Type' => 'text/html; charset=utf-8')
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(Jpmobile::Rack::Filter.new(RenderParamApp.new))).call(res)
         req = Rack::Request.new(res[1])
-        req.params['q'].should == [0xFE00F].pack("U")
-        response_body(res).should == [0xFE00F].pack('U')
+        req.params['q'].should == [0xe63e, 0xe63f].pack("U*")
+        response_body(res).should == [0xfe000, 0xfe001].pack("U*")
       end
 
       it 'should not convert 〓' do
         response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new('〓'))).call(@res)[2]
         response_body(response).should == '〓'
+      end
+
+      it 'should convert unsupported emoticon to "〓"' do
+        query_string = "q=" + URI.encode("\xF3\xBE\x93\xA4")
+
+        res = Rack::MockRequest.env_for(
+          "/?#{query_string}",
+          "REQUEST_METHOD" => "GET",
+          'HTTP_USER_AGENT' => 'Mozilla/5.0 (Linux; U; Android 2.2; ja-jp; SC-01C Build/FROYO) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1',
+          'Content-Type' => 'text/html; charset=utf-8')
+        res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(Jpmobile::Rack::Filter.new(RenderParamApp.new))).call(res)
+        req = Rack::Request.new(res[1])
+        req.params['q'].should == '〓'
+        response_body(res).should == '〓'
       end
     end
   end

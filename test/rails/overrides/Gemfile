@@ -1,11 +1,13 @@
 source 'http://rubygems.org'
 
-gem 'rails', '~> 3.2.1'
+gem 'rails', '~> 3.2.7'
 
 gem 'sqlite3-ruby', :require => 'sqlite3'
 
 gem 'geokit'
 gem 'hpricot'
+
+gem 'jquery-rails'
 
 gem 'jpmobile',             :path => '../../../'
 gem 'jpmobile-terminfo',    :path => '../../../vendor/jpmobile-terminfo'

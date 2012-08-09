@@ -187,43 +187,51 @@ describe "Jpmobile::Mail#receive" do
   end
 
   describe "Au" do
-    before(:each) do
-      @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "email-fixtures/au-emoji.eml")).read)
-    end
-
-    it "subject should be parsed correctly" do
-      @mail.subject.should == "題名&#xe503;"
-    end
-
-    it "body should be parsed correctly" do
-      @mail.body.to_s.should == "本文&#xe522;\nFor au"
-    end
-
-    context "to_s" do
-      it "should have subject which is same as original" do
-        ascii_8bit(@mail.to_s).should match(Regexp.escape("GyRCQmpMPnZeGyhC"))
+    context 'au-emoji.eml' do
+      before(:each) do
+        @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "email-fixtures/au-emoji.eml")).read)
       end
 
-      it "should have body which is same as original" do
-        ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape(ascii_8bit("\e\x24\x42\x4B\x5C\x4A\x38\x76\x7D\e\x28\x42"))))
-      end
-    end
-
-    context "modify and to_s" do
-      it "should encode subject correctly" do
-        @mail.subject = "大江戸&#xe63e;"
-        ascii_8bit(@mail.to_s).should match(/\?GyRCQmc5PjhNdUEbKEI=/)
+      it "subject should be parsed correctly" do
+        @mail.subject.should == "題名&#xe503;"
       end
 
-      it "should encode body correctly" do
-        @mail.body = "会議が開催&#xe646;"
-        ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape(ascii_8bit("\x1b\x24\x42\x32\x71\x35\x44\x24\x2C\x33\x2B\x3A\x45\x75\x48\x1b\x28\x42"))))
+      it "body should be parsed correctly" do
+        @mail.body.to_s.should == "本文&#xe522;\nFor au"
+      end
+
+      context "to_s" do
+        it "should have subject which is same as original" do
+          ascii_8bit(@mail.to_s).should match(Regexp.escape("GyRCQmpMPnZeGyhC"))
+        end
+
+        it "should have body which is same as original" do
+          ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape(ascii_8bit("\e\x24\x42\x4B\x5C\x4A\x38\x76\x7D\e\x28\x42"))))
+        end
+      end
+
+      context "modify and to_s" do
+        it "should encode subject correctly" do
+          @mail.subject = "大江戸&#xe63e;"
+          ascii_8bit(@mail.to_s).should match(/\?GyRCQmc5PjhNdUEbKEI=/)
+        end
+
+        it "should encode body correctly" do
+          @mail.body = "会議が開催&#xe646;"
+          ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape(ascii_8bit("\x1b\x24\x42\x32\x71\x35\x44\x24\x2C\x33\x2B\x3A\x45\x75\x48\x1b\x28\x42"))))
+        end
       end
     end
 
     it "should not be raised when parsing incoming email #41" do
       lambda {
         @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "email-fixtures/au-email.eml")).read)
+      }.should_not raise_error
+    end
+
+    it "should not be raised when parsing incoming email #45" do
+      lambda {
+        @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "email-fixtures/au-decomail2.eml")).read)
       }.should_not raise_error
     end
   end

@@ -363,7 +363,8 @@ module Mail
 
     def decode_transfer_encoding
       _raw_source = Encodings.get_encoding(encoding).decode(@raw_source)
-      unless Jpmobile::Util.extract_charset(_raw_source) == @charset
+      _extract_charset = Jpmobile::Util.extract_charset(_raw_source)
+      unless _extract_charset.blank? or _extract_charset == @charset
         @charset = Jpmobile::Util.extract_charset(_raw_source)
       end
       _raw_source = Jpmobile::Util.set_encoding(_raw_source, @charset)

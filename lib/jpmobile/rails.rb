@@ -19,7 +19,7 @@ ActiveSupport.on_load(:before_configuration) do
     class Application
       class Configuration
         def jpmobile
-          @jpmobile ||= ::Jpmobile::Configuration.new
+          @jpmobile ||= ::Jpmobile.config
         end
       end
     end

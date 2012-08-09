@@ -7,6 +7,8 @@ describe "絵文字が" do
   include Jpmobile::Util
 
   before(:each) do
+    Jpmobile.config.smart_phone_emoticon_compatibility = true
+
     @docomo_cr          = "&#xE63E;";
     @docomo_utf8        = [0xe63e].pack("U")
     @docomo_docomopoint = "&#xE6D5;"

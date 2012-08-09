@@ -152,10 +152,19 @@ jpmobileを読み込むとDoCoMo、Au、SoftBankの絵文字を透過的に扱�
 * Rails の場合は vendor/plugins に配置し、下記の設定を追加することで有効になる。
     # Rack middleware を追加するメソッド
     Rails.application.config.jpmobile.mobile_filter
+      or
+    Jpmobile.config.mobile_filter
 
   * 下記の設定を追加することで、<form> タグの accept-charset が変更される。
       # <form accept-charset="Shift_JIS" ...> などに変更する
       Rails.application.config.jpmobile.form_accept_charset_conversion = true
+        or
+      Jpmobile.config.form_accept_charset_conversion = true
+
+  * Andriod/iPhone では Google 絵文字や Unicode 6.0 絵文字が使われています。下記の設定を追加すると、互換性をもたせるために3キャリアの絵文字に変換することができます。また表示の変換も可能です。
+      Rails.application.config.jpmobile.smart_phone_emoticon_compatibility = true
+        or
+      Jpmobile.config.smart_phone_emoticon_compatibility = true
 
 携帯電話上では特に問題とならない。PCブラウザでテストする際に問題となるためのオプション。
 

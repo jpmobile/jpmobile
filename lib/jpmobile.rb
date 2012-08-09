@@ -61,6 +61,11 @@ module Jpmobile
 
   autoload :Mailer,   'jpmobile/mailer'
   autoload :Resolver, 'jpmobile/resolver'
+
+  module_function
+  def config
+    ::Jpmobile::Configuration.instance
+  end
 end
 
 if defined?(Rails)

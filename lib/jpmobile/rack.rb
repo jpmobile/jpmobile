@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 require 'rack/utils'
+require 'singleton'
 
 module Jpmobile
   module Rack
@@ -12,10 +13,14 @@ module Jpmobile
   end
 
   class Configuration
+    include Singleton
+
     attr_accessor :form_accept_charset_conversion
+    attr_accessor :smart_phone_emoticon_compatibility
 
     def initialize
-      @form_accept_charset_conversion = false
+      @form_accept_charset_conversion     = false
+      @smart_phone_emoticon_compatibility = false
     end
 
     def mobile_filter

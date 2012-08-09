@@ -3,12 +3,12 @@ module Jpmobile::Mobile
   module GoogleEmoticon
     # Jpmobile::Rack::Filter を適用する
     def apply_filter?
-      true
+      Jpmobile.config.smart_phone_emoticon_compatibility
     end
 
     # Jpmobile::Rack::ParamsFilter を適用する
     def apply_params_filter?
-      true
+      Jpmobile.config.smart_phone_emoticon_compatibility
     end
 
     # 文字コード変換

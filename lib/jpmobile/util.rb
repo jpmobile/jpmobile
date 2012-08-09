@@ -187,7 +187,7 @@ module Jpmobile
     end
 
     def jis_string_regexp
-      Regexp.compile(Regexp.escape(ascii_8bit("\x1b\x24\x42")) + "(.+)" + Regexp.escape(ascii_8bit("\x1b\x28\x42")))
+      Regexp.compile(Regexp.escape(ascii_8bit("\x1b\x24\x42")) + "(.+?)" + Regexp.escape(ascii_8bit("\x1b\x28\x42")))
     end
 
     def encode(str, charset)

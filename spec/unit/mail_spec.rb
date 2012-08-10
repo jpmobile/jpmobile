@@ -309,9 +309,19 @@ describe "Jpmobile::Mail" do
     end
 
     it "delivers through SMTP" do
+      pending 'running only development environment' if ENV['TRAVIS']
+
       @mail.delivery_method :smtp, {:enable_starttls_auto => false}
       lambda {
         @mail.deliver
+      }.should_not raise_error
+
+      Mail::TestMailer.deliveries.size
+    end
+
+    it "#encoded String should be ASCII-8BIT" do
+      lambda {
+        ascii_8bit?(@mail.encoded).should be_true
       }.should_not raise_error
 
       Mail::TestMailer.deliveries.size

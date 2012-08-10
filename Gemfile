@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 
 group :development, :test do
   gem 'jeweler'
-  gem 'rails', '~>3.0.10'
+  gem 'rails', '~>3.0.17'
   gem 'rspec', '~>2.6.0'
   gem 'rspec-rails', '~>2.6.0'
   gem 'webrat'

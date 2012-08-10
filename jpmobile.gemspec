@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{jpmobile}
-  s.version = "1.0.9"
+  s.version = "1.0.10"
 
   s.required_rubygems_version = Gem::Requirement.new("> 1.3.1") if s.respond_to? :required_rubygems_version=
   s.authors = ["Yoji Shidara", "Shin-ichiro OGAWA"]
@@ -332,4 +332,3 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<rails>, [">= 3.0.3"])
   end
 end
-

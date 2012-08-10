@@ -111,15 +111,25 @@ describe Jpmobile::Util do
 
   describe 'invert_table' do
     it 'pickups the first(least) of duplicated values when inverting hash table' do
-      hash = invert_table({:a => 1, :b => 1, :c => 2, :d => 3, :e => 2})
-      hash[1].should == :a
-      hash[2].should == :c
+      hash = invert_table({
+          0xFE009 => 0xE63E,
+          0xFE00A => 0xE63E,
+          0xFE00B => 0x3013,
+          0xFE010 => 0xE6B3,
+          0xFE038 => 0xE73F})
+      hash[0xE63E].should == 0xFE009
+      hash[0x3013].should == 0xFE00B
     end
 
     it 'should not raise error when hash has Array keys' do
-      hash = invert_table({[:a, :b] => 1, :c => 1, :d => 2, [:e, :f] => 3, :g => 3})
-      hash[1].should == [:a, :b]
-      hash[2].should == :d
+      hash = invert_table({
+          [0x1F1E8, 0x1F1F3] => 0x3013,
+          0x1F1FF            => 0x3013,
+          0x1F526            => 0xE6FB,
+          [0x0023, 0x20E3]   => 0xE6E0,
+          0x1F354            => 0xE673})
+      hash[0x3013].should == [0x1F1E8, 0x1F1F3]
+      hash[0xE6FB].should == 0x1F526
     end
   end
 end

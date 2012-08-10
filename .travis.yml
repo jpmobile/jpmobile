@@ -1,0 +1,9 @@
+before_install:
+  - sudo apt-get install postfix
+branches:
+  only:
+    - travis-ci
+matrix:
+  exclude:
+    - rvm: 1.9.3
+      gemfile: Gemfile

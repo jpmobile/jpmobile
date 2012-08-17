@@ -310,5 +310,15 @@ describe "Jpmobile::Mail#receive" do
         @mail.parts.first.charset.should == 'iso-8859-1'
       end
     end
+
+    context "bounce mail has jp address" do
+      before(:each) do
+        @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "../../test/rails/overrides/spec/fixtures/mobile_mailer/bounced-jp.eml")).read)
+      end
+
+      it "mobile should abstract mobile" do
+        @mail.mobile.should be_a Jpmobile::Mobile::AbstractMobile
+      end
+    end
   end
 end

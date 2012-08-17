@@ -277,7 +277,7 @@ module Mail
         end
       end
 
-      if @body_part_jpmobile and @mobile
+      if @body_part_jpmobile and @mobile and !@charset.blank?
         @body_part_jpmobile = @mobile.decode_transfer_encoding(@body_part_jpmobile, @charset)
       end
     end

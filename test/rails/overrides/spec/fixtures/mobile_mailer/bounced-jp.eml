@@ -1,0 +1,72 @@
+Return-Path: <>
+X-Original-To: info@example.jp
+Delivered-To: info@example.jp
+Received: by localhost (Postfix)
+	id 081F8161D92; Fri, 17 Aug 2012 23:05:01 +0900 (JST)
+Date: Fri, 17 Aug 2012 23:05:01 +0900 (JST)
+From: MAILER-DAEMON@example.jp (Mail Delivery System)
+Subject: Undelivered Mail Returned to Sender
+To: info@example.jp
+Auto-Submitted: auto-replied
+MIME-Version: 1.0
+Content-Type: multipart/report; report-type=delivery-status;
+	boundary="EAE03161D91.1345212301/localhost"
+Message-Id: <20120817140501.081F8161D92@localhost>
+
+This is a MIME-encapsulated message.
+
+--EAE03161D91.1345212301/localhost
+Content-Description: Notification
+Content-Type: text/plain; charset=us-ascii
+
+This is the mail system at host localhost.
+
+I'm sorry to have to inform you that your message could not
+be delivered to one or more recipients. It's attached below.
+
+For further assistance, please send mail to postmaster.
+
+If you do so, please include this problem report. You can
+delete your own text from the attached returned message.
+
+                   The mail system
+
+<unknown@docomo.ne.jp>: host mfsmax.docomo.ne.jp[203.138.181.112] said: 550
+    Unknown user unknown@docomo.ne.jp (in reply to end of DATA command)
+
+--EAE03161D91.1345212301/localhost
+Content-Description: Delivery report
+Content-Type: message/delivery-status
+
+Reporting-MTA: dns; localhost
+X-Postfix-Queue-ID: EAE03161D91
+X-Postfix-Sender: rfc822; info@example.jp
+Arrival-Date: Fri, 17 Aug 2012 23:05:00 +0900 (JST)
+
+Final-Recipient: rfc822; unknown@docomo.ne.jp
+Action: failed
+Status: 5.0.0
+Remote-MTA: dns; mfsmax.docomo.ne.jp
+Diagnostic-Code: smtp; 550 Unknown user unknown@docomo.ne.jp
+
+--EAE03161D91.1345212301/localhost
+Content-Description: Undelivered Message
+Content-Type: message/rfc822
+
+Return-Path: <info@example.jp>
+Received: by localhost (Postfix, from userid 1004)
+	id EAE03161D91; Fri, 17 Aug 2012 23:05:00 +0900 (JST)
+Date: Fri, 17 Aug 2012 23:05:00 +0900
+From: info@example.jp
+To: unknown@docomo.ne.jp
+Message-ID: <502e4f8c8dc0a_1ed1cbf30467885@mail>
+Subject: =?Shift_JIS?B?dGVzdA==?=
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=Shift_JIS
+Content-Transfer-Encoding: 7bit
+
+test
+
+--EAE03161D91.1345212301/localhost--
+

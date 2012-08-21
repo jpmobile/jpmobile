@@ -113,7 +113,8 @@ module Jpmobile::Mobile
     end
     def mail_charset(charset = nil)
       # (charset.nil? or charset == "") ? self.class::MAIL_CHARSET : charset
-      self.class::MAIL_CHARSET
+      # self.class::MAIL_CHARSET
+      charset.nil? || charset == '' || charset =~ /US-ASCII/i ? self.class::MAIL_CHARSET : charset
     end
     def content_transfer_encoding(headers)
       transfer_encoding = headers['Content-Transfer-Encoding']

@@ -148,6 +148,14 @@ describe "Jpmobile::Mail#receive" do
         end
       end
     end
+
+    context 'bounced mail' do
+      it 'should parse sub-part charset correctly' do
+        @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "email-fixtures/bounce_with_utf8_part.eml")).read)
+        @mail.parts.first.charset.should match(/iso-2022-jp/i)
+        @mail.parts.last.charset.should  match(/utf-8/i)
+      end
+    end
   end
 
   describe "Docomo" do
@@ -288,6 +296,18 @@ describe "Jpmobile::Mail#receive" do
     end
   end
 
+  describe 'bounced mail' do
+    context "has jp address" do
+      before(:each) do
+        @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "../../test/rails/overrides/spec/fixtures/mobile_mailer/bounced-jp.eml")).read)
+      end
+
+      it "mobile should abstract mobile" do
+        @mail.mobile.should be_a Jpmobile::Mobile::AbstractMobile
+      end
+    end
+  end
+
   describe "non-Japanese mail" do
     context "us-ascii" do
       before(:each) do
@@ -308,16 +328,6 @@ describe "Jpmobile::Mail#receive" do
       it "mobile should be nil" do
         @mail.mobile.should be_nil
         @mail.parts.first.charset.should == 'iso-8859-1'
-      end
-    end
-
-    context "bounce mail has jp address" do
-      before(:each) do
-        @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "../../test/rails/overrides/spec/fixtures/mobile_mailer/bounced-jp.eml")).read)
-      end
-
-      it "mobile should abstract mobile" do
-        @mail.mobile.should be_a Jpmobile::Mobile::AbstractMobile
       end
     end
   end

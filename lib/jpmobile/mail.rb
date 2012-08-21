@@ -60,7 +60,7 @@ module Mail
         header['subject'].mobile = @mobile if header['subject']
         header['from'].mobile    = @mobile if header['from']
         header['to'].mobile      = @mobile if header['to']
-        self.charset             = @mobile.mail_charset(@charset)
+        self.charset             = @mobile.mail_charset
 
         ready_to_send!
 
@@ -124,8 +124,8 @@ module Mail
 
         if @body.multipart?
           @body.parts.each do |p|
-            p.charset = @charset
-            p.mobile = @mobile
+            p.charset = @mobile.mail_charset(p.charset)
+            p.mobile  = @mobile
           end
         end
       end
@@ -349,9 +349,9 @@ module Mail
 
       if self.multipart? and @mobile
         self.parts.each do |part|
-          part.charset      = @charset
+          part.charset      = @mobile.mail_charset(part.charset)
           part.mobile       = @mobile
-          part.body.charset = @charset
+          part.body.charset = part.charset
           part.body.mobile  = @mobile
         end
       end
@@ -458,15 +458,15 @@ module Mail
 
     def mobile=(m)
       if @mobile = m
-        self.charset = @mobile.mail_charset(@charset)
-        self.value = @jpmobile_raw_text
+        self.charset = @mobile.mail_charset
+        self.value   = @jpmobile_raw_text
         self.parse
       end
     end
 
     def encoded_with_jpmobile
       if @mobile
-        self.charset = @mobile.mail_charset(@charset)
+        self.charset = @mobile.mail_charset
       end
 
       encoded_without_jpmobile
@@ -487,15 +487,15 @@ module Mail
 
     def mobile=(m)
       if @mobile = m
-        self.charset = @mobile.mail_charset(@charset)
-        self.value = @jpmobile_raw_text
+        self.charset = @mobile.mail_charset
+        self.value   = @jpmobile_raw_text
         self.parse
       end
     end
 
     def encoded_with_jpmobile
       if @mobile
-        self.charset = @mobile.mail_charset(@charset)
+        self.charset = @mobile.mail_charset
       end
 
       encoded_without_jpmobile

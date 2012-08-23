@@ -300,4 +300,57 @@ describe "Jpmobile::Mail" do
       ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape(ascii_8bit("\x31\x30\x3a\x30\x30\x1b\x24\x42\x21\x41\x1b\x28\x42\x31\x32\x3a\x30\x30"))))
     end
   end
+
+  context "delivering" do
+    before(:each) do
+      @mobile = Jpmobile::Mobile::AbstractMobile.new(nil, nil)
+      @mail.mobile = @mobile
+      @mail.to = "むすめふさほせ <info+to@jpmobile-rails.org>"
+    end
+
+    it "delivers through SMTP" do
+      @mail.delivery_method :smtp, {:enable_starttls_auto => false}
+      lambda {
+        @mail.deliver
+      }.should_not raise_error
+
+      Mail::TestMailer.deliveries.size
+    end
+  end
+
+  context 'sending with carrier from' do
+    before do
+      @mail         = Mail.new
+      @mail.subject = "万葉"
+      @mail.to      = "ちはやふる <info@jpmobile-rails.org>"
+    end
+
+    it 'should convert content-transfer-encoding' do
+      mobile = Jpmobile::Mobile::Au.new(nil, nil)
+      @mail.content_transfer_encoding = 'base64'
+      @mail.body = ['ほげ'].pack('m')
+      @mail.charset = 'UTF-8'
+
+      @mail.mobile = mobile
+      @mail.from = '<えーゆー> au@ezweb.ne.jp'
+
+      @mail.encoded.should match(/content-transfer-encoding: 7bit/i)
+    end
+
+    it 'should not convert content-transfer-encoding with BINARY' do
+      mobile = Jpmobile::Mobile::Au.new(nil, nil)
+      data = ['ほげ'].pack('m').strip
+
+      @mail.content_transfer_encoding = 'base64'
+      @mail.content_type = 'image/jpeg'
+      @mail.body = data
+      @mail.charset = 'UTF-8'
+
+      @mail.mobile = mobile
+      @mail.from = '<えーゆー> au@ezweb.ne.jp'
+
+      @mail.encoded.should match(/content-transfer-encoding: base64/i)
+      @mail.encoded.should match(data)
+    end
+  end
 end

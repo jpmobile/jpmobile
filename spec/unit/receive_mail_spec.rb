@@ -228,6 +228,19 @@ describe "Jpmobile::Mail#receive" do
         ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape(ascii_8bit("\x1b\x24\x42\x32\x71\x35\x44\x24\x2C\x33\x2B\x3A\x45\x75\x48\x1b\x28\x42"))))
       end
     end
+
+    context 'From au iPhone' do
+      it 'charset should be UTF-8' do
+        @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "email-fixtures/iphone-message.eml")).read)
+        @mail.mobile.should be_a(Jpmobile::Mobile::Au)
+        @mail.charset.should match(/utf-8/i)
+      end
+
+      it 'should be encoded correctly' do
+        @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "email-fixtures/iphone-message.eml")).read)
+        @mail.encoded
+      end
+    end
   end
 
   describe "Softbank" do

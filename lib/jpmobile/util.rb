@@ -400,5 +400,20 @@ module Jpmobile
       end
       result
     end
+
+    def decode(str, encoding, charset)
+      _str = case encoding
+             when /quoted-printable/i
+               str.unpack('M').first.strip
+             when /base64/i
+               str.unpack('m').first.strip
+             else
+               str
+             end
+
+      _extract_charset = Jpmobile::Util.extract_charset(_str)
+      charset = _extract_charset unless _extract_charset.blank? or _extract_charset == charset
+      Jpmobile::Util.set_encoding(_str, charset)
+    end
   end
 end

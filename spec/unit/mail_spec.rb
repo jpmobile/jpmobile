@@ -317,4 +317,40 @@ describe "Jpmobile::Mail" do
       Mail::TestMailer.deliveries.size
     end
   end
+
+  context 'sending with carrier from' do
+    before do
+      @mail         = Mail.new
+      @mail.subject = "万葉"
+      @mail.to      = "ちはやふる <info@jpmobile-rails.org>"
+    end
+
+    it 'should convert content-transfer-encoding' do
+      mobile = Jpmobile::Mobile::Au.new(nil, nil)
+      @mail.content_transfer_encoding = 'base64'
+      @mail.body = ['ほげ'].pack('m')
+      @mail.charset = 'UTF-8'
+
+      @mail.mobile = mobile
+      @mail.from = '<えーゆー> au@ezweb.ne.jp'
+
+      @mail.encoded.should match(/content-transfer-encoding: 7bit/i)
+    end
+
+    it 'should not convert content-transfer-encoding with BINARY' do
+      mobile = Jpmobile::Mobile::Au.new(nil, nil)
+      data = ['ほげ'].pack('m').strip
+
+      @mail.content_transfer_encoding = 'base64'
+      @mail.content_type = 'image/jpeg'
+      @mail.body = data
+      @mail.charset = 'UTF-8'
+
+      @mail.mobile = mobile
+      @mail.from = '<えーゆー> au@ezweb.ne.jp'
+
+      @mail.encoded.should match(/content-transfer-encoding: base64/i)
+      @mail.encoded.should match(data)
+    end
+  end
 end

@@ -663,6 +663,15 @@ describe MobileMailer, "receiving" do
         parts.first.body.should match(/テストです&#xe595;/)
         parts.last.body.raw_source.should match(/テストです&#xe595;/)
       end
+
+      context 'iPhone' do
+        it 'should parse correctly' do
+          lambda {
+            @mail = MobileMailer.receive(open(File.join(Rails.root, "../../../spec/unit/email-fixtures/iphone-message.eml")).read)
+            @mail.encoded
+          }.should_not raise_error
+        end
+      end
     end
 
     describe "softbank(sjis) の場合" do

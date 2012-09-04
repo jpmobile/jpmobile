@@ -255,6 +255,31 @@ describe "Jpmobile::Mail" do
     end
   end
 
+  describe "long subject with half-characters" do
+    before(:each) do
+      @mail         = Mail.new
+      @mail.subject = "西暦2012年09月03日は今日になるわけだが10時16分現在のこの時間ではどうかな"
+      @mail.body    = "株式会社・・"
+      @mail.from    = "info@jpmobile-rails.org"
+    end
+
+    describe "AbstractMobile" do
+      before(:each) do
+        @mobile = Jpmobile::Mobile::AbstractMobile.new(nil, nil)
+        @mail.mobile = @mobile
+        @mail.to = "むすめふさほせ <info+to@jpmobile-rails.org>"
+      end
+
+      context "to_s" do
+        it "should contain encoded subject" do
+          ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape("=?ISO-2022-JP?B?GyRCQD5OcRsoQjIwMTIbJEJHLxsoQjA5GyRCN24bKEIwMxskQkZ8JE86IxsoQg==?=")))
+          ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape("=?ISO-2022-JP?B?GyRCRnwkSyRKJGskbyQxJEAkLBsoQjEwGyRCO34bKEIxNhskQkosOD0bKEI=?=")))
+          ascii_8bit(@mail.to_s).should match(Regexp.compile(Regexp.escape("=?ISO-2022-JP?B?GyRCOl8kTiQzJE47fjRWJEckTyRJJCYkKyRKGyhC?=")))
+        end
+      end
+    end
+  end
+
   context "with attachments" do
     before(:each) do
       @mobile = Jpmobile::Mobile::AbstractMobile.new(nil, nil)

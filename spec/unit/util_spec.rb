@@ -132,4 +132,23 @@ describe Jpmobile::Util do
       hash[0xE6FB].should == 0x1F526
     end
   end
+
+  describe 'check_charset' do
+    it 'returns true if compatible' do
+      str = 'ABC'.force_encoding('ASCII-8BIT')
+      check_charset(str, 'UTF-8').should be_true
+    end
+
+    it 'returns false if incompatible' do
+      str = '再現'.encode('ISO-2022-JP')
+      check_charset(str, 'UTF-8').should be_false
+    end
+  end
+
+  describe 'correct_encoding' do
+    it 'updates encoding correctly' do
+      str = '再現'.force_encoding('ISO-2022-JP')
+      correct_encoding(str).encoding.should == Encoding::UTF_8
+    end
+  end
 end

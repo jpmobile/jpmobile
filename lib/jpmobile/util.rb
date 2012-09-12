@@ -408,5 +408,22 @@ module Jpmobile
       charset = _extract_charset unless _extract_charset.blank? or _extract_charset == charset
       Jpmobile::Util.set_encoding(_str, charset)
     end
+
+    def check_charset(str, charset)
+      if Object.const_defined?(:Encoding)
+        # use NKF.guess
+        ::Encoding.compatible?(NKF.guess(str), ::Encoding.find(charset))
+      else
+        true
+      end
+    end
+
+    def correct_encoding(str)
+      if str.encoding != ::Encoding::ASCII_8BIT and NKF.guess(str) != str.encoding
+        str.force_encoding(NKF.guess(str))
+      end
+
+      str
+    end
   end
 end

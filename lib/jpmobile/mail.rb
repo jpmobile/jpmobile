@@ -18,7 +18,7 @@ module Mail
 
       # change encoding
       def self.b_value_encode(str, encoding)
-        str = Jpmobile::Util.encode(str, encoding)
+        str = Jpmobile::Util.encode(str, encoding.to_s)
         [Ruby19.encode_base64(str), encoding]
       end
     end

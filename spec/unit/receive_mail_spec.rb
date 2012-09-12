@@ -241,6 +241,19 @@ describe "Jpmobile::Mail#receive" do
         @mail.encoded
       end
     end
+
+    context 'From iPad' do
+      it 'charset should be UTF-8' do
+        @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "email-fixtures/iphone-mail3.eml")).read)
+        @mail.mobile.should be_a(Jpmobile::Mobile::AbstractMobile)
+        @mail.charset.should match(/utf-8/i)
+      end
+
+      it 'should be encoded correctly' do
+        @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "email-fixtures/iphone-mail3.eml")).read)
+        @mail.encoded
+      end
+    end
   end
 
   describe "Softbank" do

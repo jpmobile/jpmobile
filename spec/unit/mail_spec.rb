@@ -303,6 +303,14 @@ describe "Jpmobile::Mail" do
         @mail.to_s
       }.should_not raise_error
     end
+
+    it "should encodes itself successfully with an UTF-8 filename attachment", :focus => true do
+      @mail.attachments.inline['日本語のファイル名です.jpg'] = @photo
+
+      lambda {
+        @mail.to_s
+      }.should_not raise_error
+    end
   end
 
   context "encoding conversion" do

@@ -101,6 +101,11 @@ module Jpmobile::Mobile
 
       @_variants || []
     end
+    def mail_variants
+      return @_mail_variants if @_mail_variants
+
+      @_mail_variants = variants == ['mobile'] ? [] : variants
+    end
 
     # メール送信用
     def to_mail_subject(str)

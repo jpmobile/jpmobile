@@ -21,7 +21,7 @@ module Jpmobile
                     # for multi to addresses
                     Jpmobile::Mobile::AbstractMobile.new(nil, nil)
                   end
-        self.lookup_context.mobile = @mobile.variants
+        self.lookup_context.mobile = @mobile.mail_variants
 
         @mobile.decorated = headers.delete(:decorated)
 

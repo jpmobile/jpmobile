@@ -78,6 +78,7 @@ describe MobileMailer do
       raw_mail.should match(/iso-2022-jp/i)
       raw_mail.should match(Regexp.compile(Regexp.escape(ascii_8bit([utf8_to_jis("題名")].pack('m').strip))))
       raw_mail.should match(Regexp.compile(Regexp.escape(ascii_8bit(utf8_to_jis("本文")))))
+      raw_mail.should match(/For PC/)
     end
   end
 

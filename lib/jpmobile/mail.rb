@@ -67,7 +67,7 @@ module Mail
 
         self.body.charset = @charset
         self.body.mobile  = @mobile
-        self.header['Content-Transfer-Encoding'] = @mobile.content_transfer_encoding(self.header)
+        self.header['Content-Transfer-Encoding'].value = @mobile.content_transfer_encoding(self.header)
         if @mobile.decorated?
           unless self.content_type.match(/image\//)
             self.header['Content-ID'] = nil
@@ -83,7 +83,8 @@ module Mail
         buffer << "\r\n"
         buffer = @mobile.utf8_to_mail_encode(buffer)
         buffer << body.encoded(content_transfer_encoding)
-        buffer
+
+        ascii_compatible!(buffer)
       else
         encoded_without_jpmobile
       end
@@ -133,10 +134,6 @@ module Mail
       end
     end
 
-    def body_lazy_with_jpmobile(value, index)
-      body_lazy_without_jpmobile(value, index)
-    end
-
     alias_method :encoded_without_jpmobile, :encoded
     alias_method :encoded, :encoded_with_jpmobile
 
@@ -145,9 +142,6 @@ module Mail
 
     alias_method :process_body_raw_without_jpmobile, :process_body_raw
     alias_method :process_body_raw, :process_body_raw_with_jpmobile
-
-    alias_method :body_lazy_without_jpmobile, :body_lazy
-    alias_method :body_lazy, :body_lazy_with_jpmobile
 
 # -- docomo
 # multipart/mixed
@@ -269,8 +263,9 @@ module Mail
         self.header[:subject].charset = subject_charset unless subject_charset.blank?
 
         if @mobile
-          v = @mobile.to_mail_internal(
-            Encodings.value_decode(self.header[:subject].value), subject_charset)
+          subject_value = Encodings.value_decode(self.header[:subject].value)
+          subject_converting_encoding = Jpmobile::Util.detect_encoding(subject_value)
+          v = @mobile.to_mail_internal(subject_value, subject_converting_encoding)
           if @charset == subject_charset and @mobile.mail_charset != @charset
             self.header[:subject].value = Jpmobile::Util.force_encode(v, @charset, Jpmobile::Util::UTF8)
           else
@@ -291,6 +286,10 @@ module Mail
         end
         @body_part_jpmobile = @mobile.decode_transfer_encoding(@body_part_jpmobile, @charset)
       end
+    end
+
+    def ascii_compatible!(str)
+      Jpmobile::Util.ascii_compatible!(str)
     end
   end
 
@@ -319,6 +318,11 @@ module Mail
 
     alias_method :parse_message_without_jpmobile, :parse_message
     alias_method :parse_message, :parse_message_with_jpmobile
+
+    private
+    def ascii_compatible!(str)
+      str
+    end
   end
 
   class Body
@@ -441,6 +445,12 @@ module Mail
 
   class UnstructuredField
     attr_accessor :mobile
+  end
+
+  class OptionalField
+    def charset
+      @charset =~ /iso-2022-jp/i ? 'UTF-8' : @charset
+    end
   end
 
   # for subject

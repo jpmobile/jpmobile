@@ -419,8 +419,20 @@ module Jpmobile
     end
 
     def correct_encoding(str)
-      if str.encoding != ::Encoding::ASCII_8BIT and NKF.guess(str) != str.encoding
-        str.force_encoding(NKF.guess(str))
+      if Object.const_defined?(:Encoding)
+        if str.encoding != ::Encoding::ASCII_8BIT and NKF.guess(str) != str.encoding
+          str.force_encoding(NKF.guess(str))
+        end
+      else
+        str = case NKF.guess(str)
+              when NKF::UTF8
+                NKF.nkf('-w', str)
+              when NKF::JIS
+                pp '1'
+                NKF.nkf('-j', str)
+              when NKF::SJIS
+                NKF.nkf("-s", str)
+              end
       end
 
       str

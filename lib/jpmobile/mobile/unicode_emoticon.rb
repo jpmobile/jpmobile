@@ -37,7 +37,7 @@ module Jpmobile::Mobile
     end
 
     def unicode_emoticon?
-      @request.user_agent.match(/ OS 5_/)
+      @request.user_agent.match(/ OS (\d)_/) and $1.to_i >= 5
     end
   end
 end

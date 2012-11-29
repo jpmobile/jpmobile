@@ -3,41 +3,22 @@ require 'mail'
 
 module Mail
   # encoding patch
-  if self.const_defined?(:Ruby19)
-    Ruby19.class_eval do
-      def self.b_value_decode(str)
-        match = str.match(/\=\?(.+)?\?[Bb]\?(.+)?\?\=/m)
-        if match
-          encoding = match[1]
-          str = self.decode_base64(match[2])
-          str.force_encoding(fix_encoding(encoding))
-        end
-        # if str contains some emoticon, the following line raises Encoding error
-        str.encode("utf-8", :invalid => :replace, :replace => "") rescue Jpmobile::Util.ascii_8bit(str)
+  Ruby19.class_eval do
+    def self.b_value_decode(str)
+      match = str.match(/\=\?(.+)?\?[Bb]\?(.+)?\?\=/m)
+      if match
+        encoding = match[1]
+        str = self.decode_base64(match[2])
+        str.force_encoding(fix_encoding(encoding))
       end
-
-      # change encoding
-      def self.b_value_encode(str, encoding)
-        str = Jpmobile::Util.encode(str, encoding.to_s)
-        [Ruby19.encode_base64(str), encoding]
-      end
+      # if str contains some emoticon, the following line raises Encoding error
+      str.encode("utf-8", :invalid => :replace, :replace => "") rescue Jpmobile::Util.ascii_8bit(str)
     end
-  elsif self.const_defined?(:Ruby18)
-    Ruby18.class_eval do
-      def self.b_value_decode(str)
-        match = str.match(/\=\?(.+)?\?[Bb]\?(.+)?\?\=/m)
-        if match
-          encoding = match[1]
-          str = Ruby18.decode_base64(match[2])
-        end
-        str
-      end
 
-      # change encoding
-      def self.b_value_encode(str, encoding)
-        str = Jpmobile::Util.encode(str, encoding)
-        [Encodings::Base64.encode(str), encoding]
-      end
+    # change encoding
+    def self.b_value_encode(str, encoding)
+      str = Jpmobile::Util.encode(str, encoding.to_s)
+      [Ruby19.encode_base64(str), encoding]
     end
   end
 

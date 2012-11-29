@@ -1,7 +1,3 @@
-unless Object.const_defined?(:Encoding)
-  $KCODE = 'u'
-end
-
 module Jpmobile
   module Emoticon
     GETA_CODE = 0x3013

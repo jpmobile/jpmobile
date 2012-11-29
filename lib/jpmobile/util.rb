@@ -150,19 +150,11 @@ module Jpmobile
     end
 
     def regexp_utf8_to_sjis(utf8_str)
-      if Object.const_defined?(:Encoding)
-        Regexp.compile(Regexp.escape(utf8_to_sjis(utf8_str)))
-      else
-        Regexp.compile(Regexp.escape(utf8_to_sjis(utf8_str),"s"),nil,'s')
-      end
+      Regexp.compile(Regexp.escape(utf8_to_sjis(utf8_str)))
     end
 
     def regexp_to_sjis(sjis_str)
-      if Object.const_defined?(:Encoding)
-        Regexp.compile(Regexp.escape(sjis(sjis_str)))
-      else
-        Regexp.compile(Regexp.escape(sjis_str,"s"),nil,'s')
-      end
+      Regexp.compile(Regexp.escape(sjis(sjis_str)))
     end
 
     def hash_to_utf8(hash)
@@ -173,24 +165,19 @@ module Jpmobile
     end
 
     def sjis_regexp(sjis)
-      sjis_str = sjis.kind_of?(Numeric) ? [sjis].pack('n') : sjis
+      sjis_str = if sjis.kind_of?(Numeric)
+                   [sjis].pack('n')
+                 else
+                   sjis
+                 end
 
-      if Object.const_defined?(:Encoding)
-        Regexp.compile(Regexp.escape(sjis_str.force_encoding(SJIS)))
-      else
-        Regexp.compile(Regexp.escape(sjis_str,"s"),nil,'s')
-      end
+      Regexp.compile(Regexp.escape(sjis_str.force_encoding(SJIS)))
     end
 
     def jis_regexp(jis)
       jis_str = jis.kind_of?(Numeric) ? [jis].pack('n') : jis
 
-      if Object.const_defined?(:Encoding)
-        # Regexp.compile(Regexp.escape(jis_str.force_encoding("stateless-ISO-2022-JP-KDDI"))) # for au only
-        Regexp.compile(Regexp.escape(jis_str.force_encoding(BINARY))) # for au only
-      else
-        Regexp.compile(Regexp.escape(jis_str,"j"),nil,'j')
-      end
+      Regexp.compile(Regexp.escape(jis_str.force_encoding(BINARY)))
     end
 
     def jis_string_regexp
@@ -207,20 +194,7 @@ module Jpmobile
       elsif utf8?(str) and charset.match(/utf-8/i)
         str
       else
-        if Object.const_defined?(:Encoding)
-          str.encode(charset)
-        else
-          case charset
-          when /iso-2022-jp/i
-            NKF.nkf("-j", str)
-          when /shift_jis/i
-            NKF.nkf("-s", str)
-          when /utf-8/i
-            NKF.nkf("-w", str)
-          else
-            str
-          end
-        end
+        str.encode(charset)
       end
     end
 
@@ -256,50 +230,22 @@ module Jpmobile
       s = str.dup
       return str if detect_encoding(str) == to
 
-      if Object.const_defined?(:Encoding)
-        to = SJIS if to =~ /shift_jis/i
+      to = SJIS if to =~ /shift_jis/i
 
-        to_enc = ::Encoding.find(to)
-        return str if s.encoding == to_enc
+      to_enc = ::Encoding.find(to)
+      return str if s.encoding == to_enc
 
-        if from
-          from_enc = ::Encoding.find(from)
-          s.force_encoding(from) unless s.encoding == from_enc
-        end
-
-        s.encode(to)
-      else
-        opt = []
-        opt << case from
-               when /iso-2022-jp/i
-                 "-Jx"
-               when /shift_jis/i
-                 "-Sx"
-               when /utf-8/i
-                 "-Wx"
-               else
-                 ""
-               end
-        opt << case to
-               when /iso-2022-jp/i
-                 "-j"
-               when /shift_jis/i, /windows_31j/i
-                 "-s"
-               when /utf-8/i
-                 "-w"
-               else
-                 ""
-               end
-        NKF.nkf(opt.join(" "), str)
+      if from
+        from_enc = ::Encoding.find(from)
+        s.force_encoding(from) unless s.encoding == from_enc
       end
+
+      s.encode(to)
     end
 
     def set_encoding(str, encoding)
-      if encoding and Object.const_defined?(:Encoding)
-        encoding = SJIS if encoding =~ /shift_jis/i
-
-        str.force_encoding(encoding)
-      end
+      encoding = SJIS if encoding =~ /shift_jis/i
+      str.force_encoding(encoding)
 
       str
     end
@@ -318,32 +264,17 @@ module Jpmobile
     end
 
     def detect_encoding(str)
-      if Object.const_defined?(:Encoding)
-        case str.encoding
-        when ::Encoding::ISO2022_JP
-          JIS
-        when ::Encoding::Shift_JIS, ::Encoding::Windows_31J, ::Encoding::CP932
-          SJIS
-        when ::Encoding::UTF_8
-          UTF8
-        when ::Encoding::ASCII_8BIT
-          BINARY
-        else
-          BINARY
-        end
+      case str.encoding
+      when ::Encoding::ISO2022_JP
+        JIS
+      when ::Encoding::Shift_JIS, ::Encoding::Windows_31J, ::Encoding::CP932
+        SJIS
+      when ::Encoding::UTF_8
+        UTF8
+      when ::Encoding::ASCII_8BIT
+        BINARY
       else
-        case NKF.guess(str)
-        when NKF::SJIS
-          SJIS
-        when NKF::JIS
-          JIS
-        when NKF::UTF8
-          UTF8
-        when NKF::BINARY
-          BINARY
-        else
-          BINARY
-        end
+        BINARY
       end
     end
 
@@ -374,17 +305,7 @@ module Jpmobile
     def split_text(str, size = 15)
       return nil if str.nil? or str == ''
 
-      if Object.const_defined?(:Encoding)
-        [str[0..(size-1)], str[size..-1]]
-      else
-        str    = str.split(//u)
-        text   = str[0..(size-1)]
-        text   = text.join if text
-        remain = str[size..-1]
-        remain = remain.join if remain
-        [text, remain]
-      end
-
+      [str[0..(size-1)], str[size..-1]]
     end
 
     def invert_table(hash)
@@ -417,12 +338,8 @@ module Jpmobile
     end
 
     def check_charset(str, charset)
-      if Object.const_defined?(:Encoding)
-        # use NKF.guess
-        ::Encoding.compatible?(NKF.guess(str), ::Encoding.find(charset))
-      else
-        true
-      end
+      # use NKF.guess
+      ::Encoding.compatible?(NKF.guess(str), ::Encoding.find(charset))
     end
 
     def correct_encoding(str)

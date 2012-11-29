@@ -5,3 +5,15 @@ pkg
 Gemfile
 Gemfile.lock
 vendor
+*.gem
+*.rbc
+.config
+.yardoc
+InstalledFiles
+_yardoc
+coverage
+lib/bundler/man
+rdoc
+spec/reports
+test/tmp
+test/version_tmp

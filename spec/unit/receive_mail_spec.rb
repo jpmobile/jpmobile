@@ -268,6 +268,13 @@ describe "Jpmobile::Mail#receive" do
         @mail.encoded
       end
     end
+
+    it 'should not raise when parsing attached email' do
+      lambda {
+        @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "email-fixtures/au-attached.eml")).read)
+        @mail.encoded
+      }.should_not raise_error
+    end
   end
 
   describe "Softbank" do

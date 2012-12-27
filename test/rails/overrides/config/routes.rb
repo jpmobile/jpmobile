@@ -4,8 +4,8 @@ RailsRoot::Application.routes.draw do
     resources :users
 
     controller :top do
-      match 'top/:action'
+      get 'top/:action'
     end
   end
-  match ':controller(/:action(/:id(.:format)))'
+  get ':controller(/:action(/:id(.:format)))'
 end

@@ -2,6 +2,8 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '/../spec_helper'))
 
 describe MobileSpecController do
+  render_views
+
   describe "GET 'index'" do
     context 'PC access' do
       it "should be successful" do
@@ -33,7 +35,7 @@ describe MobileSpecController do
         get 'file_render'
 
         response.should be_success
-        response.should render_template('422')
+        response.body.should match('The change you wanted was rejected')
         request.mobile?.should be_false
       end
     end
@@ -42,8 +44,9 @@ describe MobileSpecController do
       it "should be successful" do
         request.user_agent = "DoCoMo/2.0 SH902i(c100;TB;W24H12)"
         get 'file_render'
+
         response.should be_success
-        response.should render_template('422')
+        response.body.should match('The change you wanted was rejected')
         request.mobile?.should be_true
         request.mobile.should be_a(Jpmobile::Mobile::Docomo)
       end

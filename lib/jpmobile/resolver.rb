@@ -49,7 +49,7 @@ module Jpmobile
 
         if format
           variant = template.match(/.+#{path}(.+)\.#{format.to_sym.to_s}.*$/) ? $1 : ''
-          virtual_path = variant.blank? ? nil : path + variant
+          virtual_path = variant.blank? ? path.virtual : path.to_str + variant
         else
           virtual_path = path.virtual
         end

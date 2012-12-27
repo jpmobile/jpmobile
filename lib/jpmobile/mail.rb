@@ -115,6 +115,11 @@ module Mail
       end
     end
 
+    # In jpmobile, value is already transfered correctly encodings.
+    def raw_source=(value)
+      @raw_source = value.to_crlf
+    end
+
     alias_method :encoded_without_jpmobile, :encoded
     alias_method :encoded, :encoded_with_jpmobile
 

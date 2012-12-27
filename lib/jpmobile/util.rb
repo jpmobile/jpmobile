@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'tempfile'
+require 'nkf'
+
 module Jpmobile
   module Util
     # SJIS   = "Shift_JIS"

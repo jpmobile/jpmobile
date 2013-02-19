@@ -190,4 +190,46 @@ describe Jpmobile::Rack::ParamsFilter do
       end
     end
   end
+
+  context "CONTENT_TYPEに" do
+    context "application/jsonが含まれる場合" do
+      it "inputが変換されないこと" do
+        form_string = '{"index":"1"}'
+
+        res = Rack::MockRequest.env_for(
+          "/",
+          "REQUEST_METHOD" => "POST",
+          "CONTENT_TYPE" => 'application/json',
+          'HTTP_USER_AGENT' => "KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0",
+          :input => form_string)
+
+        res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(UnitApplication.new)).call(res)
+        req = Rack::Request.new(res[1])
+        req.params.size.should == 0
+
+        req.body.read.should  == form_string
+      end
+    end
+  end
+
+  context "CONTENT_TYPEに" do
+    context "application/xmlが含まれる場合" do
+      it "inputが変換されないこと" do
+        form_string = '<?xml version="1.0"?><value><string>hoge</string></value>'
+
+        res = Rack::MockRequest.env_for(
+          "/",
+          "REQUEST_METHOD" => "POST",
+          "CONTENT_TYPE" => 'application/xml',
+          'HTTP_USER_AGENT' => "KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0",
+          :input => form_string)
+
+        res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(UnitApplication.new)).call(res)
+        req = Rack::Request.new(res[1])
+        req.params.size.should == 0
+
+        req.body.read.should  == form_string
+      end
+    end
+  end
 end

@@ -37,6 +37,8 @@ module Jpmobile
       end
     end
 
+    private
+
     def register_mobile
       if request.mobile
         # register mobile

@@ -37,8 +37,6 @@ module Jpmobile
       end
     end
 
-    private
-
     def register_mobile
       if request.mobile
         # register mobile
@@ -49,5 +47,7 @@ module Jpmobile
     def disable_mobile_view!
       self.lookup_context.mobile = []
     end
+
+    private :register_mobile, :disable_mobile_view!
   end
 end

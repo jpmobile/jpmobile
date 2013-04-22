@@ -136,6 +136,26 @@ module Jpmobile
       end
     end
 
+    # +str+ のなかでUTF8の絵文字を変換する。
+    def self.utf8_to_internal(str, smart_phone_emoticon_compatibility = true)
+      str = Jpmobile::Util.utf8(str)
+      str = external_to_unicodecr_softbank(str)
+      if smart_phone_emoticon_compatibility
+        str = external_to_unicodecr_unicode60(str)
+        str = external_to_unicodecr_google(str)
+      end
+      str = unicodecr_to_utf8(str)
+    end
+
+    # +str+ のなかでShift_JISの絵文字を変換してUTF8の文字列を返す。
+    def self.sjis_to_internal(str)
+      str = Jpmobile::Util.sjis(str)
+      str = external_to_unicodecr_docomo(str)
+      str = external_to_unicodecr_au(str)
+      str = Jpmobile::Util.sjis_to_utf8(str)
+      str = unicodecr_to_utf8(str)
+    end
+
     # +str+ のなかでUnicode数値文字参照で表記された絵文字を携帯側エンコーディングに置換する。
     #
     # キャリア間の変換に +conversion_table+ を使う。+conversion_table+ に+nil+を与えると、

@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 # リクエストパラメータの変換
+require 'nkf'
+
 module Jpmobile
   module Rack
     class ParamsFilter
@@ -17,10 +19,10 @@ module Jpmobile
               env['rack.input'] = StringIO.new(parse_query(env['rack.input'].read))
             end
           end
-
-          # query_params
-          env['QUERY_STRING'] = parse_query(env['QUERY_STRING'])
         end
+
+        # query_params
+        env['QUERY_STRING'] = convert_query_string(env['QUERY_STRING'])
 
         status, env, body = @app.call(env)
 
@@ -43,6 +45,40 @@ module Jpmobile
         end
 
         new_array.join("&")
+      end
+
+      def query_string_to_internal(str)
+        unescaped_str = ::Rack::Utils.unescape(str)
+        case
+        when ascii?(unescaped_str)
+          str
+        when utf8?(unescaped_str)
+          ::Rack::Utils.escape(Jpmobile::Emoticon.utf8_to_internal(unescaped_str, Jpmobile.config.smart_phone_emoticon_compatibility))
+        else
+          ::Rack::Utils.escape(Jpmobile::Emoticon.sjis_to_internal(unescaped_str))
+        end
+      end
+
+      def convert_query_string(str)
+        return nil unless str
+        
+        new_array = []
+        str.split("&").each do |param_pair|
+          k, v = param_pair.split("=")
+          k = query_string_to_internal(k) if k
+          v = query_string_to_internal(v) if v
+          new_array << "#{k}=#{v}" if k
+        end
+
+        new_array.join("&")
+      end
+
+      def ascii?(str)
+        /\A[\x00-\x7F]*\z/ === str
+      end
+
+      def utf8?(str)
+        NKF.guess(str) == NKF::UTF8
       end
     end
   end

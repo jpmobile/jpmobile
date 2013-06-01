@@ -52,4 +52,35 @@ describe MobileSpecController do
       end
     end
   end
+
+  describe "GET 'no_mobile'" do
+    around do |example|
+      orig_value = Jpmobile.config.fallback_view_selector
+      Jpmobile.config.fallback_view_selector = true
+
+      example.run
+
+      Jpmobile.config.fallback_view_selector = orig_value
+    end
+
+    context 'PC access' do
+      it "should be successful" do
+        request.user_agent = 'Mozilla'
+        get 'no_mobile'
+
+        response.should be_success
+        response.body.should_not match('RailsRoot PC mobile')
+      end
+    end
+
+    context 'mobile access' do
+      it "should be successful" do
+        request.user_agent = "DoCoMo/2.0 SH902i(c100;TB;W24H12)"
+        get 'no_mobile'
+
+        response.should be_success
+        response.body.should_not match('RailsRoot mobile')
+      end
+    end
+  end
 end

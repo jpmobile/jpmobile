@@ -53,12 +53,13 @@ module Jpmobile
   end
 
   # autoload Rack middlewares
+  autoload :Rack, 'jpmobile/rack'
   module Rack
     autoload :MobileCarrier, 'jpmobile/rack/mobile_carrier'
     autoload :ParamsFilter,  'jpmobile/rack/params_filter'
     autoload :Filter,        'jpmobile/rack/filter'
   end
-  autoload :Configuration, 'jpmobile/rack'
+  autoload :Configuration, 'jpmobile/configuration'
 
   autoload :Mailer,   'jpmobile/mailer'
   autoload :Resolver, 'jpmobile/resolver'

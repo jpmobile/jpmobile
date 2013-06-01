@@ -58,4 +58,5 @@ group :development, :test do
   gem "rspec", ">= 2.8.0"
   gem "rspec-rails", ">= 2.8.0"
   gem 'webrat'
+  gem 'pry'
 end

@@ -42,7 +42,7 @@ namespace :test do
       FileUtils.rm_rf("Gemfile.lock")
       FileUtils.rm_rf(rails_root)
       FileUtils.mkdir_p(rails_root)
-      `../../../rails/rails/rails/railties/bin/rails new #{rails_root} --force --edge`
+      `rails new #{rails_root} --skip-bundle`
     end
 
     # setup jpmobile

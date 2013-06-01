@@ -73,7 +73,7 @@ module Mail
     end
 
     def parse_message_with_jpmobile
-      header_part, body_part = raw_source.split(/#{CRLF}#{WSP}*#{CRLF}/m, 2)
+      header_part, body_part = raw_source.lstrip.split(/#{CRLF}#{CRLF}|#{CRLF}#{WSP}*#{CRLF}(?!#{WSP})/m, 2)
 
       self.header = header_part
 
@@ -315,6 +315,10 @@ module Mail
   class Body
     attr_accessor :mobile, :content_type_with_jpmobile
 
+    def raw_source_with_jpmobile
+      raw_source_without_jpmobile.to_crlf
+    end
+
     # convert encoding
     def encoded_with_jpmobile(transfer_encoding = '8bit')
       if @mobile and !multipart?
@@ -407,6 +411,9 @@ module Mail
         end_boundary_without_jpmobile
       end
     end
+
+    alias_method :raw_source_without_jpmobile, :raw_source
+    alias_method :raw_source, :raw_source_with_jpmobile
 
     alias_method :encoded_without_jpmobile, :encoded
     alias_method :encoded, :encoded_with_jpmobile
@@ -526,8 +533,24 @@ module Mail
       encoded_without_jpmobile
     end
 
+    def get_display_name_with_jpmobile
+      begin
+        get_display_name_without_jpmobile
+      rescue NoMethodError => ex
+        if ex.message.match(/undefined method `gsub' for nil:NilClass/)
+          name = unquote(tree.display_name.text_value.strip.to_s)
+          str = strip_all_comments(name.to_s)
+        else
+          raise ex
+        end
+      end
+    end
+
     alias_method :encoded_without_jpmobile, :encoded
     alias_method :encoded, :encoded_with_jpmobile
+
+    alias_method :get_display_name_without_jpmobile, :get_display_name
+    alias_method :get_display_name, :get_display_name_with_jpmobile
   end
 
   class ContentTypeElement # :nodoc:

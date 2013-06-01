@@ -9,10 +9,11 @@ module Mail
       if match
         encoding = match[1]
         str = self.decode_base64(match[2])
-        str.force_encoding(fix_encoding(encoding))
+        str.force_encoding(pick_encoding(encoding))
       end
       # if str contains some emoticon, the following line raises Encoding error
       str.encode("utf-8", :invalid => :replace, :replace => "") rescue Jpmobile::Util.ascii_8bit(str)
+      # decoded.valid_encoding? ? decoded : decoded.encode("utf-16le", :invalid => :replace, :replace => "").encode("utf-8")
     end
 
     # change encoding

@@ -113,7 +113,7 @@ module Jpmobile::Mobile
       if Jpmobile::Util.jis?(str) or Jpmobile::Util.ascii_8bit?(str) or charset == mail_charset
         # 絵文字を数値参照に変換
         str = Jpmobile::Emoticon.external_to_unicodecr_au_mail(Jpmobile::Util.jis(str))
-        str = Jpmobile::Util.jis_to_utf8(Jpmobile::Util.jis(str))
+        str = Jpmobile::Util.jis_to_utf8(Jpmobile::Util.jis_win(str))
       end
       str
     end

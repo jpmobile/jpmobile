@@ -615,7 +615,11 @@ module Mail
 
   class Sendmail
     def Sendmail.call(path, arguments, destinations, mail)
-      encoded_mail = mail.encoded
+      if mail.respond_to?(:encoded)
+        encoded_mail = mail.encoded
+      else
+        encoded_mail = mail
+      end
       if Jpmobile::Util.jis?(encoded_mail)
         encoded_mail = Jpmobile::Util.ascii_8bit(encoded_mail)
       end

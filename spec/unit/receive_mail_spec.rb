@@ -243,6 +243,12 @@ describe "Jpmobile::Mail#receive" do
       }.should_not raise_error
     end
 
+    it "should not be raised when parsing incoming email - include kigou" do
+      lambda {
+        @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "email-fixtures/au-kigou.eml")).read)
+      }.should_not raise_error
+    end
+
     context 'From au iPhone' do
       it 'charset should be UTF-8' do
         @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "email-fixtures/iphone-message.eml")).read)

@@ -55,8 +55,8 @@ gem 'activerecord-session_store', github: 'rails/activerecord-session_store'
 
 # Bundle gems for certain environments:
 group :development, :test do
-  gem "rspec", ">= 2.8.0"
-  gem "rspec-rails", ">= 2.8.0"
-  gem 'webrat'
+  gem "rspec"
+  gem "rspec-rails"
+  gem 'capybara-webkit'
   gem 'pry'
 end

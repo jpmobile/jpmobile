@@ -3,6 +3,8 @@
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
+require 'capybara/rails'
+require 'capybara/rspec'
 
 # Requires supporting files with custom matchers and macros, etc,
 # in ./support/ and its subdirectories.
@@ -24,9 +26,8 @@ RSpec.configure do |config|
   # examples within a transaction, comment the following line or assign false
   # instead of true.
   config.use_transactional_fixtures = true
-  config.include Webrat::HaveTagMatcher
   config.include Jpmobile::Util
-  config.before(:each) { Webrat.configuration.mode = :rails }
+  config.include Capybara::DSL
 
   config.filter_run :focus => true
   config.run_all_when_everything_filtered = true

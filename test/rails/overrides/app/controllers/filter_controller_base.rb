@@ -9,6 +9,13 @@ class FilterControllerBase < ApplicationController
   end
   def index
     @q = params[:q]
+    render :text => @q
+  end
+  def index_hankaku
+    render :text => 'ｱﾌﾞﾗｶﾀﾞﾌﾞﾗ' == params[:q]
+  end
+  def index_zenkaku
+    render :text => 'アブラカダブラ' == params[:q]
   end
   def empty
     render :text => ""

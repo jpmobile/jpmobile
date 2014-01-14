@@ -130,8 +130,10 @@ module Jpmobile::TransSid #:nodoc:
     key
   end
   # session_idを返す
+  # rack 1.4 (rails3) request.session_options[:id]
+  # rack 1.5 (rails4) request.session.id
   def jpmobile_session_id
-    request.session_options[:id] rescue session.session_id
+    request.session_options[:id] || request.session.id
   end
   # session_idを埋め込むためのhidden fieldを出力する。
   def sid_hidden_field_tag

@@ -17,8 +17,8 @@ module ActionController
   end
 end
 
-module AbstractController
-  module Rendering
+module ActionController
+  module Renderers
     def render_to_body_with_jpmobile(options)
       if Jpmobile.config.fallback_view_selector and
           lookup_context.mobile.present? and !lookup_context.mobile.empty?

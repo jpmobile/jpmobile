@@ -93,7 +93,7 @@ END
     # run tests in rails
     cd rails_root
     ruby "-S bundle install"
-    ruby "-S rake db:migrate" unless skip
+    ruby "-S rake db:migrate RAILS_ENV=test" unless skip
     ruby "-S rake spec"
     # ruby "-S rspec -b --color spec/requests/filter_spec.rb -e 'jpmobile integration spec HankakuInputFilterController SoftBank 910T からのアクセス it should behave like hankaku_filter :input => true のとき はtextareaの中では半角に変換されないこと'"
   end

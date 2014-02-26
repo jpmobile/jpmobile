@@ -11,27 +11,6 @@ module Jpmobile
 
     private
 
-    # Helper for building query glob string based on resolver's pattern.
-    def build_query(path, details)
-      if path.prefix.match(/^\//) and !File.exists?(path.prefix)
-        path = Path.build(path.name, File.join(@path, path.prefix), path.partial)
-      end
-
-      query = @pattern.dup
-
-      prefix = path.prefix.empty? ? "" : "#{escape_entry(path.prefix)}\\1"
-      query.gsub!(/\:prefix(\/)?/, prefix)
-
-      partial = escape_entry(path.partial? ? "_#{path.name}" : path.name)
-      query.gsub!(/\:action/, partial)
-
-      details.each do |ext, variants|
-        query.gsub!(/\:#{ext}/, "{#{variants.compact.uniq.join(',')}}")
-      end
-
-      File.expand_path(query, @path)
-    end
-
     def query(path, details, formats)
       query = build_query(path, details)
 
@@ -48,8 +27,8 @@ module Jpmobile
         contents = File.binread template
 
         if format
-          variant = template.match(/.+#{path}(.+)\.#{format.to_sym.to_s}.*$/) ? $1 : ''
-          virtual_path = variant.blank? ? path.virtual : path.to_str + variant
+          jpmobile_variant = template.match(/.+#{path}(.+)\.#{format.to_sym.to_s}.*$/) ? $1 : ''
+          virtual_path = jpmobile_variant.blank? ? path.virtual : path.to_str + jpmobile_variant
         else
           virtual_path = path.virtual
         end

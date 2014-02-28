@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 require 'tempfile'
+require 'nkf'
+
 module Jpmobile
   module Util
     # SJIS   = "Shift_JIS"
     SJIS   = "Windows-31J"
     UTF8   = "UTF-8"
     JIS    = "ISO-2022-JP"
+    JIS_WIN = "CP50220"
     BINARY = "ASCII-8BIT"
 
     WAVE_DASH = [0x301c].pack("U")
@@ -80,6 +83,13 @@ module Jpmobile
     def jis(str)
       if str.respond_to?(:force_encoding) and !jis?(str)
         str.force_encoding(JIS)
+      end
+      str
+    end
+
+    def jis_win(str)
+      if str.respond_to?(:force_encoding) and !jis?(str)
+        str.force_encoding(JIS_WIN)
       end
       str
     end

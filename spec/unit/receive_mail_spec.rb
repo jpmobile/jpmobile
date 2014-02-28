@@ -21,7 +21,7 @@ describe "Jpmobile::Mail#receive" do
     end
 
     it "body should be parsed correctly" do
-      @mail.body.to_s.should == "本文です"
+      @mail.body.to_s.should == "本文です\n\n"
     end
 
     context "to_s" do
@@ -59,7 +59,7 @@ describe "Jpmobile::Mail#receive" do
 
       it "body should be parsed correctly" do
         @mail.body.parts.size.should == 2
-        @mail.body.parts.first.body.to_s.should == "本文です"
+        @mail.body.parts.first.body.to_s.should == "本文です\n\n"
       end
 
       it "should encode correctly" do
@@ -168,7 +168,7 @@ describe "Jpmobile::Mail#receive" do
     end
 
     it "body should be parsed correctly" do
-      @mail.body.to_s.should == "本文&#xe6e2;\nFor docomo"
+      @mail.body.to_s.should == "本文&#xe6e2;\nFor docomo\n\n"
     end
 
     context "to_s" do
@@ -205,7 +205,7 @@ describe "Jpmobile::Mail#receive" do
       end
 
       it "body should be parsed correctly" do
-        @mail.body.to_s.should == "本文&#xe522;\nFor au"
+        @mail.body.to_s.should == "本文&#xe522;\nFor au\n\n"
       end
 
       context "to_s" do
@@ -243,6 +243,12 @@ describe "Jpmobile::Mail#receive" do
       }.should_not raise_error
     end
 
+    it "should not be raised when parsing incoming email - include kigou" do
+      lambda {
+        @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "email-fixtures/au-kigou.eml")).read)
+      }.should_not raise_error
+    end
+
     context 'From au iPhone' do
       it 'charset should be UTF-8' do
         @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "email-fixtures/iphone-message.eml")).read)
@@ -268,6 +274,13 @@ describe "Jpmobile::Mail#receive" do
         @mail.encoded
       end
     end
+
+    it 'should not raise when parsing attached email' do
+      lambda {
+        @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "email-fixtures/au-attached.eml")).read)
+        @mail.encoded
+      }.should_not raise_error
+    end
   end
 
   describe "Softbank" do
@@ -280,7 +293,7 @@ describe "Jpmobile::Mail#receive" do
     end
 
     it "body should be parsed correctly" do
-      @mail.body.to_s.should == "本文&#xf21c;\nFor softbank"
+      @mail.body.to_s.should == "本文&#xf21c;\nFor softbank\n\n"
     end
 
     context "to_s" do
@@ -331,7 +344,7 @@ describe "Jpmobile::Mail#receive" do
       end
 
       it "body should be parsed correctly" do
-        @mail.body.to_s.should == "テスト本文"
+        @mail.body.to_s.should == "テスト本文\n\n"
       end
     end
   end

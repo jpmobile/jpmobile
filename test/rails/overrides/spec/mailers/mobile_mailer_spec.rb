@@ -474,14 +474,15 @@ describe MobileMailer, " mail address" do
     emails.first.destinations.include?(to).should be_true
   end
 
-  it "複数のアドレスが有効になること" do
-    to = [".ruby.rails.@domomo-ezweb.ne.jp", "ruby.rails.@domomo-ezweb.ne.jp", "ruby...rails@domomo-ezweb.ne.jp"].join(", ")
+  it "複数のアドレスが有効になること", focus: true do
+    to_addresses = [".ruby.rails.@domomo-ezweb.ne.jp", "ruby.rails.@domomo-ezweb.ne.jp", "ruby...rails@domomo-ezweb.ne.jp"]
+    to = to_addresses.join(", ")
     MobileMailer.view_selection(to, @subject, @text).deliver
 
     emails = ActionMailer::Base.deliveries
     emails.size.should == 1
-    emails.first.to.should == to
-    emails.first.destinations.should == [to]
+    emails.first.to.should == to_addresses
+    emails.first.destinations.should == to_addresses
   end
 end
 

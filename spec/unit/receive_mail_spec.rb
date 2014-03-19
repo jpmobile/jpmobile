@@ -67,6 +67,21 @@ describe "Jpmobile::Mail#receive" do
       end
     end
 
+    describe "PC mail without subject" do
+      before(:each) do
+        @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "email-fixtures/pc-mail-attached-without-subject.eml")).read)
+      end
+
+      it "body should be parsed correctly" do
+        @mail.body.parts.size.should == 2
+        @mail.body.parts.first.body.to_s.should == "本文です\n\n"
+      end
+
+      it "should encode correctly" do
+        ascii_8bit(@mail.to_s).should match(/GODlhAQABAIAAAAAAAP/)
+      end
+    end
+
     describe "Docomo" do
       before(:each) do
         @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "../../test/rails/overrides/spec/fixtures/mobile_mailer/docomo-gmail-sjis.eml")).read)

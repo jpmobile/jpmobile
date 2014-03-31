@@ -323,27 +323,18 @@ module Mail
     # convert encoding
     def encoded_with_jpmobile(transfer_encoding = '8bit')
       if @mobile and !multipart?
-        if @mobile.to_mail_body_encoded?(@raw_source)
-          @raw_source
-        elsif @charset == 'US-ASCII'
-          Jpmobile::Util.set_encoding(@raw_source.dup, @mobile.mail_charset)
-        elsif Jpmobile::Util.ascii_8bit?(@raw_source)
+        case transfer_encoding
+        when /base64/
           _raw_source = if transfer_encoding == encoding
-                          @raw_source
+                          @raw_source.dup
                         else
-                          enc = Mail::Encodings::get_encoding(get_best_encoding(transfer_encoding))
-                          enc.encode(@raw_source)
+                          get_best_encoding(transfer_encoding).encode(@raw_source)
                         end
-          Jpmobile::Util.force_encode(_raw_source, nil, @mobile.mail_charset(@charset))
+          Jpmobile::Util.set_encoding(_raw_source, @mobile.mail_charset(@charset))
+        when /quoted-printable/
+          Jpmobile::Util.set_encoding([@mobile.to_mail_body(@raw_source)].pack("M").gsub(/\n/, "\r\n"), @mobile.mail_charset(@charset))
         else
-          case transfer_encoding
-          when /quoted-printable/
-            # [str].pack("M").gsub(/\n/, "\r\n")
-            Jpmobile::Util.force_encode([@mobile.to_mail_body(Jpmobile::Util.force_encode(@raw_source, @charset, Jpmobile::Util::UTF8))].pack("M").gsub(/\n/, "\r\n"), Jpmobile::Util::BINARY, @charset)
-            # @mobile.to_mail_body(Jpmobile::Util.force_encode(@raw_source, @charset, Jpmobile::Util::UTF8))
-          else
-            @mobile.to_mail_body(Jpmobile::Util.force_encode(@raw_source, @charset, Jpmobile::Util::UTF8))
-          end
+          @mobile.to_mail_body(Jpmobile::Util.force_encode(@raw_source, nil, Jpmobile::Util::UTF8))
         end
       else
         encoded_without_jpmobile(transfer_encoding)

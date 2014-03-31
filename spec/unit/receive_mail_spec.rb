@@ -273,7 +273,7 @@ describe "Jpmobile::Mail#receive" do
 
       it 'should be encoded correctly' do
         @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "email-fixtures/iphone-message.eml")).read)
-        @mail.encoded
+        @mail.encoded.should match(Regexp.escape("%[\e$B1`;yL>\e(B]%\e$B$N\e(B%[\e$BJ]8n<TL>\e(B]%"))
       end
     end
 
@@ -286,14 +286,14 @@ describe "Jpmobile::Mail#receive" do
 
       it 'should be encoded correctly' do
         @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "email-fixtures/iphone-mail3.eml")).read)
-        @mail.encoded
+        @mail.encoded.should match(/BK\\J82~9T\$J\$7!2#5#1#2J8;z!2/)
       end
     end
 
     it 'should not raise when parsing attached email' do
       lambda {
         @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "email-fixtures/au-attached.eml")).read)
-        @mail.encoded
+        @mail.encoded.should match('/9j/4AAQSkZJRgABAgAAZABkAAD/7AARRHVja3kAAQAEAAAAPQAA')
       }.should_not raise_error
     end
   end

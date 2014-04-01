@@ -29,12 +29,6 @@ module Mail
     def mobile=(m)
       if @mobile = m
         @charset = m.mail_charset(@charset)
-
-        if self.body
-          self.body.content_type_with_jpmobile = self.content_type
-          self.body.charset = @charset
-          self.body.mobile = m
-        end
       end
     end
 
@@ -47,7 +41,6 @@ module Mail
 
         ready_to_send!
 
-        self.body.charset = @charset
         self.body.mobile  = @mobile
         self.header['Content-Transfer-Encoding'].value = @mobile.content_transfer_encoding(self.header)
         if @mobile.decorated?
@@ -84,6 +77,18 @@ module Mail
       self.body   = body_part
     end
 
+    def init_with_hash_with_jpmobile(hash)
+      if hash[:body_raw]
+        @mobile = hash[:mobile]
+        init_with_string(hash[:body_raw])
+      else
+        init_with_hash_without_jpmobile(hash)
+      end
+    end
+
+    alias_method :init_with_hash_without_jpmobile, :init_with_hash
+    alias_method :init_with_hash, :init_with_hash_with_jpmobile
+
     def init_with_string(string)
       # convert to ASCII-8BIT for ascii incompatible encodings
       s = Jpmobile::Util.ascii_8bit(string)
@@ -97,7 +102,6 @@ module Mail
       process_body_raw_without_jpmobile
 
       if @mobile
-        @body.charset = @charset
         @body.mobile = @mobile
         @body.content_type_with_jpmobile = self.content_type
 
@@ -121,6 +125,11 @@ module Mail
       @raw_source = value.to_crlf
     end
 
+    def separate_parts_with_jpmobile
+      @body.mobile = @mobile
+      separate_parts_without_jpmobile
+    end
+
     alias_method :encoded_without_jpmobile, :encoded
     alias_method :encoded, :encoded_with_jpmobile
 
@@ -129,6 +138,9 @@ module Mail
 
     alias_method :process_body_raw_without_jpmobile, :process_body_raw
     alias_method :process_body_raw, :process_body_raw_with_jpmobile
+
+    alias_method :separate_parts_without_jpmobile, :separate_parts
+    alias_method :separate_parts, :separate_parts_with_jpmobile
 
 # -- docomo
 # multipart/mixed
@@ -230,34 +242,23 @@ module Mail
       # override charset
       if self.header[:content_type]
         content_type_charset = Jpmobile::Util.extract_charset(self.header[:content_type].value)
+        @charset = content_type_charset
         unless content_type_charset.blank?
-          @charset = content_type_charset
           self.header[:content_type].parameters[:charset] = @charset
           @mobile_main_type = self.header[:content_type].main_type
-        end
-
-        if !Jpmobile::Email.convertable?(self.header[:content_type].value) and content_type_charset.blank?
-          @charset = ''
         end
       end
 
       # convert header(s)
       if self.header[:subject]
         subject_charset = Jpmobile::Util.extract_charset(self.header[:subject].value)
-
-        # override subject encoding if @charset is blank
-        @charset = subject_charset if !subject_charset.blank? # and @charset.blank?
         self.header[:subject].charset = subject_charset unless subject_charset.blank?
 
         if @mobile
           subject_value = Encodings.value_decode(self.header[:subject].value)
           subject_converting_encoding = Jpmobile::Util.detect_encoding(subject_value)
           v = @mobile.to_mail_internal(subject_value, subject_converting_encoding)
-          if @charset == subject_charset and @mobile.mail_charset != @charset
-            self.header[:subject].value = Jpmobile::Util.force_encode(v, @charset, Jpmobile::Util::UTF8)
-          else
-            self.header[:subject].value = Jpmobile::Util.force_encode(v, @mobile.mail_charset(@charset), Jpmobile::Util::UTF8)
-          end
+          self.header[:subject].value = Jpmobile::Util.force_encode(v, @mobile.mail_charset(subject_charset), Jpmobile::Util::UTF8)
         end
       end
 
@@ -322,25 +323,18 @@ module Mail
     # convert encoding
     def encoded_with_jpmobile(transfer_encoding = '8bit')
       if @mobile and !multipart?
-        if @mobile.to_mail_body_encoded?(@raw_source)
-          @raw_source
-        elsif Jpmobile::Util.ascii_8bit?(@raw_source)
+        case transfer_encoding
+        when /base64/
           _raw_source = if transfer_encoding == encoding
-                          @raw_source
+                          @raw_source.dup
                         else
-                          enc = Mail::Encodings::get_encoding(get_best_encoding(transfer_encoding))
-                          enc.encode(@raw_source)
+                          get_best_encoding(transfer_encoding).encode(@raw_source)
                         end
-          Jpmobile::Util.force_encode(_raw_source, nil, @charset)
+          Jpmobile::Util.set_encoding(_raw_source, @mobile.mail_charset(@charset))
+        when /quoted-printable/
+          Jpmobile::Util.set_encoding([@mobile.to_mail_body(@raw_source)].pack("M").gsub(/\n/, "\r\n"), @mobile.mail_charset(@charset))
         else
-          case transfer_encoding
-          when /quoted-printable/
-            # [str].pack("M").gsub(/\n/, "\r\n")
-            Jpmobile::Util.force_encode([@mobile.to_mail_body(Jpmobile::Util.force_encode(@raw_source, @charset, Jpmobile::Util::UTF8))].pack("M").gsub(/\n/, "\r\n"), Jpmobile::Util::BINARY, @charset)
-            # @mobile.to_mail_body(Jpmobile::Util.force_encode(@raw_source, @charset, Jpmobile::Util::UTF8))
-          else
-            @mobile.to_mail_body(Jpmobile::Util.force_encode(@raw_source, @charset, Jpmobile::Util::UTF8))
-          end
+          @mobile.to_mail_body(Jpmobile::Util.force_encode(@raw_source, nil, Jpmobile::Util::UTF8))
         end
       else
         encoded_without_jpmobile(transfer_encoding)
@@ -366,9 +360,7 @@ module Mail
 
       if self.multipart? and @mobile
         self.parts.each do |part|
-          part.charset      = @mobile.mail_charset(part.charset)
           part.mobile       = @mobile
-          part.body.charset = part.charset
           part.body.mobile  = @mobile
         end
       end
@@ -382,7 +374,7 @@ module Mail
 
     def preamble_with_jpmobile
       if @mobile
-        Jpmobile::Util.encode(@preamble, @charset)
+        Jpmobile::Util.encode(@preamble, @mobile.mail_charset(@charset))
       else
         preamble_without_jpmobile
       end
@@ -390,7 +382,7 @@ module Mail
 
     def epilogue_with_jpmobile
       if @mobile
-        Jpmobile::Util.encode(@epilogue, @charset)
+        Jpmobile::Util.encode(@epilogue, @mobile.mail_charset(@charset))
       else
         epilogue_without_jpmobile
       end
@@ -398,7 +390,7 @@ module Mail
 
     def crlf_boundary_with_jpmobile
       if @mobile
-        Jpmobile::Util.encode(crlf_boundary_without_jpmobile, @charset)
+        Jpmobile::Util.encode(crlf_boundary_without_jpmobile, @mobile.mail_charset(@charset))
       else
         crlf_boundary_without_jpmobile
       end
@@ -406,7 +398,7 @@ module Mail
 
     def end_boundary_with_jpmobile
       if @mobile
-        Jpmobile::Util.encode(end_boundary_without_jpmobile, @charset)
+        Jpmobile::Util.encode(end_boundary_without_jpmobile, @mobile.mail_charset(@charset))
       else
         end_boundary_without_jpmobile
       end
@@ -435,6 +427,17 @@ module Mail
 
     alias_method :epilogue_without_jpmobile, :epilogue
     alias_method :epilogue, :epilogue_with_jpmobile
+
+    def split!(boundary)
+      self.boundary = boundary
+      parts = raw_source.split(/(?:\A|\r\n)--#{Regexp.escape(boundary)}(?=(?:--)?\s*$)/)
+      # Make the preamble equal to the preamble (if any)
+      self.preamble = parts[0].to_s.strip
+      # Make the epilogue equal to the epilogue (if any)
+      self.epilogue = parts[-1].to_s.sub('--', '').strip
+      parts[1...-1].to_a.each { |part| @parts << Mail::Part.new(:body_raw => part, :mobile => @mobile) }
+      self
+    end
   end
 
   class UnstructuredField

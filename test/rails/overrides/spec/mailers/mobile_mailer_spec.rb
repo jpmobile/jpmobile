@@ -474,7 +474,7 @@ describe MobileMailer, " mail address" do
     emails.first.destinations.include?(to).should be_true
   end
 
-  it "複数のアドレスが有効になること", focus: true do
+  it "複数のアドレスが有効になること" do
     to_addresses = [".ruby.rails.@domomo-ezweb.ne.jp", "ruby.rails.@domomo-ezweb.ne.jp", "ruby...rails@domomo-ezweb.ne.jp"]
     to = to_addresses.join(", ")
     MobileMailer.view_selection(to, @subject, @text).deliver

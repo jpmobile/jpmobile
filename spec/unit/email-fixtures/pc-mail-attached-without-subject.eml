@@ -1,0 +1,45 @@
+X-Account-Key: account2
+X-UIDL: UID44724-1271041990
+X-Mozilla-Status: 0001
+X-Mozilla-Status2: 10000000
+X-Mozilla-Keys:                                                                                 
+Return-Path: <info@jp.mobile>
+X-Original-To: info+to@jp.mobile
+Delivered-To: info+to@jp.mobile
+Received: from localhost (localhost [127.0.0.1])
+	by mx1.jp.mobile (Postfix) with ESMTP id 916D982D3C
+	for <info+to@jp.mobile>; Mon, 17 Jan 2011 16:43:00 +0900 (JST)
+Received: from mx1.jp.mobile ([127.0.0.1])
+	by localhost (mx1.jp.mobile [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 4c+D+lqN6aOJ for <info+to@jp.mobile>;
+	Mon, 17 Jan 2011 16:43:00 +0900 (JST)
+Received: by mx1.jp.mobile (Postfix, from userid 58)
+	id 68BFD82D33; Mon, 17 Jan 2011 16:43:00 +0900 (JST)
+Message-ID: <4D33F300.8050702@jpmobile.jp>
+Date: Mon, 17 Jan 2011 16:42:56 +0900
+From: Shin-ichiro OGAWA <info@jpmobile.jp>
+User-Agent: Mozilla-Thunderbird 2.0.0.24 (X11/20100329)
+MIME-Version: 1.0
+To: info+to@jp.mobile
+Subject:
+Content-Type: multipart/mixed;
+ boundary="------------010605060509040104050402"
+
+This is a multi-part message in MIME format.
+--------------010605060509040104050402
+Content-Type: text/plain; charset=ISO-2022-JP
+Content-Transfer-Encoding: 7bit
+
+本文です
+
+
+--------------010605060509040104050402
+Content-Transfer-Encoding: base64
+Content-Type: image/gif;
+ name="Transparent.gif"
+Content-Disposition: attachment;
+ filename="Transparent.gif"
+
+R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7
+--------------010605060509040104050402--
+

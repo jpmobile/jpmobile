@@ -23,7 +23,7 @@ module Jpmobile
       }
 
       template_paths.map { |template|
-        handler, format = extract_handler_and_format(template, formats)
+        handler, format, variant = extract_handler_and_format_and_variant(template, formats)
         contents = File.binread template
 
         if format

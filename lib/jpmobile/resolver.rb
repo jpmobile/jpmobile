@@ -23,8 +23,8 @@ module Jpmobile
       }
 
       template_paths.map { |template|
-        handler, format = extract_handler_and_format(template, formats)
-        contents = File.binread template
+        handler, format, variant = extract_handler_and_format_and_variant(template, formats)
+        contents = File.binread(template)
 
         if format
           jpmobile_variant = template.match(/.+#{path}(.+)\.#{format.to_sym.to_s}.*$/) ? $1 : ''
@@ -36,7 +36,9 @@ module Jpmobile
         ActionView::Template.new(contents, File.expand_path(template), handler,
           :virtual_path => virtual_path,
           :format       => format,
-          :updated_at   => mtime(template))
+          :variant      => variant,
+          :updated_at   => mtime(template)
+        )
       }
     end
   end

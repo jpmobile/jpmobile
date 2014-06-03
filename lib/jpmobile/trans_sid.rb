@@ -109,7 +109,7 @@ end
 
 module Jpmobile::TransSid #:nodoc:
   def self.included(controller)
-    controller.after_filter(:append_session_id_parameter)
+    controller.after_action(:append_session_id_parameter)
   end
 
   protected

@@ -84,7 +84,7 @@
 
 ==== 別に用意した携帯電話用コントローラへリダイレクトする例
   class PcController < ApplicationController
-    before_filter :redirect_if_mobile
+    before_action :redirect_if_mobile
 
     def index
     end

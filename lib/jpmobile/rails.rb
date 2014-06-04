@@ -31,7 +31,7 @@ module Jpmobile
   module ViewSelector
     def self.included(base)
       base.class_eval do
-        before_filter :register_mobile
+        before_action :register_mobile
 
         self._view_paths = self._view_paths.dup
         self.view_paths.unshift(*self.view_paths.map {|resolver| Jpmobile::Resolver.new(resolver.to_path) })

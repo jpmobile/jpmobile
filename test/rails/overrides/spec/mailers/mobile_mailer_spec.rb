@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-require File.expand_path(File.join(File.dirname(__FILE__), '/../spec_helper'))
+require 'rails_helper'
 
 describe MobileMailer do
   include Jpmobile::Util
@@ -19,7 +18,7 @@ describe MobileMailer do
       email = MobileMailer.view_selection(@to, "題名", "本文").deliver
 
       ActionMailer::Base.deliveries.size.should == 1
-      email.to.include?(@to).should be_true
+      email.to.include?(@to).should be_truthy
     end
 
     it "ISO-2022-JPに変換されること" do
@@ -450,8 +449,8 @@ describe MobileMailer, " mail address" do
 
     emails = ActionMailer::Base.deliveries
     emails.size.should == 1
-    emails.first.to.include?(to).should be_true
-    emails.first.destinations.include?(to).should be_true
+    emails.first.to.include?(to).should be_truthy
+    emails.first.destinations.include?(to).should be_truthy
   end
 
   it "@マークの直前にピリオドあるアドレスが有効になること" do
@@ -460,8 +459,8 @@ describe MobileMailer, " mail address" do
 
     emails = ActionMailer::Base.deliveries
     emails.size.should == 1
-    emails.first.to.include?(to).should be_true
-    emails.first.destinations.include?(to).should be_true
+    emails.first.to.include?(to).should be_truthy
+    emails.first.destinations.include?(to).should be_truthy
   end
 
   it "ピリオドから始まるアドレスが有効になること" do
@@ -470,8 +469,8 @@ describe MobileMailer, " mail address" do
 
     emails = ActionMailer::Base.deliveries
     emails.size.should == 1
-    emails.first.to.include?(to).should be_true
-    emails.first.destinations.include?(to).should be_true
+    emails.first.to.include?(to).should be_truthy
+    emails.first.destinations.include?(to).should be_truthy
   end
 
   it "複数のアドレスが有効になること" do
@@ -744,7 +743,7 @@ describe MobileMailer, "receiving" do
 
         email.parts.first.body.should match(/カレンダーだ&#xe4f4;/)
 
-        email.has_attachments?.should be_true
+        email.has_attachments?.should be_truthy
         email.attachments.size.should == 1
         email.attachments['20098calendar01.jpg'].content_type.should match("image/jpeg")
         email.attachments['20098calendar01.jpg'].body.to_s[2..6] == "JFIF"

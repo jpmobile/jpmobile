@@ -63,11 +63,11 @@ describe 'Jpmobile::Email' do
 
   describe "convertable?" do
     it "return true when text/plain; charset=iso-2022-jp" do
-      Jpmobile::Email.convertable?('text/plain; charset=iso-2022-jp').should be_true
+      Jpmobile::Email.convertable?('text/plain; charset=iso-2022-jp').should be_truthy
     end
 
     it "return true when text/html; charset=shift_jis" do
-      Jpmobile::Email.convertable?('text/html; charset=shift_jis').should be_true
+      Jpmobile::Email.convertable?('text/html; charset=shift_jis').should be_truthy
     end
 
     it "return nil when image/jpeg; name=\"20098calendar01.jpg\"" do

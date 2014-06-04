@@ -13,8 +13,8 @@ describe Jpmobile::Rack::MobileCarrier, "Windows Phone" do
 
       env['rack.jpmobile'].class.should            == Jpmobile::Mobile::WindowsPhone
       env['rack.jpmobile'].position.should         be_nil
-      env['rack.jpmobile'].smart_phone?.should     be_true
-      env['rack.jpmobile'].supports_cookie?.should be_true
+      env['rack.jpmobile'].smart_phone?.should     be_truthy
+      env['rack.jpmobile'].supports_cookie?.should be_truthy
     end
   end
 end

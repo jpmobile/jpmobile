@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-require File.expand_path(File.join(File.dirname(__FILE__), '/../spec_helper'))
+require 'rails_helper'
 
 describe MobileSpecController do
   render_views
@@ -12,7 +11,7 @@ describe MobileSpecController do
 
         response.should be_success
         response.should render_template('index')
-        request.mobile?.should be_false
+        request.mobile?.should be_falsey
       end
     end
 
@@ -22,7 +21,7 @@ describe MobileSpecController do
         get 'index'
         response.should be_success
         response.should render_template('index_mobile')
-        request.mobile?.should be_true
+        request.mobile?.should be_truthy
         request.mobile.should be_a(Jpmobile::Mobile::Docomo)
       end
     end
@@ -36,7 +35,7 @@ describe MobileSpecController do
 
         response.should be_success
         response.body.should match('The change you wanted was rejected')
-        request.mobile?.should be_false
+        request.mobile?.should be_falsey
       end
     end
 
@@ -47,7 +46,7 @@ describe MobileSpecController do
 
         response.should be_success
         response.body.should match('The change you wanted was rejected')
-        request.mobile?.should be_true
+        request.mobile?.should be_truthy
         request.mobile.should be_a(Jpmobile::Mobile::Docomo)
       end
     end

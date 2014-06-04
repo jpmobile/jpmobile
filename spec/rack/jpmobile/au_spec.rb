@@ -18,7 +18,7 @@ describe Jpmobile::Rack::MobileCarrier, "au" do
       env['rack.jpmobile'].ident_subscriber.should == "00000000000000_mj.ezweb.ne.jp"
 
       env['rack.jpmobile'].position.should be_nil
-      env['rack.jpmobile'].supports_cookie?.should be_true
+      env['rack.jpmobile'].supports_cookie?.should be_truthy
     end
 
     it "TK22 で判別できること" do
@@ -121,8 +121,8 @@ describe Jpmobile::Rack::MobileCarrier, "au" do
         env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
         env['rack.jpmobile'].device_id.should == "CA32"
-        env['rack.jpmobile'].supports_location?.should be_true
-        env['rack.jpmobile'].supports_gps?.should be_true
+        env['rack.jpmobile'].supports_location?.should be_truthy
+        env['rack.jpmobile'].supports_gps?.should be_truthy
       end
 
       it "A1402S を判定できること" do
@@ -132,8 +132,8 @@ describe Jpmobile::Rack::MobileCarrier, "au" do
         env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
         env['rack.jpmobile'].device_id.should == "SN26"
-        env['rack.jpmobile'].supports_location?.should be_true
-        env['rack.jpmobile'].supports_gps?.should be_false
+        env['rack.jpmobile'].supports_location?.should be_truthy
+        env['rack.jpmobile'].supports_gps?.should be_falsey
       end
 
       it "TK22 を判定できること" do
@@ -143,8 +143,8 @@ describe Jpmobile::Rack::MobileCarrier, "au" do
         env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
         env['rack.jpmobile'].device_id.should == "KCTA"
-        env['rack.jpmobile'].supports_location?.should be_false
-        env['rack.jpmobile'].supports_gps?.should be_false
+        env['rack.jpmobile'].supports_location?.should be_falsey
+        env['rack.jpmobile'].supports_gps?.should be_falsey
       end
     end
   end
@@ -157,7 +157,7 @@ describe Jpmobile::Rack::MobileCarrier, "au" do
         "REMOTE_ADDR" => "210.230.128.225")
       env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
-      env['rack.jpmobile'].valid_ip?.should be_true
+      env['rack.jpmobile'].valid_ip?.should be_truthy
     end
 
     it "正しくないIPアドレス空間からのアクセスを判断できること" do
@@ -167,7 +167,7 @@ describe Jpmobile::Rack::MobileCarrier, "au" do
         "REMOTE_ADDR" => "127.0.0.1")
       env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
-      env['rack.jpmobile'].valid_ip?.should be_false
+      env['rack.jpmobile'].valid_ip?.should be_falsey
     end
   end
 
@@ -183,7 +183,7 @@ describe Jpmobile::Rack::MobileCarrier, "au" do
 
       env['rack.jpmobile'].display.width.should  == 240
       env['rack.jpmobile'].display.height.should == 346
-      env['rack.jpmobile'].display.color?.should be_true
+      env['rack.jpmobile'].display.color?.should be_truthy
       env['rack.jpmobile'].display.colors.should == 65536
     end
 

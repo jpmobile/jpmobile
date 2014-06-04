@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-require File.expand_path(File.join(File.dirname(__FILE__), '/../spec_helper'))
+require 'rails_helper'
 
 describe "H11T モバイルブラウザからのアクセス" do
   before do
@@ -18,7 +17,7 @@ describe "H11T モバイルブラウザからのアクセス" do
   it "request.mobile? は true であること" do
     get "/mobile_spec/index", {}, @headers
 
-    request.mobile?.should be_true
+    request.mobile?.should be_truthy
   end
   it "のsubscribe番号を取得できること" do
     get "/mobile_spec/index", {}, @headers
@@ -28,7 +27,7 @@ describe "H11T モバイルブラウザからのアクセス" do
   it "のIPアドレス空間を正しく検証できること" do
     get "/mobile_spec/index", {}, @headers
 
-    request.mobile.valid_ip?.should be_true
+    request.mobile.valid_ip?.should be_truthy
   end
 end
 
@@ -47,6 +46,6 @@ describe "S11HT からのアクセス" do
   it "request.mobile? は true であること" do
     get "/mobile_spec/index", {}, @headers
 
-    request.mobile?.should be_true
+    request.mobile?.should be_truthy
   end
 end

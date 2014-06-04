@@ -1,5 +1,3 @@
---colour
---format
-progress
-mtime
--b
+--color
+--warnings
+--require spec_helper

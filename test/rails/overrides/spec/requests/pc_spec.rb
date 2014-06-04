@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-require File.expand_path(File.join(File.dirname(__FILE__), '/../spec_helper'))
+require 'rails_helper'
 
 describe "PCからのアクセスの場合" do
   before do
@@ -16,6 +15,6 @@ describe "PCからのアクセスの場合" do
   it "request.mobile? は false であるべき" do
     get "/mobile_spec/index", {}, @headers
 
-    request.mobile?.should be_false
+    request.mobile?.should be_falsey
   end
 end

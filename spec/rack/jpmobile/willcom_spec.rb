@@ -14,7 +14,7 @@ describe Jpmobile::Rack::MobileCarrier, "willcom" do
       env['rack.jpmobile'].class.should == Jpmobile::Mobile::Willcom
       env['rack.jpmobile'].position.should be_nil
       env['rack.jpmobile'].ident.should be_nil
-      env['rack.jpmobile'].supports_cookie?.should be_true
+      env['rack.jpmobile'].supports_cookie?.should be_truthy
     end
 
     it "AH-H3001V が判別できること" do
@@ -26,7 +26,7 @@ describe Jpmobile::Rack::MobileCarrier, "willcom" do
       env['rack.jpmobile'].class.should == Jpmobile::Mobile::Ddipocket
       env['rack.jpmobile'].position.should be_nil
       env['rack.jpmobile'].ident.should be_nil
-      env['rack.jpmobile'].supports_cookie?.should be_true
+      env['rack.jpmobile'].supports_cookie?.should be_truthy
     end
   end
 
@@ -51,7 +51,7 @@ describe Jpmobile::Rack::MobileCarrier, "willcom" do
         "REMOTE_ADDR" => "61.198.142.1")
       env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
-      env['rack.jpmobile'].valid_ip?.should be_true
+      env['rack.jpmobile'].valid_ip?.should be_truthy
     end
 
     it "正しくないIPアドレス空間からのアクセスを判断できること" do
@@ -61,7 +61,7 @@ describe Jpmobile::Rack::MobileCarrier, "willcom" do
         "REMOTE_ADDR" => "127.0.0.1")
       env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
-      env['rack.jpmobile'].valid_ip?.should be_false
+      env['rack.jpmobile'].valid_ip?.should be_falsey
     end
   end
 end

@@ -27,7 +27,7 @@ describe Jpmobile::Rack::MobileCarrier, "docomo" do
     end
 
     it "#supports_cookie? などが false になること" do
-      @env['rack.jpmobile'].supports_cookie?.should be_false
+      @env['rack.jpmobile'].supports_cookie?.should be_falsey
     end
 
     it "#imode_browser_versionが1.0になること" do
@@ -58,7 +58,7 @@ describe Jpmobile::Rack::MobileCarrier, "docomo" do
     end
 
     it "#supports_cookie? などが false になること" do
-      @env['rack.jpmobile'].supports_cookie?.should be_false
+      @env['rack.jpmobile'].supports_cookie?.should be_falsey
     end
 
     it "#imode_browser_versionが1.0になること" do
@@ -75,7 +75,7 @@ describe Jpmobile::Rack::MobileCarrier, "docomo" do
     end
 
     it "#supports_cookie? が true になること" do
-      @env['rack.jpmobile'].supports_cookie?.should be_true
+      @env['rack.jpmobile'].supports_cookie?.should be_truthy
     end
 
     it "#imode_browser_versionが2.0になること" do
@@ -92,7 +92,7 @@ describe Jpmobile::Rack::MobileCarrier, "docomo" do
     end
 
     it "#supports_cookie? が true になること" do
-      @env['rack.jpmobile'].supports_cookie?.should be_true
+      @env['rack.jpmobile'].supports_cookie?.should be_truthy
     end
 
     it "#imode_browser_versionが2.0になること" do
@@ -109,7 +109,7 @@ describe Jpmobile::Rack::MobileCarrier, "docomo" do
     end
 
     it "#supports_cookie? が true になること" do
-      @env['rack.jpmobile'].supports_cookie?.should be_true
+      @env['rack.jpmobile'].supports_cookie?.should be_truthy
     end
 
     it "#imode_browser_versionが2.0になること" do
@@ -205,7 +205,7 @@ describe Jpmobile::Rack::MobileCarrier, "docomo" do
         "REMOTE_ADDR" => "210.153.84.1")
       env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
-      env['rack.jpmobile'].valid_ip?.should be_true
+      env['rack.jpmobile'].valid_ip?.should be_truthy
     end
 
     it "正しくないIPアドレス空間からのアクセスを判断できること" do
@@ -215,7 +215,7 @@ describe Jpmobile::Rack::MobileCarrier, "docomo" do
         "REMOTE_ADDR" => "127.0.0.1")
       env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
-      env['rack.jpmobile'].valid_ip?.should be_false
+      env['rack.jpmobile'].valid_ip?.should be_falsey
     end
   end
 
@@ -230,7 +230,7 @@ describe Jpmobile::Rack::MobileCarrier, "docomo" do
       env['rack.jpmobile'].display.browser_height.should == 256
       env['rack.jpmobile'].display.width.should          == 240
       env['rack.jpmobile'].display.height.should         == 256
-      env['rack.jpmobile'].display.color?.should be_true
+      env['rack.jpmobile'].display.color?.should be_truthy
       env['rack.jpmobile'].display.colors.should         == 262144
     end
   end

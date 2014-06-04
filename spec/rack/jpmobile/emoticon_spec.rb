@@ -54,7 +54,7 @@ describe "絵文字が" do
     before(:each) do
       unless FileTest.exist?(File.join(File.expand_path(File.dirname(__FILE__)), '../../../tmp/emoticon.yaml')) and
           FileTest.directory?(File.join(File.expand_path(File.dirname(__FILE__)), '../../../tmp/emoticons'))
-        pending "emoticon.yaml and emoticons directory don't exists"
+        skip "emoticon.yaml and emoticons directory don't exists"
       end
 
       @res = Rack::MockRequest.env_for("/", 'Content-Type' => 'text/html; charset=utf-8')
@@ -69,7 +69,7 @@ describe "絵文字が" do
     end
 
     it "Jpmobile::Emoticon.pc_emoticon? がtrueになること" do
-      Jpmobile::Emoticon.pc_emoticon?.should be_true
+      Jpmobile::Emoticon.pc_emoticon?.should be_truthy
     end
 
     it "docomo 絵文字が画像に変換されること" do

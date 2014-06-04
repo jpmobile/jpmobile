@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'rspec'
+require 'rspec/its'
 $LOAD_PATH.unshift(File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'lib')))
 require 'jpmobile'
 begin
@@ -13,10 +14,13 @@ rescue LoadError
   puts "Terminal display information test requires jpmobile-terminfo module"
 end
 
-RSpec.configure do |c|
-  c.filter_run :focus => true
-  c.run_all_when_everything_filtered = true
-  c.color_enabled = true
-  c.filter_run_excluding :broken => true
-  # c.full_backtrace = true
+RSpec.configure do |config|
+  config.filter_run :focus => true
+  config.run_all_when_everything_filtered = true
+  config.color = true
+  config.filter_run_excluding :broken => true
+  config.expect_with :rspec do |c|
+    c.syntax = [:should, :expect]
+  end
+  # config.full_backtrace = true
 end

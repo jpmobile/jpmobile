@@ -17,8 +17,8 @@ describe Jpmobile::Rack::MobileCarrier, "softbank" do
       env['rack.jpmobile'].ident.should            == "000000000000000"
       env['rack.jpmobile'].ident_device.should     == "000000000000000"
       env['rack.jpmobile'].ident_subscriber.should be_nil
-      env['rack.jpmobile'].supports_cookie?.should be_true
-      env['rack.jpmobile'].smart_phone?.should     be_false
+      env['rack.jpmobile'].supports_cookie?.should be_truthy
+      env['rack.jpmobile'].smart_phone?.should     be_falsey
     end
 
     it "X_JPHONE_UID 付きの 910T を判別できること" do
@@ -33,7 +33,7 @@ describe Jpmobile::Rack::MobileCarrier, "softbank" do
       env['rack.jpmobile'].ident.should            == "aaaaaaaaaaaaaaaa"
       env['rack.jpmobile'].ident_device.should     == "000000000000000"
       env['rack.jpmobile'].ident_subscriber.should == "aaaaaaaaaaaaaaaa"
-      env['rack.jpmobile'].supports_cookie?.should be_true
+      env['rack.jpmobile'].supports_cookie?.should be_truthy
     end
 
     it "V903T を判別できること" do
@@ -45,7 +45,7 @@ describe Jpmobile::Rack::MobileCarrier, "softbank" do
       env['rack.jpmobile'].class.should            == Jpmobile::Mobile::Vodafone
       env['rack.jpmobile'].position.should be_nil
       env['rack.jpmobile'].ident.should be_nil
-      env['rack.jpmobile'].supports_cookie?.should be_true
+      env['rack.jpmobile'].supports_cookie?.should be_truthy
     end
   end
 
@@ -73,7 +73,7 @@ describe Jpmobile::Rack::MobileCarrier, "softbank" do
         "REMOTE_ADDR"=>"210.146.7.199")
       env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
-      env['rack.jpmobile'].valid_ip?.should be_true
+      env['rack.jpmobile'].valid_ip?.should be_truthy
     end
 
     it "正しくないIPアドレス空間からのアクセスを判断できること" do
@@ -83,7 +83,7 @@ describe Jpmobile::Rack::MobileCarrier, "softbank" do
         "REMOTE_ADDR"=>"127.0.0.1")
       env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
-      env['rack.jpmobile'].valid_ip?.should be_false
+      env['rack.jpmobile'].valid_ip?.should be_falsey
     end
   end
 
@@ -100,7 +100,7 @@ describe Jpmobile::Rack::MobileCarrier, "softbank" do
       env['rack.jpmobile'].display.height.should          == 320
       env['rack.jpmobile'].display.physical_width.should  == 240
       env['rack.jpmobile'].display.physical_height.should == 320
-      env['rack.jpmobile'].display.color?.should be_true
+      env['rack.jpmobile'].display.color?.should be_truthy
       env['rack.jpmobile'].display.colors.should          == 262144
     end
 

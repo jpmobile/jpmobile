@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-require File.expand_path(File.join(File.dirname(__FILE__), '/../spec_helper'))
+require 'rails_helper'
 
 describe "DoCoMo SH902i からのアクセス" do
   it "request.mobile は Docomo のインスタンスであるべき" do
@@ -10,7 +9,7 @@ describe "DoCoMo SH902i からのアクセス" do
   it "request.mobile? は true であるべき" do
     get "/mobile_spec/index", {}, {"HTTP_USER_AGENT" => "DoCoMo/2.0 SH902i(c100;TB;W24H12)"}
 
-    request.mobile?.should be_true
+    request.mobile?.should be_truthy
   end
 end
 

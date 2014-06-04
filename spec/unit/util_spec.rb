@@ -136,12 +136,12 @@ describe Jpmobile::Util do
   describe 'check_charset' do
     it 'returns true if compatible' do
       str = 'ABC'.force_encoding('ASCII-8BIT')
-      check_charset(str, 'UTF-8').should be_true
+      check_charset(str, 'UTF-8').should be_truthy
     end
 
     it 'returns false if incompatible' do
       str = '再現'.encode('ISO-2022-JP')
-      check_charset(str, 'UTF-8').should be_false
+      check_charset(str, 'UTF-8').should be_falsey
     end
   end
 

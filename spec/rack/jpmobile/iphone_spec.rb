@@ -13,8 +13,8 @@ describe Jpmobile::Rack::MobileCarrier, "iphone" do
 
       env['rack.jpmobile'].class.should            == Jpmobile::Mobile::Iphone
       env['rack.jpmobile'].position.should         be_nil
-      env['rack.jpmobile'].smart_phone?.should     be_true
-      env['rack.jpmobile'].supports_cookie?.should be_true
+      env['rack.jpmobile'].smart_phone?.should     be_truthy
+      env['rack.jpmobile'].supports_cookie?.should be_truthy
     end
   end
 
@@ -26,7 +26,7 @@ describe Jpmobile::Rack::MobileCarrier, "iphone" do
         "REMOTE_ADDR"=>"202.179.204.1")
       env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
-      env['rack.jpmobile'].valid_ip?.should be_false
+      env['rack.jpmobile'].valid_ip?.should be_falsey
     end
   end
 end

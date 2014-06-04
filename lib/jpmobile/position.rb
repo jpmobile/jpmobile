@@ -3,6 +3,7 @@
 
 # Rack 化にあわせて gem を見るように
 begin
+  require 'openssl'
   require 'geokit'
 rescue LoadError
 end

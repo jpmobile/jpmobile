@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.1.0'
+gem 'rails', '~> 4.1.0'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 # Use SCSS for stylesheets
@@ -44,12 +44,12 @@ gem 'jpmobile',             :path => '../../../'
 gem 'jpmobile-terminfo',    :path => '../../../vendor/jpmobile-terminfo'
 gem 'jpmobile-ipaddresses', :path => '../../../vendor/jpmobile-ipaddresses'
 
-gem 'activerecord-session_store', github: 'rails/activerecord-session_store'
+gem 'activerecord-session_store'
 
 # Bundle gems for certain environments:
 group :development, :test do
-  gem "rspec"
-  gem "rspec-rails"
+  gem "rspec", '~> 2.14.0'
+  gem "rspec-rails", '~> 2.14.0'
   gem 'capybara-webkit'
   gem 'pry'
 end

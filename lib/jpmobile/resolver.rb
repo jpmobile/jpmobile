@@ -14,13 +14,7 @@ module Jpmobile
     def query(path, details, formats)
       query = build_query(path, details)
 
-      # deals with case-insensitive file systems.
-      sanitizer = Hash.new { |h,dir| h[dir] = Dir["#{dir}/*"] }
-
-      template_paths = Dir[query].reject { |filename|
-        File.directory?(filename) ||
-          !sanitizer[File.dirname(filename)].include?(filename)
-      }
+      template_paths = find_template_paths query
 
       template_paths.map { |template|
         handler, format, variant = extract_handler_and_format_and_variant(template, formats)

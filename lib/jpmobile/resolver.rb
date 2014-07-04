@@ -14,7 +14,23 @@ module Jpmobile
     def query(path, details, formats)
       query = build_query(path, details)
 
-      template_paths = find_template_paths query
+      begin
+        template_paths = find_template_paths query
+      rescue NoMethodError
+        self.class_eval do
+          def find_template_paths(query)
+            # deals with case-insensitive file systems.
+            sanitizer = Hash.new { |h,dir| h[dir] = Dir["#{dir}/*"] }
+
+            Dir[query].reject { |filename|
+              File.directory?(filename) ||
+                !sanitizer[File.dirname(filename)].include?(filename)
+            }
+          end
+        end
+
+        retry
+      end
 
       template_paths.map { |template|
         handler, format, variant = extract_handler_and_format_and_variant(template, formats)

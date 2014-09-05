@@ -26,6 +26,12 @@ module Mail
   class Message
     attr_accessor :mobile
 
+    def initialize(*args, &block)
+      super
+      @mobile = nil
+      @mobile_main_type = nil
+    end
+
     def mobile=(m)
       if @mobile = m
         @charset = m.mail_charset(@charset)

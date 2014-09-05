@@ -159,7 +159,7 @@ module Jpmobile
           # 変換先がUnicodeで指定されている。つまり対応する絵文字がある。
           if sjis = UNICODE_TO_SJIS[converted]
             if to_sjis
-              sjis_emotion = Jpmobile::Util.sjis([sjis].pack('n'))
+              Jpmobile::Util.sjis([sjis].pack('n'))
             else
               [converted].pack("U")
             end

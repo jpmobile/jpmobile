@@ -295,7 +295,7 @@ module Jpmobile
             @@pc_emoticon_image_path.chop if @@pc_emoticon_image_path.match(/\/$/)
 
             return true
-          rescue => ex
+          rescue
           end
         else
           return true

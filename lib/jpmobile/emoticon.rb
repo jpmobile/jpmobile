@@ -163,7 +163,7 @@ module Jpmobile
             else
               [converted].pack("U")
             end
-          elsif webcode = SOFTBANK_UNICODE_TO_WEBCODE[converted-0x1000]
+          elsif SOFTBANK_UNICODE_TO_WEBCODE[converted-0x1000]
             [converted-0x1000].pack('U')
           elsif converted == GETA_CODE
             # PCで〓を表示する場合

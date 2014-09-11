@@ -26,6 +26,12 @@ module Mail
   class Message
     attr_accessor :mobile
 
+    def initialize(*args, &block)
+      super
+      @mobile = nil
+      @mobile_main_type = nil
+    end
+
     def mobile=(m)
       if @mobile = m
         @charset = m.mail_charset(@charset)
@@ -542,7 +548,7 @@ module Mail
       rescue NoMethodError => ex
         if ex.message.match(/undefined method `gsub' for nil:NilClass/)
           name = unquote(tree.display_name.text_value.strip.to_s)
-          str = strip_all_comments(name.to_s)
+          strip_all_comments(name.to_s)
         else
           raise ex
         end

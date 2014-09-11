@@ -159,11 +159,11 @@ module Jpmobile
           # 変換先がUnicodeで指定されている。つまり対応する絵文字がある。
           if sjis = UNICODE_TO_SJIS[converted]
             if to_sjis
-              sjis_emotion = Jpmobile::Util.sjis([sjis].pack('n'))
+              Jpmobile::Util.sjis([sjis].pack('n'))
             else
               [converted].pack("U")
             end
-          elsif webcode = SOFTBANK_UNICODE_TO_WEBCODE[converted-0x1000]
+          elsif SOFTBANK_UNICODE_TO_WEBCODE[converted-0x1000]
             [converted-0x1000].pack('U')
           elsif converted == GETA_CODE
             # PCで〓を表示する場合
@@ -295,7 +295,7 @@ module Jpmobile
             @@pc_emoticon_image_path.chop if @@pc_emoticon_image_path.match(/\/$/)
 
             return true
-          rescue => ex
+          rescue
           end
         else
           return true

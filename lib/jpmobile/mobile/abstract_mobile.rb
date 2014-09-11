@@ -8,8 +8,11 @@ module Jpmobile::Mobile
     MAIL_CHARSET = "ISO-2022-JP"
 
     def initialize(env, request)
-      @env     = env
-      @request = request
+      @env            = env
+      @request        = request
+      @_variants      = nil
+      @_mail_variants = nil
+      @decorated      = nil
     end
 
     # 対応するuser-agentの正規表現

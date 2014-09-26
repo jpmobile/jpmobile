@@ -10,18 +10,12 @@ begin
   namespace :spec do
     desc 'run unit testing (core test)'
     RSpec::Core::RakeTask.new(:unit) do |t|
-      spec_dir = File.join(File.dirname(__FILE__), '../../', 'spec')
-      # t.spec_opts = File.read(File.join(spec_dir, 'spec.opts')).split
-      # t.spec_files = FileList[File.join(spec_dir, 'unit', '**', '*_spec.rb')]
-      t.pattern = "#{spec_dir}/unit/*_spec.rb"
+      t.pattern = 'spec/unit/**/*_spec.rb'
     end
 
     desc 'run rack testing'
     RSpec::Core::RakeTask.new(:rack) do |t|
-      spec_dir = File.join(File.dirname(__FILE__), '../../', 'spec')
-      # t.spec_opts = File.read(File.join(spec_dir, 'spec.opts')).split
-      # t.spec_files = FileList[File.join(spec_dir, 'rack', '**', '*_spec.rb')]
-      t.pattern = "#{spec_dir}/rack/**/*_spec.rb"
+      t.pattern = 'spec/rack/**/*_spec.rb'
     end
   end
 rescue LoadError

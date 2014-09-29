@@ -16,7 +16,7 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
 
-  gem.add_development_dependency 'rails'
+  gem.add_development_dependency 'rails', '~> 4.2.0.beta'
   gem.add_development_dependency 'rspec'
   gem.add_development_dependency 'rspec-rails'
   gem.add_development_dependency 'rspec-its'
@@ -25,6 +25,4 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'sqlite3-ruby'
   gem.add_development_dependency 'hpricot'
   gem.add_development_dependency 'git'
-
-  gem.add_dependency 'rails', '~> 4.1.0'
 end

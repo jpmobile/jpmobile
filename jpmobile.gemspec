@@ -25,4 +25,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'sqlite3-ruby'
   gem.add_development_dependency 'hpricot'
   gem.add_development_dependency 'git'
+  gem.add_development_dependency 'pry'
 end

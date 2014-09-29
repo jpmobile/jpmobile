@@ -24,3 +24,5 @@ RSpec.configure do |config|
   end
   # config.full_backtrace = true
 end
+
+require 'pry'

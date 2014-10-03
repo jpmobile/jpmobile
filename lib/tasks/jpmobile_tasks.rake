@@ -40,7 +40,7 @@ namespace :test do
     end
 
     # setup jpmobile
-    plugin_path = File.join(rails_root, 'lib', 'jpmobile')
+    plugin_path = File.join(rails_root, 'vendor', 'jpmobile')
     FileUtils.mkdir_p(plugin_path)
     FileList["*"].exclude("test").exclude("spec").exclude('vendor').each do |file|
       FileUtils.cp_r(file, plugin_path)
@@ -48,7 +48,7 @@ namespace :test do
 
     # setup jpmobile-ipaddresses
     begin
-      plugin_path = File.join(rails_root, 'lib', 'jpmobile-ipaddresses')
+      plugin_path = File.join(rails_root, 'vendor', 'jpmobile-ipaddresses')
       FileUtils.mkdir_p(plugin_path)
       FileList["vendor/jpmobile-ipaddresses/*"].exclude("test").each do |file|
         FileUtils.cp_r(file, plugin_path)
@@ -59,7 +59,7 @@ namespace :test do
 
     # setup jpmobile-terminfo
     begin
-      plugin_path = File.join(rails_root, 'lib', 'jpmobile-terminfo')
+      plugin_path = File.join(rails_root, 'vendor', 'jpmobile-terminfo')
       FileUtils.mkdir_p(plugin_path)
       FileList["vendor/jpmobile-terminfo/*"].exclude("test").each do |file|
         FileUtils.cp_r(file, plugin_path)

@@ -5,7 +5,6 @@ require 'rspec'
 require 'jpmobile'
 require 'jpmobile/rack'
 require 'nkf'
-require 'pp' # for debug
 
 begin
   require File.dirname(__FILE__)+'/../vendor/jpmobile-ipaddresses/lib/jpmobile-ipaddresses'
@@ -22,9 +21,6 @@ RSpec.configure do |config|
   config.filter_run :focus => true
   config.run_all_when_everything_filtered = true
   config.color = true
-  config.expect_with :rspec do |c|
-    c.syntax = [:should, :expect]
-  end
 end
 
 class UnitApplication

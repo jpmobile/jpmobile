@@ -19,10 +19,5 @@ RSpec.configure do |config|
   config.run_all_when_everything_filtered = true
   config.color = true
   config.filter_run_excluding :broken => true
-  config.expect_with :rspec do |c|
-    c.syntax = [:should, :expect]
-  end
   # config.full_backtrace = true
 end
-
-require 'pry'

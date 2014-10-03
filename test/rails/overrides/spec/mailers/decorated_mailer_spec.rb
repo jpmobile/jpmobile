@@ -9,7 +9,7 @@ describe DecoratedMailer, :type => :mailer do
 
   shared_examples_for "content-type" do
     it "sends decorated mail successfully" do
-      DecoratedMailer.deco_mail(@to).deliver
+      DecoratedMailer.deco_mail(@to).deliver_now
 
       email = ActionMailer::Base.deliveries.first
       expect(email.header['Content-Type'].main_type).to eq('multipart')

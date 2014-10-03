@@ -13,14 +13,14 @@ describe NormalMailer, :type => :mailer do
 
   context "PC宛メール" do
     it "正常に送信できること" do
-      email = NormalMailer.msg(@to, "題名", "本文").deliver
+      email = NormalMailer.msg(@to, "題名", "本文").deliver_now
 
       expect(ActionMailer::Base.deliveries.size).to eq(1)
       expect(email.to - @to).to be_empty
     end
 
     it "UTF-8のままであること" do
-      email = NormalMailer.msg(@to, @subject, @text).deliver
+      email = NormalMailer.msg(@to, @subject, @text).deliver_now
 
       expect(ActionMailer::Base.deliveries.size).to eq(1)
 

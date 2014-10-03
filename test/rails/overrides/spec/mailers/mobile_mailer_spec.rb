@@ -15,14 +15,14 @@ describe MobileMailer, :type => :mailer do
 
   shared_examples_for "PC宛メール" do
     it "正常に送信できること" do
-      email = MobileMailer.view_selection(@to, "題名", "本文").deliver
+      email = MobileMailer.view_selection(@to, "題名", "本文").deliver_now
 
       expect(ActionMailer::Base.deliveries.size).to eq(1)
       expect(email.to.include?(@to)).to be_truthy
     end
 
     it "ISO-2022-JPに変換されること" do
-      email = MobileMailer.view_selection(@to, "題名", "本文").deliver
+      email = MobileMailer.view_selection(@to, "題名", "本文").deliver_now
 
       expect(ActionMailer::Base.deliveries.size).to eq(1)
 
@@ -33,7 +33,7 @@ describe MobileMailer, :type => :mailer do
     end
 
     it "絵文字がゲタ(〓)に変換されること" do
-      email = MobileMailer.view_selection(@to, "題名&#xe676;", "本文&#xe68b;".html_safe).deliver
+      email = MobileMailer.view_selection(@to, "題名&#xe676;", "本文&#xe68b;".html_safe).deliver_now
 
       expect(ActionMailer::Base.deliveries.size).to eq(1)
 
@@ -44,7 +44,7 @@ describe MobileMailer, :type => :mailer do
 
     it "quoted-printableではないときに勝手に変換されないこと" do
       email = MobileMailer.view_selection(@to, "題名",
-        "本文です\nhttp://test.rails/foo/bar/index?d=430d0d1cea109cdb384ec5554b890e3940f293c7&e=ZVG%0FE%16%5E%07%04%21P%5CZ%06%00%0D%1D%40L").deliver
+        "本文です\nhttp://test.rails/foo/bar/index?d=430d0d1cea109cdb384ec5554b890e3940f293c7&e=ZVG%0FE%16%5E%07%04%21P%5CZ%06%00%0D%1D%40L").deliver_now
 
       expect(ActionMailer::Base.deliveries.size).to eq(1)
 
@@ -54,7 +54,7 @@ describe MobileMailer, :type => :mailer do
 
     context ":toの指定が" do
       it "ない場合でも正常に送信できること" do
-        email = MobileMailer.default_to_mail('題名', '本文').deliver
+        email = MobileMailer.default_to_mail('題名', '本文').deliver_now
 
         expect(ActionMailer::Base.deliveries.size).to eq(1)
       end
@@ -69,7 +69,7 @@ describe MobileMailer, :type => :mailer do
     it_behaves_like "PC宛メール"
 
     it "複数に配信するときもISO-2022-JPに変換されること" do
-      email = MobileMailer.view_selection(@to, "題名", "本文").deliver
+      email = MobileMailer.view_selection(@to, "題名", "本文").deliver_now
 
       expect(ActionMailer::Base.deliveries.size).to eq(1)
 
@@ -87,7 +87,7 @@ describe MobileMailer, :type => :mailer do
     end
 
     it "subject/body が Shift-JIS になること" do
-      email = MobileMailer.view_selection(@to, @subject, @text).deliver
+      email = MobileMailer.view_selection(@to, @subject, @text).deliver_now
 
       expect(ActionMailer::Base.deliveries.size).to eq(1)
 
@@ -102,7 +102,7 @@ describe MobileMailer, :type => :mailer do
       emoji_subject = @subject + "&#xe676;"
       emoji_text = @text + "&#xe68b;"
 
-      email = MobileMailer.view_selection(@to, emoji_subject, emoji_text.html_safe).deliver
+      email = MobileMailer.view_selection(@to, emoji_subject, emoji_text.html_safe).deliver_now
 
       expect(ActionMailer::Base.deliveries.size).to eq(1)
 
@@ -116,7 +116,7 @@ describe MobileMailer, :type => :mailer do
       half_kana_subject = @subject + "ｹﾞｰﾑ"
       half_kana_text    = @text + "ﾌﾞｯｸ"
 
-      email = MobileMailer.view_selection(@to, half_kana_subject, half_kana_text).deliver
+      email = MobileMailer.view_selection(@to, half_kana_subject, half_kana_text).deliver_now
 
       expect(ActionMailer::Base.deliveries.size).to eq(1)
 
@@ -128,7 +128,7 @@ describe MobileMailer, :type => :mailer do
 
     it "quoted-printable ではないときに勝手に変換されないこと" do
       email = MobileMailer.view_selection(@to, "題名",
-        "本文です\nhttp://test.rails/foo/bar/index?d=430d0d1cea109cdb384ec5554b890e3940f293c7&e=ZVG%0FE%16%5E%07%04%21P%5CZ%06%00%0D%1D%40L").deliver
+        "本文です\nhttp://test.rails/foo/bar/index?d=430d0d1cea109cdb384ec5554b890e3940f293c7&e=ZVG%0FE%16%5E%07%04%21P%5CZ%06%00%0D%1D%40L").deliver_now
 
       expect(ActionMailer::Base.deliveries.size).to eq(1)
 
@@ -143,7 +143,7 @@ describe MobileMailer, :type => :mailer do
     end
 
     it "subject/body がISO-2022-JPになること" do
-      email = MobileMailer.view_selection(@to, @subject, @text).deliver
+      email = MobileMailer.view_selection(@to, @subject, @text).deliver_now
 
       expect(ActionMailer::Base.deliveries.size).to eq(1)
 
@@ -157,7 +157,7 @@ describe MobileMailer, :type => :mailer do
       emoji_subject = @subject + "&#xe676;"
       emoji_text    = @text    + "&#xe68b;"
 
-      email = MobileMailer.view_selection(@to, emoji_subject, emoji_text.html_safe).deliver
+      email = MobileMailer.view_selection(@to, emoji_subject, emoji_text.html_safe).deliver_now
 
       expect(ActionMailer::Base.deliveries.size).to eq(1)
 
@@ -169,7 +169,7 @@ describe MobileMailer, :type => :mailer do
 
     it "quoted-printable ではないときに勝手に変換されないこと" do
       email = MobileMailer.view_selection(@to, "題名",
-        "本文です\nhttp://test.rails/foo/bar/index?d=430d0d1cea109cdb384ec5554b890e3940f293c7&e=ZVG%0FE%16%5E%07%04%21P%5CZ%06%00%0D%1D%40L").deliver
+        "本文です\nhttp://test.rails/foo/bar/index?d=430d0d1cea109cdb384ec5554b890e3940f293c7&e=ZVG%0FE%16%5E%07%04%21P%5CZ%06%00%0D%1D%40L").deliver_now
 
       expect(ActionMailer::Base.deliveries.size).to eq(1)
 
@@ -184,7 +184,7 @@ describe MobileMailer, :type => :mailer do
     end
 
     it "subject/body が Shift_JIS になること" do
-      email = MobileMailer.view_selection(@to, @subject, @text).deliver
+      email = MobileMailer.view_selection(@to, @subject, @text).deliver_now
 
       expect(ActionMailer::Base.deliveries.size).to eq(1)
 
@@ -199,7 +199,7 @@ describe MobileMailer, :type => :mailer do
       emoji_subject = @subject + "&#xe676;"
       emoji_text    = @text    + "&#xe68a;"
 
-      email = MobileMailer.view_selection(@to, emoji_subject, emoji_text.html_safe).deliver
+      email = MobileMailer.view_selection(@to, emoji_subject, emoji_text.html_safe).deliver_now
 
       expect(ActionMailer::Base.deliveries.size).to eq(1)
 
@@ -211,7 +211,7 @@ describe MobileMailer, :type => :mailer do
 
     it "quoted-printable ではないときに勝手に変換されないこと" do
       email = MobileMailer.view_selection(@to, "題名",
-        "本文です\nhttp://test.rails/foo/bar/index?d=430d0d1cea109cdb384ec5554b890e3940f293c7&e=ZVG%0FE%16%5E%07%04%21P%5CZ%06%00%0D%1D%40L").deliver
+        "本文です\nhttp://test.rails/foo/bar/index?d=430d0d1cea109cdb384ec5554b890e3940f293c7&e=ZVG%0FE%16%5E%07%04%21P%5CZ%06%00%0D%1D%40L").deliver_now
 
       expect(ActionMailer::Base.deliveries.size).to eq(1)
 
@@ -226,7 +226,7 @@ describe MobileMailer, :type => :mailer do
     end
 
     it "subject/body が Shift_JIS になること" do
-      email = MobileMailer.view_selection(@to, @subject, @text).deliver
+      email = MobileMailer.view_selection(@to, @subject, @text).deliver_now
 
       expect(ActionMailer::Base.deliveries.size).to eq(1)
 
@@ -241,7 +241,7 @@ describe MobileMailer, :type => :mailer do
       emoji_subject = @subject + "&#xe676;"
       emoji_text    = @text    + "&#xe68a;"
 
-      email = MobileMailer.view_selection(@to, emoji_subject, emoji_text.html_safe).deliver
+      email = MobileMailer.view_selection(@to, emoji_subject, emoji_text.html_safe).deliver_now
 
       expect(ActionMailer::Base.deliveries.size).to eq(1)
 
@@ -253,7 +253,7 @@ describe MobileMailer, :type => :mailer do
 
     it "quoted-printable ではないときに勝手に変換されないこと" do
       email = MobileMailer.view_selection(@to, "題名",
-        "本文です\nhttp://test.rails/foo/bar/index?d=430d0d1cea109cdb384ec5554b890e3940f293c7&e=ZVG%0FE%16%5E%07%04%21P%5CZ%06%00%0D%1D%40L").deliver
+        "本文です\nhttp://test.rails/foo/bar/index?d=430d0d1cea109cdb384ec5554b890e3940f293c7&e=ZVG%0FE%16%5E%07%04%21P%5CZ%06%00%0D%1D%40L").deliver_now
 
       expect(ActionMailer::Base.deliveries.size).to eq(1)
 
@@ -293,7 +293,7 @@ describe MobileMailer, :type => :mailer do
       end
 
       it "漢字コードが変換されること" do
-        email = MobileMailer.multi_message(@to, @subject, @text, @html).deliver
+        email = MobileMailer.multi_message(@to, @subject, @text, @html).deliver_now
 
         expect(ActionMailer::Base.deliveries.size).to eq(1)
 
@@ -311,7 +311,7 @@ describe MobileMailer, :type => :mailer do
       end
 
       it "漢字コードが変換されること" do
-        email = MobileMailer.multi_message(@to, @subject, @text, @html).deliver
+        email = MobileMailer.multi_message(@to, @subject, @text, @html).deliver_now
 
         expect(ActionMailer::Base.deliveries.size).to eq(1)
 
@@ -325,7 +325,7 @@ describe MobileMailer, :type => :mailer do
       it "絵文字が変換されること" do
         @text  += "&#xe68b;"
         @html  += "&#xe676;"
-        email = MobileMailer.multi_message(@to, @subject, @text, @html).deliver
+        email = MobileMailer.multi_message(@to, @subject, @text, @html).deliver_now
 
         expect(ActionMailer::Base.deliveries.size).to eq(1)
 
@@ -343,7 +343,7 @@ describe MobileMailer, :type => :mailer do
       end
 
       it "漢字コードが変換されること" do
-        email = MobileMailer.multi_message(@to, @subject, @text, @html).deliver
+        email = MobileMailer.multi_message(@to, @subject, @text, @html).deliver_now
 
         expect(ActionMailer::Base.deliveries.size).to eq(1)
 
@@ -357,7 +357,7 @@ describe MobileMailer, :type => :mailer do
       it "絵文字が変換されること" do
         @text += "&#xe68b;"
         @html += "&#xe676;"
-        email = MobileMailer.multi_message(@to, @subject, @text, @html).deliver
+        email = MobileMailer.multi_message(@to, @subject, @text, @html).deliver_now
 
         expect(ActionMailer::Base.deliveries.size).to eq(1)
 
@@ -375,7 +375,7 @@ describe MobileMailer, :type => :mailer do
       end
 
       it "漢字コードが変換されること" do
-        email = MobileMailer.multi_message(@to, @subject, @text, @html).deliver
+        email = MobileMailer.multi_message(@to, @subject, @text, @html).deliver_now
 
         expect(ActionMailer::Base.deliveries.size).to eq(1)
 
@@ -389,7 +389,7 @@ describe MobileMailer, :type => :mailer do
       it "絵文字が変換されること" do
         @text  += "&#xe68a;"
         @html  += "&#xe676;"
-        email = MobileMailer.multi_message(@to, @subject, @text, @html).deliver
+        email = MobileMailer.multi_message(@to, @subject, @text, @html).deliver_now
 
         expect(ActionMailer::Base.deliveries.size).to eq(1)
 
@@ -407,7 +407,7 @@ describe MobileMailer, :type => :mailer do
       end
 
       it "漢字コードが変換されること" do
-        email = MobileMailer.multi_message(@to, @subject, @text, @html).deliver
+        email = MobileMailer.multi_message(@to, @subject, @text, @html).deliver_now
 
         expect(ActionMailer::Base.deliveries.size).to eq(1)
 
@@ -421,7 +421,7 @@ describe MobileMailer, :type => :mailer do
       it "絵文字が変換されること" do
         @text  += "&#xe68a;"
         @html  += "&#xe676;"
-        email = MobileMailer.multi_message(@to, @subject, @text, @html).deliver
+        email = MobileMailer.multi_message(@to, @subject, @text, @html).deliver_now
 
         expect(ActionMailer::Base.deliveries.size).to eq(1)
 
@@ -445,7 +445,7 @@ describe MobileMailer, " mail address", :type => :mailer do
 
   it "ピリオドが3つ以上連続するアドレスが有効になること" do
     to = "ruby...rails@domomo-ezweb.ne.jp"
-    MobileMailer.view_selection(to, @subject, @text).deliver
+    MobileMailer.view_selection(to, @subject, @text).deliver_now
 
     emails = ActionMailer::Base.deliveries
     expect(emails.size).to eq(1)
@@ -455,7 +455,7 @@ describe MobileMailer, " mail address", :type => :mailer do
 
   it "@マークの直前にピリオドあるアドレスが有効になること" do
     to = "ruby.rails.@domomo-ezweb.ne.jp"
-    MobileMailer.view_selection(to, @subject, @text).deliver
+    MobileMailer.view_selection(to, @subject, @text).deliver_now
 
     emails = ActionMailer::Base.deliveries
     expect(emails.size).to eq(1)
@@ -465,7 +465,7 @@ describe MobileMailer, " mail address", :type => :mailer do
 
   it "ピリオドから始まるアドレスが有効になること" do
     to = ".ruby.rails.@domomo-ezweb.ne.jp"
-    MobileMailer.view_selection(to, @subject, @text).deliver
+    MobileMailer.view_selection(to, @subject, @text).deliver_now
 
     emails = ActionMailer::Base.deliveries
     expect(emails.size).to eq(1)
@@ -475,7 +475,7 @@ describe MobileMailer, " mail address", :type => :mailer do
 
   it "複数のアドレスが有効になること" do
     to = [".ruby.rails.@domomo-ezweb.ne.jp", "ruby.rails.@domomo-ezweb.ne.jp", "ruby...rails@domomo-ezweb.ne.jp"]
-    MobileMailer.view_selection(to.join(", "), @subject, @text).deliver
+    MobileMailer.view_selection(to.join(", "), @subject, @text).deliver_now
 
     emails = ActionMailer::Base.deliveries
     expect(emails.size).to eq(1)

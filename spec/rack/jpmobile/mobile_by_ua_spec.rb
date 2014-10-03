@@ -29,7 +29,7 @@ describe Jpmobile::Rack::MobileCarrier do
         'http://jpmobile-rails.org/',
         'HTTP_USER_AGENT' => user_agent)
       env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
-      env['rack.jpmobile'].class.should == carrier
+      expect(env['rack.jpmobile'].class).to eq(carrier)
     end
   end
 
@@ -38,6 +38,6 @@ describe Jpmobile::Rack::MobileCarrier do
       'http://jpmobile-rails.org/',
       'HTTP_USER_AGENT' => 'Googlebot')
     env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
-    env['rack.jpmobile'].should be_nil
+    expect(env['rack.jpmobile']).to be_nil
   end
 end

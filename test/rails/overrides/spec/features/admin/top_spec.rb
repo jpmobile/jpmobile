@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Admin::TopController do
+describe Admin::TopController, :type => :feature do
   describe "GET 'full_path'" do
     before do
       page.driver.header('user_agent', user_agent)
@@ -13,7 +13,7 @@ describe Admin::TopController do
       it '_partial.html.erbが使用されること' do
         visit '/admin/top/full_path'
 
-        page.should have_content("_partial.html.erb")
+        expect(page).to have_content("_partial.html.erb")
       end
     end
 
@@ -24,7 +24,7 @@ describe Admin::TopController do
       it '_partial_mobile_docomo.html.erbが使用されること' do
         visit '/admin/top/full_path'
 
-        page.should have_content("_partial_mobile_docomo.html.erb")
+        expect(page).to have_content("_partial_mobile_docomo.html.erb")
       end
     end
   end

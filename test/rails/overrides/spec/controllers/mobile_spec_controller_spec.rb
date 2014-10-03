@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe MobileSpecController do
+describe MobileSpecController, :type => :controller do
   render_views
 
   describe "GET 'index'" do
@@ -9,9 +9,9 @@ describe MobileSpecController do
         request.user_agent = 'Mozilla'
         get 'index'
 
-        response.should be_success
-        response.should render_template('index')
-        request.mobile?.should be_falsey
+        expect(response).to be_success
+        expect(response).to render_template('index')
+        expect(request.mobile?).to be_falsey
       end
     end
 
@@ -19,10 +19,10 @@ describe MobileSpecController do
       it "should be successful" do
         request.user_agent = "DoCoMo/2.0 SH902i(c100;TB;W24H12)"
         get 'index'
-        response.should be_success
-        response.should render_template('index_mobile')
-        request.mobile?.should be_truthy
-        request.mobile.should be_a(Jpmobile::Mobile::Docomo)
+        expect(response).to be_success
+        expect(response).to render_template('index_mobile')
+        expect(request.mobile?).to be_truthy
+        expect(request.mobile).to be_a(Jpmobile::Mobile::Docomo)
       end
     end
   end
@@ -33,9 +33,9 @@ describe MobileSpecController do
         request.user_agent = 'Mozilla'
         get 'file_render'
 
-        response.should be_success
-        response.body.should match('The change you wanted was rejected')
-        request.mobile?.should be_falsey
+        expect(response).to be_success
+        expect(response.body).to match('The change you wanted was rejected')
+        expect(request.mobile?).to be_falsey
       end
     end
 
@@ -44,10 +44,10 @@ describe MobileSpecController do
         request.user_agent = "DoCoMo/2.0 SH902i(c100;TB;W24H12)"
         get 'file_render'
 
-        response.should be_success
-        response.body.should match('The change you wanted was rejected')
-        request.mobile?.should be_truthy
-        request.mobile.should be_a(Jpmobile::Mobile::Docomo)
+        expect(response).to be_success
+        expect(response.body).to match('The change you wanted was rejected')
+        expect(request.mobile?).to be_truthy
+        expect(request.mobile).to be_a(Jpmobile::Mobile::Docomo)
       end
     end
   end
@@ -67,8 +67,8 @@ describe MobileSpecController do
         request.user_agent = 'Mozilla'
         get 'no_mobile'
 
-        response.should be_success
-        response.body.should_not match('RailsRoot PC mobile')
+        expect(response).to be_success
+        expect(response.body).not_to match('RailsRoot PC mobile')
       end
     end
 
@@ -77,8 +77,8 @@ describe MobileSpecController do
         request.user_agent = "DoCoMo/2.0 SH902i(c100;TB;W24H12)"
         get 'no_mobile'
 
-        response.should be_success
-        response.body.should_not match('RailsRoot mobile')
+        expect(response).to be_success
+        expect(response.body).not_to match('RailsRoot mobile')
       end
     end
   end

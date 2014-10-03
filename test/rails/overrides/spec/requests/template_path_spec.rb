@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe TemplatePathController, "integrated_views" do
+describe TemplatePathController, "integrated_views", :type => :request do
   before do
     page.driver.header('User-Agent', user_agent)
   end
@@ -13,7 +13,7 @@ describe TemplatePathController, "integrated_views" do
       it 'index.html.erbが使用されること' do
         visit "/template_path/index"
 
-        page.should have_content("index.html.erb")
+        expect(page).to have_content("index.html.erb")
       end
     end
 
@@ -24,19 +24,19 @@ describe TemplatePathController, "integrated_views" do
       it 'index_mobile_docomo.html.erbが使用されること' do
         visit "/template_path/index"
 
-        page.should have_content("index_mobile_docomo.html.erb")
+        expect(page).to have_content("index_mobile_docomo.html.erb")
       end
 
       it 'show.html.erb がなくとも show_mobile_docomo.html.erbが使用されること' do
         visit "/template_path/show"
 
-        page.should have_content("show_mobile_docomo.html.erb")
+        expect(page).to have_content("show_mobile_docomo.html.erb")
       end
 
       it 'disable_mobile_view! のときには index.html.erb が使用されること' do
         visit "/template_path/index?pc=true"
 
-        page.should have_content("index.html.erb")
+        expect(page).to have_content("index.html.erb")
       end
     end
 
@@ -47,13 +47,13 @@ describe TemplatePathController, "integrated_views" do
       it 'index_mobile.html.erbが使用されること' do
         visit "/template_path/index"
 
-        page.should have_content("index_mobile.html.erb")
+        expect(page).to have_content("index_mobile.html.erb")
       end
 
       it 'show.html.erb がなくとも show_mobile.html.erbが使用されること' do
         visit "/template_path/show"
 
-        page.should have_content("show_mobile.html.erb")
+        expect(page).to have_content("show_mobile.html.erb")
       end
     end
 
@@ -64,7 +64,7 @@ describe TemplatePathController, "integrated_views" do
       it 'smart_phone_iphone.html.erbが使用されること' do
         visit "/template_path/index"
 
-        page.should have_content("smart_phone_iphone.html.erb")
+        expect(page).to have_content("smart_phone_iphone.html.erb")
       end
     end
 
@@ -75,7 +75,7 @@ describe TemplatePathController, "integrated_views" do
       it 'smart_phone.html.erbが使用されること' do
         visit "/template_path/index"
 
-        page.should have_content("smart_phone.html.erb")
+        expect(page).to have_content("smart_phone.html.erb")
       end
     end
 
@@ -86,7 +86,7 @@ describe TemplatePathController, "integrated_views" do
       it 'smart_phone.html.erbが使用されること' do
         visit "/template_path/index"
 
-        page.should have_content("smart_phone.html.erb")
+        expect(page).to have_content("smart_phone.html.erb")
       end
     end
   end
@@ -99,7 +99,7 @@ describe TemplatePathController, "integrated_views" do
       it 'smart_phone_only.html.erbが使用されること' do
         visit '/template_path/smart_phone_only'
 
-        page.should have_content('smart_phone_only_smart_phone.html.erb')
+        expect(page).to have_content('smart_phone_only_smart_phone.html.erb')
       end
     end
 
@@ -110,7 +110,7 @@ describe TemplatePathController, "integrated_views" do
       it 'smart_phone_only.html.erbが使用されること' do
         visit '/template_path/smart_phone_only'
 
-        page.should have_content('smart_phone_only_smart_phone.html.erb')
+        expect(page).to have_content('smart_phone_only_smart_phone.html.erb')
       end
     end
   end
@@ -123,7 +123,7 @@ describe TemplatePathController, "integrated_views" do
       it 'with_tblt_tablet.html.erbが使用されること' do
         visit '/template_path/with_tblt'
 
-        page.should have_content('with_tblt_tablet.html.erb')
+        expect(page).to have_content('with_tblt_tablet.html.erb')
       end
     end
 
@@ -134,7 +134,7 @@ describe TemplatePathController, "integrated_views" do
       it 'with_tblt_tablet.html.erbが使用されること' do
         visit '/template_path/with_tblt'
 
-        page.should have_content('with_tblt_tablet.html.erb')
+        expect(page).to have_content('with_tblt_tablet.html.erb')
       end
     end
   end
@@ -147,7 +147,7 @@ describe TemplatePathController, "integrated_views" do
       it 'with_ipd_tablet_ipad.html.erbが使用されること' do
         visit '/template_path/with_ipd'
 
-        page.should have_content('with_ipd_tablet_ipad.html.erb')
+        expect(page).to have_content('with_ipd_tablet_ipad.html.erb')
       end
     end
 
@@ -158,7 +158,7 @@ describe TemplatePathController, "integrated_views" do
       it 'with_ipd.html.erbが使用されること' do
         visit '/template_path/with_ipd'
 
-        page.should have_content('with_ipd.html.erb')
+        expect(page).to have_content('with_ipd.html.erb')
       end
     end
   end
@@ -171,7 +171,7 @@ describe TemplatePathController, "integrated_views" do
       it '_partial.html.erbが使用されること' do
         visit "/template_path/partial"
 
-        page.should have_content("_partial.html.erb")
+        expect(page).to have_content("_partial.html.erb")
       end
     end
 
@@ -182,7 +182,7 @@ describe TemplatePathController, "integrated_views" do
       it '_partial_mobile_docomo.html.erbが使用されること' do
         visit "/template_path/partial"
 
-        page.should have_content("_partial_mobile_docomo.html.erb")
+        expect(page).to have_content("_partial_mobile_docomo.html.erb")
       end
     end
 
@@ -193,7 +193,7 @@ describe TemplatePathController, "integrated_views" do
       it '_partial_mobile.html.erbが使用されること' do
         visit "/template_path/partial"
 
-        page.should have_content("_partial_mobile.html.erb")
+        expect(page).to have_content("_partial_mobile.html.erb")
       end
     end
 
@@ -204,7 +204,7 @@ describe TemplatePathController, "integrated_views" do
       it '_partial_smart_phone_iphone.html.erbが使用されること' do
         visit "/template_path/partial"
 
-        page.should have_content("_partial_smart_phone_iphone.html.erb")
+        expect(page).to have_content("_partial_smart_phone_iphone.html.erb")
       end
     end
 
@@ -215,7 +215,7 @@ describe TemplatePathController, "integrated_views" do
       it '_partial_smart_phone.html.erbが使用されること' do
         visit "/template_path/partial"
 
-        page.should have_content("_partial_smart_phone.html.erb")
+        expect(page).to have_content("_partial_smart_phone.html.erb")
       end
     end
 
@@ -226,7 +226,7 @@ describe TemplatePathController, "integrated_views" do
       it '_partial_smart_phone.html.erbが使用されること' do
         visit "/template_path/partial"
 
-        page.should have_content("_partial_smart_phone.html.erb")
+        expect(page).to have_content("_partial_smart_phone.html.erb")
       end
     end
   end
@@ -239,7 +239,7 @@ describe TemplatePathController, "integrated_views" do
       it '_partial.html.erbが使用されること' do
         visit "/template_path/full_path_partial"
 
-        page.should have_content("_partial.html.erb")
+        expect(page).to have_content("_partial.html.erb")
       end
     end
 
@@ -250,7 +250,7 @@ describe TemplatePathController, "integrated_views" do
       it '_partial_mobile_docomo.html.erbが使用されること' do
         visit "/template_path/full_path_partial"
 
-        page.should have_content("_partial_mobile_docomo.html.erb")
+        expect(page).to have_content("_partial_mobile_docomo.html.erb")
       end
     end
   end

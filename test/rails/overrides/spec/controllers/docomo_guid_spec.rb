@@ -19,7 +19,7 @@ shared_examples_for "docomo_guid が起動するとき" do
   end
 end
 
-describe DocomoGuidBaseController do
+describe DocomoGuidBaseController, :type => :controller do
   before(:each) do
     request.user_agent = "Mozilla/5.0 (Windows; U; Windows NT 5.1; ja; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 ( .NET CLR 3.5.30729)"
   end
@@ -27,12 +27,12 @@ describe DocomoGuidBaseController do
   it "の docomo_guid_mode は nil" do
     get :link
 
-    controller.docomo_guid_mode.should be_nil
+    expect(controller.docomo_guid_mode).to be_nil
   end
   it_should_behave_like "docomo_guid が起動しないとき"
 end
 
-describe DocomoGuidAlwaysController do
+describe DocomoGuidAlwaysController, :type => :controller do
   before(:each) do
     request.user_agent = "Mozilla/5.0 (Windows; U; Windows NT 5.1; ja; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 ( .NET CLR 3.5.30729)"
   end
@@ -40,12 +40,12 @@ describe DocomoGuidAlwaysController do
   it "の docomo_guid_always は :always" do
     get :link
 
-    controller.docomo_guid_mode.should == :always
+    expect(controller.docomo_guid_mode).to eq(:always)
   end
   it_should_behave_like "docomo_guid が起動するとき"
 end
 
-describe DocomoGuidDocomoController do
+describe DocomoGuidDocomoController, :type => :controller do
   before(:each) do
     request.user_agent = "Mozilla/5.0 (Windows; U; Windows NT 5.1; ja; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 ( .NET CLR 3.5.30729)"
   end
@@ -53,7 +53,7 @@ describe DocomoGuidDocomoController do
   it "の docomo_guid_mode は :docomo" do
     get :link
 
-    controller.docomo_guid_mode.should == :docomo
+    expect(controller.docomo_guid_mode).to eq(:docomo)
   end
 
   shared_examples_for 'describe_mobile_with_ua' do |user_agent, example_name|

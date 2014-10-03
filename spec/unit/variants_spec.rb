@@ -7,11 +7,17 @@ describe Jpmobile::Mobile::AbstractMobile do
   subject{ Jpmobile::Mobile::AbstractMobile.new(nil, nil) }
 
   describe '#variants' do
-    its(:variants){ should === ['mobile'] }
+    describe '#variants' do
+      subject { super().variants }
+      it { is_expected.to be === ['mobile'] }
+    end
   end
 
   describe '#mail_variants' do
-    its(:mail_variants){ should == [] }
+    describe '#mail_variants' do
+      subject { super().mail_variants }
+      it { is_expected.to eq([]) }
+    end
   end
 end
 
@@ -19,7 +25,10 @@ describe Jpmobile::Mobile::Docomo do
   subject{ Jpmobile::Mobile::Docomo.new(nil, nil) }
 
   describe '#variants' do
-    its(:variants){ should == ['mobile_docomo', 'mobile'] }
+    describe '#variants' do
+      subject { super().variants }
+      it { is_expected.to eq(['mobile_docomo', 'mobile']) }
+    end
   end
 
   describe '#mail_variants' do
@@ -33,7 +42,10 @@ describe Jpmobile::Mobile::Au do
   subject{ Jpmobile::Mobile::Au.new(nil, nil) }
 
   describe '#variants' do
-    its(:variants){ should == ['mobile_au', 'mobile'] }
+    describe '#variants' do
+      subject { super().variants }
+      it { is_expected.to eq(['mobile_au', 'mobile']) }
+    end
   end
 
   describe '#mail_variants' do
@@ -47,7 +59,10 @@ describe Jpmobile::Mobile::Softbank do
   subject{ Jpmobile::Mobile::Softbank.new(nil, nil) }
 
   describe '#variants' do
-    its(:variants){ should == ['mobile_softbank', 'mobile'] }
+    describe '#variants' do
+      subject { super().variants }
+      it { is_expected.to eq(['mobile_softbank', 'mobile']) }
+    end
   end
 
   describe '#mail_variants' do
@@ -61,7 +76,10 @@ describe Jpmobile::Mobile::Android do
   subject{ Jpmobile::Mobile::Android.new(nil, nil) }
 
   describe '#variants' do
-    its(:variants){ should == ['smart_phone_android', 'smart_phone'] }
+    describe '#variants' do
+      subject { super().variants }
+      it { is_expected.to eq(['smart_phone_android', 'smart_phone']) }
+    end
   end
 
   describe '#mail_variants' do
@@ -75,7 +93,10 @@ describe Jpmobile::Mobile::AndroidTablet do
   subject{ Jpmobile::Mobile::AndroidTablet.new(nil, nil) }
 
   describe '#variants' do
-    its(:variants){ should == ['tablet_android_tablet', 'tablet', 'smart_phone'] }
+    describe '#variants' do
+      subject { super().variants }
+      it { is_expected.to eq(['tablet_android_tablet', 'tablet', 'smart_phone']) }
+    end
   end
 
   describe '#mail_variants' do
@@ -89,7 +110,10 @@ describe Jpmobile::Mobile::Iphone do
   subject{ Jpmobile::Mobile::Iphone.new(nil, nil) }
 
   describe '#variants' do
-    its(:variants) { should == ['smart_phone_iphone', 'smart_phone'] }
+    describe '#variants' do
+      subject { super().variants }
+      it { is_expected.to eq(['smart_phone_iphone', 'smart_phone']) }
+    end
   end
 
   describe '#mail_variants' do
@@ -103,7 +127,10 @@ describe Jpmobile::Mobile::Ipad do
   subject{ Jpmobile::Mobile::Ipad.new(nil, nil) }
 
   describe '#variants' do
-    its(:variants){ should == ['tablet_ipad', 'tablet', 'smart_phone'] }
+    describe '#variants' do
+      subject { super().variants }
+      it { is_expected.to eq(['tablet_ipad', 'tablet', 'smart_phone']) }
+    end
   end
 
   describe '#mail_variants' do
@@ -117,7 +144,10 @@ describe Jpmobile::Mobile::WindowsPhone do
   subject{ Jpmobile::Mobile::WindowsPhone.new(nil, nil) }
 
   describe '#variants' do
-    its(:variants){ should == ['smart_phone_windows_phone', 'smart_phone'] }
+    describe '#variants' do
+      subject { super().variants }
+      it { is_expected.to eq(['smart_phone_windows_phone', 'smart_phone']) }
+    end
   end
 
   describe '#mail_variants' do

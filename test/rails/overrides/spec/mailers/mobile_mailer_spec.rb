@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe MobileMailer do
+describe MobileMailer, :type => :mailer do
   include Jpmobile::Util
 
   before(:each) do
@@ -17,46 +17,46 @@ describe MobileMailer do
     it "正常に送信できること" do
       email = MobileMailer.view_selection(@to, "題名", "本文").deliver
 
-      ActionMailer::Base.deliveries.size.should == 1
-      email.to.include?(@to).should be_truthy
+      expect(ActionMailer::Base.deliveries.size).to eq(1)
+      expect(email.to.include?(@to)).to be_truthy
     end
 
     it "ISO-2022-JPに変換されること" do
       email = MobileMailer.view_selection(@to, "題名", "本文").deliver
 
-      ActionMailer::Base.deliveries.size.should == 1
+      expect(ActionMailer::Base.deliveries.size).to eq(1)
 
       raw_mail = ascii_8bit(email.to_s)
-      raw_mail.should match(/iso-2022-jp/i)
-      raw_mail.should match(Regexp.compile(Regexp.escape(ascii_8bit([utf8_to_jis("題名")].pack('m').strip))))
-      raw_mail.should match(Regexp.compile(Regexp.escape(ascii_8bit(utf8_to_jis("本文")))))
+      expect(raw_mail).to match(/iso-2022-jp/i)
+      expect(raw_mail).to match(Regexp.compile(Regexp.escape(ascii_8bit([utf8_to_jis("題名")].pack('m').strip))))
+      expect(raw_mail).to match(Regexp.compile(Regexp.escape(ascii_8bit(utf8_to_jis("本文")))))
     end
 
     it "絵文字がゲタ(〓)に変換されること" do
       email = MobileMailer.view_selection(@to, "題名&#xe676;", "本文&#xe68b;".html_safe).deliver
 
-      ActionMailer::Base.deliveries.size.should == 1
+      expect(ActionMailer::Base.deliveries.size).to eq(1)
 
       raw_mail = ascii_8bit(email.to_s)
-      raw_mail.should match(Regexp.escape("GyRCQmpMPiIuGyhC"))
-      raw_mail.should match(Regexp.compile(Regexp.escape(ascii_8bit(utf8_to_jis("本文〓")))))
+      expect(raw_mail).to match(Regexp.escape("GyRCQmpMPiIuGyhC"))
+      expect(raw_mail).to match(Regexp.compile(Regexp.escape(ascii_8bit(utf8_to_jis("本文〓")))))
     end
 
     it "quoted-printableではないときに勝手に変換されないこと" do
       email = MobileMailer.view_selection(@to, "題名",
         "本文です\nhttp://test.rails/foo/bar/index?d=430d0d1cea109cdb384ec5554b890e3940f293c7&e=ZVG%0FE%16%5E%07%04%21P%5CZ%06%00%0D%1D%40L").deliver
 
-      ActionMailer::Base.deliveries.size.should == 1
+      expect(ActionMailer::Base.deliveries.size).to eq(1)
 
       raw_mail = ascii_8bit(email.to_s)
-      raw_mail.should match(/ZVG%0FE%16%5E%07%04%21P%5CZ%06%00%0D%1D%40L/)
+      expect(raw_mail).to match(/ZVG%0FE%16%5E%07%04%21P%5CZ%06%00%0D%1D%40L/)
     end
 
     context ":toの指定が" do
       it "ない場合でも正常に送信できること" do
         email = MobileMailer.default_to_mail('題名', '本文').deliver
 
-        ActionMailer::Base.deliveries.size.should == 1
+        expect(ActionMailer::Base.deliveries.size).to eq(1)
       end
     end
   end
@@ -71,13 +71,13 @@ describe MobileMailer do
     it "複数に配信するときもISO-2022-JPに変換されること" do
       email = MobileMailer.view_selection(@to, "題名", "本文").deliver
 
-      ActionMailer::Base.deliveries.size.should == 1
+      expect(ActionMailer::Base.deliveries.size).to eq(1)
 
       raw_mail = ascii_8bit(email.to_s)
-      raw_mail.should match(/iso-2022-jp/i)
-      raw_mail.should match(Regexp.compile(Regexp.escape(ascii_8bit([utf8_to_jis("題名")].pack('m').strip))))
-      raw_mail.should match(Regexp.compile(Regexp.escape(ascii_8bit(utf8_to_jis("本文")))))
-      raw_mail.should match(/For PC/)
+      expect(raw_mail).to match(/iso-2022-jp/i)
+      expect(raw_mail).to match(Regexp.compile(Regexp.escape(ascii_8bit([utf8_to_jis("題名")].pack('m').strip))))
+      expect(raw_mail).to match(Regexp.compile(Regexp.escape(ascii_8bit(utf8_to_jis("本文")))))
+      expect(raw_mail).to match(/For PC/)
     end
   end
 
@@ -89,13 +89,13 @@ describe MobileMailer do
     it "subject/body が Shift-JIS になること" do
       email = MobileMailer.view_selection(@to, @subject, @text).deliver
 
-      ActionMailer::Base.deliveries.size.should == 1
+      expect(ActionMailer::Base.deliveries.size).to eq(1)
 
       raw_mail = email.to_s
-      raw_mail.should match(/shift_jis/i)
+      expect(raw_mail).to match(/shift_jis/i)
       # raw_mail.should match(/For docomo/)
-      raw_mail.should match(Regexp.escape("k/qWe4zqkeiWvA=="))
-      raw_mail.should match(Regexp.compile(utf8_to_sjis(@text)))
+      expect(raw_mail).to match(Regexp.escape("k/qWe4zqkeiWvA=="))
+      expect(raw_mail).to match(Regexp.compile(utf8_to_sjis(@text)))
     end
 
     it "数値参照の絵文字が変換されること" do
@@ -104,12 +104,12 @@ describe MobileMailer do
 
       email = MobileMailer.view_selection(@to, emoji_subject, emoji_text.html_safe).deliver
 
-      ActionMailer::Base.deliveries.size.should == 1
+      expect(ActionMailer::Base.deliveries.size).to eq(1)
 
       raw_mail = email.to_s
-      raw_mail.should match(/For docomo/)
-      raw_mail.should match(Regexp.escape("k/qWe4zqkeiWvPjX"))
-      raw_mail.should match(regexp_to_sjis("\xf8\xec"))
+      expect(raw_mail).to match(/For docomo/)
+      expect(raw_mail).to match(Regexp.escape("k/qWe4zqkeiWvPjX"))
+      expect(raw_mail).to match(regexp_to_sjis("\xf8\xec"))
     end
 
     it "半角カナがそのまま送信されること" do
@@ -118,22 +118,22 @@ describe MobileMailer do
 
       email = MobileMailer.view_selection(@to, half_kana_subject, half_kana_text).deliver
 
-      ActionMailer::Base.deliveries.size.should == 1
+      expect(ActionMailer::Base.deliveries.size).to eq(1)
 
       raw_mail = email.to_s
-      raw_mail.should match(/For docomo/)
-      raw_mail.should match(Regexp.escape("k/qWe4zqkeiWvLnesNE="))
-      raw_mail.should match(Regexp.compile(Regexp.escape(utf8_to_sjis(half_kana_text))))
+      expect(raw_mail).to match(/For docomo/)
+      expect(raw_mail).to match(Regexp.escape("k/qWe4zqkeiWvLnesNE="))
+      expect(raw_mail).to match(Regexp.compile(Regexp.escape(utf8_to_sjis(half_kana_text))))
     end
 
     it "quoted-printable ではないときに勝手に変換されないこと" do
       email = MobileMailer.view_selection(@to, "題名",
         "本文です\nhttp://test.rails/foo/bar/index?d=430d0d1cea109cdb384ec5554b890e3940f293c7&e=ZVG%0FE%16%5E%07%04%21P%5CZ%06%00%0D%1D%40L").deliver
 
-      ActionMailer::Base.deliveries.size.should == 1
+      expect(ActionMailer::Base.deliveries.size).to eq(1)
 
       raw_mail = email.to_s
-      raw_mail.should match(/ZVG%0FE%16%5E%07%04%21P%5CZ%06%00%0D%1D%40L/)
+      expect(raw_mail).to match(/ZVG%0FE%16%5E%07%04%21P%5CZ%06%00%0D%1D%40L/)
     end
   end
 
@@ -145,12 +145,12 @@ describe MobileMailer do
     it "subject/body がISO-2022-JPになること" do
       email = MobileMailer.view_selection(@to, @subject, @text).deliver
 
-      ActionMailer::Base.deliveries.size.should == 1
+      expect(ActionMailer::Base.deliveries.size).to eq(1)
 
       raw_mail = ascii_8bit(email.to_s)
-      raw_mail.should match(/iso-2022-jp/i)
-      raw_mail.should match(Regexp.compile(Regexp.escape(ascii_8bit([utf8_to_jis(@subject)].pack('m').strip))))
-      raw_mail.should match(Regexp.compile(Regexp.escape(ascii_8bit(utf8_to_jis(@text)))))
+      expect(raw_mail).to match(/iso-2022-jp/i)
+      expect(raw_mail).to match(Regexp.compile(Regexp.escape(ascii_8bit([utf8_to_jis(@subject)].pack('m').strip))))
+      expect(raw_mail).to match(Regexp.compile(Regexp.escape(ascii_8bit(utf8_to_jis(@text)))))
     end
 
     it "数値参照が絵文字に変換されること" do
@@ -159,22 +159,22 @@ describe MobileMailer do
 
       email = MobileMailer.view_selection(@to, emoji_subject, emoji_text.html_safe).deliver
 
-      ActionMailer::Base.deliveries.size.should == 1
+      expect(ActionMailer::Base.deliveries.size).to eq(1)
 
       raw_mail = ascii_8bit(email.to_s)
-      raw_mail.should match(/For au/)
-      raw_mail.should match(Regexp.escape("GyRCRnxLXDhsQmpMPnZeGyhC"))
-      raw_mail.should match(Regexp.compile(ascii_8bit("\x76\x21")))
+      expect(raw_mail).to match(/For au/)
+      expect(raw_mail).to match(Regexp.escape("GyRCRnxLXDhsQmpMPnZeGyhC"))
+      expect(raw_mail).to match(Regexp.compile(ascii_8bit("\x76\x21")))
     end
 
     it "quoted-printable ではないときに勝手に変換されないこと" do
       email = MobileMailer.view_selection(@to, "題名",
         "本文です\nhttp://test.rails/foo/bar/index?d=430d0d1cea109cdb384ec5554b890e3940f293c7&e=ZVG%0FE%16%5E%07%04%21P%5CZ%06%00%0D%1D%40L").deliver
 
-      ActionMailer::Base.deliveries.size.should == 1
+      expect(ActionMailer::Base.deliveries.size).to eq(1)
 
       raw_mail = ascii_8bit(email.to_s)
-      raw_mail.should match(/ZVG%0FE%16%5E%07%04%21P%5CZ%06%00%0D%1D%40L/)
+      expect(raw_mail).to match(/ZVG%0FE%16%5E%07%04%21P%5CZ%06%00%0D%1D%40L/)
     end
   end
 
@@ -186,13 +186,13 @@ describe MobileMailer do
     it "subject/body が Shift_JIS になること" do
       email = MobileMailer.view_selection(@to, @subject, @text).deliver
 
-      ActionMailer::Base.deliveries.size.should == 1
+      expect(ActionMailer::Base.deliveries.size).to eq(1)
 
       raw_mail = email.to_s
-      raw_mail.should match(/shift_jis/i)
-      raw_mail.should match(/For softbank/)
-      raw_mail.should match(Regexp.escape("k/qWe4zqkeiWvA=="))
-      raw_mail.should match(Regexp.compile(utf8_to_sjis(@text)))
+      expect(raw_mail).to match(/shift_jis/i)
+      expect(raw_mail).to match(/For softbank/)
+      expect(raw_mail).to match(Regexp.escape("k/qWe4zqkeiWvA=="))
+      expect(raw_mail).to match(Regexp.compile(utf8_to_sjis(@text)))
     end
 
     it "数値参照が絵文字に変換されること" do
@@ -201,22 +201,22 @@ describe MobileMailer do
 
       email = MobileMailer.view_selection(@to, emoji_subject, emoji_text.html_safe).deliver
 
-      ActionMailer::Base.deliveries.size.should == 1
+      expect(ActionMailer::Base.deliveries.size).to eq(1)
 
       raw_mail = email.to_s
-      raw_mail.should match(/For softbank/)
-      raw_mail.should match(Regexp.escape("k/qWe4zqkeiWvPl8"))
-      raw_mail.should match(regexp_to_sjis("\xf7\x6a"))
+      expect(raw_mail).to match(/For softbank/)
+      expect(raw_mail).to match(Regexp.escape("k/qWe4zqkeiWvPl8"))
+      expect(raw_mail).to match(regexp_to_sjis("\xf7\x6a"))
     end
 
     it "quoted-printable ではないときに勝手に変換されないこと" do
       email = MobileMailer.view_selection(@to, "題名",
         "本文です\nhttp://test.rails/foo/bar/index?d=430d0d1cea109cdb384ec5554b890e3940f293c7&e=ZVG%0FE%16%5E%07%04%21P%5CZ%06%00%0D%1D%40L").deliver
 
-      ActionMailer::Base.deliveries.size.should == 1
+      expect(ActionMailer::Base.deliveries.size).to eq(1)
 
       raw_mail = email.to_s
-      raw_mail.should match(/ZVG%0FE%16%5E%07%04%21P%5CZ%06%00%0D%1D%40L/)
+      expect(raw_mail).to match(/ZVG%0FE%16%5E%07%04%21P%5CZ%06%00%0D%1D%40L/)
     end
   end
 
@@ -228,13 +228,13 @@ describe MobileMailer do
     it "subject/body が Shift_JIS になること" do
       email = MobileMailer.view_selection(@to, @subject, @text).deliver
 
-      ActionMailer::Base.deliveries.size.should == 1
+      expect(ActionMailer::Base.deliveries.size).to eq(1)
 
       raw_mail = email.to_s
-      raw_mail.should match(/shift_jis/i)
-      raw_mail.should match(/For vodafone/)
-      raw_mail.should match(Regexp.escape("k/qWe4zqkeiWvA=="))
-      raw_mail.should match(Regexp.compile(utf8_to_sjis(@text)))
+      expect(raw_mail).to match(/shift_jis/i)
+      expect(raw_mail).to match(/For vodafone/)
+      expect(raw_mail).to match(Regexp.escape("k/qWe4zqkeiWvA=="))
+      expect(raw_mail).to match(Regexp.compile(utf8_to_sjis(@text)))
     end
 
     it "数値参照が絵文字に変換されること" do
@@ -243,22 +243,22 @@ describe MobileMailer do
 
       email = MobileMailer.view_selection(@to, emoji_subject, emoji_text.html_safe).deliver
 
-      ActionMailer::Base.deliveries.size.should == 1
+      expect(ActionMailer::Base.deliveries.size).to eq(1)
 
       raw_mail = email.to_s
-      raw_mail.should match(/For vodafone/)
-      raw_mail.should match(Regexp.escape("k/qWe4zqkeiWvPl8"))
-      raw_mail.should match(regexp_to_sjis("\xf7\x6a"))
+      expect(raw_mail).to match(/For vodafone/)
+      expect(raw_mail).to match(Regexp.escape("k/qWe4zqkeiWvPl8"))
+      expect(raw_mail).to match(regexp_to_sjis("\xf7\x6a"))
     end
 
     it "quoted-printable ではないときに勝手に変換されないこと" do
       email = MobileMailer.view_selection(@to, "題名",
         "本文です\nhttp://test.rails/foo/bar/index?d=430d0d1cea109cdb384ec5554b890e3940f293c7&e=ZVG%0FE%16%5E%07%04%21P%5CZ%06%00%0D%1D%40L").deliver
 
-      ActionMailer::Base.deliveries.size.should == 1
+      expect(ActionMailer::Base.deliveries.size).to eq(1)
 
       raw_mail = email.to_s
-      raw_mail.should match(/ZVG%0FE%16%5E%07%04%21P%5CZ%06%00%0D%1D%40L/)
+      expect(raw_mail).to match(/ZVG%0FE%16%5E%07%04%21P%5CZ%06%00%0D%1D%40L/)
     end
   end
 
@@ -295,13 +295,13 @@ describe MobileMailer do
       it "漢字コードが変換されること" do
         email = MobileMailer.multi_message(@to, @subject, @text, @html).deliver
 
-        ActionMailer::Base.deliveries.size.should == 1
+        expect(ActionMailer::Base.deliveries.size).to eq(1)
 
-        email.parts.size.should == 2
+        expect(email.parts.size).to eq(2)
 
         raw_mail = ascii_8bit(email.to_s)
-        raw_mail.should match(Regexp.escape(ascii_8bit(utf8_to_jis(@text))))
-        raw_mail.should match(Regexp.escape(ascii_8bit(utf8_to_jis(@html))))
+        expect(raw_mail).to match(Regexp.escape(ascii_8bit(utf8_to_jis(@text))))
+        expect(raw_mail).to match(Regexp.escape(ascii_8bit(utf8_to_jis(@html))))
       end
     end
 
@@ -313,13 +313,13 @@ describe MobileMailer do
       it "漢字コードが変換されること" do
         email = MobileMailer.multi_message(@to, @subject, @text, @html).deliver
 
-        ActionMailer::Base.deliveries.size.should == 1
+        expect(ActionMailer::Base.deliveries.size).to eq(1)
 
-        email.parts.size.should == 2
+        expect(email.parts.size).to eq(2)
 
         raw_mail = email.to_s
-        raw_mail.should match(sjis_regexp(utf8_to_sjis(@text)))
-        raw_mail.should match(sjis_regexp(utf8_to_sjis(@html)))
+        expect(raw_mail).to match(sjis_regexp(utf8_to_sjis(@text)))
+        expect(raw_mail).to match(sjis_regexp(utf8_to_sjis(@html)))
       end
 
       it "絵文字が変換されること" do
@@ -327,13 +327,13 @@ describe MobileMailer do
         @html  += "&#xe676;"
         email = MobileMailer.multi_message(@to, @subject, @text, @html).deliver
 
-        ActionMailer::Base.deliveries.size.should == 1
+        expect(ActionMailer::Base.deliveries.size).to eq(1)
 
-        email.parts.size.should == 2
+        expect(email.parts.size).to eq(2)
 
         raw_mail = email.to_s
-        raw_mail.should match(sjis_regexp(sjis("\xf8\xec")))
-        raw_mail.should match(sjis_regexp(sjis("\xf8\xd7")))
+        expect(raw_mail).to match(sjis_regexp(sjis("\xf8\xec")))
+        expect(raw_mail).to match(sjis_regexp(sjis("\xf8\xd7")))
       end
     end
 
@@ -345,13 +345,13 @@ describe MobileMailer do
       it "漢字コードが変換されること" do
         email = MobileMailer.multi_message(@to, @subject, @text, @html).deliver
 
-        ActionMailer::Base.deliveries.size.should == 1
+        expect(ActionMailer::Base.deliveries.size).to eq(1)
 
-        email.parts.size.should == 2
+        expect(email.parts.size).to eq(2)
 
         raw_mail = ascii_8bit(email.to_s)
-        raw_mail.should match(Regexp.escape(ascii_8bit(utf8_to_jis(@text))))
-        raw_mail.should match(Regexp.escape(ascii_8bit(utf8_to_jis(@html))))
+        expect(raw_mail).to match(Regexp.escape(ascii_8bit(utf8_to_jis(@text))))
+        expect(raw_mail).to match(Regexp.escape(ascii_8bit(utf8_to_jis(@html))))
       end
 
       it "絵文字が変換されること" do
@@ -359,13 +359,13 @@ describe MobileMailer do
         @html += "&#xe676;"
         email = MobileMailer.multi_message(@to, @subject, @text, @html).deliver
 
-        ActionMailer::Base.deliveries.size.should == 1
+        expect(ActionMailer::Base.deliveries.size).to eq(1)
 
-        email.parts.size.should == 2
+        expect(email.parts.size).to eq(2)
 
         raw_mail = ascii_8bit(email.to_s)
-        raw_mail.should match(jis_regexp("\x76\x21"))
-        raw_mail.should match(jis_regexp("\x76\x5e"))
+        expect(raw_mail).to match(jis_regexp("\x76\x21"))
+        expect(raw_mail).to match(jis_regexp("\x76\x5e"))
       end
     end
 
@@ -377,13 +377,13 @@ describe MobileMailer do
       it "漢字コードが変換されること" do
         email = MobileMailer.multi_message(@to, @subject, @text, @html).deliver
 
-        ActionMailer::Base.deliveries.size.should == 1
+        expect(ActionMailer::Base.deliveries.size).to eq(1)
 
-        email.parts.size.should == 2
+        expect(email.parts.size).to eq(2)
 
         raw_mail = email.to_s
-        raw_mail.should match(sjis_regexp(utf8_to_sjis(@text)))
-        raw_mail.should match(sjis_regexp(utf8_to_sjis(@html)))
+        expect(raw_mail).to match(sjis_regexp(utf8_to_sjis(@text)))
+        expect(raw_mail).to match(sjis_regexp(utf8_to_sjis(@html)))
       end
 
       it "絵文字が変換されること" do
@@ -391,13 +391,13 @@ describe MobileMailer do
         @html  += "&#xe676;"
         email = MobileMailer.multi_message(@to, @subject, @text, @html).deliver
 
-        ActionMailer::Base.deliveries.size.should == 1
+        expect(ActionMailer::Base.deliveries.size).to eq(1)
 
-        email.parts.size.should == 2
+        expect(email.parts.size).to eq(2)
 
         raw_mail = email.to_s
-        raw_mail.should match(sjis_regexp(sjis("\xf7\x6a")))
-        raw_mail.should match(sjis_regexp(sjis("\xf9\x7c")))
+        expect(raw_mail).to match(sjis_regexp(sjis("\xf7\x6a")))
+        expect(raw_mail).to match(sjis_regexp(sjis("\xf9\x7c")))
       end
     end
 
@@ -409,13 +409,13 @@ describe MobileMailer do
       it "漢字コードが変換されること" do
         email = MobileMailer.multi_message(@to, @subject, @text, @html).deliver
 
-        ActionMailer::Base.deliveries.size.should == 1
+        expect(ActionMailer::Base.deliveries.size).to eq(1)
 
-        email.parts.size.should == 2
+        expect(email.parts.size).to eq(2)
 
         raw_mail = email.to_s
-        raw_mail.should match(sjis_regexp(utf8_to_sjis(@text)))
-        raw_mail.should match(sjis_regexp(utf8_to_sjis(@html)))
+        expect(raw_mail).to match(sjis_regexp(utf8_to_sjis(@text)))
+        expect(raw_mail).to match(sjis_regexp(utf8_to_sjis(@html)))
       end
 
       it "絵文字が変換されること" do
@@ -423,19 +423,19 @@ describe MobileMailer do
         @html  += "&#xe676;"
         email = MobileMailer.multi_message(@to, @subject, @text, @html).deliver
 
-        ActionMailer::Base.deliveries.size.should == 1
+        expect(ActionMailer::Base.deliveries.size).to eq(1)
 
-        email.parts.size.should == 2
+        expect(email.parts.size).to eq(2)
 
         raw_mail = email.to_s
-        raw_mail.should match(sjis_regexp(sjis("\xf7\x6a")))
-        raw_mail.should match(sjis_regexp(sjis("\xf9\x7c")))
+        expect(raw_mail).to match(sjis_regexp(sjis("\xf7\x6a")))
+        expect(raw_mail).to match(sjis_regexp(sjis("\xf9\x7c")))
       end
     end
   end
 end
 
-describe MobileMailer, " mail address" do
+describe MobileMailer, " mail address", :type => :mailer do
   before(:each) do
     ActionMailer::Base.deliveries = []
 
@@ -448,9 +448,9 @@ describe MobileMailer, " mail address" do
     MobileMailer.view_selection(to, @subject, @text).deliver
 
     emails = ActionMailer::Base.deliveries
-    emails.size.should == 1
-    emails.first.to.include?(to).should be_truthy
-    emails.first.destinations.include?(to).should be_truthy
+    expect(emails.size).to eq(1)
+    expect(emails.first.to.include?(to)).to be_truthy
+    expect(emails.first.destinations.include?(to)).to be_truthy
   end
 
   it "@マークの直前にピリオドあるアドレスが有効になること" do
@@ -458,9 +458,9 @@ describe MobileMailer, " mail address" do
     MobileMailer.view_selection(to, @subject, @text).deliver
 
     emails = ActionMailer::Base.deliveries
-    emails.size.should == 1
-    emails.first.to.include?(to).should be_truthy
-    emails.first.destinations.include?(to).should be_truthy
+    expect(emails.size).to eq(1)
+    expect(emails.first.to.include?(to)).to be_truthy
+    expect(emails.first.destinations.include?(to)).to be_truthy
   end
 
   it "ピリオドから始まるアドレスが有効になること" do
@@ -468,9 +468,9 @@ describe MobileMailer, " mail address" do
     MobileMailer.view_selection(to, @subject, @text).deliver
 
     emails = ActionMailer::Base.deliveries
-    emails.size.should == 1
-    emails.first.to.include?(to).should be_truthy
-    emails.first.destinations.include?(to).should be_truthy
+    expect(emails.size).to eq(1)
+    expect(emails.first.to.include?(to)).to be_truthy
+    expect(emails.first.destinations.include?(to)).to be_truthy
   end
 
   it "複数のアドレスが有効になること" do
@@ -478,13 +478,13 @@ describe MobileMailer, " mail address" do
     MobileMailer.view_selection(to.join(", "), @subject, @text).deliver
 
     emails = ActionMailer::Base.deliveries
-    emails.size.should == 1
-    emails.first.to.should == to
-    emails.first.destinations.should == to
+    expect(emails.size).to eq(1)
+    expect(emails.first.to).to eq(to)
+    expect(emails.first.destinations).to eq(to)
   end
 end
 
-describe MobileMailer, "receiving" do
+describe MobileMailer, "receiving", :type => :mailer do
   describe "blank mail" do
     it "softbank からの空メールがで受信できること" do
       email = open(Rails.root + "spec/fixtures/mobile_mailer/softbank-blank.eml").read
@@ -492,8 +492,8 @@ describe MobileMailer, "receiving" do
         email = MobileMailer.receive(email)
       # }.to_not raise_error
 
-      email.subject.should be_blank
-      email.body.should be_blank
+      expect(email.subject).to be_blank
+      expect(email.body).to be_blank
     end
   end
 
@@ -504,15 +504,15 @@ describe MobileMailer, "receiving" do
 
     it "漢字コードを適切に変換できること" do
       email = MobileMailer.receive(@email)
-      email.subject.should match(/題名/)
-      email.body.should match(/本文/)
+      expect(email.subject).to match(/題名/)
+      expect(email.body).to match(/本文/)
     end
 
     it "絵文字が数値参照に変わること" do
       email = MobileMailer.receive(@email)
 
-      email.subject.should match(/&#xe676;/)
-      email.body.should match(/&#xe6e2;/)
+      expect(email.subject).to match(/&#xe676;/)
+      expect(email.body).to match(/&#xe6e2;/)
     end
 
     describe "jis コードの場合に" do
@@ -523,8 +523,8 @@ describe MobileMailer, "receiving" do
       it "適切に変換できること" do
         email = MobileMailer.receive(@email)
 
-        email.subject.should match(/テスト/)
-        email.body.should match(/テスト本文/)
+        expect(email.subject).to match(/テスト/)
+        expect(email.body).to match(/テスト本文/)
       end
     end
   end
@@ -538,15 +538,15 @@ describe MobileMailer, "receiving" do
       it "漢字コードを適切に変換できること" do
         email = MobileMailer.receive(@email)
 
-        email.subject.should match(/題名/)
-        email.body.should match(/本文/)
+        expect(email.subject).to match(/題名/)
+        expect(email.body).to match(/本文/)
       end
 
       it "絵文字が数値参照に変わること" do
         email = MobileMailer.receive(@email)
 
-        email.subject.should match(/&#xe503;/)
-        email.body.should match(/&#xe522;/)
+        expect(email.subject).to match(/&#xe503;/)
+        expect(email.body).to match(/&#xe522;/)
       end
     end
 
@@ -558,15 +558,15 @@ describe MobileMailer, "receiving" do
       it "漢字コードを適切に変換できること" do
         email = MobileMailer.receive(@email)
 
-        email.subject.should match(/題名/)
-        email.body.should match(/本文/)
+        expect(email.subject).to match(/題名/)
+        expect(email.body).to match(/本文/)
       end
 
       it "絵文字が数値参照に変わること" do
         email = MobileMailer.receive(@email)
 
-        email.subject.should match(/&#xe4f4;/)
-        email.body.should match(/&#xe471;/)
+        expect(email.subject).to match(/&#xe4f4;/)
+        expect(email.body).to match(/&#xe471;/)
       end
     end
   end
@@ -580,15 +580,15 @@ describe MobileMailer, "receiving" do
       it "漢字コードを適切に変換できること" do
         email = MobileMailer.receive(@email)
 
-        email.subject.should match(/題名/)
-        email.body.should match(/本文/)
+        expect(email.subject).to match(/題名/)
+        expect(email.body).to match(/本文/)
       end
 
       it "絵文字が数値参照に変わること" do
         email = MobileMailer.receive(@email)
 
-        email.subject.should match(/&#xf03c;/)
-        email.body.should match(/&#xf21c;/)
+        expect(email.subject).to match(/&#xf03c;/)
+        expect(email.body).to match(/&#xf21c;/)
       end
     end
 
@@ -600,15 +600,15 @@ describe MobileMailer, "receiving" do
       it "漢字コードを適切に変換できること" do
         email = MobileMailer.receive(@email)
 
-        email.subject.should match(/題名/)
-        email.body.should match(/本文/)
+        expect(email.subject).to match(/題名/)
+        expect(email.body).to match(/本文/)
       end
 
       it "絵文字が数値参照に変わること" do
         email = MobileMailer.receive(@email)
 
-        email.subject.should match(/&#xf03c;/)
-        email.body.should match(/&#xf21c;/)
+        expect(email.subject).to match(/&#xf03c;/)
+        expect(email.body).to match(/&#xf21c;/)
       end
     end
   end
@@ -621,22 +621,22 @@ describe MobileMailer, "receiving" do
       end
 
       it "正常に受信できること" do
-        lambda {
+        expect {
           MobileMailer.receive(@email)
-        }.should_not raise_exception
+        }.not_to raise_exception
       end
 
       it "絵文字が変換されること" do
         email = MobileMailer.receive(@email)
 
-        email.subject.should match(/&#xe6ec;/)
+        expect(email.subject).to match(/&#xe6ec;/)
 
-        email.parts.size.should == 1
+        expect(email.parts.size).to eq(1)
         email.parts.first.parts.size == 2
 
         parts = email.parts.first.parts
-        parts.first.body.should match("テストです&#xe72d;")
-        parts.last.body.raw_source.should  match("テストです&#xe72d;")
+        expect(parts.first.body).to match("テストです&#xe72d;")
+        expect(parts.last.body.raw_source).to  match("テストです&#xe72d;")
       end
     end
 
@@ -646,30 +646,30 @@ describe MobileMailer, "receiving" do
       end
 
       it "正常に受信できること" do
-        lambda {
+        expect {
           MobileMailer.receive(@email)
-        }.should_not raise_exception
+        }.not_to raise_exception
       end
 
       it "絵文字が変換されること" do
         email = MobileMailer.receive(@email)
 
-        email.subject.should match(/&#xe4f4;/)
+        expect(email.subject).to match(/&#xe4f4;/)
 
-        email.parts.size.should == 1
-        email.parts.first.parts.size == 2
+        expect(email.parts.size).to eq(1)
+        expect(email.parts.first.parts.size).to eq(2)
 
         parts = email.parts.first.parts
-        parts.first.body.should match(/テストです&#xe595;/)
-        parts.last.body.raw_source.should match(/テストです&#xe595;/)
+        expect(parts.first.body).to match(/テストです&#xe595;/)
+        expect(parts.last.body.raw_source).to match(/テストです&#xe595;/)
       end
 
       context 'iPhone' do
         it 'should parse correctly' do
-          lambda {
+          expect {
             @mail = MobileMailer.receive(open(File.join(Rails.root, "../../../spec/unit/email-fixtures/iphone-message.eml")).read)
             @mail.encoded
-          }.should_not raise_error
+          }.not_to raise_error
         end
       end
     end
@@ -681,20 +681,20 @@ describe MobileMailer, "receiving" do
       end
 
       it "正常に受信できること" do
-        lambda {
+        expect {
           MobileMailer.receive(@email)
-        }.should_not raise_exception
+        }.not_to raise_exception
       end
 
       it "絵文字が変換されること" do
         email = MobileMailer.receive(@email)
 
-        email.subject.should match(/&#xf221;&#xf223;&#xf221;/)
+        expect(email.subject).to match(/&#xf221;&#xf223;&#xf221;/)
 
-        email.parts.size.should == 2
+        expect(email.parts.size).to eq(2)
 
-        email.parts.first.body.should match(/テストです&#xf018;/)
-        email.parts.last.body.raw_source.should match(/テストです&#xf231;/)
+        expect(email.parts.first.body).to match(/テストです&#xf018;/)
+        expect(email.parts.last.body.raw_source).to match(/テストです&#xf231;/)
       end
     end
 
@@ -705,20 +705,20 @@ describe MobileMailer, "receiving" do
       end
 
       it "正常に受信できること" do
-        lambda {
+        expect {
           MobileMailer.receive(@email)
-        }.should_not raise_exception
+        }.not_to raise_exception
       end
 
       it "絵文字が変換されること" do
         email = MobileMailer.receive(@email)
 
-        email.subject.should match(/テストです&#xf221;/)
+        expect(email.subject).to match(/テストです&#xf221;/)
 
-        email.parts.size.should == 2
+        expect(email.parts.size).to eq(2)
 
-        email.parts.first.body.should match(/テストです&#xf223;/)
-        email.parts.last.body.raw_source.should match(/テストです&#xf223;/)
+        expect(email.parts.first.body).to match(/テストです&#xf223;/)
+        expect(email.parts.last.body.raw_source).to match(/テストです&#xf223;/)
       end
     end
 
@@ -729,23 +729,23 @@ describe MobileMailer, "receiving" do
       end
 
       it "正常に受信できること" do
-        lambda {
+        expect {
           MobileMailer.receive(@email)
-        }.should_not raise_exception
+        }.not_to raise_exception
       end
 
       it "添付ファイルが壊れないこと" do
         email = MobileMailer.receive(@email)
 
-        email.subject.should match(/&#xe481;/)
+        expect(email.subject).to match(/&#xe481;/)
 
-        email.parts.size.should == 2
+        expect(email.parts.size).to eq(2)
 
-        email.parts.first.body.should match(/カレンダーだ&#xe4f4;/)
+        expect(email.parts.first.body).to match(/カレンダーだ&#xe4f4;/)
 
-        email.has_attachments?.should be_truthy
-        email.attachments.size.should == 1
-        email.attachments['20098calendar01.jpg'].content_type.should match("image/jpeg")
+        expect(email.has_attachments?).to be_truthy
+        expect(email.attachments.size).to eq(1)
+        expect(email.attachments['20098calendar01.jpg'].content_type).to match("image/jpeg")
         email.attachments['20098calendar01.jpg'].body.to_s[2..6] == "JFIF"
         email.attachments['20098calendar01.jpg'].body.to_s.size == 86412
       end
@@ -759,14 +759,14 @@ describe MobileMailer, "receiving" do
       end
 
       it "正常に受信できること" do
-        lambda {
+        expect {
           MobileMailer.receive(@email)
-        }.should_not raise_exception
+        }.not_to raise_exception
       end
 
       it "mobile が nil であること" do
         mail = MobileMailer.receive(@email)
-        mail.mobile.should be_nil
+        expect(mail.mobile).to be_nil
       end
     end
 
@@ -776,14 +776,14 @@ describe MobileMailer, "receiving" do
       end
 
       it "正常に受信できること" do
-        lambda {
+        expect {
           MobileMailer.receive(@email)
-        }.should_not raise_exception
+        }.not_to raise_exception
       end
 
       it "mobile が nil であること" do
         mail = MobileMailer.receive(@email)
-        mail.mobile.should be_nil
+        expect(mail.mobile).to be_nil
       end
     end
   end

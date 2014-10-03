@@ -39,13 +39,13 @@ describe Jpmobile::Rack::ParamsFilter do
 
           res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(UnitApplication.new)).call(res)
           req = Rack::Request.new(res[1])
-          req.params.size.should == 4
+          expect(req.params.size).to eq(4)
 
-          req.params[ascii_8bit(@query_params.keys.first.dup)].should == ascii_8bit(@query_params[@query_params.keys.first])
-          req.params[ascii_8bit(@query_params.keys.last.dup)].should  == ascii_8bit(@query_params[@query_params.keys.last])
+          expect(req.params[ascii_8bit(@query_params.keys.first.dup)]).to eq(ascii_8bit(@query_params[@query_params.keys.first]))
+          expect(req.params[ascii_8bit(@query_params.keys.last.dup)]).to  eq(ascii_8bit(@query_params[@query_params.keys.last]))
 
-          req.params[ascii_8bit(@form_params.keys.first.dup)].should == ascii_8bit(@form_params[@form_params.keys.first])
-          req.params[ascii_8bit(@form_params.keys.last.dup)].should  == ascii_8bit(@form_params[@form_params.keys.last])
+          expect(req.params[ascii_8bit(@form_params.keys.first.dup)]).to eq(ascii_8bit(@form_params[@form_params.keys.first]))
+          expect(req.params[ascii_8bit(@form_params.keys.last.dup)]).to  eq(ascii_8bit(@form_params[@form_params.keys.last]))
         end
       end
 
@@ -60,13 +60,13 @@ describe Jpmobile::Rack::ParamsFilter do
 
           res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(UnitApplication.new)).call(res)
           req = Rack::Request.new(res[1])
-          req.params.size.should == 4
+          expect(req.params.size).to eq(4)
 
-          req.params[ascii_8bit(@query_params.keys.first.dup)].should == ascii_8bit(@query_params[@query_params.keys.first])
-          req.params[ascii_8bit(@query_params.keys.last.dup)].should  == ascii_8bit(@query_params[@query_params.keys.last])
+          expect(req.params[ascii_8bit(@query_params.keys.first.dup)]).to eq(ascii_8bit(@query_params[@query_params.keys.first]))
+          expect(req.params[ascii_8bit(@query_params.keys.last.dup)]).to  eq(ascii_8bit(@query_params[@query_params.keys.last]))
 
-          req.params[ascii_8bit(@form_params.keys.first.dup)].should == ascii_8bit(@form_params[@form_params.keys.first])
-          req.params[ascii_8bit(@form_params.keys.last.dup)].should  == ascii_8bit(@form_params[@form_params.keys.last])
+          expect(req.params[ascii_8bit(@form_params.keys.first.dup)]).to eq(ascii_8bit(@form_params[@form_params.keys.first]))
+          expect(req.params[ascii_8bit(@form_params.keys.last.dup)]).to  eq(ascii_8bit(@form_params[@form_params.keys.last]))
         end
       end
     end
@@ -92,13 +92,13 @@ describe Jpmobile::Rack::ParamsFilter do
 
           res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(UnitApplication.new)).call(res)
           req = Rack::Request.new(res[1])
-          req.params.size.should == 4
+          expect(req.params.size).to eq(4)
 
-          req.params[ascii_8bit(@query_params.keys.first.dup)].should == ascii_8bit(@query_params[@query_params.keys.first])
-          req.params[ascii_8bit(@query_params.keys.last.dup)].should  == ascii_8bit(@query_params[@query_params.keys.last])
+          expect(req.params[ascii_8bit(@query_params.keys.first.dup)]).to eq(ascii_8bit(@query_params[@query_params.keys.first]))
+          expect(req.params[ascii_8bit(@query_params.keys.last.dup)]).to  eq(ascii_8bit(@query_params[@query_params.keys.last]))
 
-          req.params[ascii_8bit(@form_params.keys.first.dup)].should == ascii_8bit(@form_params[@form_params.keys.first])
-          req.params[ascii_8bit(@form_params.keys.last.dup)].should  == ascii_8bit(@form_params[@form_params.keys.last])
+          expect(req.params[ascii_8bit(@form_params.keys.first.dup)]).to eq(ascii_8bit(@form_params[@form_params.keys.first]))
+          expect(req.params[ascii_8bit(@form_params.keys.last.dup)]).to  eq(ascii_8bit(@form_params[@form_params.keys.last]))
         end
       end
     end
@@ -119,10 +119,10 @@ describe Jpmobile::Rack::ParamsFilter do
 
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(UnitApplication.new)).call(res)
         req = Rack::Request.new(res[1])
-        req.params.size.should == 2
+        expect(req.params.size).to eq(2)
 
-        req.params["hoge"].should == ascii_8bit("\356\230\276")
-        req.params["foo"].should  == ascii_8bit("\356\231\200")
+        expect(req.params["hoge"]).to eq(ascii_8bit("\356\230\276"))
+        expect(req.params["foo"]).to  eq(ascii_8bit("\356\231\200"))
       end
     end
 
@@ -140,10 +140,10 @@ describe Jpmobile::Rack::ParamsFilter do
 
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(UnitApplication.new)).call(res)
         req = Rack::Request.new(res[1])
-        req.params.size.should == 2
+        expect(req.params.size).to eq(2)
 
-        req.params["hoge"].should == ascii_8bit("\356\222\201")
-        req.params["foo"].should  == ascii_8bit("\356\224\242")
+        expect(req.params["hoge"]).to eq(ascii_8bit("\356\222\201"))
+        expect(req.params["foo"]).to  eq(ascii_8bit("\356\224\242"))
       end
     end
 
@@ -161,10 +161,10 @@ describe Jpmobile::Rack::ParamsFilter do
 
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(UnitApplication.new)).call(res)
         req = Rack::Request.new(res[1])
-        req.params.size.should == 2
+        expect(req.params.size).to eq(2)
 
-        req.params["hoge"].should == ascii_8bit("\xef\x80\x81")
-        req.params["foo"].should  == ascii_8bit("\xef\x88\x9c")
+        expect(req.params["hoge"]).to eq(ascii_8bit("\xef\x80\x81"))
+        expect(req.params["foo"]).to  eq(ascii_8bit("\xef\x88\x9c"))
       end
     end
   end
@@ -184,9 +184,9 @@ describe Jpmobile::Rack::ParamsFilter do
 
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(UnitApplication.new)).call(res)
         req = Rack::Request.new(res[1])
-        req.params.size.should == 1
+        expect(req.params.size).to eq(1)
 
-        req.params["foo"].should  == ascii_8bit(token)
+        expect(req.params["foo"]).to  eq(ascii_8bit(token))
       end
     end
   end
@@ -205,9 +205,9 @@ describe Jpmobile::Rack::ParamsFilter do
 
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(UnitApplication.new)).call(res)
         req = Rack::Request.new(res[1])
-        req.params.size.should == 0
+        expect(req.params.size).to eq(0)
 
-        req.body.read.should  == form_string
+        expect(req.body.read).to  eq(form_string)
       end
     end
   end
@@ -226,9 +226,9 @@ describe Jpmobile::Rack::ParamsFilter do
 
         res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(UnitApplication.new)).call(res)
         req = Rack::Request.new(res[1])
-        req.params.size.should == 0
+        expect(req.params.size).to eq(0)
 
-        req.body.read.should  == form_string
+        expect(req.body.read).to  eq(form_string)
       end
     end
   end

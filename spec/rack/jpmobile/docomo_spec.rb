@@ -13,25 +13,25 @@ describe Jpmobile::Rack::MobileCarrier, "docomo" do
     end
 
     it "Jpmobile::Mobile::Docomo のインスタンスが env['rack.mobile'] にあること" do
-      @env['rack.jpmobile'].class.should == Jpmobile::Mobile::Docomo
+      expect(@env['rack.jpmobile'].class).to eq(Jpmobile::Mobile::Docomo)
     end
 
     it "#position などが nil になること" do
-      @env['rack.jpmobile'].position.should be_nil
-      @env['rack.jpmobile'].areacode.should be_nil
-      @env['rack.jpmobile'].serial_number.should be_nil
-      @env['rack.jpmobile'].icc.should be_nil
-      @env['rack.jpmobile'].ident.should be_nil
-      @env['rack.jpmobile'].ident_device.should be_nil
-      @env['rack.jpmobile'].ident_subscriber.should be_nil
+      expect(@env['rack.jpmobile'].position).to be_nil
+      expect(@env['rack.jpmobile'].areacode).to be_nil
+      expect(@env['rack.jpmobile'].serial_number).to be_nil
+      expect(@env['rack.jpmobile'].icc).to be_nil
+      expect(@env['rack.jpmobile'].ident).to be_nil
+      expect(@env['rack.jpmobile'].ident_device).to be_nil
+      expect(@env['rack.jpmobile'].ident_subscriber).to be_nil
     end
 
     it "#supports_cookie? などが false になること" do
-      @env['rack.jpmobile'].supports_cookie?.should be_falsey
+      expect(@env['rack.jpmobile'].supports_cookie?).to be_falsey
     end
 
     it "#imode_browser_versionが1.0になること" do
-      @env['rack.jpmobile'].imode_browser_version.should == '1.0'
+      expect(@env['rack.jpmobile'].imode_browser_version).to eq('1.0')
     end
   end
 
@@ -44,25 +44,25 @@ describe Jpmobile::Rack::MobileCarrier, "docomo" do
     end
 
     it "Jpmobile::Mobile::Docomo のインスタンスが env['rack.mobile'] にあること" do
-      @env['rack.jpmobile'].class.should == Jpmobile::Mobile::Docomo
+      expect(@env['rack.jpmobile'].class).to eq(Jpmobile::Mobile::Docomo)
     end
 
     it "#position などが nil になること" do
-      @env['rack.jpmobile'].position.should be_nil
-      @env['rack.jpmobile'].areacode.should be_nil
-      @env['rack.jpmobile'].serial_number.should be_nil
-      @env['rack.jpmobile'].icc.should be_nil
-      @env['rack.jpmobile'].ident.should be_nil
-      @env['rack.jpmobile'].ident_device.should be_nil
-      @env['rack.jpmobile'].ident_subscriber.should be_nil
+      expect(@env['rack.jpmobile'].position).to be_nil
+      expect(@env['rack.jpmobile'].areacode).to be_nil
+      expect(@env['rack.jpmobile'].serial_number).to be_nil
+      expect(@env['rack.jpmobile'].icc).to be_nil
+      expect(@env['rack.jpmobile'].ident).to be_nil
+      expect(@env['rack.jpmobile'].ident_device).to be_nil
+      expect(@env['rack.jpmobile'].ident_subscriber).to be_nil
     end
 
     it "#supports_cookie? などが false になること" do
-      @env['rack.jpmobile'].supports_cookie?.should be_falsey
+      expect(@env['rack.jpmobile'].supports_cookie?).to be_falsey
     end
 
     it "#imode_browser_versionが1.0になること" do
-      @env['rack.jpmobile'].imode_browser_version.should == '1.0'
+      expect(@env['rack.jpmobile'].imode_browser_version).to eq('1.0')
     end
   end
 
@@ -75,11 +75,11 @@ describe Jpmobile::Rack::MobileCarrier, "docomo" do
     end
 
     it "#supports_cookie? が true になること" do
-      @env['rack.jpmobile'].supports_cookie?.should be_truthy
+      expect(@env['rack.jpmobile'].supports_cookie?).to be_truthy
     end
 
     it "#imode_browser_versionが2.0になること" do
-      @env['rack.jpmobile'].imode_browser_version.should == '2.0'
+      expect(@env['rack.jpmobile'].imode_browser_version).to eq('2.0')
     end
   end
 
@@ -92,11 +92,11 @@ describe Jpmobile::Rack::MobileCarrier, "docomo" do
     end
 
     it "#supports_cookie? が true になること" do
-      @env['rack.jpmobile'].supports_cookie?.should be_truthy
+      expect(@env['rack.jpmobile'].supports_cookie?).to be_truthy
     end
 
     it "#imode_browser_versionが2.0になること" do
-      @env['rack.jpmobile'].imode_browser_version.should == '2.0'
+      expect(@env['rack.jpmobile'].imode_browser_version).to eq('2.0')
     end
   end
 
@@ -109,11 +109,11 @@ describe Jpmobile::Rack::MobileCarrier, "docomo" do
     end
 
     it "#supports_cookie? が true になること" do
-      @env['rack.jpmobile'].supports_cookie?.should be_truthy
+      expect(@env['rack.jpmobile'].supports_cookie?).to be_truthy
     end
 
     it "#imode_browser_versionが2.0になること" do
-      @env['rack.jpmobile'].imode_browser_version.should == '2.0LE'
+      expect(@env['rack.jpmobile'].imode_browser_version).to eq('2.0LE')
     end
   end
 
@@ -125,7 +125,7 @@ describe Jpmobile::Rack::MobileCarrier, "docomo" do
         "QUERY_STRING" => "AREACODE=00100&ACTN=OK")
       env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
-      env['rack.jpmobile'].areacode.should == "00100"
+      expect(env['rack.jpmobile'].areacode).to eq("00100")
     end
 
     it "位置情報も取得できること" do
@@ -135,10 +135,10 @@ describe Jpmobile::Rack::MobileCarrier, "docomo" do
         "QUERY_STRING" => "LAT=%2B35.00.35.600&LON=%2B135.41.35.600&GEO=wgs84&POSINFO=2&AREACODE=00100&ACTN=OK")
       env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
-      env['rack.jpmobile'].areacode.should == "00100"
+      expect(env['rack.jpmobile'].areacode).to eq("00100")
 
-      env['rack.jpmobile'].position.lat.should be_within(1e-7).of(35.00988889)
-      env['rack.jpmobile'].position.lon.should be_within(1e-7).of(135.6932222)
+      expect(env['rack.jpmobile'].position.lat).to be_within(1e-7).of(35.00988889)
+      expect(env['rack.jpmobile'].position.lon).to be_within(1e-7).of(135.6932222)
     end
   end
 
@@ -150,8 +150,8 @@ describe Jpmobile::Rack::MobileCarrier, "docomo" do
         "QUERY_STRING" => "lat=%2B35.00.35.600&lon=%2B135.41.35.600&geo=wgs84&x-acc=3")
       env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
-      env['rack.jpmobile'].position.lat.should be_within(1e-7).of(35.00988889)
-      env['rack.jpmobile'].position.lon.should be_within(1e-7).of(135.6932222)
+      expect(env['rack.jpmobile'].position.lat).to be_within(1e-7).of(35.00988889)
+      expect(env['rack.jpmobile'].position.lon).to be_within(1e-7).of(135.6932222)
     end
 
     # DoCoMo, 903i, GPS
@@ -164,8 +164,8 @@ describe Jpmobile::Rack::MobileCarrier, "docomo" do
         "QUERY_STRING" => "lat=%2B35.00.35.600&lon=%2B135.41.35.600&geo=WGS84&alt=%2B64.000&x-acc=1")
       env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
-      env['rack.jpmobile'].position.lat.should be_within(1e-7).of(35.00988889)
-      env['rack.jpmobile'].position.lon.should be_within(1e-7).of(135.6932222)
+      expect(env['rack.jpmobile'].position.lat).to be_within(1e-7).of(35.00988889)
+      expect(env['rack.jpmobile'].position.lon).to be_within(1e-7).of(135.6932222)
     end
   end
 
@@ -176,11 +176,11 @@ describe Jpmobile::Rack::MobileCarrier, "docomo" do
         'HTTP_USER_AGENT' => "DoCoMo/1.0/SO505iS/c20/TC/W30H16/serXXXXX000000")
       env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
-      env['rack.jpmobile'].serial_number.should == "XXXXX000000"
-      env['rack.jpmobile'].ident.should         == "XXXXX000000"
-      env['rack.jpmobile'].icc.should be_nil
-      env['rack.jpmobile'].ident_device.should  == "XXXXX000000"
-      env['rack.jpmobile'].ident_subscriber.should be_nil
+      expect(env['rack.jpmobile'].serial_number).to eq("XXXXX000000")
+      expect(env['rack.jpmobile'].ident).to         eq("XXXXX000000")
+      expect(env['rack.jpmobile'].icc).to be_nil
+      expect(env['rack.jpmobile'].ident_device).to  eq("XXXXX000000")
+      expect(env['rack.jpmobile'].ident_subscriber).to be_nil
     end
 
     it "FOMA で取得できること" do
@@ -189,11 +189,11 @@ describe Jpmobile::Rack::MobileCarrier, "docomo" do
         'HTTP_USER_AGENT' => "DoCoMo/2.0 D902i(c100;TB;W23H16;ser999999999999999;icc0000000000000000000f)")
       env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
-      env['rack.jpmobile'].serial_number.should    == "999999999999999"
-      env['rack.jpmobile'].icc.should              == "0000000000000000000f"
-      env['rack.jpmobile'].ident.should            == "0000000000000000000f"
-      env['rack.jpmobile'].ident_device.should     == "999999999999999"
-      env['rack.jpmobile'].ident_subscriber.should == "0000000000000000000f"
+      expect(env['rack.jpmobile'].serial_number).to    eq("999999999999999")
+      expect(env['rack.jpmobile'].icc).to              eq("0000000000000000000f")
+      expect(env['rack.jpmobile'].ident).to            eq("0000000000000000000f")
+      expect(env['rack.jpmobile'].ident_device).to     eq("999999999999999")
+      expect(env['rack.jpmobile'].ident_subscriber).to eq("0000000000000000000f")
     end
   end
 
@@ -205,7 +205,7 @@ describe Jpmobile::Rack::MobileCarrier, "docomo" do
         "REMOTE_ADDR" => "210.153.84.1")
       env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
-      env['rack.jpmobile'].valid_ip?.should be_truthy
+      expect(env['rack.jpmobile'].valid_ip?).to be_truthy
     end
 
     it "正しくないIPアドレス空間からのアクセスを判断できること" do
@@ -215,7 +215,7 @@ describe Jpmobile::Rack::MobileCarrier, "docomo" do
         "REMOTE_ADDR" => "127.0.0.1")
       env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
-      env['rack.jpmobile'].valid_ip?.should be_falsey
+      expect(env['rack.jpmobile'].valid_ip?).to be_falsey
     end
   end
 
@@ -226,12 +226,12 @@ describe Jpmobile::Rack::MobileCarrier, "docomo" do
         'HTTP_USER_AGENT' => "DoCoMo/1.0/SO506iC/c20/TB/W20H10")
       env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
-      env['rack.jpmobile'].display.browser_width.should  == 240
-      env['rack.jpmobile'].display.browser_height.should == 256
-      env['rack.jpmobile'].display.width.should          == 240
-      env['rack.jpmobile'].display.height.should         == 256
-      env['rack.jpmobile'].display.color?.should be_truthy
-      env['rack.jpmobile'].display.colors.should         == 262144
+      expect(env['rack.jpmobile'].display.browser_width).to  eq(240)
+      expect(env['rack.jpmobile'].display.browser_height).to eq(256)
+      expect(env['rack.jpmobile'].display.width).to          eq(240)
+      expect(env['rack.jpmobile'].display.height).to         eq(256)
+      expect(env['rack.jpmobile'].display.color?).to be_truthy
+      expect(env['rack.jpmobile'].display.colors).to         eq(262144)
     end
   end
 end

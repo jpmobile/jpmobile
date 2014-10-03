@@ -11,10 +11,10 @@ describe Jpmobile::Rack::MobileCarrier, "iphone" do
         'HTTP_USER_AGENT' => 'Mozilla/5.0 (iPhone; U; CPU iPhone OS 3_0 like Mac OS X; ja-jp) AppleWebKit/528.18 (KHTML, like Gecko) Version/4.0 Mobile/7A341 Safari/528.16')
       env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
-      env['rack.jpmobile'].class.should            == Jpmobile::Mobile::Iphone
-      env['rack.jpmobile'].position.should         be_nil
-      env['rack.jpmobile'].smart_phone?.should     be_truthy
-      env['rack.jpmobile'].supports_cookie?.should be_truthy
+      expect(env['rack.jpmobile'].class).to            eq(Jpmobile::Mobile::Iphone)
+      expect(env['rack.jpmobile'].position).to         be_nil
+      expect(env['rack.jpmobile'].smart_phone?).to     be_truthy
+      expect(env['rack.jpmobile'].supports_cookie?).to be_truthy
     end
   end
 
@@ -26,7 +26,7 @@ describe Jpmobile::Rack::MobileCarrier, "iphone" do
         "REMOTE_ADDR"=>"202.179.204.1")
       env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
-      env['rack.jpmobile'].valid_ip?.should be_falsey
+      expect(env['rack.jpmobile'].valid_ip?).to be_falsey
     end
   end
 end

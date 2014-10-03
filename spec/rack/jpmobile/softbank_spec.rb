@@ -11,14 +11,14 @@ describe Jpmobile::Rack::MobileCarrier, "softbank" do
         'HTTP_USER_AGENT' => "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1")
       env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
-      env['rack.jpmobile'].class.should            == Jpmobile::Mobile::Softbank
-      env['rack.jpmobile'].position.should be_nil
-      env['rack.jpmobile'].serial_number.should    == "000000000000000"
-      env['rack.jpmobile'].ident.should            == "000000000000000"
-      env['rack.jpmobile'].ident_device.should     == "000000000000000"
-      env['rack.jpmobile'].ident_subscriber.should be_nil
-      env['rack.jpmobile'].supports_cookie?.should be_truthy
-      env['rack.jpmobile'].smart_phone?.should     be_falsey
+      expect(env['rack.jpmobile'].class).to            eq(Jpmobile::Mobile::Softbank)
+      expect(env['rack.jpmobile'].position).to be_nil
+      expect(env['rack.jpmobile'].serial_number).to    eq("000000000000000")
+      expect(env['rack.jpmobile'].ident).to            eq("000000000000000")
+      expect(env['rack.jpmobile'].ident_device).to     eq("000000000000000")
+      expect(env['rack.jpmobile'].ident_subscriber).to be_nil
+      expect(env['rack.jpmobile'].supports_cookie?).to be_truthy
+      expect(env['rack.jpmobile'].smart_phone?).to     be_falsey
     end
 
     it "X_JPHONE_UID 付きの 910T を判別できること" do
@@ -28,12 +28,12 @@ describe Jpmobile::Rack::MobileCarrier, "softbank" do
         "HTTP_X_JPHONE_UID" => "aaaaaaaaaaaaaaaa")
       env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
-      env['rack.jpmobile'].serial_number.should    == "000000000000000"
-      env['rack.jpmobile'].x_jphone_uid.should     == "aaaaaaaaaaaaaaaa"
-      env['rack.jpmobile'].ident.should            == "aaaaaaaaaaaaaaaa"
-      env['rack.jpmobile'].ident_device.should     == "000000000000000"
-      env['rack.jpmobile'].ident_subscriber.should == "aaaaaaaaaaaaaaaa"
-      env['rack.jpmobile'].supports_cookie?.should be_truthy
+      expect(env['rack.jpmobile'].serial_number).to    eq("000000000000000")
+      expect(env['rack.jpmobile'].x_jphone_uid).to     eq("aaaaaaaaaaaaaaaa")
+      expect(env['rack.jpmobile'].ident).to            eq("aaaaaaaaaaaaaaaa")
+      expect(env['rack.jpmobile'].ident_device).to     eq("000000000000000")
+      expect(env['rack.jpmobile'].ident_subscriber).to eq("aaaaaaaaaaaaaaaa")
+      expect(env['rack.jpmobile'].supports_cookie?).to be_truthy
     end
 
     it "V903T を判別できること" do
@@ -42,10 +42,10 @@ describe Jpmobile::Rack::MobileCarrier, "softbank" do
         'HTTP_USER_AGENT' => "Vodafone/1.0/V903T/TJ001 Browser/VF-Browser/1.0 Profile/MIDP-2.0 Configuration/CLDC-1.1 Ext-J-Profile/JSCL-1.2.2 Ext-V-Profile/VSCL-2.0.0")
       env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
-      env['rack.jpmobile'].class.should            == Jpmobile::Mobile::Vodafone
-      env['rack.jpmobile'].position.should be_nil
-      env['rack.jpmobile'].ident.should be_nil
-      env['rack.jpmobile'].supports_cookie?.should be_truthy
+      expect(env['rack.jpmobile'].class).to            eq(Jpmobile::Mobile::Vodafone)
+      expect(env['rack.jpmobile'].position).to be_nil
+      expect(env['rack.jpmobile'].ident).to be_nil
+      expect(env['rack.jpmobile'].supports_cookie?).to be_truthy
     end
   end
 
@@ -57,11 +57,11 @@ describe Jpmobile::Rack::MobileCarrier, "softbank" do
         "QUERY_STRING" => "pos=N43.3.18.42E141.21.1.88&geo=wgs84&x-acr=1")
       env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
-      env['rack.jpmobile'].position.lat.should be_within(1e-7).of(43.05511667)
-      env['rack.jpmobile'].position.lon.should be_within(1e-7).of(141.3505222)
-      env['rack.jpmobile'].position.options['pos'].should   == "N43.3.18.42E141.21.1.88"
-      env['rack.jpmobile'].position.options['geo'].should   == "wgs84"
-      env['rack.jpmobile'].position.options['x-acr'].should == "1"
+      expect(env['rack.jpmobile'].position.lat).to be_within(1e-7).of(43.05511667)
+      expect(env['rack.jpmobile'].position.lon).to be_within(1e-7).of(141.3505222)
+      expect(env['rack.jpmobile'].position.options['pos']).to   eq("N43.3.18.42E141.21.1.88")
+      expect(env['rack.jpmobile'].position.options['geo']).to   eq("wgs84")
+      expect(env['rack.jpmobile'].position.options['x-acr']).to eq("1")
     end
   end
 
@@ -73,7 +73,7 @@ describe Jpmobile::Rack::MobileCarrier, "softbank" do
         "REMOTE_ADDR"=>"210.146.7.199")
       env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
-      env['rack.jpmobile'].valid_ip?.should be_truthy
+      expect(env['rack.jpmobile'].valid_ip?).to be_truthy
     end
 
     it "正しくないIPアドレス空間からのアクセスを判断できること" do
@@ -83,7 +83,7 @@ describe Jpmobile::Rack::MobileCarrier, "softbank" do
         "REMOTE_ADDR"=>"127.0.0.1")
       env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
-      env['rack.jpmobile'].valid_ip?.should be_falsey
+      expect(env['rack.jpmobile'].valid_ip?).to be_falsey
     end
   end
 
@@ -96,12 +96,12 @@ describe Jpmobile::Rack::MobileCarrier, "softbank" do
         "HTTP_X_JPHONE_COLOR"=>"C262144")
       env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
-      env['rack.jpmobile'].display.width.should           == 240
-      env['rack.jpmobile'].display.height.should          == 320
-      env['rack.jpmobile'].display.physical_width.should  == 240
-      env['rack.jpmobile'].display.physical_height.should == 320
-      env['rack.jpmobile'].display.color?.should be_truthy
-      env['rack.jpmobile'].display.colors.should          == 262144
+      expect(env['rack.jpmobile'].display.width).to           eq(240)
+      expect(env['rack.jpmobile'].display.height).to          eq(320)
+      expect(env['rack.jpmobile'].display.physical_width).to  eq(240)
+      expect(env['rack.jpmobile'].display.physical_height).to eq(320)
+      expect(env['rack.jpmobile'].display.color?).to be_truthy
+      expect(env['rack.jpmobile'].display.colors).to          eq(262144)
     end
 
     it "端末の画面情報が渡ってない場合に正しく動作すること" do
@@ -110,14 +110,14 @@ describe Jpmobile::Rack::MobileCarrier, "softbank" do
         'HTTP_USER_AGENT' => "Vodafone/1.0/V903T/TJ001 Browser/VF-Browser/1.0 Profile/MIDP-2.0 Configuration/CLDC-1.1 Ext-J-Profile/JSCL-1.2.2 Ext-V-Profile/VSCL-2.0.0")
       env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
-      env['rack.jpmobile'].display.width.should  be_nil
-      env['rack.jpmobile'].display.height.should be_nil
-      env['rack.jpmobile'].display.browser_width.should   be_nil
-      env['rack.jpmobile'].display.browser_height.should  be_nil
-      env['rack.jpmobile'].display.physical_width.should  be_nil
-      env['rack.jpmobile'].display.physical_height.should be_nil
-      env['rack.jpmobile'].display.color?.should be_nil
-      env['rack.jpmobile'].display.colors.should be_nil
+      expect(env['rack.jpmobile'].display.width).to  be_nil
+      expect(env['rack.jpmobile'].display.height).to be_nil
+      expect(env['rack.jpmobile'].display.browser_width).to   be_nil
+      expect(env['rack.jpmobile'].display.browser_height).to  be_nil
+      expect(env['rack.jpmobile'].display.physical_width).to  be_nil
+      expect(env['rack.jpmobile'].display.physical_height).to be_nil
+      expect(env['rack.jpmobile'].display.color?).to be_nil
+      expect(env['rack.jpmobile'].display.colors).to be_nil
     end
   end
 end

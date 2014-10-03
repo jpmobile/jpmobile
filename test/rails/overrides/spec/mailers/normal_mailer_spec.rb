@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe NormalMailer do
+describe NormalMailer, :type => :mailer do
   include Jpmobile::Util
 
   before(:each) do
@@ -15,19 +15,19 @@ describe NormalMailer do
     it "正常に送信できること" do
       email = NormalMailer.msg(@to, "題名", "本文").deliver
 
-      ActionMailer::Base.deliveries.size.should == 1
-      (email.to - @to).should be_empty
+      expect(ActionMailer::Base.deliveries.size).to eq(1)
+      expect(email.to - @to).to be_empty
     end
 
     it "UTF-8のままであること" do
       email = NormalMailer.msg(@to, @subject, @text).deliver
 
-      ActionMailer::Base.deliveries.size.should == 1
+      expect(ActionMailer::Base.deliveries.size).to eq(1)
 
       raw_mail = ascii_8bit(email.to_s)
-      raw_mail.should match(/UTF-8/i)
-      raw_mail.should match(Regexp.escape("=E6=97=A5=E6=9C=AC=E8=AA=9E=E9=A1=8C=E5=90=8D"))
-      raw_mail.should match(Regexp.escape([@text].pack("m").strip))
+      expect(raw_mail).to match(/UTF-8/i)
+      expect(raw_mail).to match(Regexp.escape("=E6=97=A5=E6=9C=AC=E8=AA=9E=E9=A1=8C=E5=90=8D"))
+      expect(raw_mail).to match(Regexp.escape([@text].pack("m").strip))
     end
   end
 end

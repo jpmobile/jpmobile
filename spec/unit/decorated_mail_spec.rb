@@ -34,7 +34,7 @@ describe "decorated mails" do
 
     it "top level content-type should be 'multipart/mixed'" do
       @mail.rearrange!
-      @mail.content_type.should match('multipart/mixed')
+      expect(@mail.content_type).to match('multipart/mixed')
     end
   end
 
@@ -52,7 +52,7 @@ describe "decorated mails" do
 
     it "top level content-type should be 'multipart/mixed'" do
       @mail.rearrange!
-      @mail.content_type.should match('multipart/mixed')
+      expect(@mail.content_type).to match('multipart/mixed')
     end
   end
 
@@ -70,7 +70,7 @@ describe "decorated mails" do
 
     it "top level content-type should be 'multipart/mixed'" do
       @mail.rearrange!
-      @mail.content_type.should match('multipart/mixed')
+      expect(@mail.content_type).to match('multipart/mixed')
     end
   end
 end

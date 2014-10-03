@@ -59,7 +59,7 @@ describe 'Jpmobile::Mobile' do
     [ %w[ Ddipocket ddipocket ] , true  ],
   ].each do |carrier, expected|
     it "#{carrier.first}##{carrier.last}? should be return #{expected}" do
-      Jpmobile::Mobile.const_get(carrier.first).new({}, {}).__send__("#{carrier.last}?").should == expected
+      expect(Jpmobile::Mobile.const_get(carrier.first).new({}, {}).__send__("#{carrier.last}?")).to eq(expected)
     end
   end
 end

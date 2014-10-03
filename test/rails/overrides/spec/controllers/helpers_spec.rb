@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe LinksController do
+describe LinksController, :type => :controller do
   render_views
 
   # 文字列 +str+ 中に含まれるリンクについて、
@@ -18,9 +18,9 @@ describe LinksController do
 
   it "get_position_link_to_がエラー無く終わるか" do
     request.user_agent = "Mozilla/5.0 (Windows; U; Windows NT 5.1; ja; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 ( .NET CLR 3.5.30729)"
-    lambda {
+    expect {
       get :show_all
-    }.should_not raise_error
+    }.not_to raise_error
   end
 
   context "docomo で" do
@@ -29,11 +29,11 @@ describe LinksController do
       get :link
       links = get_href_and_texts(response.body)
 
-      links.size.should == 1
+      expect(links.size).to eq(1)
       text, attrs, path, params = links.first
-      text.should == "STRING"
-      path.should == "http://test.host/links/link"
-      response.body.should =~ /lcs>/
+      expect(text).to eq("STRING")
+      expect(path).to eq("http://test.host/links/link")
+      expect(response.body).to match(/lcs>/)
     end
 
     it "docomo_utn_link_to が正しく出力されること" do
@@ -41,11 +41,11 @@ describe LinksController do
       get :docomo_utn
       links = get_href_and_texts(response.body)
 
-      links.size.should == 1
+      expect(links.size).to eq(1)
       text, attrs, path, params = links.first
-      text.should == "STRING"
-      path.should == "http://test.host/links/docomo_utn"
-      response.body.should =~ /utn>/
+      expect(text).to eq("STRING")
+      expect(path).to eq("http://test.host/links/docomo_utn")
+      expect(response.body).to match(/utn>/)
     end
 
     it "オープンiエリア取得用のリンクが正しく出力されること" do
@@ -53,14 +53,14 @@ describe LinksController do
       get :docomo_openiarea
       links = get_href_and_texts(response.body)
 
-      links.size.should == 1
+      expect(links.size).to eq(1)
       text, attrs, path, params = links.first
-      text.should == "STRING"
-      path.should == "http://w1m.docomo.ne.jp/cp/iarea"
-      params["ecode"].should   == "OPENAREACODE"
-      params["msn"].should     == "OPENAREAKEY"
-      params["posinfo"].should == "1"
-      params["nl"].should      == "http://test.host/links/docomo_openiarea"
+      expect(text).to eq("STRING")
+      expect(path).to eq("http://w1m.docomo.ne.jp/cp/iarea")
+      expect(params["ecode"]).to   eq("OPENAREACODE")
+      expect(params["msn"]).to     eq("OPENAREAKEY")
+      expect(params["posinfo"]).to eq("1")
+      expect(params["nl"]).to      eq("http://test.host/links/docomo_openiarea")
     end
 
     it "GPS取得用のリンクが正しく出力されること" do
@@ -68,11 +68,11 @@ describe LinksController do
       get :docomo_foma_gps
       links = get_href_and_texts(response.body)
 
-      links.size.should == 1
+      expect(links.size).to eq(1)
       text, attrs, path, params = links.first
-      text.should == "STRING"
-      path.should == "http://test.host/links/docomo_foma_gps"
-      response.body.should =~ /lcs>/
+      expect(text).to eq("STRING")
+      expect(path).to eq("http://test.host/links/docomo_foma_gps")
+      expect(response.body).to match(/lcs>/)
     end
   end
 

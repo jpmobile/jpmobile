@@ -18,7 +18,7 @@ def describe_mobile_with_ua(user_agent, charset, &block)
   end
 end
 
-describe "trans_sid functional" do
+describe "trans_sid functional", :type => :request do
   before(:each) do
     @user ||= User.create(:name => "hoge")
   end
@@ -27,12 +27,12 @@ describe "trans_sid functional" do
     it "で link_to の自動書き換えが行われない" do
       res = get_with_session(@controller, "link", @user_agent)
 
-      res.response.body.should =~ /<a href=\"\/.+?\/link\">linkto<\/a>/
+      expect(res.response.body).to match(/<a href=\"\/.+?\/link\">linkto<\/a>/)
     end
     it "で form の自動書き換えが行われない" do
       res = get_with_session(@controller, "form", @user_agent)
 
-      res.response.body.should =~ /<form accept-charset="#{@charset}" action=\"\/.+?\/form\"/
+      expect(res.response.body).to match(/<form accept-charset="#{@charset}" action=\"\/.+?\/form\"/)
     end
     it "で redirect の自動書き換えが行われない" do
       res = get_with_session(@controller, "redirect", @user_agent)
@@ -45,16 +45,16 @@ describe "trans_sid functional" do
     it "で link_to の自動書き換えが行われる" do
       res = get_with_session(@controller, "link", @user_agent)
 
-      res.response.body.should =~ /<a href=\"\/.+?\/link\?_session_id=[a-zA-Z0-9]{32}\">linkto<\/a>/
+      expect(res.response.body).to match(/<a href=\"\/.+?\/link\?_session_id=[a-zA-Z0-9]{32}\">linkto<\/a>/)
     end
     it "で form内にhiddenが差し込まれる" do
       res = get_with_session(@controller, "form", @user_agent)
-      res.response.body.should =~ /<input type=\"hidden\" name=\".+\" value=\"[a-zA-Z0-9]{32}\"/
+      expect(res.response.body).to match(/<input type=\"hidden\" name=\".+\" value=\"[a-zA-Z0-9]{32}\"/)
     end
     it "で form の自動書き換えが行われる" do
       res = get_with_session(@controller, "form", @user_agent)
 
-      res.response.body.should =~ /<form accept-charset="#{@charset}" action=\"\/.+?\/form\?_session_id=[a-zA-Z0-9]{32}\"/
+      expect(res.response.body).to match(/<form accept-charset="#{@charset}" action=\"\/.+?\/form\?_session_id=[a-zA-Z0-9]{32}\"/)
     end
     it "で redirect の自動書き換えが行われる" do
       res = get_with_session(@controller, "redirect", @user_agent)
@@ -66,12 +66,12 @@ describe "trans_sid functional" do
     it "で @user の link_to の自動書き換えが行われる" do
       res = get_with_session(@controller, "link_path", @user_agent)
 
-      res.response.body.should =~ /<a href=\"\/users\/1\?_session_id=[a-zA-Z0-9]{32}\">linkto<\/a>/
+      expect(res.response.body).to match(/<a href=\"\/users\/1\?_session_id=[a-zA-Z0-9]{32}\">linkto<\/a>/)
     end
     it "で @user の form の自動書き換えが行われる" do
       res = get_with_session(@controller, "form_path", @user_agent)
 
-      res.response.body.should =~ /<form accept-charset="#{@charset}" action=\"\/users\/1\?_session_id=[a-zA-Z0-9]{32}\"/
+      expect(res.response.body).to match(/<form accept-charset="#{@charset}" action=\"\/users\/1\?_session_id=[a-zA-Z0-9]{32}\"/)
     end
     it "で @path の redirect の自動書き換えが行われる" do
       res = get_with_session(@controller, "redirect_path", @user_agent)
@@ -83,12 +83,12 @@ describe "trans_sid functional" do
     it "で [:admin, @user] の link_to の自動書き換えが行われる" do
       res = get_with_session(@controller, "link_path_admin", @user_agent)
 
-      res.response.body.should =~ /<a href=\"\/admin\/users\/1\?_session_id=[a-zA-Z0-9]{32}\">linkto<\/a>/
+      expect(res.response.body).to match(/<a href=\"\/admin\/users\/1\?_session_id=[a-zA-Z0-9]{32}\">linkto<\/a>/)
     end
     it "で [:admin, @user] の form の自動書き換えが行われる" do
       res = get_with_session(@controller, "form_path_admin", @user_agent)
 
-      res.response.body.should =~ /<form accept-charset="#{@charset}" action=\"\/admin\/users\/1\?_session_id=[a-zA-Z0-9]{32}\"/
+      expect(res.response.body).to match(/<form accept-charset="#{@charset}" action=\"\/admin\/users\/1\?_session_id=[a-zA-Z0-9]{32}\"/)
     end
     it "で [:admin, @path] の redirect の自動書き換えが行われる" do
       res = get_with_session(@controller, "redirect_path_admin", @user_agent)
@@ -107,7 +107,7 @@ describe "trans_sid functional" do
     it "の trans_sid_mode は nil" do
       get "/#{@controller}/link", {}, {"HTTP_USER_AGENT" => @user_agent}
 
-      controller.trans_sid_mode.should be_nil
+      expect(controller.trans_sid_mode).to be_nil
     end
     it_should_behave_like "trans_sid が起動しないとき"
   end
@@ -122,7 +122,7 @@ describe "trans_sid functional" do
     it "の trans_sid_mode は :none" do
       get "/#{@controller}/link", {}, {"HTTP_USER_AGENT" => @user_agent}
 
-      controller.trans_sid_mode.should == :none
+      expect(controller.trans_sid_mode).to eq(:none)
     end
     it_should_behave_like "trans_sid が起動しないとき"
   end
@@ -137,7 +137,7 @@ describe "trans_sid functional" do
     it "の trans_sid_mode は :always" do
       get "/#{@controller}/link", {}, {"HTTP_USER_AGENT" => @user_agent}
 
-      controller.trans_sid_mode.should == :always
+      expect(controller.trans_sid_mode).to eq(:always)
     end
     it_should_behave_like "trans_sid が起動するとき"
   end
@@ -152,7 +152,7 @@ describe "trans_sid functional" do
     it "で redirect_to がエラーにならない" do
       res = get_with_session(@controller, "redirect", @user_agent)
 
-      res.response.should be_redirect
+      expect(res.response).to be_redirect
     end
   end
 
@@ -166,7 +166,7 @@ describe "trans_sid functional" do
     it "の trans_sid_mode は :mobile" do
       get "/#{@controller}/link", {}, {"HTTP_USER_AGENT" => @user_agent}
 
-      controller.trans_sid_mode.should == :mobile
+      expect(controller.trans_sid_mode).to eq(:mobile)
     end
   end
 
@@ -180,7 +180,7 @@ describe "trans_sid functional" do
     it "の trans_sid_mode は :always" do
       res = get_with_session(@controller, "link", @user_agent)
 
-      res.controller.trans_sid_mode.should == :always
+      expect(res.controller.trans_sid_mode).to eq(:always)
     end
     it_should_behave_like "trans_sid が起動しないとき"
   end

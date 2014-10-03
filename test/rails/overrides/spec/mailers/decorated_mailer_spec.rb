@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe DecoratedMailer do
+describe DecoratedMailer, :type => :mailer do
   include Jpmobile::Util
 
   before(:each) do
@@ -12,8 +12,8 @@ describe DecoratedMailer do
       DecoratedMailer.deco_mail(@to).deliver
 
       email = ActionMailer::Base.deliveries.first
-      email.header['Content-Type'].main_type.should == 'multipart'
-      email.header['Content-Type'].sub_type.should == 'mixed'
+      expect(email.header['Content-Type'].main_type).to eq('multipart')
+      expect(email.header['Content-Type'].sub_type).to eq('mixed')
     end
   end
 

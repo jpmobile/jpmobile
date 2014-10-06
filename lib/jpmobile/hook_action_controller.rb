@@ -2,25 +2,6 @@
 require 'jpmobile/lookup_context'
 
 module ActionController
-  class Base
-    include Jpmobile::Helpers
-
-    if Object.const_defined?(:GetText)
-      before_action :gettext_force_ja_for_mobile
-      # gettextが組み込まれている場合、携帯電話からのアクセスをjaロケールに強制する。
-      def gettext_force_ja_for_mobile
-        if request.mobile?
-          begin
-            ::GetText.locale = 'ja'
-          rescue NameError
-          end
-        end
-      end
-    end
-  end
-end
-
-module ActionController
   module Renderers
     def render_to_body_with_jpmobile(options)
       if Jpmobile.config.fallback_view_selector and

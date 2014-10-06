@@ -41,11 +41,11 @@ describe Jpmobile::Rack::ParamsFilter do
           req = Rack::Request.new(res[1])
           expect(req.params.size).to eq(4)
 
-          expect(req.params[ascii_8bit(@query_params.keys.first.dup)]).to eq(ascii_8bit(@query_params[@query_params.keys.first]))
-          expect(req.params[ascii_8bit(@query_params.keys.last.dup)]).to  eq(ascii_8bit(@query_params[@query_params.keys.last]))
+          expect(req.params[@query_params.keys.first.dup]).to eq(@query_params[@query_params.keys.first])
+          expect(req.params[@query_params.keys.last.dup]).to  eq(@query_params[@query_params.keys.last])
 
-          expect(req.params[ascii_8bit(@form_params.keys.first.dup)]).to eq(ascii_8bit(@form_params[@form_params.keys.first]))
-          expect(req.params[ascii_8bit(@form_params.keys.last.dup)]).to  eq(ascii_8bit(@form_params[@form_params.keys.last]))
+          expect(req.params[@form_params.keys.first.dup]).to eq(@form_params[@form_params.keys.first])
+          expect(req.params[@form_params.keys.last.dup]).to  eq(@form_params[@form_params.keys.last])
         end
       end
 
@@ -62,11 +62,11 @@ describe Jpmobile::Rack::ParamsFilter do
           req = Rack::Request.new(res[1])
           expect(req.params.size).to eq(4)
 
-          expect(req.params[ascii_8bit(@query_params.keys.first.dup)]).to eq(ascii_8bit(@query_params[@query_params.keys.first]))
-          expect(req.params[ascii_8bit(@query_params.keys.last.dup)]).to  eq(ascii_8bit(@query_params[@query_params.keys.last]))
+          expect(req.params[@query_params.keys.first.dup]).to eq(@query_params[@query_params.keys.first])
+          expect(req.params[@query_params.keys.last.dup]).to  eq(@query_params[@query_params.keys.last])
 
-          expect(req.params[ascii_8bit(@form_params.keys.first.dup)]).to eq(ascii_8bit(@form_params[@form_params.keys.first]))
-          expect(req.params[ascii_8bit(@form_params.keys.last.dup)]).to  eq(ascii_8bit(@form_params[@form_params.keys.last]))
+          expect(req.params[@form_params.keys.first.dup]).to eq(@form_params[@form_params.keys.first])
+          expect(req.params[@form_params.keys.last.dup]).to  eq(@form_params[@form_params.keys.last])
         end
       end
     end
@@ -94,11 +94,11 @@ describe Jpmobile::Rack::ParamsFilter do
           req = Rack::Request.new(res[1])
           expect(req.params.size).to eq(4)
 
-          expect(req.params[ascii_8bit(@query_params.keys.first.dup)]).to eq(ascii_8bit(@query_params[@query_params.keys.first]))
-          expect(req.params[ascii_8bit(@query_params.keys.last.dup)]).to  eq(ascii_8bit(@query_params[@query_params.keys.last]))
+          expect(req.params[@query_params.keys.first.dup]).to eq(@query_params[@query_params.keys.first])
+          expect(req.params[@query_params.keys.last.dup]).to  eq(@query_params[@query_params.keys.last])
 
-          expect(req.params[ascii_8bit(@form_params.keys.first.dup)]).to eq(ascii_8bit(@form_params[@form_params.keys.first]))
-          expect(req.params[ascii_8bit(@form_params.keys.last.dup)]).to  eq(ascii_8bit(@form_params[@form_params.keys.last]))
+          expect(req.params[@form_params.keys.first.dup]).to eq(@form_params[@form_params.keys.first])
+          expect(req.params[@form_params.keys.last.dup]).to  eq(@form_params[@form_params.keys.last])
         end
       end
     end
@@ -121,8 +121,8 @@ describe Jpmobile::Rack::ParamsFilter do
         req = Rack::Request.new(res[1])
         expect(req.params.size).to eq(2)
 
-        expect(req.params["hoge"]).to eq(ascii_8bit("\356\230\276"))
-        expect(req.params["foo"]).to  eq(ascii_8bit("\356\231\200"))
+        expect(req.params["hoge"]).to eq("\356\230\276")
+        expect(req.params["foo"]).to  eq("\356\231\200")
       end
     end
 
@@ -142,8 +142,8 @@ describe Jpmobile::Rack::ParamsFilter do
         req = Rack::Request.new(res[1])
         expect(req.params.size).to eq(2)
 
-        expect(req.params["hoge"]).to eq(ascii_8bit("\356\222\201"))
-        expect(req.params["foo"]).to  eq(ascii_8bit("\356\224\242"))
+        expect(req.params["hoge"]).to eq("\356\222\201")
+        expect(req.params["foo"]).to  eq("\356\224\242")
       end
     end
 
@@ -163,8 +163,8 @@ describe Jpmobile::Rack::ParamsFilter do
         req = Rack::Request.new(res[1])
         expect(req.params.size).to eq(2)
 
-        expect(req.params["hoge"]).to eq(ascii_8bit("\xef\x80\x81"))
-        expect(req.params["foo"]).to  eq(ascii_8bit("\xef\x88\x9c"))
+        expect(req.params["hoge"]).to eq("\xef\x80\x81")
+        expect(req.params["foo"]).to  eq("\xef\x88\x9c")
       end
     end
   end

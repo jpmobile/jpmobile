@@ -32,7 +32,7 @@ describe "trans_sid functional", :type => :request do
     it "で form の自動書き換えが行われない" do
       res = get_with_session(@controller, "form", @user_agent)
 
-      expect(res.response.body).to match(/<form accept-charset="#{@charset}" action=\"\/.+?\/form\"/)
+      expect(res.response.body).to match(/<form.*action=\"\/.+?\/form\".*accept-charset="#{@charset}"/)
     end
     it "で redirect の自動書き換えが行われない" do
       res = get_with_session(@controller, "redirect", @user_agent)
@@ -54,7 +54,7 @@ describe "trans_sid functional", :type => :request do
     it "で form の自動書き換えが行われる" do
       res = get_with_session(@controller, "form", @user_agent)
 
-      expect(res.response.body).to match(/<form accept-charset="#{@charset}" action=\"\/.+?\/form\?_session_id=[a-zA-Z0-9]{32}\"/)
+      expect(res.response.body).to match(/<form.*action=\"\/.+?\/form\?_session_id=[a-zA-Z0-9]{32}\".*accept-charset="#{@charset}"/)
     end
     it "で redirect の自動書き換えが行われる" do
       res = get_with_session(@controller, "redirect", @user_agent)
@@ -71,7 +71,7 @@ describe "trans_sid functional", :type => :request do
     it "で @user の form の自動書き換えが行われる" do
       res = get_with_session(@controller, "form_path", @user_agent)
 
-      expect(res.response.body).to match(/<form accept-charset="#{@charset}" action=\"\/users\/1\?_session_id=[a-zA-Z0-9]{32}\"/)
+      expect(res.response.body).to match(/<form.*action=\"\/users\/1\?_session_id=[a-zA-Z0-9]{32}\".*accept-charset="#{@charset}"/)
     end
     it "で @path の redirect の自動書き換えが行われる" do
       res = get_with_session(@controller, "redirect_path", @user_agent)
@@ -88,7 +88,7 @@ describe "trans_sid functional", :type => :request do
     it "で [:admin, @user] の form の自動書き換えが行われる" do
       res = get_with_session(@controller, "form_path_admin", @user_agent)
 
-      expect(res.response.body).to match(/<form accept-charset="#{@charset}" action=\"\/admin\/users\/1\?_session_id=[a-zA-Z0-9]{32}\"/)
+      expect(res.response.body).to match(/<form.*action=\"\/admin\/users\/1\?_session_id=[a-zA-Z0-9]{32}\".* accept-charset="#{@charset}"/)
     end
     it "で [:admin, @path] の redirect の自動書き換えが行われる" do
       res = get_with_session(@controller, "redirect_path_admin", @user_agent)

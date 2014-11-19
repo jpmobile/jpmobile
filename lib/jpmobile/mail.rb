@@ -5,15 +5,14 @@ module Mail
   # encoding patch
   Ruby19.class_eval do
     def self.b_value_decode(str, encoding = nil)
-      match = str.match(/\=\?(.+)?\?[Bb]\?(.+)?\?\=/m)
+      match = str.match(/\=\?(.+)?\?[Bb]\?(.*)\?\=/m)
       if match
-        encoding = match[1]
+        charset = match[1]
         str = self.decode_base64(match[2])
-        str.force_encoding(pick_encoding(encoding))
+        str = charset_encoder.encode(str, charset)
       end
-      # if str contains some emoticon, the following line raises Encoding error
-      str.encode("utf-8", :invalid => :replace, :replace => "") rescue Jpmobile::Util.ascii_8bit(str)
-      # decoded.valid_encoding? ? decoded : decoded.encode("utf-16le", :invalid => :replace, :replace => "").encode("utf-8")
+      decoded = str.encode(Encoding::UTF_8, :invalid => :replace, :replace => "") rescue Jpmobile::Util.ascii_8bit(str)
+      # decoded.valid_encoding? ? decoded : decoded.encode(Encoding::UTF_16LE, :invalid => :replace, :replace => "").encode(Encoding::UTF_8)
     end
 
     # change encoding
@@ -67,6 +66,7 @@ module Mail
 
     def parse_message_with_jpmobile
       header_part, body_part = raw_source.lstrip.split(/#{CRLF}#{CRLF}|#{CRLF}#{WSP}*#{CRLF}(?!#{WSP})/m, 2)
+      # header_part, body_part = raw_source.lstrip.split(HEADER_SEPARATOR, 2)
 
       self.header = header_part
 
@@ -255,7 +255,8 @@ module Mail
         self.header[:subject].charset = subject_charset unless subject_charset.blank?
 
         if @mobile
-          subject_value = Encodings.value_decode(self.header[:subject].value)
+          subject_value = Jpmobile::Util.ascii_8bit(self.header[:subject].value.dup)
+          subject_value = Encodings.value_decode(subject_value)
           subject_converting_encoding = Jpmobile::Util.detect_encoding(subject_value)
           v = @mobile.to_mail_internal(subject_value, subject_converting_encoding)
           self.header[:subject].value = Jpmobile::Util.force_encode(v, @mobile.mail_charset(subject_charset), Jpmobile::Util::UTF8)

@@ -157,7 +157,7 @@ module Jpmobile
           end
         elsif element.node_name == "input" and ["submit", "reset", "button"].include?(element["type"])
           # テキスト以外でもボタンの value は変換
-          element["value"] = filter(:zenkaku, element["value"])
+          element["value"] = filter(:hankaku, element["value"])
         elsif element.children.any?
           # 子要素があれば再帰的に変換
           element = convert_text_content(element)

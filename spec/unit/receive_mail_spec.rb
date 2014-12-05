@@ -362,6 +362,16 @@ describe "Jpmobile::Mail#receive" do
         expect(@mail.body.to_s).to eq("テスト本文\n\n")
       end
     end
+
+    context "iPhone" do
+      before(:each) do
+        @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "email-fixtures/iphone-jis.eml")).read)
+      end
+
+      it "body should be parsed correctly" do
+        expect(@mail.body.to_s).to eq("(=ﾟωﾟ)ﾉ\n\n\n")
+      end
+    end
   end
 
   describe 'bounced mail' do

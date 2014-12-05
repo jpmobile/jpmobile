@@ -151,4 +151,13 @@ describe Jpmobile::Util do
       expect(correct_encoding(str).encoding).to eq(Encoding::UTF_8)
     end
   end
+
+  describe 'guess_encoding' do
+    it 'guesses encoding correclty' do
+      expect(guess_encoding('テスト')).to eq Encoding::UTF_8
+      expect(guess_encoding("\x83\x65\x83\x58\x83\x67")).to eq Encoding::Shift_JIS
+      expect(guess_encoding("\e\x24\x42\x25\x46\x25\x39\x25\x48\e\x28\x42")).to eq Encoding::ISO2022_JP
+      expect(guess_encoding("\e\x28\x49\x43\x3D\x44\e\x28\x42")).to eq Encoding::CP50220
+    end
+  end
 end

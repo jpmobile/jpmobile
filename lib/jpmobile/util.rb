@@ -429,18 +429,28 @@ module Jpmobile
     def check_charset(str, charset)
       if Object.const_defined?(:Encoding)
         # use NKF.guess
-        ::Encoding.compatible?(NKF.guess(str), ::Encoding.find(charset))
+        ::Encoding.compatible?(guess_encoding(str), ::Encoding.find(charset))
       else
         true
       end
     end
 
     def correct_encoding(str)
-      if str.encoding != ::Encoding::ASCII_8BIT and NKF.guess(str) != str.encoding
-        str.force_encoding(NKF.guess(str))
+      if guess_encoding(str) != str.encoding
+        str.force_encoding(guess_encoding(str))
       end
 
       str
+    end
+
+    def guess_encoding(str)
+      encoding = NKF.guess(str)
+      # ISO-2022-JPにおいて、JIS X201半角カナエスケープシーケンスが含まれていたらCP50220とみなす
+      if encoding == ::Encoding::ISO2022_JP && str.dup.force_encoding(BINARY).include?("\e(I")
+        ::Encoding::CP50220
+      else
+        encoding
+      end
     end
   end
 end

@@ -275,6 +275,12 @@ describe "Jpmobile::Mail#receive" do
         @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "email-fixtures/iphone-message.eml")).read)
         expect(@mail.encoded).to match(Regexp.escape("%[\e$B1`;yL>\e(B]%\e$B$N\e(B%[\e$BJ]8n<TL>\e(B]%"))
       end
+
+      it 'should decode cp932-encoded mail correctly' do
+        @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "email-fixtures/iphone-cp932.eml")).read)
+        expect(@mail.subject).to eq 'Re: 【NKSC】test'
+        expect(@mail.body.to_s).to eq 'テストです。㈱'
+      end
     end
 
     context 'From iPad' do

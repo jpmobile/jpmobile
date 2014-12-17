@@ -55,9 +55,18 @@ describe 'Jpmobile::Email' do
   end
 
   describe "japanese_mail_address_regexp" do
-    it "#detect_from_mail_header should return Jpmobile::Mobile::AbstractMobile when hoge.jp" do
-      Jpmobile::Email.japanese_mail_address_regexp = Regexp.new(/\.jp[^a-zA-Z\.\-]/)
+    before do
+      Jpmobile::Email.japanese_mail_address_regexp = Regexp.new(/\.jp(?:[^a-zA-Z\.\-]|$)/)
+    end
+
+    it "#detect_from_mail_header should return Jpmobile::Mobile::AbstractMobile when the header contains .jp address" do
       expect(Jpmobile::Email.detect_from_mail_header('From: Hoge Fuga <fuga@hoge.jp>')).to eq(Jpmobile::Mobile::AbstractMobile)
+      expect(Jpmobile::Email.detect_from_mail_header('From: fuga@hoge.jp')).to eq(Jpmobile::Mobile::AbstractMobile)
+    end
+
+    it "#detect_from_mail_header should return nil when the header does not contain .jp address" do
+      expect(Jpmobile::Email.detect_from_mail_header('From: Hoge Fuga <fuga@example.com>')).to eq(nil)
+      expect(Jpmobile::Email.detect_from_mail_header('From: fuga@example.com')).to eq(nil)
     end
   end
 

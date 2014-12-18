@@ -241,10 +241,8 @@ module Mail
 
       # override charset
       if self.header[:content_type]
-        content_type_charset = Jpmobile::Util.extract_charset(self.header[:content_type].value)
-        @charset = content_type_charset
-        unless content_type_charset.blank?
-          self.header[:content_type].parameters[:charset] = @charset
+        @charset = header[:content_type].parameters[:charset] || ''
+        unless @charset.blank?
           @mobile_main_type = self.header[:content_type].main_type
         end
       end

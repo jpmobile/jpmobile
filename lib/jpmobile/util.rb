@@ -250,7 +250,17 @@ module Jpmobile
         s.force_encoding(from) unless s.encoding == from_enc
       end
 
-      s.encode(to)
+      begin
+        s.encode(to)
+      rescue ::Encoding::InvalidByteSequenceError => e
+        # ISO-2022-JPにおいて、JIS X201半角カナエスケープシーケンスが含まれていたらCP50220とみなす
+        if s.encoding == ::Encoding::ISO2022_JP && s.dup.force_encoding(::Encoding::ASCII_8BIT).include?("\e(I")
+          s.force_encoding(::Encoding::CP50220)
+          retry
+        else
+          raise e
+        end
+      end
     end
 
     def set_encoding(str, encoding)
@@ -345,29 +355,6 @@ module Jpmobile
       _extract_charset = Jpmobile::Util.extract_charset(_str)
       charset = _extract_charset unless _extract_charset.blank? or _extract_charset == charset
       Jpmobile::Util.set_encoding(_str, charset)
-    end
-
-    def check_charset(str, charset)
-      # use NKF.guess
-      ::Encoding.compatible?(guess_encoding(str), ::Encoding.find(charset))
-    end
-
-    def correct_encoding(str)
-      if guess_encoding(str) != str.encoding
-        str.force_encoding(guess_encoding(str))
-      end
-
-      str
-    end
-
-    def guess_encoding(str)
-      encoding = NKF.guess(str)
-      # ISO-2022-JPにおいて、JIS X201半角カナエスケープシーケンスが含まれていたらCP50220とみなす
-      if encoding == ::Encoding::ISO2022_JP && str.dup.force_encoding(BINARY).include?("\e(I")
-        ::Encoding::CP50220
-      else
-        encoding
-      end
     end
   end
 end

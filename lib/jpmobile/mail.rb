@@ -267,10 +267,6 @@ module Mail
           @body_part_jpmobile = Jpmobile::Util.decode(@body_part_jpmobile, self.content_transfer_encoding, @charset)
           self.content_transfer_encoding = @mobile.class::MAIL_CONTENT_TRANSFER_ENCODING
         end
-        unless Jpmobile::Util.check_charset(@body_part_jpmobile, @charset)
-          @body_part_jpmobile = Jpmobile::Util.correct_encoding(@body_part_jpmobile)
-          @charset            = @body_part_jpmobile.encoding.to_s
-        end
         @body_part_jpmobile = @mobile.decode_transfer_encoding(@body_part_jpmobile, @charset)
       end
     end

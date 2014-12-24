@@ -36,7 +36,7 @@ module Mail
         header['subject'].mobile = @mobile if header['subject']
         header['from'].mobile    = @mobile if header['from']
         header['to'].mobile      = @mobile if header['to']
-        self.charset             = @mobile.mail_charset
+        self.charset             = @mobile.mail_charset unless multipart?
 
         ready_to_send!
 
@@ -113,7 +113,6 @@ module Mail
 
         if @body.multipart?
           @body.parts.each do |p|
-            p.charset = @mobile.mail_charset(p.charset)
             p.mobile  = @mobile
           end
         end
@@ -130,6 +129,10 @@ module Mail
       separate_parts_without_jpmobile
     end
 
+    def add_charset_with_jpmobile
+      add_charset_without_jpmobile unless multipart? && @mobile
+    end
+
     alias_method :encoded_without_jpmobile, :encoded
     alias_method :encoded, :encoded_with_jpmobile
 
@@ -141,6 +144,9 @@ module Mail
 
     alias_method :separate_parts_without_jpmobile, :separate_parts
     alias_method :separate_parts, :separate_parts_with_jpmobile
+
+    alias_method :add_charset_without_jpmobile, :add_charset
+    alias_method :add_charset, :add_charset_with_jpmobile
 
 # -- docomo
 # multipart/mixed

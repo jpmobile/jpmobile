@@ -83,23 +83,48 @@ describe "Jpmobile::Mail#receive" do
     end
 
     describe "Docomo" do
-      before(:each) do
-        @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "../../test/rails/overrides/spec/fixtures/mobile_mailer/docomo-gmail-sjis.eml")).read)
+      context "with sjis decomail" do
+        before(:each) do
+          @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "../../test/rails/overrides/spec/fixtures/mobile_mailer/docomo-gmail-sjis.eml")).read)
+        end
+
+        it "subject should be parsed correctly" do
+          expect(@mail.subject).to eq("テスト&#xe6ec;")
+        end
+
+        it "body should be parsed correctly" do
+          expect(@mail.body.parts.size).to eq(1)
+          @mail.body.parts.first.parts.size == 2
+          expect(@mail.body.parts.first.parts.first.body).to match("テストです&#xe72d;")
+          expect(@mail.body.parts.first.parts.last.body.raw_source).to match("テストです&#xe72d;")
+        end
+
+        it "should encode correctly" do
+          expect(@mail.to_s).to match(Regexp.escape("g2WDWINn+ZE"))
+        end
+
+        it "does not cause double-conversion on reparsing" do
+          @reparsed = Mail.new(@mail.to_s)
+          expect(@reparsed.to_s).to match(Regexp.escape("g2WDWINn+ZE"))
+          expect(@reparsed.body.parts.first.parts.first.body).to match("テストです&#xe72d;")
+        end
       end
 
-      it "subject should be parsed correctly" do
-        expect(@mail.subject).to eq("テスト&#xe6ec;")
-      end
+      context "with jis decomail" do
+        before(:each) do
+          @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "email-fixtures/docomo-decomail.eml")).read)
+        end
 
-      it "body should be parsed correctly" do
-        expect(@mail.body.parts.size).to eq(1)
-        @mail.body.parts.first.parts.size == 2
-        expect(@mail.body.parts.first.parts.first.body).to match("テストです&#xe72d;")
-        expect(@mail.body.parts.first.parts.last.body.raw_source).to match("テストです&#xe72d;")
-      end
+        it "does not contain charset within multipart Content-Type" do
+          expect(@mail.to_s.scan(/Content-Type:\s+multipart(?:.+;\r\n)*.+[^;]\r\n/)).
+            to satisfy{|matches| matches.all?{|type| !type.include?('charset')}}
+        end
 
-      it "should encode correctly" do
-        expect(@mail.to_s).to match(Regexp.escape("g2WDWINn+ZE"))
+        it "does not cause double-conversion on reparsing" do
+          @reparsed = Mail.new(@mail.to_s)
+          expect(@reparsed.to_s).to match(Regexp.escape("g2WDWINn"))
+          expect(@reparsed.parts.first.parts.first.parts.first.body.decoded).to match("テストです")
+        end
       end
     end
 
@@ -205,6 +230,20 @@ describe "Jpmobile::Mail#receive" do
       it "should encode body correctly" do
         @mail.body = "会議が開催&#xe646;"
         expect(@mail.to_s).to match(sjis_regexp(sjis("\x89\xEF\x8Bc\x82\xAA\x8AJ\x8D\xC3\xF8\xA7")))
+      end
+    end
+
+    context "JIS mail" do
+      before(:each) do
+        @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "email-fixtures/docomo-jis.eml")).read)
+      end
+
+      it "subject should be parsed correctly" do
+        expect(@mail.subject).to eq("テスト")
+      end
+
+      it "body should be parsed correctly" do
+        expect(@mail.body.to_s).to eq("テスト本文\n\n")
       end
     end
   end
@@ -338,44 +377,44 @@ describe "Jpmobile::Mail#receive" do
         expect(@mail.to_s).to match(sjis_regexp(utf8_to_sjis("会議が開催") + sjis("\xf7\xdf")))
       end
     end
-  end
 
-  describe "Softbank blank-mail" do
-    before(:each) do
-      @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "email-fixtures/softbank-blank.eml")).read)
-    end
-
-    it "subject should be parsed correctly" do
-      expect(@mail.subject).to be_blank
-    end
-
-    it "body should be parsed correctly" do
-      expect(@mail.body.to_s).to be_blank
-    end
-  end
-
-  describe "JIS mail" do
-    context "Docomo" do
+    describe "blank-mail" do
       before(:each) do
-        @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "email-fixtures/docomo-jis.eml")).read)
+        @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "email-fixtures/softbank-blank.eml")).read)
       end
 
       it "subject should be parsed correctly" do
-        expect(@mail.subject).to eq("テスト")
+        expect(@mail.subject).to be_blank
       end
 
       it "body should be parsed correctly" do
-        expect(@mail.body.to_s).to eq("テスト本文\n\n")
+        expect(@mail.body.to_s).to be_blank
       end
     end
+  end
 
-    context "iPhone" do
+  describe "iPhone" do
+    context "JIS mail" do
       before(:each) do
         @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "email-fixtures/iphone-jis.eml")).read)
       end
 
       it "body should be parsed correctly" do
         expect(@mail.body.to_s).to eq("(=ﾟωﾟ)ﾉ\n\n\n")
+      end
+    end
+
+    context "when the mail contains UTF-8 emojis" do
+      before(:each) do
+        @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "email-fixtures/iphone-unicode-emoji.eml")).read)
+      end
+
+      it "subject should be parsed correctly" do
+        expect(@mail.subject).to eq("絵文字\u{1F385}")
+      end
+
+      it "body should be parsed correctly" do
+        expect(@mail.body.to_s).to eq("\u{1F384}\u2763")
       end
     end
   end

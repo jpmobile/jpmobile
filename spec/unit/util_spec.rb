@@ -79,6 +79,16 @@ describe Jpmobile::Util do
     expect(jis_to_utf8("JIS\rSAMPLE\nTEXT\r\n")).to eq(utf8("JIS\nSAMPLE\nTEXT\n"))
   end
 
+  describe '#force_encode' do
+    it 'converts ISO-2022-JP string which contains halfwidth-kana' do
+      expect(force_encode("\e\x28\x49\x43\x3D\x44\e\x28\x42".force_encoding('ISO-2022-JP'), 'iso-2022-jp', 'UTF-8')).to eq 'ﾃｽﾄ'
+    end
+
+    it 'does not enter infinite loop on retry' do
+      expect{ force_encode("\e\x28\x49\x9a\x43\x3D\x44\e\x28\x42".force_encoding('ISO-2022-JP'), 'iso-2022-jp', 'UTF-8') }.to raise_error ::Encoding::InvalidByteSequenceError
+    end
+  end
+
   it "fold_textでUTF-8の日本語文字列が指定文字数で折り返された配列で返ること" do
     expect(fold_text('長い日本語の題名で折り返されるかようにするには事前に分割していないとダメなことがわかりましたよ', 15)).to eq([
       '長い日本語の題名で折り返される',
@@ -130,34 +140,6 @@ describe Jpmobile::Util do
           0x1F354            => 0xE673})
       expect(hash[0x3013]).to eq([0x1F1E8, 0x1F1F3])
       expect(hash[0xE6FB]).to eq(0x1F526)
-    end
-  end
-
-  describe 'check_charset' do
-    it 'returns true if compatible' do
-      str = 'ABC'.force_encoding('ASCII-8BIT')
-      expect(check_charset(str, 'UTF-8')).to be_truthy
-    end
-
-    it 'returns false if incompatible' do
-      str = '再現'.encode('ISO-2022-JP')
-      expect(check_charset(str, 'UTF-8')).to be_falsey
-    end
-  end
-
-  describe 'correct_encoding' do
-    it 'updates encoding correctly' do
-      str = '再現'.force_encoding('ISO-2022-JP')
-      expect(correct_encoding(str).encoding).to eq(Encoding::UTF_8)
-    end
-  end
-
-  describe 'guess_encoding' do
-    it 'guesses encoding correclty' do
-      expect(guess_encoding('テスト')).to eq Encoding::UTF_8
-      expect(guess_encoding("\x83\x65\x83\x58\x83\x67")).to eq Encoding::Shift_JIS
-      expect(guess_encoding("\e\x24\x42\x25\x46\x25\x39\x25\x48\e\x28\x42")).to eq Encoding::ISO2022_JP
-      expect(guess_encoding("\e\x28\x49\x43\x3D\x44\e\x28\x42")).to eq Encoding::CP50220
     end
   end
 end

@@ -417,6 +417,20 @@ describe "Jpmobile::Mail#receive" do
         expect(@mail.body.to_s).to eq("\u{1F384}\u2763")
       end
     end
+
+    context "when the mail contains circled-numbers" do
+      before(:each) do
+        @mail = Mail.new(open(File.join(File.expand_path(File.dirname(__FILE__)), "email-fixtures/iphone-circled-numbers-in-jis.eml")).read)
+      end
+
+      it "subject should be parsed correctly" do
+        expect(@mail.subject).to eq("テスト①")
+      end
+
+      it "body should be parsed correctly" do
+        expect(@mail.body.to_s).to eq("丸数字のテストです②ⅱ\n\n")
+      end
+    end
   end
 
   describe 'bounced mail' do

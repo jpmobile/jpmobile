@@ -252,9 +252,9 @@ module Jpmobile
 
       begin
         s.encode(to)
-      rescue ::Encoding::InvalidByteSequenceError => e
-        # ISO-2022-JPにおいて、JIS X201半角カナエスケープシーケンスが含まれていたらCP50220とみなす
-        if s.encoding == ::Encoding::ISO2022_JP && s.dup.force_encoding(::Encoding::ASCII_8BIT).include?("\e(I")
+      rescue ::Encoding::InvalidByteSequenceError, ::Encoding::UndefinedConversionError => e
+        # iPhone MailがISO-2022-JPに半角カナや①などのCP50220文字を含めてくる問題対策
+        if s.encoding == ::Encoding::ISO2022_JP
           s.force_encoding(::Encoding::CP50220)
           retry
         else

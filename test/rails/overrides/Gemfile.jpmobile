@@ -1,0 +1,16 @@
+gem 'geokit'
+
+gem 'jpmobile',             path: './vendor/jpmobile'
+gem 'jpmobile-terminfo',    path: './vendor/jpmobile-terminfo'
+gem 'jpmobile-ipaddresses', path: './vendor/jpmobile-ipaddresses'
+
+gem 'activerecord-session_store'
+
+# Bundle gems for certain environments:
+group :development, :test do
+  gem "rspec"
+  gem "rspec-rails"
+  gem 'capybara'
+  gem 'capybara-webkit'
+  gem 'pry'
+end

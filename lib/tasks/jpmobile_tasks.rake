@@ -84,6 +84,16 @@ END
       end
     end
 
+    unless skip
+      # add gems for jpmobile spec
+      config_path = File.join(rails_root, 'Gemfile')
+      File.open(config_path, 'a+') do |file|
+        file.write <<-END
+instance_eval File.read(File.expand_path(__FILE__) + '.jpmobile')
+END
+      end
+    end
+
     # run tests in rails
     cd rails_root
     ruby "-S bundle install"

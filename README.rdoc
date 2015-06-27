@@ -3,6 +3,7 @@
 == jpmobileとは
 携帯電話特有の機能を Rails 4.0 や Rack middleware で利用するためのプラグイン。
 以下の機能を備える。
+jpmobileへ開発貢献してくれる方は{こちら}[./CONTRIBUTING.md]
 
 * 携帯電話のキャリア判別
 * 端末位置情報の取得

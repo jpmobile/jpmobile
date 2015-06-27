@@ -3,7 +3,6 @@
 == jpmobileとは
 携帯電話特有の機能を Rails 4.0 や Rack middleware で利用するためのプラグイン。
 以下の機能を備える。
-jpmobileへ開発貢献してくれる方は{こちら}[./CONTRIBUTING.md]
 
 * 携帯電話のキャリア判別
 * 端末位置情報の取得
@@ -289,17 +288,8 @@ trans_sid を使用する際には、例えば config/initializers/session_store
 * オプションに :decorated => true を追加すると、各キャリアのデコメに適したフォーマットで送信します。
   * ただし docomo/SoftBank でテスト出来ていないため、実験版とします。
 
-== テストに必要なgemパッケージ
-テストを実行するためには以下のgemパッケージが必要です。
-* rails (include rack)
-* sqlite3-ruby
-* nokogiri
-* rspec
-* rspec-rails
-* rspec-fixture
-* rack-test
-* mocha
-* geokit
+== jpmobileの開発方法 ==
+jpmobileを開発するひとはこちらへ{CONTRIBUTING.md}[./CONTRIBUTING.md]
 
 == リンク
 

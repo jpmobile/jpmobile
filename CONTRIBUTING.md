@@ -8,7 +8,7 @@ jpmobile-ipaddressesとjpmobile-terminfoのgemをインストールしていな�
 - `git clone git@github.com:jpmobile/jpmobile-ipaddresses.git`
 - `git clone git@github.com:jpmobile/jpmobile-terminfo.git`
 
-== テストに必要なgemパッケージ
+## テストに必要なgemパッケージ
 テストを実行するためには以下のgemパッケージが必要です。
 * rails (include rack)
 * sqlite3

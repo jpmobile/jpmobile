@@ -288,8 +288,9 @@ trans_sid を使用する際には、例えば config/initializers/session_store
 * オプションに :decorated => true を追加すると、各キャリアのデコメに適したフォーマットで送信します。
   * ただし docomo/SoftBank でテスト出来ていないため、実験版とします。
 
-== jpmobileの開発方法 ==
-jpmobileを開発するひとはこちらへ{CONTRIBUTING.md}[./CONTRIBUTING.md]
+== jpmobileの開発方法
+
+jpmobileの開発に関しては {こちら}[https://github.com/jpmobile/jpmobile/blob/master/CONTRIBUTING.md] へ
 
 == リンク
 

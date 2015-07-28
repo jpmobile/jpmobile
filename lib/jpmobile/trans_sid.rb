@@ -29,6 +29,9 @@ module Jpmobile
       when "ActiveRecord::SessionStore"
         require 'jpmobile/session/active_record_store'
         ActionDispatch::Session::AbstractStore.send :include, ParamsOverCookie
+      when "ActionDispatch::Session::MongoidStore"
+        require 'jpmobile/session/mongo_store'
+        ActionDispatch::Session::AbstractStore.send :include, ParamsOverCookie
       end
     end
   end

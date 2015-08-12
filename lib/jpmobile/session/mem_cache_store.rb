@@ -1,6 +1,6 @@
 module Rack
   module Session
-    class Memcache
+    class Dalli
       def destroy_session_with_jpmobile(env, session_id, options)
         destroy_session_without_jpmobile(env, session_id, options)
 

@@ -202,4 +202,41 @@ describe "trans_sid functional", :type => :request do
   describe_mobile_with_ua "Vodafone/1.0/V903T/TJ001 Browser/VF-Browser/1.0 Profile/MIDP-2.0 Configuration/CLDC-1.1 Ext-J-Profile/JSCL-1.2.2 Ext-V-Profile/VSCL-2.0.0", "UTF-8" do
     it_should_behave_like "trans_sid が起動しないとき"
   end
+
+  describe TransSidAlwaysController, "という trans_sid :always が指定されているコントローラを session を作らずに Rack として使用するとき" do
+    # before(:each) do
+    #   @controller = "trans_sid_always"
+    #   @user_agent = "Mozilla/5.0 (Windows; U; Windows NT 5.1; ja; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 ( .NET CLR 3.5.30729)"
+    #   @charset    = "UTF-8"
+    # end
+    let(:controller) { TransSidAlwaysController }
+    let(:user_agent) { "Mozilla/5.0 (Windows; U; Windows NT 5.1; ja; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 ( .NET CLR 3.5.30729)" }
+    let(:charset) { "UTF-8" }
+    let(:env) do
+      {
+        "rack.input" => "",
+        "REQUEST_METHOD" => "GET",
+        "HTTP_USER_AGENT" => user_agent
+      }
+    end
+
+    it do
+      # expect(0).to eq 1
+      status, header, body = controller.action("link").call(env)
+      expect(status.to_i).to eq 200
+      expect(body).to match(/<a href=\"\/.+?\/link\">linkto<\/a>/)
+    end
+
+    it do
+      status, header, body = controller.action("form").call(env)
+      expect(status.to_i).to eq 200
+      expect(body).to match(/<form.*action=\"\/.+?\/form\".*accept-charset="#{@charset}"/)
+    end
+
+    it do
+      status, header, body = controller.action("redirect").call(env)
+      expect(status.to_i).to eq 302
+      expect(header['Location']).to match(/\?_session_id=[a-zA-Z0-9]{32}$/)
+    end
+  end
 end

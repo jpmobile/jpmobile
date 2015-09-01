@@ -1,6 +1,6 @@
-module Rack
+module ActionDispatch
   module Session
-    class Memcache
+    class MemCacheStore
       def destroy_session_with_jpmobile(env, session_id, options)
         destroy_session_without_jpmobile(env, session_id, options)
 

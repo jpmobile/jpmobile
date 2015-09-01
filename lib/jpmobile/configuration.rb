@@ -15,5 +15,13 @@ module Jpmobile
     def mobile_filter
       ::Jpmobile::Rack.mount_middlewares
     end
+
+    def session_store(&block)
+      @session_store = block
+    end
+
+    def mount_session_store
+      @session_store && @session_store.call
+    end
   end
 end

@@ -29,6 +29,8 @@ module Jpmobile
       when "ActiveRecord::SessionStore"
         require 'jpmobile/session/active_record_store'
         ActionDispatch::Session::AbstractStore.send :include, ParamsOverCookie
+      else
+        Rails.application.config.jpmobile.mount_session_store
       end
     end
   end

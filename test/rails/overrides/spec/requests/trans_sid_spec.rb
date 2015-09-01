@@ -37,7 +37,7 @@ describe "trans_sid functional", :type => :request do
     it "で redirect の自動書き換えが行われない" do
       res = get_with_session(@controller, "redirect", @user_agent)
 
-      res.response.header['Location'] =~ /\/$/
+      expect(res.response.header['Location']).to match(/\/$/)
     end
   end
 
@@ -59,7 +59,7 @@ describe "trans_sid functional", :type => :request do
     it "で redirect の自動書き換えが行われる" do
       res = get_with_session(@controller, "redirect", @user_agent)
 
-      res.response.header['Location'] =~ /\?_session_id=[a-zA-Z0-9]{32}$/
+      expect(res.response.header['Location']).to match(/\?_session_id=[a-zA-Z0-9]{32}$/)
     end
 
     # resource paths
@@ -76,7 +76,7 @@ describe "trans_sid functional", :type => :request do
     it "で @path の redirect の自動書き換えが行われる" do
       res = get_with_session(@controller, "redirect_path", @user_agent)
 
-      res.response.header['Location'] =~ /\?_session_id=[a-zA-Z0-9]{32}$/
+      expect(res.response.header['Location']).to match(/\?_session_id=[a-zA-Z0-9]{32}$/)
     end
 
     # resource path with prefix
@@ -93,7 +93,7 @@ describe "trans_sid functional", :type => :request do
     it "で [:admin, @path] の redirect の自動書き換えが行われる" do
       res = get_with_session(@controller, "redirect_path_admin", @user_agent)
 
-      res.response.header['Location'] =~ /\?_session_id=[a-zA-Z0-9]{32}$/
+      expect(res.response.header['Location']).to match(/\?_session_id=[a-zA-Z0-9]{32}$/)
     end
   end
 

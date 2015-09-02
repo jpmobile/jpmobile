@@ -10,8 +10,8 @@ module ActionController
           expected_view_file = lookup_context.find_template(options[:template], options[:prefixes])
 
           _candidates = lookup_context.mobile.map { |variant|
-            target_templat = options[:template] + '_' + variant
-            expected_view_file.virtual_path.match(target_templat)
+            target_template = options[:template] + '_' + variant
+            expected_view_file.virtual_path.match(target_template)
           }.compact
 
           if _candidates.empty?

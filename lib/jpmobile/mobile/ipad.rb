@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# =Android
+# =iPad
 
 module Jpmobile::Mobile
   # ==iPad

@@ -36,6 +36,11 @@ module Jpmobile
       mobile and mobile.smart_phone?
     end
 
+    # タブレットからであれば +true+を、そうでなければ +false+ を返す
+    def tablet?
+      mobile and mobile.tablet?
+    end
+
     # 携帯電話の機種に応じて Mobile::xxx を返す。
     # 携帯電話でない場合はnilを返す。
     def mobile

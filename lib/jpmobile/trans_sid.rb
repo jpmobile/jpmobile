@@ -135,7 +135,11 @@ module Jpmobile::TransSid #:nodoc:
   # rack 1.4 (rails3) request.session_options[:id]
   # rack 1.5 (rails4) request.session.id
   def jpmobile_session_id
-    request.session_options[:id] || request.session.id
+    request.session_options[:id] || begin
+      # Rails 4: request.session can be Hash instance.
+      # see: https://github.com/rails/rails/blob/master/actionpack/lib/action_dispatch/http/request.rb#L274-L281
+      request.session.respond_to?(:id) ? request.session.id : nil
+    end
   end
   # session_idを埋め込むためのhidden fieldを出力する。
   def sid_hidden_field_tag

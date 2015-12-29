@@ -14,7 +14,7 @@ end
 
 ActiveSupport.on_load(:before_configuration) do
   # MobileCarrierのみデフォルトで有効
-  config.middleware.insert_before ActionDispatch::ParamsParser, Jpmobile::Rack::MobileCarrier
+  config.middleware.insert_after ActionDispatch::Flash, Jpmobile::Rack::MobileCarrier
 
   module Rails
     class Application

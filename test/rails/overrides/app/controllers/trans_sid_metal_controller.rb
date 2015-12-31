@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 class TransSidMetalController < ActionController::Metal
-  include ActionController::RackDelegation
   include ActionController::UrlFor
   include ActionController::Redirecting
   include Rails.application.routes.url_helpers

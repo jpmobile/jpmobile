@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe MobileSpecController, :type => :controller do
+describe MobileSpecController, type: :controller do
   render_views
 
   describe "GET 'index'" do
@@ -10,7 +10,7 @@ describe MobileSpecController, :type => :controller do
         get 'index'
 
         expect(response).to be_success
-        expect(response).to render_template('index')
+        expect(response.body).to match(/RailsRoot PC/)
         expect(request.mobile?).to be_falsey
       end
     end
@@ -20,7 +20,7 @@ describe MobileSpecController, :type => :controller do
         request.user_agent = "DoCoMo/2.0 SH902i(c100;TB;W24H12)"
         get 'index'
         expect(response).to be_success
-        expect(response).to render_template('index_mobile')
+        expect(response.body).to match(/RailsRoot mobile/)
         expect(request.mobile?).to be_truthy
         expect(request.mobile).to be_a(Jpmobile::Mobile::Docomo)
       end

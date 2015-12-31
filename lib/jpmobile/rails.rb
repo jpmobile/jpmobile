@@ -7,14 +7,12 @@ ActiveSupport.on_load(:action_controller) do
   require 'jpmobile/hook_action_view'
   require 'jpmobile/trans_sid'
   require 'jpmobile/hook_test_request'
-end
-ActiveSupport.on_load(:action_dispatch) do
   require 'jpmobile/hook_action_dispatch'
 end
 
 ActiveSupport.on_load(:before_configuration) do
   # MobileCarrierのみデフォルトで有効
-  config.middleware.insert_after ActionDispatch::Flash, Jpmobile::Rack::MobileCarrier
+  config.middleware.insert_after ActionDispatch::Flash, ::Jpmobile::MobileCarrier
 
   module Rails
     class Application

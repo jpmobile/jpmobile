@@ -3,7 +3,6 @@ require 'rubygems'
 require 'rack/test'
 require 'rspec'
 require 'jpmobile'
-require 'jpmobile/rack'
 require 'nkf'
 
 begin

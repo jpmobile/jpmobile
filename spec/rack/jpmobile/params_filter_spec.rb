@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require File.join(File.expand_path(File.dirname(__FILE__)), '../../rack_helper.rb')
 
-describe Jpmobile::Rack::ParamsFilter do
+describe Jpmobile::ParamsFilter do
   include Rack::Test::Methods
   include Jpmobile::RackHelper
   include Jpmobile::Util
@@ -37,7 +37,7 @@ describe Jpmobile::Rack::ParamsFilter do
             'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)',
             :input => @form_string)
 
-          res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(UnitApplication.new)).call(res)
+          res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(UnitApplication.new)).call(res)
           req = Rack::Request.new(res[1])
           expect(req.params.size).to eq(4)
 
@@ -58,7 +58,7 @@ describe Jpmobile::Rack::ParamsFilter do
             'HTTP_USER_AGENT' => "KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0",
             :input => @form_string)
 
-          res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(UnitApplication.new)).call(res)
+          res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(UnitApplication.new)).call(res)
           req = Rack::Request.new(res[1])
           expect(req.params.size).to eq(4)
 
@@ -90,7 +90,7 @@ describe Jpmobile::Rack::ParamsFilter do
             'HTTP_USER_AGENT' => "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1",
             :input => @form_string)
 
-          res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(UnitApplication.new)).call(res)
+          res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(UnitApplication.new)).call(res)
           req = Rack::Request.new(res[1])
           expect(req.params.size).to eq(4)
 
@@ -117,7 +117,7 @@ describe Jpmobile::Rack::ParamsFilter do
           'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)',
           :input => form_string)
 
-        res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(UnitApplication.new)).call(res)
+        res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(UnitApplication.new)).call(res)
         req = Rack::Request.new(res[1])
         expect(req.params.size).to eq(2)
 
@@ -138,7 +138,7 @@ describe Jpmobile::Rack::ParamsFilter do
           'HTTP_USER_AGENT' => "KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0",
           :input => form_string)
 
-        res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(UnitApplication.new)).call(res)
+        res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(UnitApplication.new)).call(res)
         req = Rack::Request.new(res[1])
         expect(req.params.size).to eq(2)
 
@@ -159,7 +159,7 @@ describe Jpmobile::Rack::ParamsFilter do
           'HTTP_USER_AGENT' => "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1",
           :input => form_string)
 
-        res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(UnitApplication.new)).call(res)
+        res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(UnitApplication.new)).call(res)
         req = Rack::Request.new(res[1])
         expect(req.params.size).to eq(2)
 
@@ -182,7 +182,7 @@ describe Jpmobile::Rack::ParamsFilter do
           'HTTP_USER_AGENT' => "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1",
           :input => form_string)
 
-        res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(UnitApplication.new)).call(res)
+        res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(UnitApplication.new)).call(res)
         req = Rack::Request.new(res[1])
         expect(req.params.size).to eq(1)
 
@@ -203,7 +203,7 @@ describe Jpmobile::Rack::ParamsFilter do
           'HTTP_USER_AGENT' => "KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0",
           :input => form_string)
 
-        res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(UnitApplication.new)).call(res)
+        res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(UnitApplication.new)).call(res)
         req = Rack::Request.new(res[1])
         expect(req.params.size).to eq(0)
 
@@ -224,7 +224,7 @@ describe Jpmobile::Rack::ParamsFilter do
           'HTTP_USER_AGENT' => "KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0",
           :input => form_string)
 
-        res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(UnitApplication.new)).call(res)
+        res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(UnitApplication.new)).call(res)
         req = Rack::Request.new(res[1])
         expect(req.params.size).to eq(0)
 

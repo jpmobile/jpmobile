@@ -18,12 +18,12 @@ module Jpmobile::Mobile
       true
     end
 
-    # Jpmobile::Rack::Filter は適用しない
+    # Jpmobile::Filter は適用しない
     def apply_filter?
       false
     end
 
-    # Jpmobile::Rack::ParamsFilter は適用しない
+    # Jpmobile::ParamsFilter は適用しない
     def apply_params_filter?
       false
     end

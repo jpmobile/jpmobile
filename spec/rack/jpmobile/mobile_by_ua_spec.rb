@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require File.join(File.expand_path(File.dirname(__FILE__)), '../../rack_helper.rb')
 
-describe Jpmobile::Rack::MobileCarrier do
+describe Jpmobile::MobileCarrier do
   include Rack::Test::Methods
 
   [
@@ -28,7 +28,7 @@ describe Jpmobile::Rack::MobileCarrier do
       res = Rack::MockRequest.env_for(
         'http://jpmobile-rails.org/',
         'HTTP_USER_AGENT' => user_agent)
-      env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
+      env = Jpmobile::MobileCarrier.new(UnitApplication.new).call(res)[1]
       expect(env['rack.jpmobile'].class).to eq(carrier)
     end
   end
@@ -37,7 +37,7 @@ describe Jpmobile::Rack::MobileCarrier do
     res = Rack::MockRequest.env_for(
       'http://jpmobile-rails.org/',
       'HTTP_USER_AGENT' => 'Googlebot')
-    env = Jpmobile::Rack::MobileCarrier.new(UnitApplication.new).call(res)[1]
+    env = Jpmobile::MobileCarrier.new(UnitApplication.new).call(res)[1]
     expect(env['rack.jpmobile']).to be_nil
   end
 end

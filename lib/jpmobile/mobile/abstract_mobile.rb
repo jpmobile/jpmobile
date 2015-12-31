@@ -58,12 +58,12 @@ module Jpmobile::Mobile
       false
     end
 
-    # Jpmobile::Rack::Filter を適用するかどうか
+    # Jpmobile::Filter を適用するかどうか
     def apply_filter?
       true
     end
 
-    # Jpmobile::Rack::ParamsFilter を適用するかどうか
+    # Jpmobile::ParamsFilter を適用するかどうか
     def apply_params_filter?
       true
     end

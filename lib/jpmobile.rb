@@ -2,6 +2,8 @@
 $:.unshift(File.dirname(__FILE__)) unless $:.include?(File.dirname(__FILE__)) ||
                                           $:.include?(File.expand_path(File.dirname(__FILE__)))
 require "jpmobile/version"
+require 'singleton'
+require 'rack/utils'
 
 module Jpmobile
   autoload :Email,                    'jpmobile/email'
@@ -52,14 +54,11 @@ module Jpmobile
     require 'jpmobile/mobile/abstract_mobile'
   end
 
-  # autoload Rack middlewares
-  autoload :Rack, 'jpmobile/rack'
-  module Rack
-    autoload :MobileCarrier, 'jpmobile/rack/mobile_carrier'
-    autoload :ParamsFilter,  'jpmobile/rack/params_filter'
-    autoload :Filter,        'jpmobile/rack/filter'
-  end
   autoload :Configuration, 'jpmobile/configuration'
+
+  autoload :MobileCarrier, 'jpmobile/rack/mobile_carrier'
+  autoload :ParamsFilter,  'jpmobile/rack/params_filter'
+  autoload :Filter,        'jpmobile/rack/filter'
 
   autoload :Mailer,   'jpmobile/mailer'
   autoload :Resolver, 'jpmobile/resolver'
@@ -67,6 +66,12 @@ module Jpmobile
   module_function
   def config
     ::Jpmobile::Configuration.instance
+  end
+
+  def mount_middlewares
+    # 漢字コード・絵文字フィルター
+    ::Rails.application.middleware.insert_after ::Jpmobile::MobileCarrier, ::Jpmobile::ParamsFilter
+    ::Rails.application.middleware.insert_after ::Jpmobile::ParamsFilter,  ::Jpmobile::Filter
   end
 end
 

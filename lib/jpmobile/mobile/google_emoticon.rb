@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 module Jpmobile::Mobile
   module GoogleEmoticon
-    # Jpmobile::Rack::Filter を適用する
+    # Jpmobile::Filter を適用する
     def apply_filter?
       Jpmobile.config.smart_phone_emoticon_compatibility
     end
 
-    # Jpmobile::Rack::ParamsFilter を適用する
+    # Jpmobile::ParamsFilter を適用する
     def apply_params_filter?
       Jpmobile.config.smart_phone_emoticon_compatibility
     end

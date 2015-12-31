@@ -29,23 +29,23 @@ describe "絵文字が" do
     end
 
     it "docomo 絵文字が変換されないこと" do
-      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@docomo_cr))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@docomo_cr))).call(@res)[2]
       expect(response_body(response)).to eq(@docomo_cr)
-      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@docomo_utf8))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@docomo_utf8))).call(@res)[2]
       expect(response_body(response)).to eq(@docomo_utf8)
     end
 
     it "au 絵文字が変換されないこと" do
-      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@au_cr))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@au_cr))).call(@res)[2]
       expect(response_body(response)).to eq(@au_cr)
-      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@au_utf8))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@au_utf8))).call(@res)[2]
       expect(response_body(response)).to eq(@au_utf8)
     end
 
     it "softbank 絵文字が変換されないこと" do
-      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@softbank_cr))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_cr))).call(@res)[2]
       expect(response_body(response)).to eq(@softbank_cr)
-      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)[2]
       expect(response_body(response)).to eq(@softbank_utf8)
     end
   end
@@ -73,38 +73,38 @@ describe "絵文字が" do
     end
 
     it "docomo 絵文字が画像に変換されること" do
-      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@docomo_cr))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@docomo_cr))).call(@res)[2]
       expect(response_body(response)).to eq("<img src=\"#{@path}/sun.gif\" alt=\"sun\" />")
     end
 
     it "docomo 絵文字コードが画像に変換されること" do
-      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@docomo_utf8))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@docomo_utf8))).call(@res)[2]
       expect(response_body(response)).to eq("<img src=\"#{@path}/sun.gif\" alt=\"sun\" />")
     end
 
     it "au 絵文字が画像に変換されること" do
-      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@au_cr))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@au_cr))).call(@res)[2]
       expect(response_body(response)).to eq("<img src=\"#{@path}/sun.gif\" alt=\"sun\" />")
     end
 
     it "au 絵文字コードが画像に変換されること" do
-      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@au_utf8))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@au_utf8))).call(@res)[2]
       expect(response_body(response)).to eq("<img src=\"#{@path}/sun.gif\" alt=\"sun\" />")
     end
 
     it "softbank 絵文字が画像に変換されること" do
-      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@softbank_cr))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_cr))).call(@res)[2]
       expect(response_body(response)).to eq("<img src=\"#{@path}/sun.gif\" alt=\"sun\" />")
     end
 
     it "softbank 絵文字コードが画像に変換されること" do
-      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)[2]
       expect(response_body(response)).to eq("<img src=\"#{@path}/sun.gif\" alt=\"sun\" />")
     end
 
     it "Content-Type が変換できないものである場合には変換しないこと" do
       @res = Rack::MockRequest.env_for("/", 'Content-Type' => 'image/jpeg')
-      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)[2]
       expect(response_body(response)).to eq(@softbank_utf8)
     end
   end
@@ -118,26 +118,26 @@ describe "絵文字が" do
     end
 
     it "docomo 絵文字が変換されること" do
-      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@docomo_cr))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@docomo_cr))).call(@res)[2]
       expect(response_body(response)).to eq(sjis("\xf8\x9f"))
-      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@docomo_utf8))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@docomo_utf8))).call(@res)[2]
       expect(response_body(response)).to eq(sjis("\xf8\x9f"))
 
-      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@docomo_docomopoint))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@docomo_docomopoint))).call(@res)[2]
       expect(response_body(response)).to eq(sjis("\xf9\x79"))
     end
 
     it "au 絵文字が変換されること" do
-      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@au_cr))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@au_cr))).call(@res)[2]
       expect(response_body(response)).to eq(sjis("\xf8\x9f"))
-      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@au_utf8))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@au_utf8))).call(@res)[2]
       expect(response_body(response)).to eq(sjis("\xf8\x9f"))
     end
 
     it "softbank 絵文字が変換されること" do
-      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@softbank_cr))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_cr))).call(@res)[2]
       expect(response_body(response)).to eq(sjis("\xf8\x9f"))
-      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)[2]
       expect(response_body(response)).to eq(sjis("\xf8\x9f"))
     end
 
@@ -149,7 +149,7 @@ describe "絵文字が" do
         "REQUEST_METHOD" => "GET",
         'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)',
         'Content-Type' => 'text/html; charset=utf-8')
-      res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(Jpmobile::Rack::Filter.new(RenderParamApp.new))).call(res)
+      res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(Jpmobile::Filter.new(RenderParamApp.new))).call(res)
       req = Rack::Request.new(res[1])
       expect(req.params['q']).to eq(utf8("\xee\x98\xbe"))
       expect(response_body(res)).to eq(sjis("\xf8\x9f"))
@@ -165,26 +165,26 @@ describe "絵文字が" do
     end
 
     it "docomo 絵文字が変換されること" do
-      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@docomo_cr))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@docomo_cr))).call(@res)[2]
       expect(response_body(response)).to eq(sjis("\xf6\x60"))
-      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@docomo_utf8))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@docomo_utf8))).call(@res)[2]
       expect(response_body(response)).to eq(sjis("\xf6\x60"))
 
-      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@docomo_docomopoint))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@docomo_docomopoint))).call(@res)[2]
       expect(response_body(response)).to eq(utf8_to_sjis("［ドコモポイント］"))
     end
 
     it "au 絵文字が変換されること" do
-      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@au_cr))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@au_cr))).call(@res)[2]
       expect(response_body(response)).to eq(sjis("\xf6\x60"))
-      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@au_utf8))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@au_utf8))).call(@res)[2]
       expect(response_body(response)).to eq(sjis("\xf6\x60"))
     end
 
     it "softbank 絵文字が変換されること" do
-      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@softbank_cr))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_cr))).call(@res)[2]
       expect(response_body(response)).to eq(sjis("\xf6\x60"))
-      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)[2]
       expect(response_body(response)).to eq(sjis("\xf6\x60"))
     end
 
@@ -196,7 +196,7 @@ describe "絵文字が" do
         "REQUEST_METHOD" => "GET",
         'HTTP_USER_AGENT' => "KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0",
         'Content-Type' => 'text/html; charset=utf-8')
-      res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(Jpmobile::Rack::Filter.new(RenderParamApp.new))).call(res)
+      res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(Jpmobile::Filter.new(RenderParamApp.new))).call(res)
       req = Rack::Request.new(res[1])
       expect(req.params['q']).to eq([0xe488].pack("U"))
       expect(response_body(res)).to eq(sjis("\xf6\x60"))
@@ -212,26 +212,26 @@ describe "絵文字が" do
     end
 
     it "docomo 絵文字が変換されること" do
-      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@docomo_cr))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@docomo_cr))).call(@res)[2]
       expect(response_body(response)).to eq([0xe04a].pack('U'))
-      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@docomo_utf8))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@docomo_utf8))).call(@res)[2]
       expect(response_body(response)).to eq([0xe04a].pack('U'))
 
-      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@docomo_docomopoint))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@docomo_docomopoint))).call(@res)[2]
       expect(response_body(response)).to eq("［ドコモポイント］")
     end
 
     it "au 絵文字が変換されること" do
-      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@au_cr))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@au_cr))).call(@res)[2]
       expect(response_body(response)).to eq([0xe04a].pack('U'))
-      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@au_utf8))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@au_utf8))).call(@res)[2]
       expect(response_body(response)).to eq([0xe04a].pack('U'))
     end
 
     it "softbank 絵文字が変換されること" do
-      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@softbank_cr))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_cr))).call(@res)[2]
       expect(response_body(response)).to eq([0xe04a].pack('U'))
-      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)[2]
       expect(response_body(response)).to eq([0xe04a].pack('U'))
     end
 
@@ -243,7 +243,7 @@ describe "絵文字が" do
         "REQUEST_METHOD" => "GET",
         'HTTP_USER_AGENT' => "SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1",
         'Content-Type' => 'text/html; charset=utf-8')
-      res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(Jpmobile::Rack::Filter.new(RenderParamApp.new))).call(res)
+      res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(Jpmobile::Filter.new(RenderParamApp.new))).call(res)
       req = Rack::Request.new(res[1])
       expect(req.params['q']).to eq([0xf04a].pack("U"))
       expect(response_body(res)).to eq([0xe04a].pack('U'))
@@ -259,9 +259,9 @@ describe "絵文字が" do
     end
 
     it "softbank 絵文字が変換されること" do
-      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@softbank_cr))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_cr))).call(@res)[2]
       expect(response_body(response)).to eq([0xe04a].pack('U'))
-      response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)[2]
       expect(response_body(response)).to eq([0xe04a].pack('U'))
     end
 
@@ -273,7 +273,7 @@ describe "絵文字が" do
         "REQUEST_METHOD" => "GET",
         'HTTP_USER_AGENT' => "Vodafone/1.0/V705SH/SHJ001/SN000000000000000 Browser/VF-NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1",
         'Content-Type' => 'text/html; charset=utf-8')
-      res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(Jpmobile::Rack::Filter.new(RenderParamApp.new))).call(res)
+      res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(Jpmobile::Filter.new(RenderParamApp.new))).call(res)
       req = Rack::Request.new(res[1])
       expect(req.params['q']).to eq([0xf04a].pack("U"))
       expect(response_body(res)).to eq([0xe04a].pack('U'))
@@ -290,9 +290,9 @@ describe "絵文字が" do
       end
 
       it 'should convert Softbank emoticon' do
-        response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@softbank_cr))).call(@res)[2]
+        response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_cr))).call(@res)[2]
         expect(response_body(response)).to eq([0xe04a].pack('U'))
-        response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)[2]
+        response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)[2]
         expect(response_body(response)).to eq([0xe04a].pack('U'))
       end
 
@@ -304,14 +304,14 @@ describe "絵文字が" do
           "REQUEST_METHOD" => "GET",
           'HTTP_USER_AGENT' => "Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_0_1 like Mac OS X; ja-jp) AppleWebKit/532.9 (KHTML, like Gecko) Version/4.0.5 Mobile/8A306 Safari/6531.22.7",
           'Content-Type' => 'text/html; charset=utf-8')
-        res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(Jpmobile::Rack::Filter.new(RenderParamApp.new))).call(res)
+        res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(Jpmobile::Filter.new(RenderParamApp.new))).call(res)
         req = Rack::Request.new(res[1])
         expect(req.params['q']).to eq([0xf04a].pack("U"))
         expect(response_body(res)).to eq([0xe04a].pack('U'))
       end
 
       it 'should not convert 〓' do
-        response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new('〓'))).call(@res)[2]
+        response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new('〓'))).call(@res)[2]
         expect(response_body(response)).to eq('〓')
       end
     end
@@ -327,9 +327,9 @@ describe "絵文字が" do
       end
 
       it "should convert Unicode emoticon" do
-        response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@unicode_single))).call(@res)[2]
+        response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@unicode_single))).call(@res)[2]
         expect(response_body(response)).to eq([0x2600].pack('U*'))
-        response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@unicode_multi))).call(@res)[2]
+        response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@unicode_multi))).call(@res)[2]
         expect(response_body(response)).to eq([0x26C5].pack('U*'))
       end
 
@@ -341,14 +341,14 @@ describe "絵文字が" do
           "REQUEST_METHOD" => "GET",
           'HTTP_USER_AGENT' => "Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_0_1 like Mac OS X; ja-jp) AppleWebKit/532.9 (KHTML, like Gecko) Version/4.0.5 Mobile/8A306 Safari/6531.22.7",
           'Content-Type' => 'text/html; charset=utf-8')
-        res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(Jpmobile::Rack::Filter.new(RenderParamApp.new))).call(res)
+        res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(Jpmobile::Filter.new(RenderParamApp.new))).call(res)
         req = Rack::Request.new(res[1])
         expect(req.params['q']).to eq([0x26C5].pack("U"))
         expect(response_body(res)).to eq([0x26C5].pack('U'))
       end
 
       it 'should not convert 〓' do
-        response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new('〓'))).call(@res)[2]
+        response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new('〓'))).call(@res)[2]
         expect(response_body(response)).to eq('〓')
       end
     end
@@ -369,9 +369,9 @@ describe "絵文字が" do
       end
 
       it "should convert Google emoticon" do
-        response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@google_single))).call(@res)[2]
+        response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@google_single))).call(@res)[2]
         expect(response_body(response)).to eq([0xFE000].pack('U*'))
-        response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@google_multi))).call(@res)[2]
+        response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@google_multi))).call(@res)[2]
         expect(response_body(response)).to eq([0xFE00F].pack('U*'))
       end
 
@@ -383,14 +383,14 @@ describe "絵文字が" do
           "REQUEST_METHOD" => "GET",
           'HTTP_USER_AGENT' => 'Mozilla/5.0 (Linux; U; Android 1.6; ja-jp; SonyEriccsonSO-01B Build/R1EA018) AppleWebKit/528.5+ (KHTML, like Gecko) Version/3.1.2 Mobile Safari/525.20.1',
           'Content-Type' => 'text/html; charset=utf-8')
-        res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(Jpmobile::Rack::Filter.new(RenderParamApp.new))).call(res)
+        res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(Jpmobile::Filter.new(RenderParamApp.new))).call(res)
         req = Rack::Request.new(res[1])
         expect(req.params['q']).to eq([0xe63e, 0xe63f].pack("U*"))
         expect(response_body(res)).to eq([0xfe000, 0xfe001].pack("U*"))
       end
 
       it 'should not convert 〓' do
-        response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new('〓'))).call(@res)[2]
+        response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new('〓'))).call(@res)[2]
         expect(response_body(response)).to eq('〓')
       end
     end
@@ -404,9 +404,9 @@ describe "絵文字が" do
       end
 
       it "should convert Google emoticon" do
-        response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@google_single))).call(@res)[2]
+        response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@google_single))).call(@res)[2]
         expect(response_body(response)).to eq([0xFE000].pack('U*'))
-        response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new(@google_multi))).call(@res)[2]
+        response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@google_multi))).call(@res)[2]
         expect(response_body(response)).to eq([0xFE00F].pack('U*'))
       end
 
@@ -418,14 +418,14 @@ describe "絵文字が" do
           "REQUEST_METHOD" => "GET",
           'HTTP_USER_AGENT' => 'Mozilla/5.0 (Linux; U; Android 2.2; ja-jp; SC-01C Build/FROYO) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1',
           'Content-Type' => 'text/html; charset=utf-8')
-        res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(Jpmobile::Rack::Filter.new(RenderParamApp.new))).call(res)
+        res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(Jpmobile::Filter.new(RenderParamApp.new))).call(res)
         req = Rack::Request.new(res[1])
         expect(req.params['q']).to eq([0xe63e, 0xe63f].pack("U*"))
         expect(response_body(res)).to eq([0xfe000, 0xfe001].pack("U*"))
       end
 
       it 'should not convert 〓' do
-        response = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::Filter.new(UnitApplication.new('〓'))).call(@res)[2]
+        response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new('〓'))).call(@res)[2]
         expect(response_body(response)).to eq('〓')
       end
 
@@ -437,7 +437,7 @@ describe "絵文字が" do
           "REQUEST_METHOD" => "GET",
           'HTTP_USER_AGENT' => 'Mozilla/5.0 (Linux; U; Android 2.2; ja-jp; SC-01C Build/FROYO) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1',
           'Content-Type' => 'text/html; charset=utf-8')
-        res = Jpmobile::Rack::MobileCarrier.new(Jpmobile::Rack::ParamsFilter.new(Jpmobile::Rack::Filter.new(RenderParamApp.new))).call(res)
+        res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(Jpmobile::Filter.new(RenderParamApp.new))).call(res)
         req = Rack::Request.new(res[1])
         expect(req.params['q']).to eq('〓')
         expect(response_body(res)).to eq('〓')

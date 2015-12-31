@@ -1,35 +1,35 @@
 # -*- coding: utf-8 -*-
 class FilterControllerBase < ApplicationController
   def abracadabra_utf8
-    render :text => "アブラカダブラ"
+    render plain: "アブラカダブラ"
   end
   def abracadabra_xhtml_utf8
     response.content_type = "application/xhtml+xml"
-    render :text => "アブラカダブラ"
+    render plain: "アブラカダブラ"
   end
   def index
     @q = params[:q]
-    render :text => @q
+    render plain: @q
   end
   def index_hankaku
-    render :text => 'ｱﾌﾞﾗｶﾀﾞﾌﾞﾗ' == params[:q]
+    render plain: 'ｱﾌﾞﾗｶﾀﾞﾌﾞﾗ' == params[:q]
   end
   def index_zenkaku
-    render :text => 'アブラカダブラ' == params[:q]
+    render plain: 'アブラカダブラ' == params[:q]
   end
   def empty
-    render :text => ""
+    render plain: ""
   end
   def rawdata
     send_data "アブラカダブラ", :type => 'application/octet-stream'
   end
   def textarea
-    render :text => '<textarea hoge="fuu">アブラカダブラ</textarea>'
+    render plain: '<textarea hoge="fuu">アブラカダブラ</textarea>'
   end
   def input_tag
-    render :text => '<input hoge="fuu" value="アブラカダブラ" />'
+    render plain: '<input hoge="fuu" value="アブラカダブラ" />'
   end
   def nbsp_char
-    render :text => '<a>アブラ&nbsp;カダブラ</a>'
+    render plain: '<a>アブラ&nbsp;カダブラ</a>'
   end
 end

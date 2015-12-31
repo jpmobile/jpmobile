@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe TemplatePathController, "integrated_views", :type => :request do
+describe TemplatePathController, "integrated_views", type: :request do
   before do
     page.driver.header('User-Agent', user_agent)
   end

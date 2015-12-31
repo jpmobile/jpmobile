@@ -2,7 +2,7 @@ require 'rails_helper'
 
 def get_with_session(controller, action, user_agent)
   open_session do |sess|
-    sess.get "/#{controller}/#{action}", {}, {"HTTP_USER_AGENT" => user_agent}
+    sess.get "/#{controller}/#{action}", params: {}, env: {"HTTP_USER_AGENT" => user_agent}
   end
 end
 
@@ -18,9 +18,9 @@ def describe_mobile_with_ua(user_agent, charset, &block)
   end
 end
 
-describe "trans_sid functional", :type => :request do
+describe "trans_sid functional", type: :request do
   before(:each) do
-    @user ||= User.create(:name => "hoge")
+    @user ||= User.create(name: "hoge")
   end
 
   shared_examples_for "trans_sid が起動しないとき" do
@@ -105,7 +105,7 @@ describe "trans_sid functional", :type => :request do
     end
 
     it "の trans_sid_mode は nil" do
-      get "/#{@controller}/link", {}, {"HTTP_USER_AGENT" => @user_agent}
+      get "/#{@controller}/link", params: {}, env: {"HTTP_USER_AGENT" => @user_agent}
 
       expect(controller.trans_sid_mode).to be_nil
     end
@@ -120,7 +120,7 @@ describe "trans_sid functional", :type => :request do
     end
 
     it "の trans_sid_mode は :none" do
-      get "/#{@controller}/link", {}, {"HTTP_USER_AGENT" => @user_agent}
+      get "/#{@controller}/link", params: {}, env: {"HTTP_USER_AGENT" => @user_agent}
 
       expect(controller.trans_sid_mode).to eq(:none)
     end
@@ -135,7 +135,7 @@ describe "trans_sid functional", :type => :request do
     end
 
     it "の trans_sid_mode は :always" do
-      get "/#{@controller}/link", {}, {"HTTP_USER_AGENT" => @user_agent}
+      get "/#{@controller}/link", params: {}, env: {"HTTP_USER_AGENT" => @user_agent}
 
       expect(controller.trans_sid_mode).to eq(:always)
     end
@@ -164,7 +164,7 @@ describe "trans_sid functional", :type => :request do
     end
 
     it "の trans_sid_mode は :mobile" do
-      get "/#{@controller}/link", {}, {"HTTP_USER_AGENT" => @user_agent}
+      get "/#{@controller}/link", params: {}, env: {"HTTP_USER_AGENT" => @user_agent}
 
       expect(controller.trans_sid_mode).to eq(:mobile)
     end

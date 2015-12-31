@@ -1,13 +1,14 @@
+# -*- coding: utf-8 -*-
 require 'rails_helper'
 
-describe "jpmobile integration spec", :type => :feature do
+describe "jpmobile integration spec", type:  :feature do
   include Jpmobile::Util
 
   before do
     page.driver.header('User-Agent', user_agent)
   end
 
-  shared_examples_for "hankaku_filter :input => true のとき" do
+  shared_examples_for "hankaku_filter input: true のとき" do
     it "はtextareaの中では半角に変換されないこと" do
       visit "/#{controller}/textarea"
       expect(page.body.encode('UTF-8')).to have_content('アブラカダブラ')
@@ -22,7 +23,7 @@ describe "jpmobile integration spec", :type => :feature do
     end
   end
 
-  shared_examples_for "hankaku_filter :input => false のとき" do
+  shared_examples_for "hankaku_filter input: false のとき" do
     it "はtextareaの中でも半角に変換されること" do
       visit "/#{controller}/textarea"
       expect(page.body.encode('UTF-8')).to have_content('ｱﾌﾞﾗｶﾀﾞﾌﾞﾗ')
@@ -188,7 +189,7 @@ describe "jpmobile integration spec", :type => :feature do
       }
 
       it_should_behave_like "Shift_JISで通信する端末との通信(半角変換付き)"
-      it_should_behave_like "hankaku_filter :input => false のとき"
+      it_should_behave_like "hankaku_filter input: false のとき"
     end
 
     describe "SoftBank 910T からのアクセス" do
@@ -197,7 +198,7 @@ describe "jpmobile integration spec", :type => :feature do
       }
 
       it_should_behave_like "UTF-8で通信する端末との通信(半角変換付き)"
-      it_should_behave_like "hankaku_filter :input => false のとき"
+      it_should_behave_like "hankaku_filter input: false のとき"
     end
   end
 
@@ -210,7 +211,7 @@ describe "jpmobile integration spec", :type => :feature do
       }
 
       it_should_behave_like "Shift_JISで通信する端末との通信(半角変換付き)"
-      it_should_behave_like "hankaku_filter :input => true のとき"
+      it_should_behave_like "hankaku_filter input: true のとき"
 
       it "Content-Type が Shift_JIS であること" do
         visit "/#{controller }/with_charset"
@@ -224,7 +225,7 @@ describe "jpmobile integration spec", :type => :feature do
       end
 
       it_should_behave_like "UTF-8で通信する端末との通信(半角変換付き)"
-      it_should_behave_like "hankaku_filter :input => true のとき"
+      it_should_behave_like "hankaku_filter input: true のとき"
 
       it "Content-Type が UTF-8 であること" do
         visit "/#{controller}/with_charset"

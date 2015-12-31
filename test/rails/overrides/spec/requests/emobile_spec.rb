@@ -10,22 +10,22 @@ describe "H11T モバイルブラウザからのアクセス" do
   end
 
   it "request.mobile は Emobile のインスタンスであること" do
-    get "/mobile_spec/index", {}, @headers
+    get "/mobile_spec/index", params: {}, env: @headers
 
     expect(request.mobile).to be_an_instance_of(Jpmobile::Mobile::Emobile)
   end
   it "request.mobile? は true であること" do
-    get "/mobile_spec/index", {}, @headers
+    get "/mobile_spec/index", params: {}, env: @headers
 
     expect(request.mobile?).to be_truthy
   end
   it "のsubscribe番号を取得できること" do
-    get "/mobile_spec/index", {}, @headers
+    get "/mobile_spec/index", params: {}, env: @headers
 
     expect(request.mobile.ident_subscriber).to eq("u00000000000000000")
   end
   it "のIPアドレス空間を正しく検証できること" do
-    get "/mobile_spec/index", {}, @headers
+    get "/mobile_spec/index", params: {}, env: @headers
 
     expect(request.mobile.valid_ip?).to be_truthy
   end
@@ -39,12 +39,12 @@ describe "S11HT からのアクセス" do
   end
 
   it "request.mobile は Emobile のインスタンスであること" do
-    get "/mobile_spec/index", {}, @headers
+    get "/mobile_spec/index", params: {}, env: @headers
 
     expect(request.mobile).to be_an_instance_of(Jpmobile::Mobile::Emobile)
   end
   it "request.mobile? は true であること" do
-    get "/mobile_spec/index", {}, @headers
+    get "/mobile_spec/index", params: {}, env: @headers
 
     expect(request.mobile?).to be_truthy
   end

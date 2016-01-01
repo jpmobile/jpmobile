@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 require 'jpmobile/lookup_context'
 
-module ActionController
-  module Renderers
-    def render_to_body_with_jpmobile(options)
+module Jpmobile
+  module FallbackViewSelector
+    def render_to_body(options)
       if Jpmobile.config.fallback_view_selector and
           lookup_context.mobile.present? and !lookup_context.mobile.empty?
         begin
@@ -21,9 +21,7 @@ module ActionController
         end
       end
 
-      render_to_body_without_jpmobile(options)
+      super(options)
     end
-
-    alias_method_chain :render_to_body, :jpmobile
   end
 end

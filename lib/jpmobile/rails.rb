@@ -3,11 +3,11 @@ ActiveSupport.on_load(:action_controller) do
   require 'jpmobile/docomo_guid'
   require 'jpmobile/filter'
   require 'jpmobile/helpers'
-  require 'jpmobile/hook_action_controller'
   require 'jpmobile/hook_action_view'
   require 'jpmobile/trans_sid'
   require 'jpmobile/hook_test_request'
   require 'jpmobile/hook_action_dispatch'
+  ActionController::Base.send :prepend, Jpmobile::FallbackViewSelector
 end
 
 ActiveSupport.on_load(:before_configuration) do

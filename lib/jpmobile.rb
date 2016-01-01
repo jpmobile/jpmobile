@@ -63,6 +63,8 @@ module Jpmobile
   autoload :Mailer,   'jpmobile/mailer'
   autoload :Resolver, 'jpmobile/resolver'
 
+  autoload :FallbackViewSelector, 'jpmobile/fallback_view_selector'
+
   module_function
   def config
     ::Jpmobile::Configuration.instance

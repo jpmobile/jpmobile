@@ -8,6 +8,20 @@ ActiveSupport.on_load(:action_controller) do
   require 'jpmobile/hook_test_request'
   require 'jpmobile/hook_action_dispatch'
   ActionController::Base.send :prepend, Jpmobile::FallbackViewSelector
+  ActionController::Base.send :prepend, Jpmobile::TransSidRedirecting
+end
+
+ActiveSupport.on_load(:after_initialize) do
+  case Rails.application.config.session_store.to_s
+  when "ActionDispatch::Session::MemCacheStore"
+    require 'jpmobile/session/mem_cache_store'
+    ActionDispatch::Session::MemCacheStore.send :prepend, Jpmobile::ParamsOverCookie
+  when "ActiveRecord::SessionStore"
+    require 'jpmobile/session/active_record_store'
+    ActionDispatch::Session::AbstractStore.send :prepend, Jpmobile::ParamsOverCookie
+  else
+    Rails.application.config.jpmobile.mount_session_store
+  end
 end
 
 ActiveSupport.on_load(:before_configuration) do

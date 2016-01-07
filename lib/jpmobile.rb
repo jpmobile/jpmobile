@@ -65,6 +65,9 @@ module Jpmobile
 
   autoload :FallbackViewSelector, 'jpmobile/fallback_view_selector'
 
+  autoload :TransSidRedirecting, 'jpmobile/trans_sid'
+  autoload :TransSid,            'jpmobile/trans_sid'
+
   module_function
   def config
     ::Jpmobile::Configuration.instance

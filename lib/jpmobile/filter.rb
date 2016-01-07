@@ -7,12 +7,6 @@ ActiveSupport.on_load(:action_controller) do
     before_action Jpmobile::HankakuFilter.new(options)
     after_action  Jpmobile::HankakuFilter.new(options)
   end
-
-  def self.mobile_filter(options={})
-    STDERR.puts "Method mobile_filter is now deprecated. Use hankaku_filter instead for Hankaku-conversion."
-
-    self.hankaku_filter(options)
-  end
 end
 
 module Jpmobile

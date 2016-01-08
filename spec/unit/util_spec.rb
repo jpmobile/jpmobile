@@ -6,77 +6,89 @@ require 'nkf'
 describe Jpmobile::Util do
   include Jpmobile::Util
 
-  it 'nilのときはnilを返すこと' do
-    expect(deep_apply(nil) {|obj| obj }).to equal(nil)
+  describe 'deep_apply' do
+    it 'nilのときはnilを返すこと' do
+      expect(deep_apply(nil) {|obj| obj }).to equal(nil)
+    end
+
+    it 'trueのときはtrueを返すこと' do
+      expect(deep_apply(true) {|obj| obj }).to equal(true)
+    end
+
+    it 'falseのときはそのまま値を返すこと' do
+      expect(deep_apply(false) {|obj| obj }).to equal(false)
+    end
+
+    it 'Tempfileのインスタンスのときはそのまま値を返すこと' do
+      temp = Tempfile.new('test')
+      expect(deep_apply(temp) {|obj| obj}.object_id).to equal(temp.object_id)
+      # 本来 deep_apply(temp) {|obj| obj }.should equal(temp) が通るべきのような。
+      # 参考 http://blade.nagaokaut.ac.jp/cgi-bin/scat.rb/ruby/ruby-list/41720
+    end
+
+    it 'StringIOのインスタンスのときはそのまま値を返すこと' do
+      string_io = StringIO.new('test')
+      expect(deep_apply(string_io) {|obj| obj }).to equal(string_io)
+    end
   end
 
-  it 'trueのときはtrueを返すこと' do
-    expect(deep_apply(true) {|obj| obj }).to equal(true)
+  describe 'utf8_to_sjis' do
+    it "utf8_to_sjis で変換できない文字列が含んでいた場合?に変換される" do
+      expect(utf8_to_sjis("اللغة العربية")).to eq(sjis("????? ???????"))
+    end
+
+    it "utf8_to_sjis ですべての改行コードが CRLF に変更されること" do
+      expect(utf8_to_sjis("UTF8\rSAMPLE\nTEXT\r\n")).to eq(sjis("UTF8\r\nSAMPLE\r\nTEXT\r\n"))
+    end
+
+    it "U+FFE3が0x8150に変換されること" do
+      expect(utf8_to_sjis([0xffe3].pack("U"))).to eq(sjis("\x81\x50"))
+    end
+
+    it "U+203Eが0x8150に変換されること" do
+      expect(utf8_to_sjis([0x203e].pack("U"))).to eq(sjis("\x81\x50"))
+    end
+
+    it "U+2014が0x815Cに変換されること" do
+      expect(utf8_to_sjis([0x2014].pack("U"))).to eq(sjis("\x81\x5C"))
+    end
+
+    it "U+2212が0x817Cに変換されること" do
+      expect(utf8_to_sjis([0x2212].pack("U"))).to eq(sjis("\x81\x7C"))
+    end
+
+    it "utf8_to_sjis で変換できない文字列が含んでいた場合?に変換される" do
+      expect(utf8_to_jis("اللغة العربية")).to eq(jis("????? ???????"))
+    end
   end
 
-  it 'falseのときはそのまま値を返すこと' do
-    expect(deep_apply(false) {|obj| obj }).to equal(false)
+  describe 'sjis_to_utf8' do
+    it "0x8150がU+FFE3に変換されること" do
+      expect(sjis_to_utf8(sjis("\x81\x50"))).to eq([0xffe3].pack("U"))
+    end
+
+    it "sjis_to_utf8 ですべての改行コードが LF に変更されること" do
+      expect(sjis_to_utf8("SJIS\rSAMPLE\nTEXT\r\n")).to eq(utf8("SJIS\nSAMPLE\nTEXT\n"))
+    end
   end
 
-  it 'Tempfileのインスタンスのときはそのまま値を返すこと' do
-    temp = Tempfile.new('test')
-    expect(deep_apply(temp) {|obj| obj}.object_id).to equal(temp.object_id)
-    # 本来 deep_apply(temp) {|obj| obj }.should equal(temp) が通るべきのような。
-    # 参考 http://blade.nagaokaut.ac.jp/cgi-bin/scat.rb/ruby/ruby-list/41720
+  describe 'utf8_to_jis' do
+    it "utf8_to_jis ですべての改行コードが CRLF に変更されること" do
+      expect(utf8_to_jis("UTF8\rSAMPLE\nTEXT\r\n")).to eq(jis("UTF8\r\nSAMPLE\r\nTEXT\r\n"))
+    end
   end
 
-  it 'StringIOのインスタンスのときはそのまま値を返すこと' do
-    string_io = StringIO.new('test')
-    expect(deep_apply(string_io) {|obj| obj }).to equal(string_io)
+  describe 'jis_string_regexp' do
+    it "jis_string_regexpでISO-2022-JPの文字列がマッチすること" do
+      expect(jis_string_regexp.match(ascii_8bit(utf8_to_jis("abcしからずんばこじをえずdef")))).not_to be_nil
+      expect(jis_to_utf8(jis("\x1b\x24\x42#{$1}\x1b\x28\x42"))).to eq("しからずんばこじをえず")
+    end
   end
 
-  it "utf8_to_sjis で変換できない文字列が含んでいた場合?に変換される" do
-    expect(utf8_to_sjis("اللغة العربية")).to eq(sjis("????? ???????"))
-  end
-
-  it "utf8_to_sjis ですべての改行コードが CRLF に変更されること" do
-    expect(utf8_to_sjis("UTF8\rSAMPLE\nTEXT\r\n")).to eq(sjis("UTF8\r\nSAMPLE\r\nTEXT\r\n"))
-  end
-
-  it "0x8150がU+FFE3に変換されること" do
-    expect(sjis_to_utf8(sjis("\x81\x50"))).to eq([0xffe3].pack("U"))
-  end
-
-  it "U+FFE3が0x8150に変換されること" do
-    expect(utf8_to_sjis([0xffe3].pack("U"))).to eq(sjis("\x81\x50"))
-  end
-
-  it "U+203Eが0x8150に変換されること" do
-    expect(utf8_to_sjis([0x203e].pack("U"))).to eq(sjis("\x81\x50"))
-  end
-
-  it "U+2014が0x815Cに変換されること" do
-    expect(utf8_to_sjis([0x2014].pack("U"))).to eq(sjis("\x81\x5C"))
-  end
-
-  it "U+2212が0x817Cに変換されること" do
-    expect(utf8_to_sjis([0x2212].pack("U"))).to eq(sjis("\x81\x7C"))
-  end
-
-  it "jis_string_regexpでISO-2022-JPの文字列がマッチすること" do
-    expect(jis_string_regexp.match(ascii_8bit(utf8_to_jis("abcしからずんばこじをえずdef")))).not_to be_nil
-    expect(jis_to_utf8(jis("\x1b\x24\x42#{$1}\x1b\x28\x42"))).to eq("しからずんばこじをえず")
-  end
-
-  it "sjis_to_utf8 ですべての改行コードが LF に変更されること" do
-    expect(sjis_to_utf8("SJIS\rSAMPLE\nTEXT\r\n")).to eq(utf8("SJIS\nSAMPLE\nTEXT\n"))
-  end
-
-  it "utf8_to_sjis で変換できない文字列が含んでいた場合?に変換される" do
-    expect(utf8_to_jis("اللغة العربية")).to eq(jis("????? ???????"))
-  end
-
-  it "utf8_to_jis ですべての改行コードが CRLF に変更されること" do
-    expect(utf8_to_jis("UTF8\rSAMPLE\nTEXT\r\n")).to eq(jis("UTF8\r\nSAMPLE\r\nTEXT\r\n"))
-  end
-
-  it "jis_to_utf8 ですべての改行コードが LF に変更されること" do
-    expect(jis_to_utf8("JIS\rSAMPLE\nTEXT\r\n")).to eq(utf8("JIS\nSAMPLE\nTEXT\n"))
+  describe 'jis_to_utf8' do
+    it "jis_to_utf8 ですべての改行コードが LF に変更されること" do
+      expect(jis_to_utf8("JIS\rSAMPLE\nTEXT\r\n")).to eq(utf8("JIS\nSAMPLE\nTEXT\n"))
+    end
   end
 
   describe '#force_encode' do

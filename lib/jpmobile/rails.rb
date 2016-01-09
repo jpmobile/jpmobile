@@ -6,7 +6,8 @@ ActiveSupport.on_load(:action_controller) do
   require 'jpmobile/hook_action_view'
   require 'jpmobile/trans_sid'
   require 'jpmobile/hook_test_request'
-  require 'jpmobile/hook_action_dispatch'
+  ActionDispatch::Request.send :prepend, Jpmobile::Encoding
+  ActionDispatch::Request.send :include, Jpmobile::RequestWithMobile
   ActionController::Base.send :prepend, Jpmobile::FallbackViewSelector
   ActionController::Base.send :prepend, Jpmobile::TransSidRedirecting
 end

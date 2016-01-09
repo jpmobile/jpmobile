@@ -1,3 +1,3 @@
 module Jpmobile
-  VERSION = "4.2.0"
+  VERSION = "5.0.0.beta1"
 end

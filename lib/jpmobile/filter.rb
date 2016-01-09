@@ -69,10 +69,9 @@ module Jpmobile
 
     def before(controller)
       @controller = controller
+
       if apply_incoming?
-        Util.deep_apply(@controller.params) do |value|
-          value = to_internal(value)
-        end
+        @controller.params = convert_parameters(@controller.params.dup)
       end
     end
 
@@ -164,6 +163,16 @@ module Jpmobile
     def default_charset
       if @controller.request.mobile?
         @controller.request.mobile.default_charset
+      end
+    end
+
+    def convert_parameters(params)
+      params.each do |k, v|
+        if params[k].respond_to?(:each)
+          params[k] = convert_parameters(params[k])
+        else
+          params[k] = to_internal(v)
+        end
       end
     end
   end

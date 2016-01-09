@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 class FilterControllerBase < ApplicationController
   def abracadabra_utf8
-    render plain: "アブラカダブラ"
+    @text = "アブラカダブラ"
+    render 'filter/text_template'
   end
   def abracadabra_xhtml_utf8
     response.content_type = "application/xhtml+xml"
-    render plain: "アブラカダブラ"
+    @text = "アブラカダブラ"
+    render 'filter/text_template'
   end
   def index
     @q = params[:q]
@@ -24,12 +26,15 @@ class FilterControllerBase < ApplicationController
     send_data "アブラカダブラ", :type => 'application/octet-stream'
   end
   def textarea
-    render plain: '<textarea hoge="fuu">アブラカダブラ</textarea>'
+    @text = '<textarea hoge="fuu">アブラカダブラ</textarea>'.html_safe
+    render 'filter/text_template'
   end
   def input_tag
-    render plain: '<input hoge="fuu" value="アブラカダブラ" />'
+    @text = '<input hoge="fuu" value="アブラカダブラ" />'.html_safe
+    render 'filter/text_template'
   end
   def nbsp_char
-    render plain: '<a>アブラ&nbsp;カダブラ</a>'
+    @text = '<a>アブラ&nbsp;カダブラ</a>'.html_safe
+    render 'filter/text_template'
   end
 end

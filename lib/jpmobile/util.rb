@@ -24,23 +24,6 @@ module Jpmobile
     FULLWIDTH_HYPHEN_MINUS = [0xFF0D].pack("U")
 
     module_function
-    def deep_apply(obj, &proc)
-      case obj
-      when Hash
-        obj.each_pair do |key, value|
-          obj[key] = deep_apply(value, &proc)
-        end
-      when Array
-        obj.collect!{|value| deep_apply(value, &proc)}
-      when String
-        obj = obj.to_param if obj.respond_to?(:to_param)
-        proc.call(obj)
-      else
-        # NilClass, TrueClass, FalseClass, Tempfile, StringIO, etc...
-        return obj
-      end
-    end
-
     def deep_convert(obj, &proc)
       case obj
       when Hash

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'rails_helper'
 
-describe "jpmobile integration spec", type:  :feature do
+describe "jpmobile integration spec", type: :feature do
   include Jpmobile::Util
 
   before do

@@ -6,32 +6,6 @@ require 'nkf'
 describe Jpmobile::Util do
   include Jpmobile::Util
 
-  describe 'deep_apply' do
-    it 'nilのときはnilを返すこと' do
-      expect(deep_apply(nil) {|obj| obj }).to equal(nil)
-    end
-
-    it 'trueのときはtrueを返すこと' do
-      expect(deep_apply(true) {|obj| obj }).to equal(true)
-    end
-
-    it 'falseのときはそのまま値を返すこと' do
-      expect(deep_apply(false) {|obj| obj }).to equal(false)
-    end
-
-    it 'Tempfileのインスタンスのときはそのまま値を返すこと' do
-      temp = Tempfile.new('test')
-      expect(deep_apply(temp) {|obj| obj}.object_id).to equal(temp.object_id)
-      # 本来 deep_apply(temp) {|obj| obj }.should equal(temp) が通るべきのような。
-      # 参考 http://blade.nagaokaut.ac.jp/cgi-bin/scat.rb/ruby/ruby-list/41720
-    end
-
-    it 'StringIOのインスタンスのときはそのまま値を返すこと' do
-      string_io = StringIO.new('test')
-      expect(deep_apply(string_io) {|obj| obj }).to equal(string_io)
-    end
-  end
-
   describe 'utf8_to_sjis' do
     it "utf8_to_sjis で変換できない文字列が含んでいた場合?に変換される" do
       expect(utf8_to_sjis("اللغة العربية")).to eq(sjis("????? ???????"))

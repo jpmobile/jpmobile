@@ -4,7 +4,10 @@ gem 'jpmobile',             path: './vendor/jpmobile'
 gem 'jpmobile-terminfo',    path: './vendor/jpmobile-terminfo'
 gem 'jpmobile-ipaddresses', path: './vendor/jpmobile-ipaddresses'
 
-gem 'activerecord-session_store'
+gem 'activerecord-session_store', path: './vendor/activerecord-session_store'
+
+gem 'pry'
+gem 'pry-byebug'
 
 # Bundle gems for certain environments:
 group :development, :test do

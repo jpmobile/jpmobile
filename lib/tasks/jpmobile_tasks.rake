@@ -36,7 +36,7 @@ namespace :test do
       FileUtils.rm_rf("Gemfile.lock")
       FileUtils.rm_rf(rails_root)
       FileUtils.mkdir_p(rails_root)
-      `rails new #{rails_root} --skip-bundle`
+      `rails _5.0.0.beta1_ new #{rails_root} --skip-bundle`
     end
 
     # setup jpmobile
@@ -62,6 +62,17 @@ namespace :test do
       plugin_path = File.join(rails_root, 'vendor', 'jpmobile-terminfo')
       FileUtils.mkdir_p(plugin_path)
       FileList["vendor/jpmobile-terminfo/*"].exclude("test").each do |file|
+        FileUtils.cp_r(file, plugin_path)
+      end
+    rescue LoadError
+      puts "Terminal display information test requires jpmobile-terminfo module"
+    end
+
+    # setup activerecord-session_store
+    begin
+      plugin_path = File.join(rails_root, 'vendor', 'activerecord-session_store')
+      FileUtils.mkdir_p(plugin_path)
+      FileList["../activerecord-session_store/*"].exclude("test").each do |file|
         FileUtils.cp_r(file, plugin_path)
       end
     rescue LoadError
@@ -99,7 +110,7 @@ END
     ruby "-S bundle install"
     ruby "-S rake db:migrate RAILS_ENV=test" unless skip
     ruby "-S rake spec"
-    # ruby "-S rspec -b --color spec/requests/filter_spec.rb -e 'jpmobile integration spec HankakuInputFilterController SoftBank 910T からのアクセス it should behave like hankaku_filter :input => true のとき はtextareaの中では半角に変換されないこと'"
+    # ruby "-S rspec -b --color spec/features/filter_spec.rb"
   end
   desc "Run sinatra on jpmobile tests"
   Rake::TestTask.new(:sinatra) do |t|

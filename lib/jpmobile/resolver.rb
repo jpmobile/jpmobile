@@ -11,11 +11,12 @@ module Jpmobile
 
     private
 
-    def query(path, details, formats)
+    def query(path, details, formats, outside_app_allowed)
       query = build_query(path, details)
 
       begin
         template_paths = find_template_paths query
+        template_paths = reject_files_external_to_app(template_paths) unless outside_app_allowed
       rescue NoMethodError
         self.class_eval do
           def find_template_paths(query)

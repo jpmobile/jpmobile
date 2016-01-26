@@ -11,7 +11,7 @@ module Jpmobile
 
     private
 
-    def query(path, details, formats)
+    def query(path, details, formats, _)
       query = build_query(path, details)
 
       begin

@@ -108,8 +108,8 @@ END
     # run tests in rails
     cd rails_root
     ruby "-S bundle install"
-    ruby "-S rake db:migrate RAILS_ENV=test" unless skip
-    ruby "-S rake spec"
+    ruby "-S rails db:migrate RAILS_ENV=test" unless skip
+    ruby "-S rails spec"
     # ruby "-S rspec -b --color spec/features/filter_spec.rb"
   end
   desc "Run sinatra on jpmobile tests"

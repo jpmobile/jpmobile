@@ -1,7 +1,7 @@
 module Jpmobile
   class Resolver < ActionView::FileSystemResolver
     EXTENSIONS = [:locale, :formats, :handlers, :mobile]
-    DEFAULT_PATTERN = ":prefix/:action{_:mobile,}{.:locale,}{.:formats,}{.:handlers,}"
+    DEFAULT_PATTERN = ":prefix/:action{_:mobile,}{.:locale,}{.:formats,}{+:variants,}{.:handlers,}"
 
     def initialize(path, pattern=nil)
       raise ArgumentError, "path already is a Resolver class" if path.is_a?(Resolver)

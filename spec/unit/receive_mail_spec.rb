@@ -369,7 +369,7 @@ describe "Jpmobile::Mail#receive" do
       end
 
       it "body should be parsed correctly" do
-        expect(@mail.body.to_s).to eq("(=ﾟωﾟ)ﾉ\n\n\n")
+        @mail.body.to_s.should == "(=ﾟωﾟ)ﾉ\n\n\n"
       end
     end
   end

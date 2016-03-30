@@ -15,7 +15,7 @@ gem 'jpmobile-ipaddresses', :path => '../../../vendor/jpmobile-ipaddresses'
 
 # Bundle gems for certain environments:
 group :development, :test do
-  gem "rspec", ">= 2.8.0"
-  gem "rspec-rails", ">= 2.8.0"
+  gem "rspec", "~> 2.9.0"
+  gem "rspec-rails", "~> 2.9.0"
   gem 'webrat'
 end

@@ -110,7 +110,7 @@ module Mail
 
     # In jpmobile, value is already transfered correctly encodings.
     def raw_source=(value)
-      @raw_source = value.to_crlf
+      @raw_source = ::Mail::Utilities.to_crlf(value)
     end
 
     def separate_parts_with_jpmobile
@@ -299,7 +299,7 @@ module Mail
     attr_accessor :mobile, :content_type_with_jpmobile
 
     def raw_source_with_jpmobile
-      raw_source_without_jpmobile.to_crlf
+      ::Mail::Utilities.to_crlf(raw_source_without_jpmobile)
     end
 
     # convert encoding

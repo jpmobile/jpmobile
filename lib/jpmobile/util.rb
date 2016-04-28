@@ -336,7 +336,7 @@ module Jpmobile
              end
 
       _extract_charset = Jpmobile::Util.extract_charset(_str)
-      charset = _extract_charset unless _extract_charset.blank? or _extract_charset == charset
+      charset = _extract_charset unless _extract_charset.empty? or _extract_charset == charset
       Jpmobile::Util.set_encoding(_str, charset)
     end
   end

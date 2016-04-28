@@ -384,11 +384,11 @@ describe "Jpmobile::Mail#receive" do
       end
 
       it "subject should be parsed correctly" do
-        expect(@mail.subject).to be_blank
+        expect(@mail.subject).to be_nil
       end
 
       it "body should be parsed correctly" do
-        expect(@mail.body.to_s).to be_blank
+        expect(@mail.body.to_s).to be_empty
       end
     end
   end

@@ -237,7 +237,7 @@ module Mail
       # override charset
       if self.header[:content_type]
         @charset = header[:content_type].parameters[:charset] || ''
-        unless @charset.blank?
+        unless @charset.empty?
           @mobile_main_type = self.header[:content_type].main_type
         end
       end
@@ -248,7 +248,7 @@ module Mail
         header[:subject].value = header[:subject].decoded
       end
 
-      if @body_part_jpmobile and @mobile and !@charset.blank?
+      if @body_part_jpmobile and @mobile and !@charset.empty?
         if ["base64", "quoted-printable"].include?(self.content_transfer_encoding) and
             self.content_type.match(/text/)
           @body_part_jpmobile = Jpmobile::Util.decode(@body_part_jpmobile, self.content_transfer_encoding, @charset)

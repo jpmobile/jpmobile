@@ -116,11 +116,9 @@ module ActionController
 
       case trans_sid_mode
       when :always
-        session.inspect
         return true
       when :mobile
         if request.mobile? and !request.mobile.supports_cookie?
-          session.inspect
           return true
         end
       end

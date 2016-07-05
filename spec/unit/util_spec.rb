@@ -34,6 +34,10 @@ describe Jpmobile::Util do
     it "utf8_to_sjis で変換できない文字列が含んでいた場合?に変換される" do
       expect(utf8_to_jis("اللغة العربية")).to eq(jis("????? ???????"))
     end
+
+    it "frozenでも通過すること" do
+      expect { utf8_to_jis("漢字".freeze) }.not_to raise_error
+    end
   end
 
   describe 'sjis_to_utf8' do
@@ -44,11 +48,19 @@ describe Jpmobile::Util do
     it "sjis_to_utf8 ですべての改行コードが LF に変更されること" do
       expect(sjis_to_utf8("SJIS\rSAMPLE\nTEXT\r\n")).to eq(utf8("SJIS\nSAMPLE\nTEXT\n"))
     end
+
+    it "frozenでも通過すること" do
+      expect { sjis_to_utf8("漢字".encode('SJIS').freeze) }.not_to raise_error
+    end
   end
 
   describe 'utf8_to_jis' do
     it "utf8_to_jis ですべての改行コードが CRLF に変更されること" do
       expect(utf8_to_jis("UTF8\rSAMPLE\nTEXT\r\n")).to eq(jis("UTF8\r\nSAMPLE\r\nTEXT\r\n"))
+    end
+
+    it "frozenでも通過すること" do
+      expect { utf8_to_jis("漢字".freeze) }.not_to raise_error
     end
   end
 
@@ -63,6 +75,10 @@ describe Jpmobile::Util do
     it "jis_to_utf8 ですべての改行コードが LF に変更されること" do
       expect(jis_to_utf8("JIS\rSAMPLE\nTEXT\r\n")).to eq(utf8("JIS\nSAMPLE\nTEXT\n"))
     end
+
+    it "frozenでも通過すること" do
+      expect { jis_to_utf8("漢字".encode('ISO-2022-JP').freeze) }.not_to raise_error
+    end
   end
 
   describe '#force_encode' do
@@ -73,31 +89,83 @@ describe Jpmobile::Util do
     it 'does not enter infinite loop on retry' do
       expect{ force_encode("\e\x28\x49\x9a\x43\x3D\x44\e\x28\x42".force_encoding('ISO-2022-JP'), 'iso-2022-jp', 'UTF-8') }.to raise_error ::Encoding::InvalidByteSequenceError
     end
+
+    it "frozenでも通過すること" do
+      expect { force_encode("漢字".encode('ISO-2022-JP').freeze, 'iso-2022-jp', 'UTF-8') }.not_to raise_error
+    end
   end
 
-  it "fold_textでUTF-8の日本語文字列が指定文字数で折り返された配列で返ること" do
-    expect(fold_text('長い日本語の題名で折り返されるかようにするには事前に分割していないとダメなことがわかりましたよ', 15)).to eq([
-      '長い日本語の題名で折り返される',
-      'かようにするには事前に分割して',
-      'いないとダメなことがわかりまし',
-      'たよ'
-    ])
+  describe '#fold_text' do
+    it "UTF-8の日本語文字列が指定文字数で折り返された配列で返ること" do
+      expect(fold_text('長い日本語の題名で折り返されるかようにするには事前に分割していないとダメなことがわかりましたよ', 15)).to eq([
+        '長い日本語の題名で折り返される',
+        'かようにするには事前に分割して',
+        'いないとダメなことがわかりまし',
+        'たよ'
+      ])
+    end
+
+    it "UTF-8の短い文字列は折り返されないこと" do
+      expect(fold_text('短い', 15)).to eq(['短い'])
+    end
+
+    it "frozenでも通過すること" do
+      expect { fold_text(("漢字" * 10).freeze, 15) }.not_to raise_error
+    end
   end
 
-  it "fold_textでUTF-8の短い文字列は折り返されないこと" do
-    expect(fold_text('短い', 15)).to eq(['短い'])
+  describe '#split_text' do
+    it "UTF-8の日本語文字列が指定文字数で2つに分割されること" do
+      expect(split_text('長い日本語の題名で折り返されるかようにするには事前に分割していないとダメなことがわかりましたよ', 15)).to eq([
+        '長い日本語の題名で折り返される',
+        'かようにするには事前に分割していないとダメなことがわかりましたよ'
+      ])
+    end
+
+    it "nilかblankの場合はnilが返ること" do
+      expect(split_text('', 15)).to be_nil
+      expect(split_text(nil, 15)).to be_nil
+    end
+
+    it "frozenでも通過すること" do
+      expect { split_text(("漢字" * 10).freeze, 15) }.not_to raise_error
+    end
   end
 
-  it "split_textでUTF-8の日本語文字列が指定文字数で2つに分割されること" do
-    expect(split_text('長い日本語の題名で折り返されるかようにするには事前に分割していないとダメなことがわかりましたよ', 15)).to eq([
-      '長い日本語の題名で折り返される',
-      'かようにするには事前に分割していないとダメなことがわかりましたよ'
-    ])
+  describe '#sjis' do
+    it "frozenでも通過すること" do
+      expect { sjis("漢字".freeze) }.not_to raise_error
+    end
   end
 
-  it "split_textでnilかblankの場合はnilが返ること" do
-    expect(split_text('', 15)).to be_nil
-    expect(split_text(nil, 15)).to be_nil
+  describe '#utf8' do
+    it "frozenでも通過すること" do
+      expect { utf8("漢字".freeze) }.not_to raise_error
+    end
+  end
+
+  describe '#jis' do
+    it "frozenでも通過すること" do
+      expect { jis("漢字".freeze) }.not_to raise_error
+    end
+  end
+
+  describe '#jis_win' do
+    it "frozenでも通過すること" do
+      expect { jis_win("漢字".freeze) }.not_to raise_error
+    end
+  end
+
+  describe '#ascii_8bit' do
+    it "frozenでも通過すること" do
+      expect { ascii_8bit("漢字".freeze) }.not_to raise_error
+    end
+  end
+
+  describe '#ascii_compatible!' do
+    it "frozenでも通過すること" do
+      expect { ascii_compatible!("漢字".freeze) }.not_to raise_error
+    end
   end
 
   it "全角チルダがjisに適切に変換されること" do

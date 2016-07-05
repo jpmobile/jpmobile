@@ -103,7 +103,7 @@ module Jpmobile
       unless @options[:input]
         filter(:hankaku, str)
       else
-        encoding = (str =~ /^\s*<[^Hh>]*html/) and str.respond_to?(:encoding)
+        encoding = (str =~ /^\s*<[^Hh>]*html/)
         nokogiri_klass =
           (str =~ /^\s*<[^Hh>]*html/) ? Nokogiri::HTML::Document : Nokogiri::HTML::DocumentFragment
         doc = if encoding
@@ -124,11 +124,8 @@ module Jpmobile
       str = str.dup
 
       # 一度UTF-8に変換
-      before_encoding = nil
-      if str.respond_to?(:force_encoding)
-        before_encoding = str.encoding
-        str.force_encoding("UTF-8")
-      end
+      before_encoding = str.encoding
+      str.force_encoding("UTF-8")
 
       str = self.class.send("#{method}_format", str)
 

@@ -51,42 +51,42 @@ module Jpmobile
 
     def sjis(str)
       if str.respond_to?(:force_encoding) and !shift_jis?(str)
-        str.force_encoding(SJIS)
+        str = str.dup.force_encoding(SJIS)
       end
       str
     end
 
     def utf8(str)
       if str.respond_to?(:force_encoding) and !utf8?(str)
-        str.force_encoding(UTF8)
+        str = str.dup.force_encoding(UTF8)
       end
       str
     end
 
     def jis(str)
       if str.respond_to?(:force_encoding) and !jis?(str)
-        str.force_encoding(JIS)
+        str = str.dup.force_encoding(JIS)
       end
       str
     end
 
     def jis_win(str)
       if str.respond_to?(:force_encoding) and !jis?(str)
-        str.force_encoding(JIS_WIN)
+        str = str.dup.force_encoding(JIS_WIN)
       end
       str
     end
 
     def ascii_8bit(str)
       if str.respond_to?(:force_encoding) and !ascii_8bit?(str)
-        str.force_encoding(BINARY)
+        str = str.dup.force_encoding(BINARY)
       end
       str
     end
 
     def ascii_compatible!(str)
       if str.respond_to?(:encoding) and !str.encoding.ascii_compatible?
-        str.force_encoding(BINARY)
+        str = str.dup.force_encoding(BINARY)
       end
       str
     end

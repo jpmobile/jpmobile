@@ -49,42 +49,42 @@ module Jpmobile
     end
 
     def sjis(str)
-      if !shift_jis?(str)
+      unless shift_jis?(str)
         str = str.dup.force_encoding(SJIS)
       end
       str
     end
 
     def utf8(str)
-      if !utf8?(str)
+      unless utf8?(str)
         str = str.dup.force_encoding(UTF8)
       end
       str
     end
 
     def jis(str)
-      if !jis?(str)
+      unless jis?(str)
         str = str.dup.force_encoding(JIS)
       end
       str
     end
 
     def jis_win(str)
-      if !jis?(str)
+      unless jis?(str)
         str = str.dup.force_encoding(JIS_WIN)
       end
       str
     end
 
     def ascii_8bit(str)
-      if !ascii_8bit?(str)
+      unless ascii_8bit?(str)
         str = str.dup.force_encoding(BINARY)
       end
       str
     end
 
     def ascii_compatible!(str)
-      if !str.encoding.ascii_compatible?
+      unless str.encoding.ascii_compatible?
         str = str.dup.force_encoding(BINARY)
       end
       str

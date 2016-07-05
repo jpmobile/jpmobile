@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 require 'tempfile'
-require 'nkf'
 
 module Jpmobile
   module Util
@@ -50,42 +49,42 @@ module Jpmobile
     end
 
     def sjis(str)
-      if str.respond_to?(:force_encoding) and !shift_jis?(str)
+      if !shift_jis?(str)
         str = str.dup.force_encoding(SJIS)
       end
       str
     end
 
     def utf8(str)
-      if str.respond_to?(:force_encoding) and !utf8?(str)
+      if !utf8?(str)
         str = str.dup.force_encoding(UTF8)
       end
       str
     end
 
     def jis(str)
-      if str.respond_to?(:force_encoding) and !jis?(str)
+      if !jis?(str)
         str = str.dup.force_encoding(JIS)
       end
       str
     end
 
     def jis_win(str)
-      if str.respond_to?(:force_encoding) and !jis?(str)
+      if !jis?(str)
         str = str.dup.force_encoding(JIS_WIN)
       end
       str
     end
 
     def ascii_8bit(str)
-      if str.respond_to?(:force_encoding) and !ascii_8bit?(str)
+      if !ascii_8bit?(str)
         str = str.dup.force_encoding(BINARY)
       end
       str
     end
 
     def ascii_compatible!(str)
-      if str.respond_to?(:encoding) and !str.encoding.ascii_compatible?
+      if !str.encoding.ascii_compatible?
         str = str.dup.force_encoding(BINARY)
       end
       str
@@ -101,21 +100,13 @@ module Jpmobile
       # マイナス対策（不可逆的）
       utf8_str = minus_sign_to_fullwidth_hyphen_minus(utf8_str)
 
-      if utf8_str.respond_to?(:encode)
-        utf8_str.
+      utf8_str.
         gsub(/(\r\n|\r|\n)/, "\r\n").
         encode(SJIS, :undef => :replace, :replace => '?')
-      else
-        NKF.nkf("-m0 -x -W --oc=cp932 --fb-subchar=63", utf8_str).gsub(/(\r\n|\r|\n)/, "\r\n")
-      end
     end
 
     def sjis_to_utf8(sjis_str)
-      utf8_str = if sjis_str.respond_to?(:encode)
-                   sjis_str.encode("UTF-8", :universal_newline => true)
-                 else
-                   NKF.nkf("-m0 -x -w --ic=cp932", sjis_str).gsub(/\r\n?/, "\n")
-                 end
+      utf8_str = sjis_str.encode("UTF-8", :universal_newline => true)
 
       # 波ダッシュ対策
       fullwidth_tilde_to_wavedash(utf8_str)
@@ -125,21 +116,13 @@ module Jpmobile
       # 波ダッシュ対策
       utf8_str = fullwidth_tilde_to_wavedash(utf8_str)
 
-      if utf8_str.respond_to?(:encode)
-        utf8_str.
+      utf8_str.
         gsub(/(\r\n|\r|\n)/, "\r\n").
         encode(JIS, :undef => :replace, :replace => '?')
-      else
-        NKF.nkf("-m0 -x -Wj --fb-subchar=63", utf8_str).gsub(/(\r\n|\r|\n)/, "\r\n")
-      end
     end
 
     def jis_to_utf8(jis_str)
-      if jis_str.respond_to?(:encode)
-        jis_str.encode(UTF8, :universal_newline => true)
-      else
-        NKF.nkf("-m0 -x -Jw", jis_str).gsub(/\r\n?/, "\n")
-      end
+      jis_str.encode(UTF8, :universal_newline => true)
     end
 
     def regexp_utf8_to_sjis(utf8_str)

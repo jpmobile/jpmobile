@@ -5,7 +5,6 @@ layout: default
 - [GitHub Project Page](http://github.com/jpmobile/jpmobile)
 - [RDoc Documentation](http://rdoc.info/projects/jpmobile/jpmobile)
 - [Google Group](http://groups.google.com/group/jpmobile)
-- IRC #jpmobile@freenode.net (UTF-8)
 
 ## License
 MIT-LICENSE

@@ -1,13 +1,11 @@
-module ActionDispatch
-  module Session
-    class MemCacheStore
-      def destroy_session_with_jpmobile(env, session_id, options)
-        destroy_session_without_jpmobile(env, session_id, options)
+module Jpmobile
+  module MemCacheStoreRegenerateSessionId
+    def destroy_session(env, session_id, options)
+      super(env, session_id, options)
 
-        session_id || generate_sid
-      end
-
-      alias_method_chain :destroy_session, :jpmobile
+      session_id || generate_sid
     end
   end
 end
+
+ActionDispatch::Session::MemCacheStore.send :prepend Jpmobile::MemCacheStoreRegenerateSessionId

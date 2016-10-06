@@ -17,7 +17,7 @@ ActiveSupport.on_load(:after_initialize) do
   when "ActionDispatch::Session::MemCacheStore"
     require 'jpmobile/session/mem_cache_store'
     ActionDispatch::Session::MemCacheStore.send :prepend, Jpmobile::ParamsOverCookie
-  when "ActiveRecord::SessionStore"
+  when "ActionDispatch::Session::ActiveRecordStore"
     require 'jpmobile/session/active_record_store'
     ActionDispatch::Session::AbstractStore.send :prepend, Jpmobile::ParamsOverCookie
   else

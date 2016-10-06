@@ -8,4 +8,4 @@ module Jpmobile
   end
 end
 
-ActionDispatch::Session::ActiveRecordStore.send :prepend Jpmobile::ActiveRecordStoreRegenerateSessionId
+ActionDispatch::Session::ActiveRecordStore.send :prepend, Jpmobile::ActiveRecordStoreRegenerateSessionId

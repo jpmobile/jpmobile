@@ -8,4 +8,4 @@ module Jpmobile
   end
 end
 
-ActionDispatch::Session::MemCacheStore.send :prepend Jpmobile::MemCacheStoreRegenerateSessionId
+ActionDispatch::Session::MemCacheStore.send :prepend, Jpmobile::MemCacheStoreRegenerateSessionId

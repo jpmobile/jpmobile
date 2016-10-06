@@ -17,8 +17,8 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
 
   gem.add_development_dependency 'rails', '~> 5.0.0'
-  gem.add_development_dependency 'rspec', '3.5.0.beta4'
-  gem.add_development_dependency 'rspec-rails', '3.5.0.beta4'
+  gem.add_development_dependency 'rspec'
+  gem.add_development_dependency 'rspec-rails'
   gem.add_development_dependency 'rspec-its'
   gem.add_development_dependency 'capybara-webkit'
   gem.add_development_dependency 'geokit'

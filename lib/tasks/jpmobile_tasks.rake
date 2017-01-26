@@ -105,11 +105,20 @@ END
     end
 
     # run tests in rails
-    cd rails_root
-    ruby "-S bundle install"
-    ruby "-S rails db:migrate RAILS_ENV=test" unless skip
-    ruby "-S rails spec"
-    # ruby "-S rspec -b --color spec/features/filter_spec.rb"
+    Dir.chdir(rails_root) do
+      Bundler.with_clean_env do
+        original_env = ENV.to_hash
+
+        ENV.update('RBENV_VERSION' => nil)
+        ENV.update('RBENV_DIR' => nil)
+
+        system 'bundle install'
+        system 'bin/rails db:migrate RAILS_ENV=test' unless skip
+        system 'bin/rails spec'
+
+        ENV.replace(original_env)
+      end
+    end
   end
   desc "Run sinatra on jpmobile tests"
   Rake::TestTask.new(:sinatra) do |t|

@@ -1,0 +1,14 @@
+machine:
+  timezone:
+    Asia/Tokyo
+  ruby:
+    version: 2.4.0
+
+dependencies:
+  pre:
+    - |
+      sudo python -m smtpd -n -c DebuggingServer localhost:25 2>&1 > /dev/null &
+
+test:
+  override:
+    - rake test

@@ -4,11 +4,7 @@ machine:
   ruby:
     version: 2.4.0
 
-dependencies:
-  pre:
-    - |
-      sudo python -m smtpd -n -c DebuggingServer localhost:25 2>&1 > /dev/null &
-
 test:
   override:
+    - python -m smtpd -n -c DebuggingServer localhost:1025 2>&1 > /dev/null &
     - bundle exec rake test

@@ -342,7 +342,7 @@ describe "Jpmobile::Mail" do
     end
 
     it "delivers through SMTP" do
-      @mail.delivery_method :smtp, {:enable_starttls_auto => false}
+      @mail.delivery_method :smtp, { enable_starttls_auto: false, port: 1025 }
       expect {
         @mail.deliver
       }.not_to raise_error

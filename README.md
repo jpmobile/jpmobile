@@ -1,3 +1,6 @@
+[![CircleCI](https://circleci.com/gh/jpmobile/jpmobile/tree/master.svg?style=svg)](https://circleci.com/gh/jpmobile/jpmobile/tree/master)
+[![Code Climate](https://codeclimate.com/github/jpmobile/jpmobile/badges/gpa.svg)](https://codeclimate.com/github/jpmobile/jpmobile)
+
 # jpmobile: A Rails plugin for Japanese mobile-phones
 
 ## jpmobileとは

@@ -1,0 +1,9 @@
+machine:
+  timezone:
+    Asia/Tokyo
+  ruby:
+    version: 2.4.0
+
+test:
+  override:
+    - bundle exec rake test

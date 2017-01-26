@@ -342,7 +342,16 @@ describe "Jpmobile::Mail" do
     end
 
     it "delivers through SMTP" do
-      @mail.delivery_method :smtp, {:enable_starttls_auto => false}
+      @mail.delivery_method :smtp, {
+                              enable_starttls_auto: false,
+                              user_name: ENV['MAILTRAP_USERNAME'],
+                              password: ENV['MAILTRAP_PASSWORD'],
+                              address: 'mailtrap.io',
+                              domain: 'mailtrap.io',
+                              port: '2525',
+                              authentication: :cram_md5
+                            }
+
       expect {
         @mail.deliver
       }.not_to raise_error

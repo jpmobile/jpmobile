@@ -6,5 +6,4 @@ machine:
 
 test:
   override:
-    - python -m smtpd -n -c DebuggingServer localhost:1025 2>&1 > /dev/null &
     - bundle exec rake test

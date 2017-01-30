@@ -3,7 +3,7 @@
 # thanks to masuidrive <masuidrive (at) masuidrive.jp>
 
 ActiveSupport.on_load(:action_controller) do
-  def self.hankaku_filter(options={})
+  def self.hankaku_filter(options = {})
     before_action Jpmobile::HankakuFilter.new(options)
     after_action  Jpmobile::HankakuFilter.new(options)
   end

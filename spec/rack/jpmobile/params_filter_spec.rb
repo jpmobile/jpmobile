@@ -193,7 +193,7 @@ describe Jpmobile::ParamsFilter do
         req = Rack::Request.new(res[1])
         expect(req.params.size).to eq(1)
 
-        expect(req.params['foo']).to  eq(ascii_8bit(token))
+        expect(req.params['foo']).to eq(ascii_8bit(token))
       end
     end
   end
@@ -215,7 +215,7 @@ describe Jpmobile::ParamsFilter do
         req = Rack::Request.new(res[1])
         expect(req.params.size).to eq(0)
 
-        expect(req.body.read).to  eq(form_string)
+        expect(req.body.read).to eq(form_string)
       end
     end
   end
@@ -237,7 +237,7 @@ describe Jpmobile::ParamsFilter do
         req = Rack::Request.new(res[1])
         expect(req.params.size).to eq(0)
 
-        expect(req.body.read).to  eq(form_string)
+        expect(req.body.read).to eq(form_string)
       end
     end
   end

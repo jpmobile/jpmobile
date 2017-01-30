@@ -17,7 +17,7 @@ module Jpmobile
       elsif respond_to?(:ip)
         __send__(:ip)         # for Rack
       else
-        ( env['HTTP_X_FORWARDED_FOR'] ? env['HTTP_X_FORWARDED_FOR'].split(',').pop : env['REMOTE_ADDR'] )
+        (env['HTTP_X_FORWARDED_FOR'] ? env['HTTP_X_FORWARDED_FOR'].split(',').pop : env['REMOTE_ADDR'])
       end
     end
 

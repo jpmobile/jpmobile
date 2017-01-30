@@ -145,7 +145,7 @@ module Jpmobile
     #
     # 携帯側エンコーディングがShift_JIS場合は +to_sjis+ に +true+ を指定する。
     # +true+ を指定すると変換テーブルに文字列が指定されている場合にShift_JISで出力される。
-    def self.unicodecr_to_external(str, conversion_table=nil, to_sjis=true)
+    def self.unicodecr_to_external(str, conversion_table = nil, to_sjis = true)
       str.gsub(/&#x([0-9a-f]{4});/i) do |match|
         unicode = $1.scanf('%x').first
 

@@ -636,7 +636,7 @@ describe MobileMailer, 'receiving', type: :mailer do
 
         parts = email.parts.first.parts
         expect(parts.first.body).to match('テストです&#xe72d;')
-        expect(parts.last.body.raw_source).to  match('テストです&#xe72d;')
+        expect(parts.last.body.raw_source).to match('テストです&#xe72d;')
       end
     end
 

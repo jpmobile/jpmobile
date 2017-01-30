@@ -9,7 +9,7 @@ module Jpmobile
     # :show_all => +true+ とするとキャリア判別を行わず全てキャリアのリンクを返す。
     # 第1引数に文字列を与えるとその文字列をアンカーテキストにする。
     # 第1引数がHashの場合はデフォルトのアンカーテキストを出力する。
-    def get_position_link_to(str=nil, options={})
+    def get_position_link_to(str = nil, options = {})
       if str.is_a?(Hash)
         options = str
         str = nil
@@ -43,7 +43,7 @@ module Jpmobile
     end
 
     # DoCoMo FOMAでGPS位置情報を取得するためのリンクを返す。
-    def docomo_foma_gps_link_to(str, options={})
+    def docomo_foma_gps_link_to(str, options = {})
       url = options
       if options.is_a?(Hash)
         options = options.symbolize_keys
@@ -54,7 +54,7 @@ module Jpmobile
     end
 
     # DoCoMoでオープンiエリアを取得するためのURLを返す。
-    def docomo_openiarea_url_for(options={})
+    def docomo_openiarea_url_for(options = {})
       url = options
       if options.is_a?(Hash)
         options = options.symbolize_keys
@@ -68,12 +68,12 @@ module Jpmobile
     end
 
     # DoCoMoでオープンiエリアを取得するためのリンクを返す。
-    def docomo_openiarea_link_to(str, options={})
+    def docomo_openiarea_link_to(str, options = {})
       link_to_url(str, docomo_openiarea_url_for(options))
     end
 
     # DoCoMoで端末製造番号等を取得するためのリンクを返す。
-    def docomo_utn_link_to(str, options={})
+    def docomo_utn_link_to(str, options = {})
       url = options
       if options.is_a?(Hash)
         options = options.symbolize_keys
@@ -84,7 +84,7 @@ module Jpmobile
     end
 
     # DoCoMoでiモードIDを取得するためのリンクを返す。
-    def docomo_guid_link_to(str, options={})
+    def docomo_guid_link_to(str, options = {})
       url = options
       if options.is_a?(Hash)
         options = options.symbolize_keys
@@ -95,27 +95,27 @@ module Jpmobile
     end
 
     # au GPS位置情報を取得するためのURLを返す。
-    def au_gps_url_for(options={})
+    def au_gps_url_for(options = {})
       url = options
       datum = 0 # 0:wgs84, 1:tokyo
       unit = 0 # 0:dms, 1:deg
       if options.is_a?(Hash)
         options = options.symbolize_keys
         options[:only_path] = false
-        datum = (options.delete(:datum) || 0 ).to_i # 0:wgs84, 1:tokyo
-        unit = (options.delete(:unit) || 0 ).to_i # 0:dms, 1:deg
+        datum = (options.delete(:datum) || 0).to_i # 0:wgs84, 1:tokyo
+        unit = (options.delete(:unit) || 0).to_i # 0:dms, 1:deg
         url = url_for(options)
       end
       "device:gpsone?url=#{CGI.escape(url)}&ver=1&datum=#{datum}&unit=#{unit}&acry=0&number=0"
     end
 
     # au GPS位置情報を取得するためのリンクを返す。
-    def au_gps_link_to(str, options={})
+    def au_gps_link_to(str, options = {})
       link_to_url(str, au_gps_url_for(options))
     end
 
     # au 簡易位置情報を取得するためのURLを返す。
-    def au_location_url_for(options={})
+    def au_location_url_for(options = {})
       url = options
       if options.is_a?(Hash)
         options = options.symbolize_keys
@@ -126,12 +126,12 @@ module Jpmobile
     end
 
     # au 簡易位置情報を取得するためのリンクを返す。
-    def au_location_link_to(str, options={})
+    def au_location_link_to(str, options = {})
       link_to_url(str, au_location_url_for(options))
     end
 
     # Softbank(含むVodafone 3G)で位置情報を取得するためのURLを返す。
-    def softbank_location_url_for(options={})
+    def softbank_location_url_for(options = {})
       url = options
       mode = 'auto'
       if options.is_a?(Hash)
@@ -145,12 +145,12 @@ module Jpmobile
     end
 
     # Softbank(含むVodafone 3G)で位置情報を取得するためのリンクを返す。
-    def softbank_location_link_to(str, options={})
+    def softbank_location_link_to(str, options = {})
       link_to_url(str, softbank_location_url_for(options))
     end
 
     # Willcom 基地局位置情報を取得するためのURLを返す。
-    def willcom_location_url_for(options={})
+    def willcom_location_url_for(options = {})
       url = options
       if options.is_a?(Hash)
         options = options.symbolize_keys
@@ -161,7 +161,7 @@ module Jpmobile
     end
 
     # Willcom 基地局位置情報を取得するためのリンクを返す。
-    def willcom_location_link_to(str, options={})
+    def willcom_location_link_to(str, options = {})
       link_to_url(str, willcom_location_url_for(options))
     end
 

@@ -19,7 +19,7 @@ module DatumConv
     l = l_deg * Deg2Rad
 
     e2 = f * (2 - f)
-    n = a / Math.sqrt(1 - e2 * Math.sin(b)**2 )
+    n = a / Math.sqrt(1 - e2 * Math.sin(b)**2)
 
     x = (n + he) * Math.cos(b) * Math.cos(l)
     y = (n + he) * Math.cos(b) * Math.sin(l)
@@ -52,7 +52,7 @@ module DatumConv
   end
 
   # 日本測地系から世界測地系に変換する。
-  def self.tky2jgd(b, l, he=0)
+  def self.tky2jgd(b, l, he = 0)
     x, y, z = blh2xyz(b, l, he, Bessel)
     x, y, z = xyz2xyz(x, y, z, Tokyo97toITRF94)
     b, l, he = xyz2blh(x, y, z, GRS80)
@@ -60,7 +60,7 @@ module DatumConv
   end
 
   # 世界測地系から日本測地系に変換する。
-  def self.jgd2tky(b, l, he=0)
+  def self.jgd2tky(b, l, he = 0)
     x, y, z = blh2xyz(b, l, he, GRS80)
     x, y, z = xyz2xyz(x, y, z, ITRF94toTokyo97)
     b, l, he = xyz2blh(x, y, z, Bessel)

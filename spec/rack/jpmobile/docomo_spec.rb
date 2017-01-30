@@ -189,7 +189,7 @@ describe Jpmobile::MobileCarrier, 'docomo' do
       expect(env['rack.jpmobile'].serial_number).to eq('XXXXX000000')
       expect(env['rack.jpmobile'].ident).to         eq('XXXXX000000')
       expect(env['rack.jpmobile'].icc).to be_nil
-      expect(env['rack.jpmobile'].ident_device).to  eq('XXXXX000000')
+      expect(env['rack.jpmobile'].ident_device).to eq('XXXXX000000')
       expect(env['rack.jpmobile'].ident_subscriber).to be_nil
     end
 
@@ -245,7 +245,7 @@ describe Jpmobile::MobileCarrier, 'docomo' do
       expect(env['rack.jpmobile'].display.width).to          eq(240)
       expect(env['rack.jpmobile'].display.height).to         eq(256)
       expect(env['rack.jpmobile'].display.color?).to be_truthy
-      expect(env['rack.jpmobile'].display.colors).to         eq(262144)
+      expect(env['rack.jpmobile'].display.colors).to eq(262144)
     end
   end
 end

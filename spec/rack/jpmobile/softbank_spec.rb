@@ -12,7 +12,7 @@ describe Jpmobile::MobileCarrier, 'softbank' do
       )
       env = Jpmobile::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
-      expect(env['rack.jpmobile'].class).to            eq(Jpmobile::Mobile::Softbank)
+      expect(env['rack.jpmobile'].class).to eq(Jpmobile::Mobile::Softbank)
       expect(env['rack.jpmobile'].position).to be_nil
       expect(env['rack.jpmobile'].serial_number).to    eq('000000000000000')
       expect(env['rack.jpmobile'].ident).to            eq('000000000000000')
@@ -45,7 +45,7 @@ describe Jpmobile::MobileCarrier, 'softbank' do
       )
       env = Jpmobile::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
-      expect(env['rack.jpmobile'].class).to            eq(Jpmobile::Mobile::Vodafone)
+      expect(env['rack.jpmobile'].class).to eq(Jpmobile::Mobile::Vodafone)
       expect(env['rack.jpmobile'].position).to be_nil
       expect(env['rack.jpmobile'].ident).to be_nil
       expect(env['rack.jpmobile'].supports_cookie?).to be_truthy
@@ -108,7 +108,7 @@ describe Jpmobile::MobileCarrier, 'softbank' do
       expect(env['rack.jpmobile'].display.physical_width).to  eq(240)
       expect(env['rack.jpmobile'].display.physical_height).to eq(320)
       expect(env['rack.jpmobile'].display.color?).to be_truthy
-      expect(env['rack.jpmobile'].display.colors).to          eq(262144)
+      expect(env['rack.jpmobile'].display.colors).to eq(262144)
     end
 
     it '端末の画面情報が渡ってない場合に正しく動作すること' do

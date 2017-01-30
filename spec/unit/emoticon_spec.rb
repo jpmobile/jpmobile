@@ -7,27 +7,27 @@ describe Jpmobile::Emoticon do
   describe 'unicodecr_to_external' do
     context 'should convert unicodecr to docomo encoding' do
       it 'when no options' do
-        expect(Jpmobile::Emoticon::unicodecr_to_external('&#xe63e;')).to eq(sjis("\xf8\x9f"))
+        expect(Jpmobile::Emoticon.unicodecr_to_external('&#xe63e;')).to eq(sjis("\xf8\x9f"))
       end
 
       it 'in multiple convertion' do
-        expect(Jpmobile::Emoticon::unicodecr_to_external('&#xE48E;', Jpmobile::Emoticon::CONVERSION_TABLE_TO_DOCOMO, true)).to eq(sjis("\xf8\x9f\xf8\xa0"))
+        expect(Jpmobile::Emoticon.unicodecr_to_external('&#xE48E;', Jpmobile::Emoticon::CONVERSION_TABLE_TO_DOCOMO, true)).to eq(sjis("\xf8\x9f\xf8\xa0"))
       end
     end
 
     context 'should convert unicodecr to au encoding' do
       it 'when no options' do
-        expect(Jpmobile::Emoticon::unicodecr_to_external('&#xe481;')).to eq(sjis("\xf6\x59"))
+        expect(Jpmobile::Emoticon.unicodecr_to_external('&#xe481;')).to eq(sjis("\xf6\x59"))
       end
     end
 
     context 'should convert unicodecr to softbank encoding' do
       it 'when no opptions' do
-        expect(Jpmobile::Emoticon::unicodecr_to_external('&#xf001;')).to eq([0xe001].pack('U'))
+        expect(Jpmobile::Emoticon.unicodecr_to_external('&#xf001;')).to eq([0xe001].pack('U'))
       end
 
       it 'in multiple convertion' do
-        expect(Jpmobile::Emoticon::unicodecr_to_external('&#xE48E;', Jpmobile::Emoticon::CONVERSION_TABLE_TO_SOFTBANK, true)).to eq([0xe04a, 0xe049].pack('U*'))
+        expect(Jpmobile::Emoticon.unicodecr_to_external('&#xE48E;', Jpmobile::Emoticon::CONVERSION_TABLE_TO_SOFTBANK, true)).to eq([0xe04a, 0xe049].pack('U*'))
       end
     end
 
@@ -67,67 +67,67 @@ describe Jpmobile::Emoticon do
   describe 'unicodecr_to_utf8' do
     it 'should convert unicodecr to internal utf8 encoding' do
       # docomo codepoint
-      expect(Jpmobile::Emoticon::unicodecr_to_utf8('&#xe63e;')).to eq(utf8("\356\230\276"))
+      expect(Jpmobile::Emoticon.unicodecr_to_utf8('&#xe63e;')).to eq(utf8("\356\230\276"))
       # au codepoint
-      expect(Jpmobile::Emoticon::unicodecr_to_utf8('&#xe481;')).to eq(utf8("\356\222\201"))
+      expect(Jpmobile::Emoticon.unicodecr_to_utf8('&#xe481;')).to eq(utf8("\356\222\201"))
       # softbank codepoint
-      expect(Jpmobile::Emoticon::unicodecr_to_utf8('&#xf001;')).to eq(utf8("\xef\x80\x81"))
+      expect(Jpmobile::Emoticon.unicodecr_to_utf8('&#xf001;')).to eq(utf8("\xef\x80\x81"))
     end
   end
 
   describe 'utf8_to_unicodecr' do
     it 'should convert utf8 encoding to unicodecr' do
       # docomo codepoint
-      expect(Jpmobile::Emoticon::utf8_to_unicodecr(utf8("\356\230\276"))).to eq('&#xe63e;')
+      expect(Jpmobile::Emoticon.utf8_to_unicodecr(utf8("\356\230\276"))).to eq('&#xe63e;')
       # au codepoint
-      expect(Jpmobile::Emoticon::utf8_to_unicodecr(utf8("\356\222\201"))).to eq('&#xe481;')
+      expect(Jpmobile::Emoticon.utf8_to_unicodecr(utf8("\356\222\201"))).to eq('&#xe481;')
       # softbank codepoint
-      expect(Jpmobile::Emoticon::utf8_to_unicodecr(utf8("\xef\x80\x81"))).to eq('&#xf001;')
+      expect(Jpmobile::Emoticon.utf8_to_unicodecr(utf8("\xef\x80\x81"))).to eq('&#xf001;')
     end
   end
 
   describe 'external_to_unicodecr' do
     it 'should convert docomo encoding to unicodecr' do
-      expect(Jpmobile::Emoticon::external_to_unicodecr_docomo(sjis("\xf8\x9f"))).to eq('&#xe63e;')
+      expect(Jpmobile::Emoticon.external_to_unicodecr_docomo(sjis("\xf8\x9f"))).to eq('&#xe63e;')
     end
 
     it 'should convert au encoding to unicodecr' do
-      expect(Jpmobile::Emoticon::external_to_unicodecr_au(sjis("\xf6\x59"))).to eq('&#xe481;')
+      expect(Jpmobile::Emoticon.external_to_unicodecr_au(sjis("\xf6\x59"))).to eq('&#xe481;')
     end
 
     it 'should convert softbank encoding to unicodecr' do
-      expect(Jpmobile::Emoticon::external_to_unicodecr_softbank([0xe001].pack('U'))).to eq('&#xf001;')
+      expect(Jpmobile::Emoticon.external_to_unicodecr_softbank([0xe001].pack('U'))).to eq('&#xf001;')
     end
 
     it 'should not convert docomo encoding of koukai-sjis emoticons to unicodecr' do
-      expect(Jpmobile::Emoticon::external_to_unicodecr_docomo(sjis("\x8c\xf6\x8a\x4a"))).to eq(sjis("\x8c\xf6\x8a\x4a"))
+      expect(Jpmobile::Emoticon.external_to_unicodecr_docomo(sjis("\x8c\xf6\x8a\x4a"))).to eq(sjis("\x8c\xf6\x8a\x4a"))
     end
 
     context 'at iPhone emoticon' do
       it 'should convert iPhone Unicode emoticon to SoftBank emoticon' do
-        expect(Jpmobile::Emoticon::external_to_unicodecr_unicode60("\342\230\200")).to eq('&#xf04a;')
+        expect(Jpmobile::Emoticon.external_to_unicodecr_unicode60("\342\230\200")).to eq('&#xf04a;')
       end
 
       it 'should convert iPhone Unicode emoticon to multi SoftBank emoticons' do
-        expect(Jpmobile::Emoticon::external_to_unicodecr_unicode60("\342\233\205")).to eq('&#xF04A;,&#xF049;')
+        expect(Jpmobile::Emoticon.external_to_unicodecr_unicode60("\342\233\205")).to eq('&#xF04A;,&#xF049;')
       end
 
       it 'should not convert 〓' do
-        expect(Jpmobile::Emoticon::external_to_unicodecr_unicode60('〓')).to eq('〓')
+        expect(Jpmobile::Emoticon.external_to_unicodecr_unicode60('〓')).to eq('〓')
       end
     end
 
     context 'at Android emoticon' do
       it 'should convert Android Google Unicode emoticon to Docomo emoticon' do
-        expect(Jpmobile::Emoticon::external_to_unicodecr_google("\363\276\200\200")).to eq('&#xe63e;')
+        expect(Jpmobile::Emoticon.external_to_unicodecr_google("\363\276\200\200")).to eq('&#xe63e;')
       end
 
       it 'should convert Android Google Unicode emoticon to multi Docomo emoticon' do
-        expect(Jpmobile::Emoticon::external_to_unicodecr_google("\363\276\200\217")).to eq('&#xE63E;&#xE63F;')
+        expect(Jpmobile::Emoticon.external_to_unicodecr_google("\363\276\200\217")).to eq('&#xE63E;&#xE63F;')
       end
 
       it 'should not convert 〓' do
-        expect(Jpmobile::Emoticon::external_to_unicodecr_google('〓')).to eq('〓')
+        expect(Jpmobile::Emoticon.external_to_unicodecr_google('〓')).to eq('〓')
       end
     end
   end

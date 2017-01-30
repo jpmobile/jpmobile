@@ -52,7 +52,7 @@ module Jpmobile
 
     # session_idを埋め込むためのhidden fieldを出力する。
     def sid_hidden_field_tag
-      "<input type=\"hidden\" name=\"#{CGI::escapeHTML session_key}\" value=\"#{CGI::escapeHTML jpmobile_session_id}\" />"
+      "<input type=\"hidden\" name=\"#{CGI.escapeHTML session_key}\" value=\"#{CGI.escapeHTML jpmobile_session_id}\" />"
     end
 
     # formにsession_idを追加する。

@@ -32,7 +32,7 @@ module Mail
         self.body.mobile = @mobile
         self.header['Content-Transfer-Encoding'].value = @mobile.content_transfer_encoding(self.header)
         if @mobile.decorated?
-          unless self.content_type.match(/image\//)
+          unless self.content_type.match?(/image\//)
             self.header['Content-ID'] = nil
           end
 
@@ -218,7 +218,7 @@ module Mail
       self.parts.each do |part|
         if part.multipart?
           finded_parts << part.find_part_by_content_type(content_type)
-        elsif part.content_type.match(/^#{content_type}/)
+        elsif part.content_type.match?(/^#{content_type}/)
           finded_parts << part
         end
       end
@@ -275,7 +275,7 @@ module Mail
     def parse_message_with_jpmobile
       header_part, body_part = raw_source.split(/#{CRLF}#{WSP}*#{CRLF}/m, 2)
 
-      if header_part =~ HEADER_LINE
+      if header_part && header_part.match?(HEADER_LINE)
         self.header = header_part
       else
         self.header = "Content-Type: text/plain\r\n"
@@ -555,7 +555,7 @@ module Mail
       begin
         get_display_name_without_jpmobile
       rescue NoMethodError => ex
-        if ex.message.match(/undefined method `gsub' for nil:NilClass/)
+        if ex.message.match?(/undefined method `gsub' for nil:NilClass/)
           name = unquote(tree.display_name.text_value.strip.to_s)
           strip_all_comments(name.to_s)
         else

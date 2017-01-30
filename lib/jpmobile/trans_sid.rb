@@ -74,7 +74,7 @@ module Jpmobile
         when /^\w[\w+.-]*:.*/
           # nothing to do
         when String
-          unless options.match(/#{session_key}/)
+          unless options.match?(/#{session_key}/)
             url = URI.parse(options)
             if url.query
               url.query += "&#{session_key}=#{jpmobile_session_id}"

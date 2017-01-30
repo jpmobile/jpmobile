@@ -207,7 +207,7 @@ module Jpmobile
       s = str.dup
       return str if detect_encoding(str) == to
 
-      to = SJIS if to =~ /shift_jis/i
+      to = SJIS if to.match?(/shift_jis/i)
 
       to_enc = ::Encoding.find(to)
       return str if s.encoding == to_enc
@@ -231,7 +231,7 @@ module Jpmobile
     end
 
     def set_encoding(str, encoding)
-      encoding = SJIS if encoding =~ /shift_jis/i
+      encoding = SJIS if encoding.match?(/shift_jis/i)
       str.force_encoding(encoding)
 
       str

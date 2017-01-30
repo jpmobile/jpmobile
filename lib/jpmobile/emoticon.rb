@@ -183,7 +183,7 @@ module Jpmobile
           end
         when String
           # 変換先が数値参照だと、再変換する
-          if converted.match(/&#x([0-9a-f]{4});/i)
+          if converted.match?(/&#x([0-9a-f]{4});/i)
             self.unicodecr_to_external(converted, conversion_table, to_sjis)
           else
             # 変換先が文字列で指定されている。
@@ -298,7 +298,7 @@ module Jpmobile
           begin
             yaml_hash = YAML.load_file(@@pc_emoticon_yaml)
             @@pc_emoticon_hash = Hash[*(yaml_hash.values.inject([]) { |r, v| r += v.to_a.flatten; r })]
-            @@pc_emoticon_image_path.chop if @@pc_emoticon_image_path.match(/\/$/)
+            @@pc_emoticon_image_path.chop if @@pc_emoticon_image_path.match?(/\/$/)
 
             return true
           rescue

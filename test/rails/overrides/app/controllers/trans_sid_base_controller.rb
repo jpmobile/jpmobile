@@ -13,8 +13,8 @@ class TransSidBaseController < ApplicationController
     redirect_to('/')
   end
   def session_init
-    session[:jpmobile] = "everyleaf"
-    @user = User.find(1) rescue User.create(:id => 1, :name => "everyleaf")
+    session[:jpmobile] = 'everyleaf'
+    @user = User.find(1) rescue User.create(:id => 1, :name => 'everyleaf')
   end
 
   def form_path
@@ -39,6 +39,6 @@ class TransSidBaseController < ApplicationController
   end
 
   def redirect_action
-    redirect_to :action => "form"
+    redirect_to :action => 'form'
   end
 end

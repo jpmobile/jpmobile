@@ -5,7 +5,7 @@ module Jpmobile::Mobile
   # 携帯電話の抽象クラス。
   class AbstractMobile
     # メールのデフォルトのcharset
-    MAIL_CHARSET = "ISO-2022-JP"
+    MAIL_CHARSET = 'ISO-2022-JP'
 
     def initialize(env, request)
       @env            = env
@@ -40,7 +40,7 @@ module Jpmobile::Mobile
     def display
       @__displlay ||= Jpmobile::Mobile::Terminfo.new(self, @env)
     rescue LoadError
-      puts "display method require jpmobile-terminfo plugin."
+      puts 'display method require jpmobile-terminfo plugin.'
     end
 
     # クッキーをサポートしているか。
@@ -76,7 +76,7 @@ module Jpmobile::Mobile
       [str, charset]
     end
     def default_charset
-      "UTF-8"
+      'UTF-8'
     end
 
     # for view selector
@@ -93,13 +93,13 @@ module Jpmobile::Mobile
           gsub(/([A-Z]+)([A-Z][a-z])/, '\1_\2').
           gsub(/([a-z\d])([A-Z])/, '\1_\2').
           downcase
-        klass =~ /abstract/ ? "mobile" : klass
+        klass =~ /abstract/ ? 'mobile' : klass
       end
 
       if @_variants.include?('tablet')
-        @_variants = @_variants.reject{|v| v == "mobile"}.map{|v| v.gsub(/mobile_/, "tablet_")}
-      elsif @_variants.include?("smart_phone")
-        @_variants = @_variants.reject{|v| v == "mobile"}.map{|v| v.gsub(/mobile_/, "smart_phone_")}
+        @_variants = @_variants.reject{|v| v == 'mobile'}.map{|v| v.gsub(/mobile_/, 'tablet_')}
+      elsif @_variants.include?('smart_phone')
+        @_variants = @_variants.reject{|v| v == 'mobile'}.map{|v| v.gsub(/mobile_/, 'smart_phone_')}
       end
 
       @_variants || []
@@ -113,7 +113,7 @@ module Jpmobile::Mobile
     # メール送信用
     def to_mail_subject(str)
       Jpmobile::Util.fold_text(Jpmobile::Emoticon.unicodecr_to_utf8(str)).
-        map{|text| "=?#{mail_charset}?B?" + [to_mail_encoding(text)].pack('m').gsub(/\n/, '') + "?=" }.
+        map{|text| "=?#{mail_charset}?B?" + [to_mail_encoding(text)].pack('m').gsub(/\n/, '') + '?=' }.
         join("\n\s")
     end
     def to_mail_body(str)

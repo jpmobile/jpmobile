@@ -14,10 +14,10 @@ end
 
 ActiveSupport.on_load(:after_initialize) do
   case Rails.application.config.session_store.to_s
-  when "ActionDispatch::Session::MemCacheStore"
+  when 'ActionDispatch::Session::MemCacheStore'
     require 'jpmobile/session/mem_cache_store'
     ActionDispatch::Session::MemCacheStore.send :prepend, Jpmobile::ParamsOverCookie
-  when "ActionDispatch::Session::ActiveRecordStore"
+  when 'ActionDispatch::Session::ActiveRecordStore'
     require 'jpmobile/session/active_record_store'
     ActionDispatch::Session::AbstractStore.send :prepend, Jpmobile::ParamsOverCookie
   else

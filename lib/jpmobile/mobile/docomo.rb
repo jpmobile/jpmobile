@@ -9,14 +9,14 @@ module Jpmobile::Mobile
     # 対応するメールアドレスの正規表現
     MAIL_ADDRESS_REGEXP = /.+@docomo\.ne\.jp/
     # メールのデフォルトのcharset
-    MAIL_CHARSET = "Shift_JIS"
+    MAIL_CHARSET = 'Shift_JIS'
     # テキスト部分の content-transfer-encoding
     MAIL_CONTENT_TRANSFER_ENCODING = '8bit'
 
     # オープンiエリアがあればエリアコードを +String+ で返す。無ければ +nil+ を返す。
     def areacode
-      if params["ACTN"] == "OK"
-        return params["AREACODE"]
+      if params['ACTN'] == 'OK'
+        return params['AREACODE']
       else
         return nil
       end
@@ -25,22 +25,22 @@ module Jpmobile::Mobile
     # 位置情報があれば Position のインスタンスを返す。無ければ +nil+ を返す。
     def position
       return @__position if defined? @__position
-      lat = params["lat"] || params["LAT"]
-      lon = params["lon"] || params["LON"]
-      geo = params["geo"] || params["GEO"]
+      lat = params['lat'] || params['LAT']
+      lon = params['lon'] || params['LON']
+      geo = params['geo'] || params['GEO']
       return @__position = nil if ( lat.nil? || lat == '' || lon.nil? || lon == '' )
-      raise "Unsuppoted datum" if geo.downcase != "wgs84"
+      raise 'Unsuppoted datum' if geo.downcase != 'wgs84'
       pos = Jpmobile::Position.new
-      raise "Unsuppoted" unless lat =~ /^([+-]\d+)\.(\d+)\.(\d+\.\d+)/
+      raise 'Unsuppoted' unless lat =~ /^([+-]\d+)\.(\d+)\.(\d+\.\d+)/
       pos.lat = Jpmobile::Position.dms2deg($1,$2,$3)
-      raise "Unsuppoted" unless lon =~ /^([+-]\d+)\.(\d+)\.(\d+\.\d+)/
+      raise 'Unsuppoted' unless lon =~ /^([+-]\d+)\.(\d+)\.(\d+\.\d+)/
       pos.lon = Jpmobile::Position.dms2deg($1,$2,$3)
       return @__position = pos
     end
 
     # 端末製造番号があれば返す。無ければ +nil+ を返す。
     def serial_number
-      case @env["HTTP_USER_AGENT"]
+      case @env['HTTP_USER_AGENT']
       when /ser([0-9a-zA-Z]{11})$/ # mova
         return $1
       when /ser([0-9a-zA-Z]{15});/ # FOMA
@@ -85,7 +85,7 @@ module Jpmobile::Mobile
       # UTF-8を数値参照に
       str = Jpmobile::Emoticon.utf8_to_unicodecr(str)
       # 文字コードを Shift_JIS に変換
-      if [nil, "text/html", "application/xhtml+xml"].include?(content_type)
+      if [nil, 'text/html', 'application/xhtml+xml'].include?(content_type)
         str = Jpmobile::Util.utf8_to_sjis(str)
         charset = default_charset unless str.empty?
       end
@@ -95,7 +95,7 @@ module Jpmobile::Mobile
       [str, charset]
     end
     def default_charset
-      "Shift_JIS"
+      'Shift_JIS'
     end
 
     # メール送信用
@@ -146,9 +146,9 @@ module Jpmobile::Mobile
 
     # モデル名を返す。
     def model_name
-      if @env["HTTP_USER_AGENT"] =~ /^DoCoMo\/2.0 (.+)\(/
+      if @env['HTTP_USER_AGENT'] =~ /^DoCoMo\/2.0 (.+)\(/
         return $1
-      elsif @env["HTTP_USER_AGENT"] =~ /^DoCoMo\/1.0\/(.+?)\//
+      elsif @env['HTTP_USER_AGENT'] =~ /^DoCoMo\/1.0\/(.+?)\//
         return $1
       end
       return nil

@@ -4,17 +4,17 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'jpmobile/version'
 
 Gem::Specification.new do |gem|
-  gem.name          = "jpmobile"
+  gem.name          = 'jpmobile'
   gem.version       = Jpmobile::VERSION
-  gem.authors       = ["Shin-ichiro OGAWA", "Yoji Shidara"]
-  gem.email         = ["rust.stnard@gmail.com"]
+  gem.authors       = ['Shin-ichiro OGAWA', 'Yoji Shidara']
+  gem.email         = ['rust.stnard@gmail.com']
   gem.description   = %q{A Rails plugin for mobile devices in Japan}
   gem.summary       = %q{A Rails plugin for mobile devices in Japan}
   gem.homepage      = 'http://jpmobile-rails.org'
 
   gem.files         = `git ls-files`.split($/)
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
-  gem.require_paths = ["lib"]
+  gem.require_paths = ['lib']
 
   gem.add_development_dependency 'rails', '~> 5.0.0'
   gem.add_development_dependency 'rspec'

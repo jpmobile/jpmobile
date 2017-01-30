@@ -34,14 +34,14 @@ module Jpmobile
       return nil unless str
 
       new_array = []
-      str.split("&").each do |param_pair|
-        k, v = param_pair.split("=")
+      str.split('&').each do |param_pair|
+        k, v = param_pair.split('=')
         k = to_internal(k) if k
         v = to_internal(v) if v
         new_array << "#{k}=#{v}" if k
       end
 
-      new_array.join("&")
+      new_array.join('&')
     end
   end
 end

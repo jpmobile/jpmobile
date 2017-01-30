@@ -4,5 +4,5 @@ source 'https://rubygems.org'
 gemspec
 
 group :development do
-  gem "onkcop", require: false
+  gem 'onkcop', require: false
 end

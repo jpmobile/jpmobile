@@ -95,8 +95,8 @@ module Mail
         @body.content_type_with_jpmobile = self.content_type
 
         if has_content_transfer_encoding? and
-            ["base64", "quoted-printable"].include?(self.content_transfer_encoding) and
-            ["text"].include?(@mobile_main_type)
+            ['base64', 'quoted-printable'].include?(self.content_transfer_encoding) and
+            ['text'].include?(@mobile_main_type)
           @body.decode_transfer_encoding
         end
 
@@ -165,8 +165,8 @@ module Mail
     def rearrange!
       if @mobile and @mobile.decoratable?
         @mobile.decorated = true
-        text_body_part = find_part_by_content_type("text/plain").first
-        html_body_part = find_part_by_content_type("text/html").first
+        text_body_part = find_part_by_content_type('text/plain').first
+        html_body_part = find_part_by_content_type('text/html').first
         html_body_part.transport_encoding = 'quoted-printable' if html_body_part
         inline_images  = []
         attached_files = []
@@ -249,7 +249,7 @@ module Mail
       end
 
       if @body_part_jpmobile and @mobile and !@charset.empty?
-        if ["base64", "quoted-printable"].include?(self.content_transfer_encoding) and
+        if ['base64', 'quoted-printable'].include?(self.content_transfer_encoding) and
             self.content_type.match(/text/)
           @body_part_jpmobile = Jpmobile::Util.decode(@body_part_jpmobile, self.content_transfer_encoding, @charset)
           self.content_transfer_encoding = @mobile.class::MAIL_CONTENT_TRANSFER_ENCODING
@@ -314,7 +314,7 @@ module Mail
                         end
           Jpmobile::Util.set_encoding(_raw_source, @mobile.mail_charset(@charset))
         when /quoted-printable/
-          Jpmobile::Util.set_encoding([@mobile.to_mail_body(@raw_source)].pack("M").gsub(/\n/, "\r\n"), @mobile.mail_charset(@charset))
+          Jpmobile::Util.set_encoding([@mobile.to_mail_body(@raw_source)].pack('M').gsub(/\n/, "\r\n"), @mobile.mail_charset(@charset))
         else
           @mobile.to_mail_body(Jpmobile::Util.force_encode(@raw_source, nil, Jpmobile::Util::UTF8))
         end
@@ -335,7 +335,7 @@ module Mail
     def mobile=(m)
       @mobile = m
 
-      if ["base64", "quoted-printable"].include?(self.encoding) and
+      if ['base64', 'quoted-printable'].include?(self.encoding) and
           /text/.match(self.content_type_with_jpmobile)
         self.decode_transfer_encoding
       end
@@ -458,7 +458,7 @@ module Mail
             else line
             end
           end
-        end.join("")
+        end.join('')
       else
         decoded_without_jpmobile
       end
@@ -622,7 +622,7 @@ module Mail
         encoded_mail = Jpmobile::Util.ascii_8bit(encoded_mail)
       end
 
-      IO.popen("#{path} #{arguments} #{destinations}", "w+") do |io|
+      IO.popen("#{path} #{arguments} #{destinations}", 'w+') do |io|
         io.puts encoded_mail.gsub(/\r\r\n/, "\n").to_lf
         io.flush
       end

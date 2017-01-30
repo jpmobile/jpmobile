@@ -54,32 +54,32 @@ describe 'Jpmobile::Email' do
     end
   end
 
-  describe "japanese_mail_address_regexp" do
+  describe 'japanese_mail_address_regexp' do
     before do
       Jpmobile::Email.japanese_mail_address_regexp = Regexp.new(/\.jp(?:[^a-zA-Z\.\-]|$)/)
     end
 
-    it "#detect_from_mail_header should return Jpmobile::Mobile::AbstractMobile when the header contains .jp address" do
+    it '#detect_from_mail_header should return Jpmobile::Mobile::AbstractMobile when the header contains .jp address' do
       expect(Jpmobile::Email.detect_from_mail_header('From: Hoge Fuga <fuga@hoge.jp>')).to eq(Jpmobile::Mobile::AbstractMobile)
       expect(Jpmobile::Email.detect_from_mail_header('From: fuga@hoge.jp')).to eq(Jpmobile::Mobile::AbstractMobile)
     end
 
-    it "#detect_from_mail_header should return nil when the header does not contain .jp address" do
+    it '#detect_from_mail_header should return nil when the header does not contain .jp address' do
       expect(Jpmobile::Email.detect_from_mail_header('From: Hoge Fuga <fuga@example.com>')).to eq(nil)
       expect(Jpmobile::Email.detect_from_mail_header('From: fuga@example.com')).to eq(nil)
     end
   end
 
-  describe "convertable?" do
-    it "return true when text/plain; charset=iso-2022-jp" do
+  describe 'convertable?' do
+    it 'return true when text/plain; charset=iso-2022-jp' do
       expect(Jpmobile::Email.convertable?('text/plain; charset=iso-2022-jp')).to be_truthy
     end
 
-    it "return true when text/html; charset=shift_jis" do
+    it 'return true when text/html; charset=shift_jis' do
       expect(Jpmobile::Email.convertable?('text/html; charset=shift_jis')).to be_truthy
     end
 
-    it "return nil when image/jpeg; name=\"20098calendar01.jpg\"" do
+    it 'return nil when image/jpeg; name="20098calendar01.jpg"' do
       expect(Jpmobile::Email.convertable?('image/jpeg; name="20098calendar01.jpg"')).to be_nil
     end
   end

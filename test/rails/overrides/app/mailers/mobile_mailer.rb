@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 class MobileMailer < Jpmobile::Mailer::Base
-  default :from => "info@jp.mobile"
-  default :to   => "info@jp.mobile"
+  default :from => 'info@jp.mobile'
+  default :to   => 'info@jp.mobile'
 
   def view_selection(to_mail, subject_text, text)
     @text = text

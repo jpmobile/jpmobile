@@ -1,101 +1,101 @@
 # -*- coding: utf-8 -*-
 require File.expand_path(File.join(File.dirname(__FILE__), 'spec_helper'))
 
-describe "Jpmobile::Mobile" do
+describe 'Jpmobile::Mobile' do
   include Jpmobile::Util
 
-  describe "AbstractMobile" do
+  describe 'AbstractMobile' do
     before(:each) do
       @mobile = Jpmobile::Mobile::AbstractMobile.new(nil, nil)
     end
 
-    context "to_mail_subject" do
-      it "should convert string to ISO-2022-JP B-Encoding when string contains Japanese" do
-        expect(@mobile.to_mail_subject("ほげ")).to eq("=?ISO-2022-JP?B?GyRCJFskMhsoQg==?=")
+    context 'to_mail_subject' do
+      it 'should convert string to ISO-2022-JP B-Encoding when string contains Japanese' do
+        expect(@mobile.to_mail_subject('ほげ')).to eq('=?ISO-2022-JP?B?GyRCJFskMhsoQg==?=')
       end
     end
 
-    context "to_mail_body" do
-      it "should convert string to ISO-2022-JP when string contains Japanese" do
-        expect(@mobile.to_mail_body("ほげ")).to eq(utf8_to_jis("ほげ"))
+    context 'to_mail_body' do
+      it 'should convert string to ISO-2022-JP when string contains Japanese' do
+        expect(@mobile.to_mail_body('ほげ')).to eq(utf8_to_jis('ほげ'))
       end
     end
   end
 
-  describe "Docomo" do
+  describe 'Docomo' do
     before(:each) do
       @mobile = Jpmobile::Mobile::Docomo.new(nil, nil)
     end
 
-    context "to_mail_subject" do
-      it "should convert string to Shift_JIS B-Encoding when string contains Japanese" do
-        expect(@mobile.to_mail_subject("ほげ")).to eq("=?Shift_JIS?B?gtmCsA==?=")
+    context 'to_mail_subject' do
+      it 'should convert string to Shift_JIS B-Encoding when string contains Japanese' do
+        expect(@mobile.to_mail_subject('ほげ')).to eq('=?Shift_JIS?B?gtmCsA==?=')
       end
 
       it "should convert emoticon &#xe63e; to \xf8\x9f in B-Encoding" do
-        expect(@mobile.to_mail_subject("ほげ&#xe63e;")).to eq("=?Shift_JIS?B?gtmCsPif?=")
+        expect(@mobile.to_mail_subject('ほげ&#xe63e;')).to eq('=?Shift_JIS?B?gtmCsPif?=')
       end
     end
 
-    context "to_mail_body" do
-      it "should convert string to Shift_JIS when string contains Japanese" do
-        expect(@mobile.to_mail_body("ほげ")).to eq(utf8_to_sjis("ほげ"))
+    context 'to_mail_body' do
+      it 'should convert string to Shift_JIS when string contains Japanese' do
+        expect(@mobile.to_mail_body('ほげ')).to eq(utf8_to_sjis('ほげ'))
       end
 
       it "should convert emoticon &#xe63e; to \xf8\x9f" do
-        expect(@mobile.to_mail_body("ほげ&#xe63e;")).to eq(utf8_to_sjis("ほげ") + sjis("\xf8\x9f"))
+        expect(@mobile.to_mail_body('ほげ&#xe63e;')).to eq(utf8_to_sjis('ほげ') + sjis("\xf8\x9f"))
       end
     end
   end
 
-  describe "Au" do
+  describe 'Au' do
     before(:each) do
       @mobile = Jpmobile::Mobile::Au.new(nil, nil)
     end
 
-    context "to_mail_subject" do
-      it "should convert string to ISO-2022-JP B-Encoding when string contains Japanese" do
-        expect(@mobile.to_mail_subject("ほげ")).to eq("=?ISO-2022-JP?B?GyRCJFskMhsoQg==?=")
+    context 'to_mail_subject' do
+      it 'should convert string to ISO-2022-JP B-Encoding when string contains Japanese' do
+        expect(@mobile.to_mail_subject('ほげ')).to eq('=?ISO-2022-JP?B?GyRCJFskMhsoQg==?=')
       end
 
       it "should convert emoticon &#xe63e; to \x75\x41 in B-Encoding" do
-        expect(@mobile.to_mail_subject("ほげ&#xe63e;")).to eq("=?ISO-2022-JP?B?GyRCJFskMnVBGyhC?=")
+        expect(@mobile.to_mail_subject('ほげ&#xe63e;')).to eq('=?ISO-2022-JP?B?GyRCJFskMnVBGyhC?=')
       end
     end
 
-    context "to_mail_body" do
-      it "should convert string to ISO-2022-JP when string contains Japanese" do
-        expect(@mobile.to_mail_body("ほげ")).to eq(utf8_to_jis("ほげ"))
+    context 'to_mail_body' do
+      it 'should convert string to ISO-2022-JP when string contains Japanese' do
+        expect(@mobile.to_mail_body('ほげ')).to eq(utf8_to_jis('ほげ'))
       end
 
       it "should convert emoticon &#xe63e; to \x75\x41" do
-        expect(ascii_8bit(@mobile.to_mail_body("ほげ&#xe63e;"))).to eq(ascii_8bit(jis("\e\x24\x42\x24\x5B\x24\x32\x75\x41\x1b\x28\x42")))
+        expect(ascii_8bit(@mobile.to_mail_body('ほげ&#xe63e;'))).to eq(ascii_8bit(jis("\e\x24\x42\x24\x5B\x24\x32\x75\x41\x1b\x28\x42")))
       end
     end
   end
 
-  describe "Softbank" do
+  describe 'Softbank' do
     before(:each) do
       @mobile = Jpmobile::Mobile::Softbank.new(nil, nil)
     end
 
-    context "to_mail_subject" do
-      it "should convert string to Shift_JIS B-Encoding when string contains Japanese" do
-        expect(@mobile.to_mail_subject("ほげ")).to eq("=?Shift_JIS?B?gtmCsA==?=")
+    context 'to_mail_subject' do
+      it 'should convert string to Shift_JIS B-Encoding when string contains Japanese' do
+        expect(@mobile.to_mail_subject('ほげ')).to eq('=?Shift_JIS?B?gtmCsA==?=')
       end
 
       it "should convert emoticon &#xe63e; to \xf9\x8b in B-Encoding" do
-        expect(@mobile.to_mail_subject("ほげ&#xe63e;")).to eq("=?Shift_JIS?B?gtmCsPmL?=")
+        expect(@mobile.to_mail_subject('ほげ&#xe63e;')).to eq('=?Shift_JIS?B?gtmCsPmL?=')
       end
     end
 
-    context "to_mail_body" do
-      it "should convert string to Shift_JIS when string contains Japanese" do
-        expect(@mobile.to_mail_body("ほげ")).to eq(utf8_to_sjis("ほげ"))
+    context 'to_mail_body' do
+      it 'should convert string to Shift_JIS when string contains Japanese' do
+        expect(@mobile.to_mail_body('ほげ')).to eq(utf8_to_sjis('ほげ'))
       end
 
       it "should convert emoticon &#xe63e; to \xf9\x8b" do
-        expect(@mobile.to_mail_body("ほげ&#xe63e;")).to eq(utf8_to_sjis("ほげ") + sjis("\xf9\x8b"))
+        expect(@mobile.to_mail_body('ほげ&#xe63e;')).to eq(utf8_to_sjis('ほげ') + sjis("\xf9\x8b"))
       end
     end
   end

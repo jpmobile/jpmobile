@@ -1,4 +1,4 @@
-require "bundler/gem_tasks"
+require 'bundler/gem_tasks'
 require 'rake/testtask'
 require 'fileutils'
 require 'pathname'
@@ -8,22 +8,22 @@ include FileUtils
 desc 'Default: run unit tests.'
 task :default => :test
 
-desc "Update misc tables"
+desc 'Update misc tables'
 task :update do
-  Dir.glob("tools/update_*.rb").each do |path|
+  Dir.glob('tools/update_*.rb').each do |path|
     ruby path
   end
 end
 
 namespace :test do
-  desc "Preparation of external modules"
+  desc 'Preparation of external modules'
   task :prepare do
     external_repos = [
-      "jpmobile-ipaddresses",
-      "jpmobile-terminfo"
+      'jpmobile-ipaddresses',
+      'jpmobile-terminfo'
     ]
-    github_prefix = "git://github.com/jpmobile"
-    vendor_path = Pathname.new(Dir.pwd).join("vendor")
+    github_prefix = 'git://github.com/jpmobile'
+    vendor_path = Pathname.new(Dir.pwd).join('vendor')
     FileUtils.mkdir_p(vendor_path)
 
     FileUtils.cd(vendor_path) do

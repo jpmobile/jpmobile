@@ -45,7 +45,7 @@ module Jpmobile
       str.gsub(DOCOMO_SJIS_REGEXP) do |match|
         sjis = match.unpack('n').first
         unicode = DOCOMO_SJIS_TO_UNICODE[sjis]
-        unicode ? ("&#x%04x;"%unicode) : match
+        unicode ? ('&#x%04x;'%unicode) : match
       end
     end
 
@@ -54,7 +54,7 @@ module Jpmobile
       str.gsub(AU_SJIS_REGEXP) do |match|
         sjis = match.unpack('n').first
         unicode = AU_SJIS_TO_UNICODE[sjis]
-        unicode ? ("&#x%04x;"%unicode) : match
+        unicode ? ('&#x%04x;'%unicode) : match
       end
     end
 
@@ -75,7 +75,7 @@ module Jpmobile
       # SoftBank Unicode
       str.gsub(SOFTBANK_UNICODE_REGEXP) do |match|
         unicode = match.unpack('U').first
-        "&#x%04x;" % (unicode+0x1000)
+        '&#x%04x;' % (unicode+0x1000)
       end
     end
     def self.external_to_unicodecr_softbank_sjis(str)
@@ -83,7 +83,7 @@ module Jpmobile
       str.gsub(SOFTBANK_SJIS_REGEXP) do |match|
         sjis = match.unpack('n').first
         unicode = SOFTBANK_SJIS_TO_UNICODE[sjis]
-        "&#x%04x;" % (unicode+0x1000)
+        '&#x%04x;' % (unicode+0x1000)
       end
     end
     def self.external_to_unicodecr_vodafone(str)
@@ -103,7 +103,7 @@ module Jpmobile
           when GETA_CODE
             GETA
           when Integer
-            "&#x%04x;" % emoticon
+            '&#x%04x;' % emoticon
           when String
             emoticon
           end
@@ -125,7 +125,7 @@ module Jpmobile
           when GETA_CODE
             GETA
           when Integer
-            "&#x%04x;" % emoticon
+            '&#x%04x;' % emoticon
           when String
             emoticon
           end
@@ -145,7 +145,7 @@ module Jpmobile
     # +true+ を指定すると変換テーブルに文字列が指定されている場合にShift_JISで出力される。
     def self.unicodecr_to_external(str, conversion_table=nil, to_sjis=true)
       str.gsub(/&#x([0-9a-f]{4});/i) do |match|
-        unicode = $1.scanf("%x").first
+        unicode = $1.scanf('%x').first
 
         if conversion_table
           converted = conversion_table[unicode] # キャリア間変換
@@ -161,7 +161,7 @@ module Jpmobile
             if to_sjis
               Jpmobile::Util.sjis([sjis].pack('n'))
             else
-              [converted].pack("U")
+              [converted].pack('U')
             end
           elsif SOFTBANK_UNICODE_TO_WEBCODE[converted-0x1000]
             [converted-0x1000].pack('U')
@@ -196,7 +196,7 @@ module Jpmobile
     # +str+ のなかでUnicode数値文字参照で表記された絵文字をUTF-8に置換する。
     def self.unicodecr_to_utf8(str)
       str.gsub(/&#x([0-9a-f]{4});/i) do |match|
-        unicode = $1.scanf("%x").first
+        unicode = $1.scanf('%x').first
         if UNICODE_TO_SJIS[unicode] || SOFTBANK_UNICODE_TO_WEBCODE[unicode-0x1000]
           [unicode].pack('U')
         else
@@ -207,7 +207,7 @@ module Jpmobile
     # +str+ のなかでUTF-8で表記された絵文字をUnicode数値文字参照に置換する。
     def self.utf8_to_unicodecr(str)
       str.gsub(UTF8_REGEXP) do |match|
-        "&#x%04x;" % match.unpack('U').first
+        '&#x%04x;' % match.unpack('U').first
       end
     end
 
@@ -215,9 +215,9 @@ module Jpmobile
     # au 専用
     def self.unicodecr_to_au_email(in_str)
       str = Jpmobile::Util.ascii_8bit(in_str)
-      regexp = Regexp.compile(Jpmobile::Util.ascii_8bit("&#x([0-9a-f]{4});"), Regexp::IGNORECASE)
+      regexp = Regexp.compile(Jpmobile::Util.ascii_8bit('&#x([0-9a-f]{4});'), Regexp::IGNORECASE)
       str = str.gsub(regexp) do |match|
-        unicode = $1.scanf("%x").first
+        unicode = $1.scanf('%x').first
         converted = CONVERSION_TABLE_TO_AU[unicode]
 
         # メール用エンコーディングに変換する
@@ -247,7 +247,7 @@ module Jpmobile
     # softbank 専用
     def self.unicodecr_to_softbank_email(str)
       str.gsub(/&#x([0-9a-f]{4});/i) do |match|
-        unicode = $1.scanf("%x").first
+        unicode = $1.scanf('%x').first
         converted = CONVERSION_TABLE_TO_SOFTBANK[unicode]
 
         # メール用エンコーディングに変換する
@@ -308,11 +308,11 @@ module Jpmobile
     def self.emoticons_to_image(str)
       if @@pc_emoticon_hash
         utf8_to_unicodecr(str).gsub(/&#x([0-9a-f]{4});/i) do |match|
-          img = @@pc_emoticon_hash[$1.upcase] || (@@pc_emoticon_hash[("%x" % ($1.scanf("%x").first - 0x1000)).upcase] rescue nil)
+          img = @@pc_emoticon_hash[$1.upcase] || (@@pc_emoticon_hash[('%x' % ($1.scanf('%x').first - 0x1000)).upcase] rescue nil)
           if img
             "<img src=\"#{@@pc_emoticon_image_path}/#{img}.gif\" alt=\"#{img}\" />"
           else
-            ""
+            ''
           end
         end
       end

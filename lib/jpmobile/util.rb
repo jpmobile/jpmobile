@@ -4,23 +4,23 @@ require 'tempfile'
 module Jpmobile
   module Util
     # SJIS   = "Shift_JIS"
-    SJIS   = "Windows-31J"
-    UTF8   = "UTF-8"
-    JIS    = "ISO-2022-JP"
-    JIS_WIN = "CP50220"
-    BINARY = "ASCII-8BIT"
+    SJIS   = 'Windows-31J'
+    UTF8   = 'UTF-8'
+    JIS    = 'ISO-2022-JP'
+    JIS_WIN = 'CP50220'
+    BINARY = 'ASCII-8BIT'
 
-    WAVE_DASH = [0x301c].pack("U")
-    FULLWIDTH_TILDE = [0xff5e].pack("U")
+    WAVE_DASH = [0x301c].pack('U')
+    FULLWIDTH_TILDE = [0xff5e].pack('U')
 
-    OVERLINE = [0x203e].pack("U")
-    FULLWIDTH_MACRON = [0xffe3].pack("U")
+    OVERLINE = [0x203e].pack('U')
+    FULLWIDTH_MACRON = [0xffe3].pack('U')
 
-    EM_DASH = [0x2014].pack("U")
-    HORIZONTAL_BAR = [0x2015].pack("U")
+    EM_DASH = [0x2014].pack('U')
+    HORIZONTAL_BAR = [0x2015].pack('U')
 
-    MINUS_SIGN = [0x2212].pack("U")
-    FULLWIDTH_HYPHEN_MINUS = [0xFF0D].pack("U")
+    MINUS_SIGN = [0x2212].pack('U')
+    FULLWIDTH_HYPHEN_MINUS = [0xFF0D].pack('U')
 
     module_function
     def deep_convert(obj, &proc)
@@ -106,7 +106,7 @@ module Jpmobile
     end
 
     def sjis_to_utf8(sjis_str)
-      utf8_str = sjis_str.encode("UTF-8", :universal_newline => true)
+      utf8_str = sjis_str.encode('UTF-8', :universal_newline => true)
 
       # 波ダッシュ対策
       fullwidth_tilde_to_wavedash(utf8_str)
@@ -157,11 +157,11 @@ module Jpmobile
     end
 
     def jis_string_regexp
-      Regexp.compile(Regexp.escape(ascii_8bit("\x1b\x24\x42")) + "(.+?)" + Regexp.escape(ascii_8bit("\x1b\x28\x42")))
+      Regexp.compile(Regexp.escape(ascii_8bit("\x1b\x24\x42")) + '(.+?)' + Regexp.escape(ascii_8bit("\x1b\x28\x42")))
     end
 
     def encode(str, charset)
-      if (charset.nil? or charset == "" or str.nil? or str == "")
+      if (charset.nil? or charset == '' or str.nil? or str == '')
         str
       elsif utf8?(str) and charset.match(/iso-2022-jp/i)
         utf8_to_jis(str)
@@ -239,13 +239,13 @@ module Jpmobile
     def extract_charset(str)
       case str
       when /iso-2022-jp/i
-        "ISO-2022-JP"
+        'ISO-2022-JP'
       when /shift_jis/i
-        "Shift_JIS"
+        'Shift_JIS'
       when /utf-8/i
-        "UTF-8"
+        'UTF-8'
       else
-        ""
+        ''
       end
     end
 

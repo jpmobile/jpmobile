@@ -8,12 +8,12 @@ require 'nkf'
 begin
   require File.dirname(__FILE__)+'/../vendor/jpmobile-ipaddresses/lib/jpmobile-ipaddresses'
 rescue LoadError
-  puts "IP Address test requires jpmobile-ipaddresses module"
+  puts 'IP Address test requires jpmobile-ipaddresses module'
 end
 begin
   require File.dirname(__FILE__)+'/../vendor/jpmobile-terminfo/lib/jpmobile-terminfo'
 rescue LoadError
-  puts "Terminal display information test requires jpmobile-terminfo module"
+  puts 'Terminal display information test requires jpmobile-terminfo module'
 end
 
 RSpec.configure do |config|
@@ -24,7 +24,7 @@ end
 
 class UnitApplication
   def initialize(body = nil)
-    @body = Jpmobile::Util.utf8(body || "Body")
+    @body = Jpmobile::Util.utf8(body || 'Body')
   end
 
   def call(env)
@@ -65,8 +65,8 @@ module Jpmobile::RackHelper
     @controller.logger = Logger.new(nil)
     @request = ActionController::TestRequest.new
     @response = ActionController::TestResponse.new
-    @request.host = "www.example.jp"
-    @request.session.session_id = "mysessionid"
+    @request.host = 'www.example.jp'
+    @request.session.session_id = 'mysessionid'
   end
   include Jpmobile::Util
 

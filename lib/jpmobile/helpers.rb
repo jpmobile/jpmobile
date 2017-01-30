@@ -23,21 +23,21 @@ module Jpmobile
       # TODO: コード汚い
       s = []
       if show_all || request.mobile.instance_of?(Mobile::Docomo)
-        s << docomo_foma_gps_link_to(str||"DoCoMo FOMA(GPS)", options)
+        s << docomo_foma_gps_link_to(str||'DoCoMo FOMA(GPS)', options)
       end
       if show_all || request.mobile.instance_of?(Mobile::Au)
         if show_all || request.mobile.supports_gps?
-          s << au_gps_link_to(str||"au(GPS)", options)
+          s << au_gps_link_to(str||'au(GPS)', options)
         end
         if show_all || (!(request.mobile.supports_gps?) && request.mobile.supports_location?)
-          s << au_location_link_to(str||"au(antenna)", options)
+          s << au_location_link_to(str||'au(antenna)', options)
         end
       end
       if show_all || request.mobile.instance_of?(Mobile::Vodafone) || request.mobile.instance_of?(Mobile::Softbank)
-        s << softbank_location_link_to(str||"Softbank 3G(GPS)", options)
+        s << softbank_location_link_to(str||'Softbank 3G(GPS)', options)
       end
       if show_all || request.mobile.instance_of?(Mobile::Willcom)
-        s << willcom_location_link_to(str||"Willcom", options)
+        s << willcom_location_link_to(str||'Willcom', options)
       end
       return s.join("<br>\n").html_safe
     end
@@ -59,10 +59,10 @@ module Jpmobile
       if options.is_a?(Hash)
         options = options.symbolize_keys
         options[:only_path] = false
-        posinfo = options.delete(:posinfo) || "1" # 基地局情報を元に測位した緯度経度情報を要求
+        posinfo = options.delete(:posinfo) || '1' # 基地局情報を元に測位した緯度経度情報を要求
         url = url_for(options)
       else
-        posinfo = "1"
+        posinfo = '1'
       end
       return "http://w1m.docomo.ne.jp/cp/iarea?ecode=OPENAREACODE&msn=OPENAREAKEY&posinfo=#{posinfo}&nl=#{CGI.escape(url)}"
     end
@@ -88,7 +88,7 @@ module Jpmobile
       url = options
       if options.is_a?(Hash)
         options = options.symbolize_keys
-        options[:guid] = "ON"
+        options[:guid] = 'ON'
         url = url_for(options)
       end
       return link_to_url(str, url)
@@ -133,10 +133,10 @@ module Jpmobile
     # Softbank(含むVodafone 3G)で位置情報を取得するためのURLを返す。
     def softbank_location_url_for(options={})
       url = options
-      mode = "auto"
+      mode = 'auto'
       if options.is_a?(Hash)
         options = options.symbolize_keys
-        mode = options.delete(:mode) || "auto"
+        mode = options.delete(:mode) || 'auto'
         options[:only_path] = false
         url = url_for(options)
       end

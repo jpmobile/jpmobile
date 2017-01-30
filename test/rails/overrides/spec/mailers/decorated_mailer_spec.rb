@@ -7,8 +7,8 @@ describe DecoratedMailer, :type => :mailer do
     ActionMailer::Base.deliveries = []
   end
 
-  shared_examples_for "content-type" do
-    it "sends decorated mail successfully" do
+  shared_examples_for 'content-type' do
+    it 'sends decorated mail successfully' do
       DecoratedMailer.deco_mail(@to).deliver_now
 
       email = ActionMailer::Base.deliveries.first
@@ -17,27 +17,27 @@ describe DecoratedMailer, :type => :mailer do
     end
   end
 
-  describe "docomo" do
+  describe 'docomo' do
     before(:each) do
-      @to = "docomo@docomo.ne.jp"
+      @to = 'docomo@docomo.ne.jp'
     end
 
-    it_behaves_like "content-type"
+    it_behaves_like 'content-type'
   end
 
-  describe "au" do
+  describe 'au' do
     before(:each) do
-      @to = "au@ezweb.ne.jp"
+      @to = 'au@ezweb.ne.jp'
     end
 
-    it_behaves_like "content-type"
+    it_behaves_like 'content-type'
   end
 
-  describe "softbank" do
+  describe 'softbank' do
     before(:each) do
-      @to = "softbank@softbank.ne.jp"
+      @to = 'softbank@softbank.ne.jp'
     end
 
-    it_behaves_like "content-type"
+    it_behaves_like 'content-type'
   end
 end

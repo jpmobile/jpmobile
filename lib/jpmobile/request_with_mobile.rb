@@ -17,13 +17,13 @@ module Jpmobile
       elsif respond_to?(:ip)
         return __send__(:ip)         # for Rack
       else
-        return ( env["HTTP_X_FORWARDED_FOR"] ? env["HTTP_X_FORWARDED_FOR"].split(',').pop : env["REMOTE_ADDR"] )
+        return ( env['HTTP_X_FORWARDED_FOR'] ? env['HTTP_X_FORWARDED_FOR'].split(',').pop : env['REMOTE_ADDR'] )
       end
     end
 
     # 環境変数 HTTP_USER_AGENT を設定する。
     def user_agent=(str)
-      self.env["HTTP_USER_AGENT"] = str
+      self.env['HTTP_USER_AGENT'] = str
     end
 
     # 携帯電話からであれば +true+を、そうでなければ +false+ を返す。

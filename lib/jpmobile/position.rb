@@ -11,7 +11,7 @@ end
 module Jpmobile
   # 位置情報
   class Position
-    if Object.const_defined?("GeoKit")
+    if Object.const_defined?('GeoKit')
       # GeoKitが読み込まれている場合はMappableにする
       include ::GeoKit::Mappable
       def self.acts_as_mappable; end
@@ -34,7 +34,7 @@ module Jpmobile
     end
     # 文字列で緯度経度を返す。
     def to_s
-      sprintf("%s%f%s%f", @lat>0 ? 'N' : 'S', @lat, @lon>0 ? 'E' : 'W', @lon)
+      sprintf('%s%f%s%f', @lat>0 ? 'N' : 'S', @lat, @lon>0 ? 'E' : 'W', @lon)
     end
 
     # 緯度経度をカンマ区切りで返す

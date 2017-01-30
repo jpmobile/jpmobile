@@ -10,7 +10,7 @@ module Jpmobile::Mobile
     # 対応するメールアドレスの正規表現　ディズニーモバイル対応
     MAIL_ADDRESS_REGEXP = /.+@(?:softbank\.ne\.jp|disney\.ne\.jp)/
     # メールのデフォルトのcharset
-    MAIL_CHARSET = "Shift_JIS"
+    MAIL_CHARSET = 'Shift_JIS'
     # テキスト部分の content-transfer-encoding
     MAIL_CONTENT_TRANSFER_ENCODING = '8bit'
 
@@ -23,19 +23,19 @@ module Jpmobile::Mobile
 
     # UIDを返す。
     def x_jphone_uid
-      @request.env["HTTP_X_JPHONE_UID"]
+      @request.env['HTTP_X_JPHONE_UID']
     end
     alias :ident_subscriber :x_jphone_uid
 
     # 位置情報があれば Position のインスタンスを返す。無ければ +nil+ を返す。
     def position
       return @__position if defined? @__position
-      if params["pos"] =~ /^([NS])(\d+)\.(\d+)\.(\d+\.\d+)([WE])(\d+)\.(\d+)\.(\d+\.\d+)$/
-        raise "Unsupported datum" if params["geo"] != "wgs84"
+      if params['pos'] =~ /^([NS])(\d+)\.(\d+)\.(\d+\.\d+)([WE])(\d+)\.(\d+)\.(\d+\.\d+)$/
+        raise 'Unsupported datum' if params['geo'] != 'wgs84'
         l = Jpmobile::Position.new
-        l.lat = ($1=="N" ? 1 : -1) * Jpmobile::Position.dms2deg($2,$3,$4)
-        l.lon = ($5=="E" ? 1 : -1) * Jpmobile::Position.dms2deg($6,$7,$8)
-        l.options = params.reject {|x,v| !["pos","geo","x-acr"].include?(x) }
+        l.lat = ($1=='N' ? 1 : -1) * Jpmobile::Position.dms2deg($2,$3,$4)
+        l.lon = ($5=='E' ? 1 : -1) * Jpmobile::Position.dms2deg($6,$7,$8)
+        l.options = params.reject {|x,v| !['pos','geo','x-acr'].include?(x) }
         return @__position = l
       else
         return @__position = nil
@@ -69,7 +69,7 @@ module Jpmobile::Mobile
     end
     def to_mail_internal(str, charset)
       # 絵文字を数値参照に変換
-      if Jpmobile::Util.utf8?(str) or charset == "UTF-8"
+      if Jpmobile::Util.utf8?(str) or charset == 'UTF-8'
         # UTF-8
         str = Jpmobile::Emoticon.external_to_unicodecr_softbank(Jpmobile::Util.utf8(str))
       elsif Jpmobile::Util.shift_jis?(str) or Jpmobile::Util.ascii_8bit?(str) or charset == mail_charset

@@ -1,5 +1,5 @@
 class DocomoGuidBaseController < ApplicationController
   def link
-    render :inline=>%{<%= link_to "linkto" %>}
+    render inline: %{<%= link_to "linkto" %>}
   end
 end

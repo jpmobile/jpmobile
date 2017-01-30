@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe TemplatePathController, :type => :controller do
+describe TemplatePathController, type: :controller do
   before do
     request.user_agent = user_agent
   end

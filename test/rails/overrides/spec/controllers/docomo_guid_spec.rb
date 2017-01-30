@@ -19,7 +19,7 @@ shared_examples_for 'docomo_guid が起動するとき' do
   end
 end
 
-describe DocomoGuidBaseController, :type => :controller do
+describe DocomoGuidBaseController, type: :controller do
   before(:each) do
     request.user_agent = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; ja; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 ( .NET CLR 3.5.30729)'
   end
@@ -32,7 +32,7 @@ describe DocomoGuidBaseController, :type => :controller do
   it_should_behave_like 'docomo_guid が起動しないとき'
 end
 
-describe DocomoGuidAlwaysController, :type => :controller do
+describe DocomoGuidAlwaysController, type: :controller do
   before(:each) do
     request.user_agent = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; ja; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 ( .NET CLR 3.5.30729)'
   end
@@ -45,7 +45,7 @@ describe DocomoGuidAlwaysController, :type => :controller do
   it_should_behave_like 'docomo_guid が起動するとき'
 end
 
-describe DocomoGuidDocomoController, :type => :controller do
+describe DocomoGuidDocomoController, type: :controller do
   before(:each) do
     request.user_agent = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; ja; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 ( .NET CLR 3.5.30729)'
   end

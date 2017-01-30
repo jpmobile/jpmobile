@@ -27,7 +27,7 @@ module ActionView
   end
 
   class Base
-    delegate :default_url_options, :to => :controller unless respond_to?(:default_url_options)
+    delegate :default_url_options, to: :controller unless respond_to?(:default_url_options)
   end
 end
 #:startdoc:

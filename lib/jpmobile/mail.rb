@@ -417,7 +417,7 @@ module Mail
       self.preamble = parts[0].to_s.strip
       # Make the epilogue equal to the epilogue (if any)
       self.epilogue = parts[-1].to_s.sub('--', '').strip
-      parts[1...-1].to_a.each { |part| @parts << Mail::Part.new(:body_raw => part, :mobile => @mobile) }
+      parts[1...-1].to_a.each { |part| @parts << Mail::Part.new(body_raw: part, mobile: @mobile) }
       self
     end
   end

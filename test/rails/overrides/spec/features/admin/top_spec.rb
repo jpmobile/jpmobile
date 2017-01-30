@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Admin::TopController, :type => :feature do
+describe Admin::TopController, type: :feature do
   describe "GET 'full_path'" do
     before do
       page.driver.header('user_agent', user_agent)

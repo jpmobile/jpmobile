@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe LinksController, :type => :controller do
+describe LinksController, type: :controller do
   render_views
 
   # 文字列 +str+ 中に含まれるリンクについて、

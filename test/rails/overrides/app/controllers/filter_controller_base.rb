@@ -23,7 +23,7 @@ class FilterControllerBase < ApplicationController
     render plain: ''
   end
   def rawdata
-    send_data 'アブラカダブラ', :type => 'application/octet-stream'
+    send_data 'アブラカダブラ', type: 'application/octet-stream'
   end
   def textarea
     @text = '<textarea hoge="fuu">アブラカダブラ</textarea>'.html_safe

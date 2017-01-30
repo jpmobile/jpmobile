@@ -4,31 +4,31 @@ class TransSidBaseController < ApplicationController
   before_action :session_init
 
   def form
-    render :inline=>%{<%= form_tag do %>Hello<% end %>}
+    render inline: %{<%= form_tag do %>Hello<% end %>}
   end
   def link
-    render :inline=>%{<%= link_to "linkto" %>}
+    render inline: %{<%= link_to "linkto" %>}
   end
   def redirect
     redirect_to('/')
   end
   def session_init
     session[:jpmobile] = 'everyleaf'
-    @user = User.find(1) rescue User.create(:id => 1, :name => 'everyleaf')
+    @user = User.find(1) rescue User.create(id: 1, name: 'everyleaf')
   end
 
   def form_path
-    render :inline=>%{<%= form_for @user do %>Hello<% end %>}
+    render inline: %{<%= form_for @user do %>Hello<% end %>}
   end
   def form_path_admin
-    render :inline=>%{<%= form_for [:admin, @user] do %>Hello<% end %>}
+    render inline: %{<%= form_for [:admin, @user] do %>Hello<% end %>}
   end
 
   def link_path
-    render :inline => %{<%= link_to "linkto", @user -%>}
+    render inline: %{<%= link_to "linkto", @user -%>}
   end
   def link_path_admin
-    render :inline => %{<%= link_to "linkto", [:admin, @user] -%>}
+    render inline: %{<%= link_to "linkto", [:admin, @user] -%>}
   end
 
   def redirect_path
@@ -39,6 +39,6 @@ class TransSidBaseController < ApplicationController
   end
 
   def redirect_action
-    redirect_to :action => 'form'
+    redirect_to action: 'form'
   end
 end

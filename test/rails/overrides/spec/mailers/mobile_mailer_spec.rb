@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe MobileMailer, :type => :mailer do
+describe MobileMailer, type: :mailer do
   include Jpmobile::Util
 
   before(:each) do
@@ -435,7 +435,7 @@ describe MobileMailer, :type => :mailer do
   end
 end
 
-describe MobileMailer, ' mail address', :type => :mailer do
+describe MobileMailer, ' mail address', type: :mailer do
   before(:each) do
     ActionMailer::Base.deliveries = []
 
@@ -484,7 +484,7 @@ describe MobileMailer, ' mail address', :type => :mailer do
   end
 end
 
-describe MobileMailer, 'receiving', :type => :mailer do
+describe MobileMailer, 'receiving', type: :mailer do
   describe 'blank mail' do
     it 'softbank からの空メールがで受信できること' do
       email = open(Rails.root + 'spec/fixtures/mobile_mailer/softbank-blank.eml').read

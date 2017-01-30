@@ -61,7 +61,7 @@ module Jpmobile
 
     def initialize(options = {})
       @options = {
-        :input => false,
+        input: false,
       }.merge(options)
 
       @controller = nil

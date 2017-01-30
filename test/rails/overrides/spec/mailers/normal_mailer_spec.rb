@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe NormalMailer, :type => :mailer do
+describe NormalMailer, type: :mailer do
   include Jpmobile::Util
 
   before(:each) do

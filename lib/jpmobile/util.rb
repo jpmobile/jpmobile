@@ -102,11 +102,11 @@ module Jpmobile
 
       utf8_str.
         gsub(/(\r\n|\r|\n)/, "\r\n").
-        encode(SJIS, :undef => :replace, :replace => '?')
+        encode(SJIS, undef: :replace, replace: '?')
     end
 
     def sjis_to_utf8(sjis_str)
-      utf8_str = sjis_str.encode('UTF-8', :universal_newline => true)
+      utf8_str = sjis_str.encode('UTF-8', universal_newline: true)
 
       # 波ダッシュ対策
       fullwidth_tilde_to_wavedash(utf8_str)
@@ -118,11 +118,11 @@ module Jpmobile
 
       utf8_str.
         gsub(/(\r\n|\r|\n)/, "\r\n").
-        encode(JIS, :undef => :replace, :replace => '?')
+        encode(JIS, undef: :replace, replace: '?')
     end
 
     def jis_to_utf8(jis_str)
-      jis_str.encode(UTF8, :universal_newline => true)
+      jis_str.encode(UTF8, universal_newline: true)
     end
 
     def regexp_utf8_to_sjis(utf8_str)

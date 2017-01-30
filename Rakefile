@@ -29,7 +29,7 @@ namespace :test do
     FileUtils.cd(vendor_path) do
       external_repos.each do |repos|
         unless File.directory?("#{repos}/.git")
-          Git.clone("#{github_prefix}/#{repos}.git", repos, {:path => vendor_path})
+          Git.clone("#{github_prefix}/#{repos}.git", repos, { :path => vendor_path })
         end
       end
     end

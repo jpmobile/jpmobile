@@ -10,7 +10,7 @@ module Jpmobile
     UNICODE_TO_SJIS = SJIS_TO_UNICODE.invert.freeze
 
     # for au email
-    SJIS_TO_EMAIL_JIS = {0x81ac => 0x222E}
+    SJIS_TO_EMAIL_JIS = { 0x81ac => 0x222E }
     SJIS_TO_EMAIL_JIS.update(AU_SJIS_TO_EMAIL_JIS)
     SJIS_TO_EMAIL_JIS.freeze
 

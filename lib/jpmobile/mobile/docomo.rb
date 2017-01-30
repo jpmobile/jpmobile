@@ -16,9 +16,9 @@ module Jpmobile::Mobile
     # オープンiエリアがあればエリアコードを +String+ で返す。無ければ +nil+ を返す。
     def areacode
       if params['ACTN'] == 'OK'
-        return params['AREACODE']
+        params['AREACODE']
       else
-        return nil
+        nil
       end
     end
 
@@ -35,18 +35,18 @@ module Jpmobile::Mobile
       pos.lat = Jpmobile::Position.dms2deg($1, $2, $3)
       raise 'Unsuppoted' unless lon =~ /^([+-]\d+)\.(\d+)\.(\d+\.\d+)/
       pos.lon = Jpmobile::Position.dms2deg($1, $2, $3)
-      return @__position = pos
+      @__position = pos
     end
 
     # 端末製造番号があれば返す。無ければ +nil+ を返す。
     def serial_number
       case @env['HTTP_USER_AGENT']
       when /ser([0-9a-zA-Z]{11})$/ # mova
-        return $1
+        $1
       when /ser([0-9a-zA-Z]{15});/ # FOMA
-        return $1
+        $1
       else
-        return nil
+        nil
       end
     end
     alias :ident_device :serial_number
@@ -54,7 +54,7 @@ module Jpmobile::Mobile
     # FOMAカード製造番号があれば返す。無ければ +nil+ を返す。
     def icc
       @env['HTTP_USER_AGENT'] =~ /icc([0-9a-zA-Z]{20})\)/
-      return $1
+      $1
     end
 
     # iモードIDを返す。
@@ -158,7 +158,7 @@ module Jpmobile::Mobile
       elsif @env['HTTP_USER_AGENT'] =~ /^DoCoMo\/1.0\/(.+?)\//
         return $1
       end
-      return nil
+      nil
     end
   end
 end

@@ -13,7 +13,7 @@ describe LinksController, type: :controller do
       params = query.nil? ? nil : Rack::Utils.parse_query(query)
       results << [link.inner_html, link.attributes, path, params]
     end
-    return results
+    results
   end
 
   it 'get_position_link_to_がエラー無く終わるか' do

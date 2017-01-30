@@ -23,7 +23,7 @@ module Jpmobile::Mobile
     MAIL_CONTENT_TRANSFER_ENCODING = '7bit'.freeze
 
     # 緯度経度があれば Position のインスタンスを返す。
-    def position; return nil; end
+    def position; nil; end
 
     # 契約者又は端末を識別する文字列があれば返す。
     def ident; ident_subscriber || ident_device; end
@@ -47,7 +47,7 @@ module Jpmobile::Mobile
 
     # クッキーをサポートしているか。
     def supports_cookie?
-      return false
+      false
     end
 
     # smartphone かどうか

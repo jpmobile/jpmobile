@@ -46,13 +46,13 @@ module Jpmobile::Mobile
         # http://www.au.kddi.com/ezfactory/tec/spec/eznavi.html
         l.tokyo2wgs84!
       end
-      return @__posotion = l
+      @__posotion = l
     end
 
     # デバイスIDを返す
     def device_id
       if @request.env['HTTP_USER_AGENT'] =~ USER_AGENT_REGEXP
-        return $1
+        $1
       else
         nil
       end

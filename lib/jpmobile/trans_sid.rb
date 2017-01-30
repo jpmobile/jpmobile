@@ -31,7 +31,7 @@ module Jpmobile
       result = super || {}.with_indifferent_access
       return result unless request # for test process
       return result unless apply_trans_sid?
-      return result.merge({ session_key.to_sym => jpmobile_session_id })
+      result.merge({ session_key.to_sym => jpmobile_session_id })
     end
 
     private
@@ -123,7 +123,7 @@ module ActionController
         end
       end
 
-      return false
+      false
     end
   end
 end

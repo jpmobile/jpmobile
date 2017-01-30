@@ -308,7 +308,7 @@ module Jpmobile
         end
       end
 
-      return false
+      false
     end
 
     def self.emoticons_to_image(str)

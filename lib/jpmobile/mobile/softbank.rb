@@ -17,7 +17,7 @@ module Jpmobile::Mobile
     # 製造番号を返す。無ければ +nil+ を返す。
     def serial_number
       @request.env['HTTP_USER_AGENT'] =~ /SN(.+?) /
-      return $1
+      $1
     end
     alias :ident_device :serial_number
 

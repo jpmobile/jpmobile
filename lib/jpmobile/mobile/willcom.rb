@@ -18,7 +18,7 @@ module Jpmobile::Mobile
       pos.lat = Jpmobile::Position.dms2deg($1, $2, $3)
       pos.lon = Jpmobile::Position.dms2deg($4, $5, $6)
       pos.tokyo2wgs84!
-      return @__position = pos
+      @__position = pos
     end
 
     # cookieに対応しているか？

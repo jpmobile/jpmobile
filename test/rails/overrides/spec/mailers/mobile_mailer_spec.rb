@@ -54,7 +54,7 @@ describe MobileMailer, type: :mailer do
 
     context ':toの指定が' do
       it 'ない場合でも正常に送信できること' do
-        email = MobileMailer.default_to_mail('題名', '本文').deliver_now
+        MobileMailer.default_to_mail('題名', '本文').deliver_now
 
         expect(ActionMailer::Base.deliveries.size).to eq(1)
       end
@@ -632,7 +632,7 @@ describe MobileMailer, 'receiving', type: :mailer do
         expect(email.subject).to match(/&#xe6ec;/)
 
         expect(email.parts.size).to eq(1)
-        email.parts.first.parts.size == 2
+        expect(email.parts.first.parts.size).to eq(2)
 
         parts = email.parts.first.parts
         expect(parts.first.body).to match('テストです&#xe72d;')
@@ -746,8 +746,8 @@ describe MobileMailer, 'receiving', type: :mailer do
         expect(email.has_attachments?).to be_truthy
         expect(email.attachments.size).to eq(1)
         expect(email.attachments['20098calendar01.jpg'].content_type).to match('image/jpeg')
-        email.attachments['20098calendar01.jpg'].body.to_s[2..6] == 'JFIF'
-        email.attachments['20098calendar01.jpg'].body.to_s.size == 86412
+        expect(email.attachments['20098calendar01.jpg'].body.to_s.size).to eq(86412)
+        expect(email.attachments['20098calendar01.jpg'].body.to_s[6..9]).to eq('JFIF')
       end
     end
   end

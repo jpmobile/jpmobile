@@ -40,7 +40,7 @@ module Jpmobile
 
     # 文字列で緯度経度を返す。
     def to_s
-      sprintf('%s%f%s%f', @lat > 0 ? 'N' : 'S', @lat, @lon > 0 ? 'E' : 'W', @lon)
+      sprintf('%s%f%s%f', (@lat > 0) ? 'N' : 'S', @lat, (@lon > 0) ? 'E' : 'W', @lon)
     end
 
     # 緯度経度をカンマ区切りで返す

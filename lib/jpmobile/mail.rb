@@ -430,7 +430,7 @@ module Mail
 
   class OptionalField
     def charset
-      @charset =~ /iso-2022-jp/i ? 'UTF-8' : @charset
+      (@charset =~ /iso-2022-jp/i) ? 'UTF-8' : @charset
     end
   end
 

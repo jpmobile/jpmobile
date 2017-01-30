@@ -97,7 +97,7 @@ module Jpmobile::Mobile
           gsub(/([A-Z]+)([A-Z][a-z])/, '\1_\2').
           gsub(/([a-z\d])([A-Z])/, '\1_\2').
           downcase
-        klass =~ /abstract/ ? 'mobile' : klass
+        (klass =~ /abstract/) ? 'mobile' : klass
       end
 
       if @_variants.include?('tablet')
@@ -112,7 +112,7 @@ module Jpmobile::Mobile
     def mail_variants
       return @_mail_variants if @_mail_variants
 
-      @_mail_variants = variants == ['mobile'] ? [] : variants
+      @_mail_variants = (variants == ['mobile']) ? [] : variants
     end
 
     # メール送信用
@@ -129,19 +129,19 @@ module Jpmobile::Mobile
     def mail_charset(charset = nil)
       # (charset.nil? or charset == "") ? self.class::MAIL_CHARSET : charset
       # self.class::MAIL_CHARSET
-      charset.nil? || charset == '' || charset =~ /US-ASCII/i ? self.class::MAIL_CHARSET : charset
+      (charset.nil? || charset == '' || charset =~ /US-ASCII/i) ? self.class::MAIL_CHARSET : charset
     end
 
     def content_transfer_encoding(headers)
       transfer_encoding = headers['Content-Transfer-Encoding']
       case headers['Content-Type'].to_s
       when /text\/plain/
-        transfer_encoding.to_s == MAIL_CONTENT_TRANSFER_ENCODING ? transfer_encoding : MAIL_CONTENT_TRANSFER_ENCODING
+        (transfer_encoding.to_s == MAIL_CONTENT_TRANSFER_ENCODING) ? transfer_encoding : MAIL_CONTENT_TRANSFER_ENCODING
       when /text\/html/
         if self.decorated?
           'quoted-printable'
         else
-          transfer_encoding.to_s == MAIL_CONTENT_TRANSFER_ENCODING ? transfer_encoding : MAIL_CONTENT_TRANSFER_ENCODING
+          (transfer_encoding.to_s == MAIL_CONTENT_TRANSFER_ENCODING) ? transfer_encoding : MAIL_CONTENT_TRANSFER_ENCODING
         end
       else
         transfer_encoding

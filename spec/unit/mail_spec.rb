@@ -15,7 +15,7 @@ describe 'Jpmobile::Mail' do
 
   context 'Mail#to' do
     it 'sets multi-tos' do
-      expect{ @mail.to = ['a@hoge.com', 'b@hoge.com'] }.to_not raise_error
+      expect { @mail.to = ['a@hoge.com', 'b@hoge.com'] }.to_not raise_error
     end
   end
 
@@ -30,7 +30,7 @@ describe 'Jpmobile::Mail' do
       before(:each) do
         @mail.parts << Mail::Part.new { body 'ほげ' }
         @mail.parts << Mail::Part.new { body 'ほげほげ' }
-        @mail.parts.each{ |p| p.charset = 'ISO-2022-JP' }
+        @mail.parts.each { |p| p.charset = 'ISO-2022-JP' }
       end
       context 'to_s' do
         subject {

@@ -181,12 +181,12 @@ module Mail
           end
         end
 
-        alternative_part = Mail::Part.new{ content_type 'multipart/alternative' }
+        alternative_part = Mail::Part.new { content_type 'multipart/alternative' }
         alternative_part.add_part(text_body_part) if text_body_part
         alternative_part.add_part(html_body_part) if html_body_part
 
         if @mobile.require_related_part?
-          related_part = Mail::Part.new{ content_type 'multipart/related' }
+          related_part = Mail::Part.new { content_type 'multipart/related' }
           related_part.add_part(alternative_part)
           inline_images.each do |inline_image|
             related_part.add_part(inline_image)

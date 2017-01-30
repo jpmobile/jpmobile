@@ -170,7 +170,7 @@ module Jpmobile
           elsif converted == GETA_CODE
             # PCで〓を表示する場合
             GETA
-          elsif UNICODE_EMOTICONS.include?(converted) or GOOGLE_EMOTICONS.include?(converted)
+          elsif UNICODE_EMOTICONS.include?(converted) || GOOGLE_EMOTICONS.include?(converted)
             if unicode == GETA_CODE
               GETA
             else
@@ -292,7 +292,7 @@ module Jpmobile
     end
 
     def self.pc_emoticon?
-      if @@pc_emoticon_yaml and File.exist?(@@pc_emoticon_yaml) and @@pc_emoticon_image_path
+      if @@pc_emoticon_yaml && File.exist?(@@pc_emoticon_yaml) && @@pc_emoticon_image_path
 
         unless @@pc_emoticon_hash
           begin

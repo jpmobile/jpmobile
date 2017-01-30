@@ -110,7 +110,7 @@ module Jpmobile::Mobile
     end
 
     def to_mail_internal(str, charset)
-      if Jpmobile::Util.shift_jis?(str) or Jpmobile::Util.ascii_8bit?(str) or charset == mail_charset
+      if Jpmobile::Util.shift_jis?(str) || Jpmobile::Util.ascii_8bit?(str) || (charset == mail_charset)
         # 絵文字を数値参照に変換
         str = Jpmobile::Emoticon.external_to_unicodecr_docomo(Jpmobile::Util.sjis(str))
       end

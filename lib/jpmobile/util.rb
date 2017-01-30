@@ -161,13 +161,13 @@ module Jpmobile
     end
 
     def encode(str, charset)
-      if (charset.nil? or charset == '' or str.nil? or str == '')
+      if (charset.nil? || (charset == '') || str.nil? || (str == ''))
         str
-      elsif utf8?(str) and charset.match(/iso-2022-jp/i)
+      elsif utf8?(str) && charset.match(/iso-2022-jp/i)
         utf8_to_jis(str)
-      elsif utf8?(str) and charset.match(/shift_jis/i)
+      elsif utf8?(str) && charset.match(/shift_jis/i)
         utf8_to_sjis(str)
-      elsif utf8?(str) and charset.match(/utf-8/i)
+      elsif utf8?(str) && charset.match(/utf-8/i)
         str
       else
         str.encode(charset)
@@ -283,7 +283,7 @@ module Jpmobile
     def fold_text(str, size = 15)
       folded_texts = []
 
-      while texts = split_text(str, size) and texts.first.size != 0
+      while (texts = split_text(str, size)) && (texts.first.size != 0)
         folded_texts << texts.first
         str = texts.last
       end
@@ -292,7 +292,7 @@ module Jpmobile
     end
 
     def split_text(str, size = 15)
-      return nil if str.nil? or str == ''
+      return nil if str.nil? || (str == '')
 
       [str[0..(size - 1)], str[size..-1]]
     end
@@ -301,7 +301,7 @@ module Jpmobile
       result = {}
       hash.keys.each do |key|
         if result[hash[key]]
-          if !key.kind_of?(Array) and !result[hash[key]].kind_of?(Array) and result[hash[key]] > key
+          if !key.kind_of?(Array) && !result[hash[key]].kind_of?(Array) && result[hash[key]] > key
             result[hash[key]] = key
           end
         else
@@ -322,7 +322,7 @@ module Jpmobile
              end
 
       _extract_charset = Jpmobile::Util.extract_charset(_str)
-      charset = _extract_charset unless _extract_charset.empty? or _extract_charset == charset
+      charset = _extract_charset unless _extract_charset.empty? || (_extract_charset == charset)
       Jpmobile::Util.set_encoding(_str, charset)
     end
   end

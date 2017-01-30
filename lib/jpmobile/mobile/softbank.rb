@@ -71,10 +71,10 @@ module Jpmobile::Mobile
 
     def to_mail_internal(str, charset)
       # 絵文字を数値参照に変換
-      if Jpmobile::Util.utf8?(str) or charset == 'UTF-8'
+      if Jpmobile::Util.utf8?(str) || (charset == 'UTF-8')
         # UTF-8
         str = Jpmobile::Emoticon.external_to_unicodecr_softbank(Jpmobile::Util.utf8(str))
-      elsif Jpmobile::Util.shift_jis?(str) or Jpmobile::Util.ascii_8bit?(str) or charset == mail_charset
+      elsif Jpmobile::Util.shift_jis?(str) || Jpmobile::Util.ascii_8bit?(str) || (charset == mail_charset)
         # Shift_JIS
         str = Jpmobile::Emoticon.external_to_unicodecr_softbank_sjis(Jpmobile::Util.sjis(str))
       end

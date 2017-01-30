@@ -8,7 +8,7 @@ module Jpmobile
 
     def call(env)
       # 入力
-      if @mobile = env['rack.jpmobile'] and @mobile.apply_params_filter?
+      if (@mobile = env['rack.jpmobile']) && @mobile.apply_params_filter?
         # パラメータをkey, valueに分解
         # form_params
         unless env['REQUEST_METHOD'] == 'GET' || env['REQUEST_METHOD'] == 'HEAD'

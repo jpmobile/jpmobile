@@ -52,7 +52,7 @@ describe '絵文字が' do
 
   context 'PC で絵文字を変換するとき' do
     before(:each) do
-      unless FileTest.exist?(File.join(File.expand_path(File.dirname(__FILE__)), '../../../tmp/emoticon.yaml')) and
+      unless FileTest.exist?(File.join(File.expand_path(File.dirname(__FILE__)), '../../../tmp/emoticon.yaml')) &&
           FileTest.directory?(File.join(File.expand_path(File.dirname(__FILE__)), '../../../tmp/emoticons'))
         skip "emoticon.yaml and emoticons directory don't exists"
       end

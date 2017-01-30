@@ -78,7 +78,7 @@ module Jpmobile
     # 内部コードから外部コードに変換
     def after(controller)
       @controller = controller
-      if apply_outgoing? and @controller.response.body.is_a?(String)
+      if apply_outgoing? && @controller.response.body.is_a?(String)
         @controller.response.body = to_external(@controller.response.body)
       end
     end
@@ -145,7 +145,7 @@ module Jpmobile
             # textarea 以外のテキストなら content を変換
             element.content = filter(:hankaku, element.content)
           end
-        elsif element.node_name == 'input' and ['submit', 'reset', 'button'].include?(element['type'])
+        elsif (element.node_name == 'input') && ['submit', 'reset', 'button'].include?(element['type'])
           # テキスト以外でもボタンの value は変換
           element['value'] = filter(:hankaku, element['value'])
         elsif element.children.any?

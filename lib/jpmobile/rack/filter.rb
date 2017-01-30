@@ -15,7 +15,7 @@ module Jpmobile
       status, env, response = @app.call(env)
 
       if env['Content-Type'] =~ %r{text/html|application/xhtml\+xml}
-        if mobile and mobile.apply_filter?
+        if mobile && mobile.apply_filter?
           type, charset = env['Content-Type'].split(/;\s*charset=/)
 
           body = response_to_body(response)
@@ -24,7 +24,7 @@ module Jpmobile
 
           response, charset = mobile.to_external(body, type, charset)
 
-          if type and charset
+          if type && charset
             env['Content-Type'] = "#{type}; charset=#{charset}"
           end
         elsif Jpmobile::Emoticon.pc_emoticon?

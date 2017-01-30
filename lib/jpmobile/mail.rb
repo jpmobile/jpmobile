@@ -94,8 +94,8 @@ module Mail
         @body.mobile = @mobile
         @body.content_type_with_jpmobile = self.content_type
 
-        if has_content_transfer_encoding? and
-            ['base64', 'quoted-printable'].include?(self.content_transfer_encoding) and
+        if has_content_transfer_encoding? &&
+            ['base64', 'quoted-printable'].include?(self.content_transfer_encoding) &&
             ['text'].include?(@mobile_main_type)
           @body.decode_transfer_encoding
         end
@@ -163,7 +163,7 @@ module Mail
 #   |- image/xxxx (添付画像)
 
     def rearrange!
-      if @mobile and @mobile.decoratable?
+      if @mobile && @mobile.decoratable?
         @mobile.decorated = true
         text_body_part = find_part_by_content_type('text/plain').first
         html_body_part = find_part_by_content_type('text/html').first
@@ -171,7 +171,7 @@ module Mail
         inline_images  = []
         attached_files = []
         attachments.each do |p|
-          if p.content_type.match(/^image\//) and p.content_disposition.match(/^inline/)
+          if p.content_type.match(/^image\//) && p.content_disposition.match(/^inline/)
             if p.header['Content-Type'].parameters['filename']
               p.header['Content-Type'].parameters['name'] = p.header['Content-Type'].parameters['filename'].to_s
             end
@@ -248,8 +248,8 @@ module Mail
         header[:subject].value = header[:subject].decoded
       end
 
-      if @body_part_jpmobile and @mobile and !@charset.empty?
-        if ['base64', 'quoted-printable'].include?(self.content_transfer_encoding) and
+      if @body_part_jpmobile && @mobile && !@charset.empty?
+        if ['base64', 'quoted-printable'].include?(self.content_transfer_encoding) &&
             self.content_type.match(/text/)
           @body_part_jpmobile = Jpmobile::Util.decode(@body_part_jpmobile, self.content_transfer_encoding, @charset)
           self.content_transfer_encoding = @mobile.class::MAIL_CONTENT_TRANSFER_ENCODING
@@ -304,7 +304,7 @@ module Mail
 
     # convert encoding
     def encoded_with_jpmobile(transfer_encoding = '8bit')
-      if @mobile and !multipart?
+      if @mobile && !multipart?
         case transfer_encoding
         when /base64/
           _raw_source = if transfer_encoding == encoding
@@ -335,12 +335,12 @@ module Mail
     def mobile=(m)
       @mobile = m
 
-      if ['base64', 'quoted-printable'].include?(self.encoding) and
+      if ['base64', 'quoted-printable'].include?(self.encoding) &&
           /text/.match(self.content_type_with_jpmobile)
         self.decode_transfer_encoding
       end
 
-      if self.multipart? and @mobile
+      if self.multipart? && @mobile
         self.parts.each do |part|
           part.mobile       = @mobile
           part.body.mobile  = @mobile
@@ -571,7 +571,7 @@ module Mail
 
   class ContentTypeElement # :nodoc:
     def initialize_with_jpmobile(string)
-      if m = string.match(/\A(.*?)(name|filename)=("|')(.+)("|')(.*?)\z/) and
+      if (m = string.match(/\A(.*?)(name|filename)=("|')(.+)("|')(.*?)\z/)) &&
           m[4].each_byte.detect { |b| (b == 0 || b > 127) }
         name = [m[4]].pack('m').strip
         string = "#{m[1]}#{m[2]}=#{m[3]}#{name}#{m[5]}#{m[6]}"
@@ -585,7 +585,7 @@ module Mail
 
   class ContentDispositionElement # :nodoc:
     def initialize_with_jpmobile(string)
-      if m = string.match(/\A(.*?)(name|filename)=("|')(.+)("|')(.*?)\z/) and
+      if (m = string.match(/\A(.*?)(name|filename)=("|')(.+)("|')(.*?)\z/)) &&
           m[4].each_byte.detect { |b| (b == 0 || b > 127) }
         name = [m[4]].pack('m').strip
         string = "#{m[1]}#{m[2]}=#{m[3]}#{name}#{m[5]}#{m[6]}"
@@ -599,7 +599,7 @@ module Mail
 
   class ContentLocationElement # :nodoc:
     def initialize_with_jpmobile(string)
-      if m = string.match(/\A(.*?)(name|filename)=("|')(.+)("|')(.*?)\z/) and
+      if (m = string.match(/\A(.*?)(name|filename)=("|')(.+)("|')(.*?)\z/)) &&
           m[4].each_byte.detect { |b| (b == 0 || b > 127) }
         name = [m[4]].pack('m').strip
         string = "#{m[1]}#{m[2]}=#{m[3]}#{name}#{m[5]}#{m[6]}"

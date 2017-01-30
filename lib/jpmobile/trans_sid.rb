@@ -12,7 +12,7 @@ module Jpmobile
 
   module ParamsOverCookie
     def extract_session_id(req)
-      if req.params[@key] and !@cookie_only
+      if req.params[@key] && !@cookie_only
         sid = req.params[@key]
       end
       sid ||= req.cookies[@key]
@@ -66,7 +66,7 @@ module Jpmobile
 
   module TransSidRedirecting
     def redirect_to(options = {}, response_status = {})
-      if apply_trans_sid? and jpmobile_session_id
+      if apply_trans_sid? && jpmobile_session_id
         case options
         when /^\w[\w+.-]*:.*/
           # nothing to do
@@ -112,13 +112,13 @@ module ActionController
     # trans_sidを適用すべきかを返す。
     def apply_trans_sid?
       # session_id が blank の場合は適用しない
-      return false if trans_sid_mode and jpmobile_session_id.blank?
+      return false if trans_sid_mode && jpmobile_session_id.blank?
 
       case trans_sid_mode
       when :always
         return true
       when :mobile
-        if request.mobile? and !request.mobile.supports_cookie?
+        if request.mobile? && !request.mobile.supports_cookie?
           return true
         end
       end

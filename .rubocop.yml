@@ -1,0 +1,21 @@
+inherit_gem:
+  onkcop:
+    - "config/rubocop.yml"
+    # uncomment if use rails cops
+    # - "config/rails.yml"
+    # uncomment if use rspec cops
+    # - "config/rspec.yml"
+
+AllCops:
+  TargetRubyVersion: 2.4
+  Exclude:
+    - 'bin/bundle'
+    - 'bin/rails'
+    - 'bin/rake'
+    - 'db/schema.rb'
+    - 'vendor/bundle/**/*'
+    - 'tools/**/*'
+    - 'test/rails/rails_root/**/*'
+
+Style/StringLiterals:
+  EnforcedStyle: single_quotes

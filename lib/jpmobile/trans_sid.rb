@@ -40,10 +40,8 @@ module Jpmobile
 
     # session_keyを返す。
     def session_key
-      unless key = Rails.application.config.session_options.merge(request.session_options || {})[:key]
-        key = ActionDispatch::Session::AbstractStore::DEFAULT_OPTIONS[:key]
-      end
-      key
+      Rails.application.config.session_options.merge(request.session_options || {})[:key] ||
+        ActionDispatch::Session::AbstractStore::DEFAULT_OPTIONS[:key]
     end
 
     # session_idを返す

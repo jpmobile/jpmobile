@@ -15,7 +15,8 @@ module Mail
     attr_accessor :mobile
 
     def mobile=(m)
-      if @mobile = m
+      @mobile = m
+      if @mobile
         @charset = m.mail_charset(@charset)
       end
     end
@@ -498,7 +499,8 @@ module Mail
     alias_method :initialize, :initialize_with_jpmobile
 
     def mobile=(m)
-      if @mobile = m
+      @mobile = m
+      if @mobile
         self.charset = @mobile.mail_charset
         self.value   = @jpmobile_raw_text
         self.parse
@@ -527,7 +529,8 @@ module Mail
     alias_method :initialize, :initialize_with_jpmobile
 
     def mobile=(m)
-      if @mobile = m
+      @mobile = m
+      if @mobile
         self.charset = @mobile.mail_charset
         self.value   = @jpmobile_raw_text
         self.parse

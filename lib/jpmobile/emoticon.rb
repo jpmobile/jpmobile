@@ -122,15 +122,14 @@ module Jpmobile
         unicodes = match.unpack('U*')
         unicodes = unicodes.first if unicodes.size == 1
 
-        if emoticon = GOOGLE_EMOTICON_TO_CARRIER_EMOTICON[unicodes]
-          case emoticon
-          when GETA_CODE
-            GETA
-          when Integer
-            '&#x%04x;' % emoticon
-          when String
-            emoticon
-          end
+        emoticon = GOOGLE_EMOTICON_TO_CARRIER_EMOTICON[unicodes]
+        case emoticon
+        when GETA_CODE
+          GETA
+        when Integer
+          '&#x%04x;' % emoticon
+        when String
+          emoticon
         else
           # 変換できなければ〓に
           GETA
@@ -159,7 +158,8 @@ module Jpmobile
         case converted
         when Integer
           # 変換先がUnicodeで指定されている。つまり対応する絵文字がある。
-          if sjis = UNICODE_TO_SJIS[converted]
+          sjis = UNICODE_TO_SJIS[converted]
+          if sjis
             if to_sjis
               Jpmobile::Util.sjis([sjis].pack('n'))
             else
@@ -227,8 +227,10 @@ module Jpmobile
         # メール用エンコーディングに変換する
         case converted
         when Integer
-          if sjis = UNICODE_TO_SJIS[converted]
-            if email_jis = SJIS_TO_EMAIL_JIS[sjis]
+          sjis = UNICODE_TO_SJIS[converted]
+          if sjis
+            email_jis = SJIS_TO_EMAIL_JIS[sjis]
+            if email_jis
               Jpmobile::Util.ascii_8bit("\x1b\x24\x42#{[email_jis].pack('n')}\x1b\x28\x42")
             else
               Jpmobile::Util.ascii_8bit([sjis].pack('n'))
@@ -257,7 +259,8 @@ module Jpmobile
         # メール用エンコーディングに変換する
         case converted
         when Integer
-          if sjis = SOFTBANK_UNICODE_TO_SJIS[converted - 0x1000]
+          sjis = SOFTBANK_UNICODE_TO_SJIS[converted - 0x1000]
+          if sjis
             Jpmobile::Util.sjis([sjis].pack('n'))
           else
             match

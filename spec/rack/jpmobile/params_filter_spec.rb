@@ -35,7 +35,8 @@ describe Jpmobile::ParamsFilter do
             'REQUEST_METHOD' => 'POST',
             'CONTENT_TYPE' => 'application/x-www-form-urlencoded',
             'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)',
-            :input => @form_string)
+            :input => @form_string
+          )
 
           res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(UnitApplication.new)).call(res)
           req = Rack::Request.new(res[1])
@@ -56,7 +57,8 @@ describe Jpmobile::ParamsFilter do
             'REQUEST_METHOD' => 'POST',
             'CONTENT_TYPE' => 'application/x-www-form-urlencoded',
             'HTTP_USER_AGENT' => 'KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0',
-            :input => @form_string)
+            :input => @form_string
+          )
 
           res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(UnitApplication.new)).call(res)
           req = Rack::Request.new(res[1])
@@ -88,7 +90,8 @@ describe Jpmobile::ParamsFilter do
             'REQUEST_METHOD' => 'POST',
             'CONTENT_TYPE' => 'application/x-www-form-urlencoded',
             'HTTP_USER_AGENT' => 'SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1',
-            :input => @form_string)
+            :input => @form_string
+          )
 
           res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(UnitApplication.new)).call(res)
           req = Rack::Request.new(res[1])
@@ -115,7 +118,8 @@ describe Jpmobile::ParamsFilter do
           'REQUEST_METHOD' => 'POST',
           'CONTENT_TYPE' => 'application/x-www-form-urlencoded',
           'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)',
-          :input => form_string)
+          :input => form_string
+        )
 
         res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(UnitApplication.new)).call(res)
         req = Rack::Request.new(res[1])
@@ -136,7 +140,8 @@ describe Jpmobile::ParamsFilter do
           'REQUEST_METHOD' => 'POST',
           'CONTENT_TYPE' => 'application/x-www-form-urlencoded',
           'HTTP_USER_AGENT' => 'KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0',
-          :input => form_string)
+          :input => form_string
+        )
 
         res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(UnitApplication.new)).call(res)
         req = Rack::Request.new(res[1])
@@ -157,7 +162,8 @@ describe Jpmobile::ParamsFilter do
           'REQUEST_METHOD' => 'POST',
           'CONTENT_TYPE' => 'application/x-www-form-urlencoded',
           'HTTP_USER_AGENT' => 'SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1',
-          :input => form_string)
+          :input => form_string
+        )
 
         res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(UnitApplication.new)).call(res)
         req = Rack::Request.new(res[1])
@@ -180,7 +186,8 @@ describe Jpmobile::ParamsFilter do
           'REQUEST_METHOD' => 'POST',
           'CONTENT_TYPE' => 'application/x-www-form-urlencoded',
           'HTTP_USER_AGENT' => 'SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1',
-          :input => form_string)
+          :input => form_string
+        )
 
         res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(UnitApplication.new)).call(res)
         req = Rack::Request.new(res[1])
@@ -201,7 +208,8 @@ describe Jpmobile::ParamsFilter do
           'REQUEST_METHOD' => 'POST',
           'CONTENT_TYPE' => 'application/json',
           'HTTP_USER_AGENT' => 'KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0',
-          :input => form_string)
+          :input => form_string
+        )
 
         res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(UnitApplication.new)).call(res)
         req = Rack::Request.new(res[1])
@@ -222,7 +230,8 @@ describe Jpmobile::ParamsFilter do
           'REQUEST_METHOD' => 'POST',
           'CONTENT_TYPE' => 'application/xml',
           'HTTP_USER_AGENT' => 'KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0',
-          :input => form_string)
+          :input => form_string
+        )
 
         res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(UnitApplication.new)).call(res)
         req = Rack::Request.new(res[1])

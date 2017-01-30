@@ -41,8 +41,10 @@ module Jpmobile
     GOOGLE_EMOTICON_TO_CARRIER_EMOTICON = GOOGLE_TO_SOFTBANK_UNICODE.merge(GOOGLE_TO_AU_UNICODE.merge(GOOGLE_TO_DOCOMO_UNICODE))
 
     CONVERSION_TABLE_TO_UNICODE_EMOTICON = Jpmobile::Util.invert_table(UNICODE_TO_DOCOMO_UNICODE).merge(
-      Jpmobile::Util.invert_table(UNICODE_TO_AU_UNICODE).merge(Jpmobile::Util.invert_table(UNICODE_TO_SOFTBANK_UNICODE)))
+      Jpmobile::Util.invert_table(UNICODE_TO_AU_UNICODE).merge(Jpmobile::Util.invert_table(UNICODE_TO_SOFTBANK_UNICODE))
+    )
     CONVERSION_TABLE_TO_GOOGLE_EMOTICON = Jpmobile::Util.invert_table(GOOGLE_TO_SOFTBANK_UNICODE).merge(
-      Jpmobile::Util.invert_table(GOOGLE_TO_AU_UNICODE).merge(Jpmobile::Util.invert_table(GOOGLE_TO_DOCOMO_UNICODE)))
+      Jpmobile::Util.invert_table(GOOGLE_TO_AU_UNICODE).merge(Jpmobile::Util.invert_table(GOOGLE_TO_DOCOMO_UNICODE))
+    )
   end
 end

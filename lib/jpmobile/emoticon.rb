@@ -45,7 +45,7 @@ module Jpmobile
       str.gsub(DOCOMO_SJIS_REGEXP) do |match|
         sjis = match.unpack('n').first
         unicode = DOCOMO_SJIS_TO_UNICODE[sjis]
-        unicode ? ('&#x%04x;'%unicode) : match
+        unicode ? ('&#x%04x;' % unicode) : match
       end
     end
 
@@ -54,7 +54,7 @@ module Jpmobile
       str.gsub(AU_SJIS_REGEXP) do |match|
         sjis = match.unpack('n').first
         unicode = AU_SJIS_TO_UNICODE[sjis]
-        unicode ? ('&#x%04x;'%unicode) : match
+        unicode ? ('&#x%04x;' % unicode) : match
       end
     end
 
@@ -65,7 +65,7 @@ module Jpmobile
         jis_string.gsub(/[\x21-\x7e]{2}/) do |match|
           jis = match.unpack('n').first
           unicode = AU_EMAILJIS_TO_UNICODE[jis]
-          unicode ? Jpmobile::Util.ascii_8bit("\x1b\x28\x42&#x%04x;\x1b\x24\x42"%unicode) : match
+          unicode ? Jpmobile::Util.ascii_8bit("\x1b\x28\x42&#x%04x;\x1b\x24\x42" % unicode) : match
         end
       end
     end
@@ -75,7 +75,7 @@ module Jpmobile
       # SoftBank Unicode
       str.gsub(SOFTBANK_UNICODE_REGEXP) do |match|
         unicode = match.unpack('U').first
-        '&#x%04x;' % (unicode+0x1000)
+        '&#x%04x;' % (unicode + 0x1000)
       end
     end
     def self.external_to_unicodecr_softbank_sjis(str)
@@ -83,7 +83,7 @@ module Jpmobile
       str.gsub(SOFTBANK_SJIS_REGEXP) do |match|
         sjis = match.unpack('n').first
         unicode = SOFTBANK_SJIS_TO_UNICODE[sjis]
-        '&#x%04x;' % (unicode+0x1000)
+        '&#x%04x;' % (unicode + 0x1000)
       end
     end
     def self.external_to_unicodecr_vodafone(str)
@@ -163,8 +163,8 @@ module Jpmobile
             else
               [converted].pack('U')
             end
-          elsif SOFTBANK_UNICODE_TO_WEBCODE[converted-0x1000]
-            [converted-0x1000].pack('U')
+          elsif SOFTBANK_UNICODE_TO_WEBCODE[converted - 0x1000]
+            [converted - 0x1000].pack('U')
           elsif converted == GETA_CODE
             # PCで〓を表示する場合
             GETA
@@ -197,7 +197,7 @@ module Jpmobile
     def self.unicodecr_to_utf8(str)
       str.gsub(/&#x([0-9a-f]{4});/i) do |match|
         unicode = $1.scanf('%x').first
-        if UNICODE_TO_SJIS[unicode] || SOFTBANK_UNICODE_TO_WEBCODE[unicode-0x1000]
+        if UNICODE_TO_SJIS[unicode] || SOFTBANK_UNICODE_TO_WEBCODE[unicode - 0x1000]
           [unicode].pack('U')
         else
           match
@@ -253,7 +253,7 @@ module Jpmobile
         # メール用エンコーディングに変換する
         case converted
         when Integer
-          if sjis = SOFTBANK_UNICODE_TO_SJIS[converted-0x1000]
+          if sjis = SOFTBANK_UNICODE_TO_SJIS[converted - 0x1000]
             Jpmobile::Util.sjis([sjis].pack('n'))
           else
             match
@@ -275,7 +275,7 @@ module Jpmobile
       @@pc_emoticon_image_path
     end
     def self.pc_emoticon_image_path=(path)
-      @@pc_emoticon_image_path=(path)
+      @@pc_emoticon_image_path = (path)
     end
 
     def self.pc_emoticon_yaml=(file)

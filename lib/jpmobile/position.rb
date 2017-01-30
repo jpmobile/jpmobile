@@ -26,7 +26,7 @@ module Jpmobile
     end
     # 度分秒を度に変換する。
     def self.dms2deg(d,m,s)
-      return d.to_i + m.to_i.to_f/60 + s.to_f/3600
+      return d.to_i + m.to_i.to_f / 60 + s.to_f / 3600
     end
     # 日本測地系から世界測地系に変換する。
     def tokyo2wgs84!
@@ -34,7 +34,7 @@ module Jpmobile
     end
     # 文字列で緯度経度を返す。
     def to_s
-      sprintf('%s%f%s%f', @lat>0 ? 'N' : 'S', @lat, @lon>0 ? 'E' : 'W', @lon)
+      sprintf('%s%f%s%f', @lat > 0 ? 'N' : 'S', @lat, @lon > 0 ? 'E' : 'W', @lon)
     end
 
     # 緯度経度をカンマ区切りで返す

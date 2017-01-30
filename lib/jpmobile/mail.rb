@@ -29,7 +29,7 @@ module Mail
 
         ready_to_send!
 
-        self.body.mobile  = @mobile
+        self.body.mobile = @mobile
         self.header['Content-Transfer-Encoding'].value = @mobile.content_transfer_encoding(self.header)
         if @mobile.decorated?
           unless self.content_type.match(/image\//)
@@ -63,7 +63,7 @@ module Mail
       convert_encoding_jpmobile
       body_part = @body_part_jpmobile
 
-      self.body   = body_part
+      self.body = body_part
     end
 
     def init_with_hash_with_jpmobile(hash)
@@ -102,7 +102,7 @@ module Mail
 
         if @body.multipart?
           @body.parts.each do |p|
-            p.mobile  = @mobile
+            p.mobile = @mobile
           end
         end
       end
@@ -171,7 +171,7 @@ module Mail
         inline_images  = []
         attached_files = []
         attachments.each do |p|
-          if p.content_type.match(/^image\//)  and p.content_disposition.match(/^inline/)
+          if p.content_type.match(/^image\//) and p.content_disposition.match(/^inline/)
             if p.header['Content-Type'].parameters['filename']
               p.header['Content-Type'].parameters['name'] = p.header['Content-Type'].parameters['filename'].to_s
             end
@@ -283,7 +283,7 @@ module Mail
       @body_part_jpmobile = body_part
       convert_encoding_jpmobile
       body_part = @body_part_jpmobile
-      self.body   = body_part
+      self.body = body_part
     end
 
     alias_method :parse_message_without_jpmobile, :parse_message

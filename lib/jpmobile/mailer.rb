@@ -27,7 +27,7 @@ module Jpmobile
 
         m = super(headers, &block)
 
-        m.mobile  = @mobile
+        m.mobile = @mobile
 
         # for decorated-mail manipulation
         m.rearrange! if @mobile.decorated?

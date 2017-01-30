@@ -23,21 +23,21 @@ module Jpmobile
       # TODO: コード汚い
       s = []
       if show_all || request.mobile.instance_of?(Mobile::Docomo)
-        s << docomo_foma_gps_link_to(str||'DoCoMo FOMA(GPS)', options)
+        s << docomo_foma_gps_link_to(str || 'DoCoMo FOMA(GPS)', options)
       end
       if show_all || request.mobile.instance_of?(Mobile::Au)
         if show_all || request.mobile.supports_gps?
-          s << au_gps_link_to(str||'au(GPS)', options)
+          s << au_gps_link_to(str || 'au(GPS)', options)
         end
         if show_all || (!(request.mobile.supports_gps?) && request.mobile.supports_location?)
-          s << au_location_link_to(str||'au(antenna)', options)
+          s << au_location_link_to(str || 'au(antenna)', options)
         end
       end
       if show_all || request.mobile.instance_of?(Mobile::Vodafone) || request.mobile.instance_of?(Mobile::Softbank)
-        s << softbank_location_link_to(str||'Softbank 3G(GPS)', options)
+        s << softbank_location_link_to(str || 'Softbank 3G(GPS)', options)
       end
       if show_all || request.mobile.instance_of?(Mobile::Willcom)
-        s << willcom_location_link_to(str||'Willcom', options)
+        s << willcom_location_link_to(str || 'Willcom', options)
       end
       return s.join("<br>\n").html_safe
     end

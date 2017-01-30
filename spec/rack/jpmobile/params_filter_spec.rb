@@ -9,11 +9,11 @@ describe Jpmobile::ParamsFilter do
   context '漢字コード変換' do
     before(:each) do
       @query_params = {
-        'hoge'       => 'ほげ',
+        'hoge' => 'ほげ',
         'パラメータ' => 'テストです〜■',
       }
       @form_params = {
-        'bar'        => '万葉集',
+        'bar' => '万葉集',
         'アジャイル' => '僕の〜♪',
       }
     end
@@ -173,7 +173,7 @@ describe Jpmobile::ParamsFilter do
     context '値として' do
       it '+ が入ってるものが正確に取得できること(token)' do
         token = 'lm/3Pu6RrY+kp8hsnEWp2xygYLInZIxwsB3UWeksaHQ='
-        form_string  = ascii_8bit("foo=#{::Rack::Utils.escape(token)}")
+        form_string = ascii_8bit("foo=#{::Rack::Utils.escape(token)}")
 
         res = Rack::MockRequest.env_for(
           '/',

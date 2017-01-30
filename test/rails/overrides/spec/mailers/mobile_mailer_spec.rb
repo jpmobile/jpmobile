@@ -307,7 +307,7 @@ describe MobileMailer, type: :mailer do
 
     describe 'docomo の場合' do
       before(:each) do
-        @to     = 'docomo@docomo.ne.jp'
+        @to = 'docomo@docomo.ne.jp'
       end
 
       it '漢字コードが変換されること' do
@@ -339,7 +339,7 @@ describe MobileMailer, type: :mailer do
 
     describe 'au の場合' do
       before(:each) do
-        @to     = 'au@ezweb.ne.jp'
+        @to = 'au@ezweb.ne.jp'
       end
 
       it '漢字コードが変換されること' do
@@ -371,7 +371,7 @@ describe MobileMailer, type: :mailer do
 
     describe 'softbank の場合' do
       before(:each) do
-        @to     = 'softbank@softbank.ne.jp'
+        @to = 'softbank@softbank.ne.jp'
       end
 
       it '漢字コードが変換されること' do
@@ -403,7 +403,7 @@ describe MobileMailer, type: :mailer do
 
     describe 'vodafone の場合' do
       before(:each) do
-        @to     = 'vodafone@d.vodafone.ne.jp'
+        @to = 'vodafone@d.vodafone.ne.jp'
       end
 
       it '漢字コードが変換されること' do

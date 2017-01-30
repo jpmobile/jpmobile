@@ -34,7 +34,7 @@ end
 describe 'S11HT からのアクセス' do
   before do
     @headers = {
-      'HTTP_USER_AGENT'  => 'Mozilla/4.0 (compatible; MSIE 6.0; Windows CE; IEMobile 7.7) S11HT',
+      'HTTP_USER_AGENT' => 'Mozilla/4.0 (compatible; MSIE 6.0; Windows CE; IEMobile 7.7) S11HT',
     }
   end
 

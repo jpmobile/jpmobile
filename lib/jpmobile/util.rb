@@ -291,7 +291,7 @@ module Jpmobile
     def split_text(str, size = 15)
       return nil if str.nil? or str == ''
 
-      [str[0..(size-1)], str[size..-1]]
+      [str[0..(size - 1)], str[size..-1]]
     end
 
     def invert_table(hash)

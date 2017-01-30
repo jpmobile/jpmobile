@@ -12,9 +12,9 @@ module Jpmobile::Mobile
     MAIL_ADDRESS_REGEXP = /.+@ezweb\.ne\.jp/
     # 簡易位置情報取得に対応していないデバイスID
     # http://www.au.kddi.com/ezfactory/tec/spec/eznavi.html
-    LOCATION_UNSUPPORTED_DEVICE_ID = ['PT21', 'TS25', 'KCTE', 'TST9', 'KCU1', 'SYT5', 'KCTD', 'TST8', 'TST7', 'KCTC', 'SYT4', 'KCTB', 'KCTA', 'TST6', 'KCT9', 'TST5', 'TST4', 'KCT8', 'SYT3', 'KCT7', 'MIT1', 'MAT3', 'KCT6', 'TST3', 'KCT5', 'KCT4', 'SYT2', 'MAT1', 'MAT2', 'TST2', 'KCT3', 'KCT2', 'KCT1', 'TST1', 'SYT1']
+    LOCATION_UNSUPPORTED_DEVICE_ID = ['PT21', 'TS25', 'KCTE', 'TST9', 'KCU1', 'SYT5', 'KCTD', 'TST8', 'TST7', 'KCTC', 'SYT4', 'KCTB', 'KCTA', 'TST6', 'KCT9', 'TST5', 'TST4', 'KCT8', 'SYT3', 'KCT7', 'MIT1', 'MAT3', 'KCT6', 'TST3', 'KCT5', 'KCT4', 'SYT2', 'MAT1', 'MAT2', 'TST2', 'KCT3', 'KCT2', 'KCT1', 'TST1', 'SYT1'].freeze
     # GPS取得に対応していないデバイスID
-    GPS_UNSUPPORTED_DEVICE_ID = ['PT21', 'KC26', 'SN28', 'SN26', 'KC23', 'SA28', 'TS25', 'SA25', 'SA24', 'SN23', 'ST14', 'KC15', 'SN22', 'KC14', 'ST13', 'SN17', 'SY15', 'CA14', 'HI14', 'TS14', 'KC13', 'SN15', 'SN16', 'SY14', 'ST12', 'TS13', 'CA13', 'MA13', 'HI13', 'SN13', 'SY13', 'SN12', 'SN14', 'ST11', 'DN11', 'SY12', 'KCTE', 'TST9', 'KCU1', 'SYT5', 'KCTD', 'TST8', 'TST7', 'KCTC', 'SYT4', 'KCTB', 'KCTA', 'TST6', 'KCT9', 'TST5', 'TST4', 'KCT8', 'SYT3', 'KCT7', 'MIT1', 'MAT3', 'KCT6', 'TST3', 'KCT5', 'KCT4', 'SYT2', 'MAT1', 'MAT2', 'TST2', 'KCT3', 'KCT2', 'KCT1', 'TST1', 'SYT1']
+    GPS_UNSUPPORTED_DEVICE_ID = ['PT21', 'KC26', 'SN28', 'SN26', 'KC23', 'SA28', 'TS25', 'SA25', 'SA24', 'SN23', 'ST14', 'KC15', 'SN22', 'KC14', 'ST13', 'SN17', 'SY15', 'CA14', 'HI14', 'TS14', 'KC13', 'SN15', 'SN16', 'SY14', 'ST12', 'TS13', 'CA13', 'MA13', 'HI13', 'SN13', 'SY13', 'SN12', 'SN14', 'ST11', 'DN11', 'SY12', 'KCTE', 'TST9', 'KCU1', 'SYT5', 'KCTD', 'TST8', 'TST7', 'KCTC', 'SYT4', 'KCTB', 'KCTA', 'TST6', 'KCT9', 'TST5', 'TST4', 'KCT8', 'SYT3', 'KCT7', 'MIT1', 'MAT3', 'KCT6', 'TST3', 'KCT5', 'KCT4', 'SYT2', 'MAT1', 'MAT2', 'TST2', 'KCT3', 'KCT2', 'KCT1', 'TST1', 'SYT1'].freeze
 
     # EZ番号(サブスクライバID)があれば返す。無ければ +nil+ を返す。
     def subno

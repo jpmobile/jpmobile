@@ -10,9 +10,9 @@ module Jpmobile::Mobile
     # 対応するメールアドレスの正規表現　ディズニーモバイル対応
     MAIL_ADDRESS_REGEXP = /.+@(?:softbank\.ne\.jp|disney\.ne\.jp)/
     # メールのデフォルトのcharset
-    MAIL_CHARSET = 'Shift_JIS'
+    MAIL_CHARSET = 'Shift_JIS'.freeze
     # テキスト部分の content-transfer-encoding
-    MAIL_CONTENT_TRANSFER_ENCODING = '8bit'
+    MAIL_CONTENT_TRANSFER_ENCODING = '8bit'.freeze
 
     # 製造番号を返す。無ければ +nil+ を返す。
     def serial_number

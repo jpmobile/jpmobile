@@ -1928,4 +1928,4 @@ Jpmobile::Emoticon::AU_SJIS_TO_EMAIL_JIS = {
   0xF48B => 0x7B6B,
   0xF48C => 0x7B6C,
   0xF48D => 0x7B6D
-}
+}.freeze

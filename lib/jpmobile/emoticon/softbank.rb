@@ -473,7 +473,7 @@ Jpmobile::Emoticon::SOFTBANK_UNICODE_TO_WEBCODE = {
   0xE535 => 'QU',
   0xE536 => 'QV',
   0xE537 => 'QW',
-}
+}.freeze
 Jpmobile::Emoticon::SOFTBANK_WEBCODE_TO_UNICODE = Jpmobile::Emoticon::SOFTBANK_UNICODE_TO_WEBCODE.invert
 Jpmobile::Emoticon::SOFTBANK_UNICODE_TO_SJIS = {
   0xE001 => 0xF941,
@@ -961,5 +961,5 @@ Jpmobile::Emoticon::SOFTBANK_UNICODE_TO_SJIS = {
   0xE53C => 0xFBDC,
   0xE53D => 0xFBDD,
   0xE53E => 0xFBDE
-}
+}.freeze
 Jpmobile::Emoticon::SOFTBANK_SJIS_TO_UNICODE = Jpmobile::Emoticon::SOFTBANK_UNICODE_TO_SJIS.invert

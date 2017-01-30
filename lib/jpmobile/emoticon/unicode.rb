@@ -748,7 +748,7 @@ Jpmobile::Emoticon::UNICODE_TO_DOCOMO_UNICODE = {
   0x1F44E => 0xE700,
   0x1F450 => 0xE695,
   0x261D => 0x3013,
-}
+}.freeze
 Jpmobile::Emoticon::UNICODE_TO_AU_UNICODE = {
   0x2600 => 0xE488,
   0x2601 => 0xE48D,
@@ -1499,7 +1499,7 @@ Jpmobile::Emoticon::UNICODE_TO_AU_UNICODE = {
   0x1F44E => 0xEAD5,
   0x1F450 => 0xEAD6,
   0x261D => 0xE4F6,
-}
+}.freeze
 Jpmobile::Emoticon::UNICODE_TO_SOFTBANK_UNICODE = {
   0x2600 => 0xF04A,
   0x2601 => 0xF049,
@@ -2250,4 +2250,4 @@ Jpmobile::Emoticon::UNICODE_TO_SOFTBANK_UNICODE = {
   0x1F44E => 0xF421,
   0x1F450 => 0xF422,
   0x261D => 0xF00F,
-}
+}.freeze

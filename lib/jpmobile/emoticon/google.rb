@@ -804,7 +804,7 @@ Jpmobile::Emoticon::GOOGLE_TO_DOCOMO_UNICODE = {
   0xFE4C5 => 0x3013,
   0xFE82D => 0xE6E1,
   0xFEEA0 => 0x3013,
-}
+}.freeze
 Jpmobile::Emoticon::GOOGLE_TO_AU_UNICODE = {
   0xFE000 => 0xE488,
   0xFE001 => 0xE48D,
@@ -1611,7 +1611,7 @@ Jpmobile::Emoticon::GOOGLE_TO_AU_UNICODE = {
   0xFE4C5 => 0x3013,
   0xFE82D => 0xE52C,
   0xFEEA0 => 0x3013,
-}
+}.freeze
 Jpmobile::Emoticon::GOOGLE_TO_SOFTBANK_UNICODE = {
   0xFE000 => 0xF04A,
   0xFE001 => 0xF049,
@@ -2418,4 +2418,4 @@ Jpmobile::Emoticon::GOOGLE_TO_SOFTBANK_UNICODE = {
   0xFE4C5 => 0xF50A,
   0xFE82D => 0x3013,
   0xFEEA0 => 0x3013,
-}
+}.freeze

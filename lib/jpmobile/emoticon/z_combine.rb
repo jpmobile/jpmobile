@@ -3,16 +3,11 @@ module Jpmobile
     GETA_CODE = 0x3013
     GETA      = [GETA_CODE].pack('U')
 
-    SJIS_TO_UNICODE = {}
-    SJIS_TO_UNICODE.update(DOCOMO_SJIS_TO_UNICODE)
-    SJIS_TO_UNICODE.update(AU_SJIS_TO_UNICODE)
-    SJIS_TO_UNICODE.freeze
+    SJIS_TO_UNICODE = {}.update(DOCOMO_SJIS_TO_UNICODE).update(AU_SJIS_TO_UNICODE).freeze
     UNICODE_TO_SJIS = SJIS_TO_UNICODE.invert.freeze
 
     # for au email
-    SJIS_TO_EMAIL_JIS = { 0x81ac => 0x222E }
-    SJIS_TO_EMAIL_JIS.update(AU_SJIS_TO_EMAIL_JIS)
-    SJIS_TO_EMAIL_JIS.freeze
+    SJIS_TO_EMAIL_JIS = { 0x81ac => 0x222E }.update(AU_SJIS_TO_EMAIL_JIS).freeze
 
     SJIS_REGEXP = Regexp.union(*SJIS_TO_UNICODE.keys.map{ |s| Jpmobile::Util.sjis_regexp(s) })
     SOFTBANK_WEBCODE_REGEXP = Regexp.union(*([/(?!)/n] + SOFTBANK_WEBCODE_TO_UNICODE.keys.map{ |x| "\x1b\x24#{x}\x0f" }))

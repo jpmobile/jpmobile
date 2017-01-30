@@ -5,7 +5,7 @@ module Jpmobile::Mobile
   # 携帯電話の抽象クラス。
   class AbstractMobile
     # メールのデフォルトのcharset
-    MAIL_CHARSET = 'ISO-2022-JP'
+    MAIL_CHARSET = 'ISO-2022-JP'.freeze
 
     def initialize(env, request)
       @env            = env
@@ -20,7 +20,7 @@ module Jpmobile::Mobile
     # 対応するメールアドレスの正規表現
     MAIL_ADDRESS_REGEXP = nil
     # テキスト部分の content-transfer-encoding
-    MAIL_CONTENT_TRANSFER_ENCODING = '7bit'
+    MAIL_CONTENT_TRANSFER_ENCODING = '7bit'.freeze
 
     # 緯度経度があれば Position のインスタンスを返す。
     def position; return nil; end

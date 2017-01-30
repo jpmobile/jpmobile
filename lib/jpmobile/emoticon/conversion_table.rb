@@ -1200,7 +1200,7 @@ Jpmobile::Emoticon::CONVERSION_TABLE_TO_DOCOMO = {
   0xF535 => '[O]',
   0xF536 => 0xE698,
   0xF537 => 0xE732,
-}
+}.freeze
 Jpmobile::Emoticon::CONVERSION_TABLE_TO_AU = {
   0xE63E => 0xE488,
   0xE63F => 0xE48D,
@@ -2550,7 +2550,7 @@ Jpmobile::Emoticon::CONVERSION_TABLE_TO_AU = {
   0xF535 => 0xEB28,
   0xF536 => 0xEB2A,
   0xF537 => 0xE54E,
-}
+}.freeze
 Jpmobile::Emoticon::CONVERSION_TABLE_TO_SOFTBANK = {
   0xE63E => 0xF04A,
   0xE63F => 0xF049,
@@ -3906,4 +3906,4 @@ Jpmobile::Emoticon::CONVERSION_TABLE_TO_SOFTBANK = {
   0xF535 => 0xF535,
   0xF536 => 0xF536,
   0xF537 => 0xF537,
-}
+}.freeze

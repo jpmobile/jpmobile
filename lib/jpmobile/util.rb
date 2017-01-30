@@ -4,11 +4,11 @@ require 'tempfile'
 module Jpmobile
   module Util
     # SJIS   = "Shift_JIS"
-    SJIS   = 'Windows-31J'
-    UTF8   = 'UTF-8'
-    JIS    = 'ISO-2022-JP'
-    JIS_WIN = 'CP50220'
-    BINARY = 'ASCII-8BIT'
+    SJIS   = 'Windows-31J'.freeze
+    UTF8   = 'UTF-8'.freeze
+    JIS    = 'ISO-2022-JP'.freeze
+    JIS_WIN = 'CP50220'.freeze
+    BINARY = 'ASCII-8BIT'.freeze
 
     WAVE_DASH = [0x301c].pack('U')
     FULLWIDTH_TILDE = [0xff5e].pack('U')

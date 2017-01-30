@@ -83,7 +83,7 @@ module Jpmobile::Mobile
     def variants
       return @_variants if @_variants
 
-      @_variants = self.class.ancestors.select {|c| c.to_s =~ /^Jpmobile/ && c.to_s !~ /Emoticon/}.map do |klass|
+      @_variants = self.class.ancestors.select { |c| c.to_s =~ /^Jpmobile/ && c.to_s !~ /Emoticon/ }.map do |klass|
         klass = klass.to_s.
           gsub(/Jpmobile::/, '').
           gsub(/AbstractMobile::/, '').
@@ -97,9 +97,9 @@ module Jpmobile::Mobile
       end
 
       if @_variants.include?('tablet')
-        @_variants = @_variants.reject{|v| v == 'mobile'}.map{|v| v.gsub(/mobile_/, 'tablet_')}
+        @_variants = @_variants.reject{ |v| v == 'mobile' }.map{ |v| v.gsub(/mobile_/, 'tablet_') }
       elsif @_variants.include?('smart_phone')
-        @_variants = @_variants.reject{|v| v == 'mobile'}.map{|v| v.gsub(/mobile_/, 'smart_phone_')}
+        @_variants = @_variants.reject{ |v| v == 'mobile' }.map{ |v| v.gsub(/mobile_/, 'smart_phone_') }
       end
 
       @_variants || []
@@ -113,7 +113,7 @@ module Jpmobile::Mobile
     # メール送信用
     def to_mail_subject(str)
       Jpmobile::Util.fold_text(Jpmobile::Emoticon.unicodecr_to_utf8(str)).
-        map{|text| "=?#{mail_charset}?B?" + [to_mail_encoding(text)].pack('m').gsub(/\n/, '') + '?=' }.
+        map{ |text| "=?#{mail_charset}?B?" + [to_mail_encoding(text)].pack('m').gsub(/\n/, '') + '?=' }.
         join("\n\s")
     end
     def to_mail_body(str)

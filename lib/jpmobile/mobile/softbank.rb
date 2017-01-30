@@ -35,7 +35,7 @@ module Jpmobile::Mobile
         l = Jpmobile::Position.new
         l.lat = ($1 == 'N' ? 1 : -1) * Jpmobile::Position.dms2deg($2,$3,$4)
         l.lon = ($5 == 'E' ? 1 : -1) * Jpmobile::Position.dms2deg($6,$7,$8)
-        l.options = params.reject {|x,v| !['pos','geo','x-acr'].include?(x) }
+        l.options = params.reject { |x,v| !['pos','geo','x-acr'].include?(x) }
         return @__position = l
       else
         return @__position = nil

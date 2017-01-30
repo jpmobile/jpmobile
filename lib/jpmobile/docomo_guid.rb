@@ -14,6 +14,7 @@ end
 
 module Jpmobile::DocomoGuid #:nodoc:
   protected
+
   def default_url_options
     result = super || {}
     return result unless request # for test process

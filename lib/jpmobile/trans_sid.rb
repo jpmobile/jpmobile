@@ -5,6 +5,7 @@ require 'active_support/version'
 module Jpmobile
   module SessionID
     require 'action_dispatch/middleware/session/abstract_store'
+
     module_function
 
     extend ActionDispatch::Session::Compatibility
@@ -26,6 +27,7 @@ module Jpmobile
     end
 
     protected
+
     # URLにsession_idを追加する。
     def default_url_options
       result = super || {}.with_indifferent_access
@@ -35,6 +37,7 @@ module Jpmobile
     end
 
     private
+
     # session_keyを返す。
     def session_key
       unless key = Rails.application.config.session_options.merge(request.session_options || {})[:key]
@@ -109,6 +112,7 @@ module ActionController
     end
 
     private
+
     # trans_sidを適用すべきかを返す。
     def apply_trans_sid?
       # session_id が blank の場合は適用しない

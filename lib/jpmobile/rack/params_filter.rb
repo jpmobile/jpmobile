@@ -27,6 +27,7 @@ module Jpmobile
     end
 
     private
+
     def to_internal(str)
       ::Rack::Utils.escape(@mobile.to_internal(::Rack::Utils.unescape(str)))
     end

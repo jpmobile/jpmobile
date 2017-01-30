@@ -69,6 +69,7 @@ module Jpmobile
   autoload :TransSid,            'jpmobile/trans_sid'
 
   module_function
+
   def config
     ::Jpmobile::Configuration.instance
   end

@@ -39,6 +39,7 @@ module Jpmobile
     end
 
     private
+
     def response_to_body(response)
       if response.respond_to?(:to_str)
         response.to_str

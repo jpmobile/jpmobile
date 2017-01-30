@@ -166,6 +166,7 @@ module Jpmobile
     end
 
     private
+
     # 外部へのリンク
     def link_to_url(str, url)
       link_to str, url

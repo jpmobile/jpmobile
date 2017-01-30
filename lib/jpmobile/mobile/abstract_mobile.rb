@@ -253,6 +253,7 @@ module Jpmobile::Mobile
     end
 
     private
+
     # リクエストのパラメータ。
     def params
       if @request.respond_to? :parameters

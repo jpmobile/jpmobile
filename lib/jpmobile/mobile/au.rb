@@ -125,6 +125,7 @@ module Jpmobile::Mobile
     end
 
     private
+
     def to_mail_encoding(str)
       str = Jpmobile::Emoticon.utf8_to_unicodecr(str)
       str = Jpmobile::Util.utf8_to_jis(str)

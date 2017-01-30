@@ -37,6 +37,7 @@ module Jpmobile
 
       class << self
         protected
+
         def set_payload_for_mail(payload, mail) #:nodoc:
           super
 

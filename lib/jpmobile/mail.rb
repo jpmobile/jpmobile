@@ -227,6 +227,7 @@ module Mail
     end
 
     private
+
     def convert_encoding_jpmobile
       # decide mobile carrier
       if self.header[:from]
@@ -290,6 +291,7 @@ module Mail
     alias_method :parse_message, :parse_message_with_jpmobile
 
     private
+
     def ascii_compatible!(str)
       str
     end

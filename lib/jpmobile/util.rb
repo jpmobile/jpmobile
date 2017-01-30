@@ -23,6 +23,7 @@ module Jpmobile
     FULLWIDTH_HYPHEN_MINUS = [0xFF0D].pack('U')
 
     module_function
+
     def deep_convert(obj, &proc)
       case obj
       when Hash

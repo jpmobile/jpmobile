@@ -27,7 +27,7 @@ describe Jpmobile::Mobile::Docomo do
   describe '#variants' do
     describe '#variants' do
       subject { super().variants }
-      it { is_expected.to eq(['mobile_docomo', 'mobile']) }
+      it { is_expected.to eq(%w(mobile_docomo mobile)) }
     end
   end
 
@@ -44,7 +44,7 @@ describe Jpmobile::Mobile::Au do
   describe '#variants' do
     describe '#variants' do
       subject { super().variants }
-      it { is_expected.to eq(['mobile_au', 'mobile']) }
+      it { is_expected.to eq(%w(mobile_au mobile)) }
     end
   end
 
@@ -61,7 +61,7 @@ describe Jpmobile::Mobile::Softbank do
   describe '#variants' do
     describe '#variants' do
       subject { super().variants }
-      it { is_expected.to eq(['mobile_softbank', 'mobile']) }
+      it { is_expected.to eq(%w(mobile_softbank mobile)) }
     end
   end
 
@@ -78,7 +78,7 @@ describe Jpmobile::Mobile::Android do
   describe '#variants' do
     describe '#variants' do
       subject { super().variants }
-      it { is_expected.to eq(['smart_phone_android', 'smart_phone']) }
+      it { is_expected.to eq(%w(smart_phone_android smart_phone)) }
     end
   end
 
@@ -95,7 +95,7 @@ describe Jpmobile::Mobile::AndroidTablet do
   describe '#variants' do
     describe '#variants' do
       subject { super().variants }
-      it { is_expected.to eq(['tablet_android_tablet', 'tablet', 'smart_phone']) }
+      it { is_expected.to eq(%w(tablet_android_tablet tablet smart_phone)) }
     end
   end
 
@@ -112,7 +112,7 @@ describe Jpmobile::Mobile::Iphone do
   describe '#variants' do
     describe '#variants' do
       subject { super().variants }
-      it { is_expected.to eq(['smart_phone_iphone', 'smart_phone']) }
+      it { is_expected.to eq(%w(smart_phone_iphone smart_phone)) }
     end
   end
 
@@ -129,7 +129,7 @@ describe Jpmobile::Mobile::Ipad do
   describe '#variants' do
     describe '#variants' do
       subject { super().variants }
-      it { is_expected.to eq(['tablet_ipad', 'tablet', 'smart_phone']) }
+      it { is_expected.to eq(%w(tablet_ipad tablet smart_phone)) }
     end
   end
 
@@ -146,7 +146,7 @@ describe Jpmobile::Mobile::WindowsPhone do
   describe '#variants' do
     describe '#variants' do
       subject { super().variants }
-      it { is_expected.to eq(['smart_phone_windows_phone', 'smart_phone']) }
+      it { is_expected.to eq(%w(smart_phone_windows_phone smart_phone)) }
     end
   end
 

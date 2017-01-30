@@ -145,7 +145,7 @@ module Jpmobile
             # textarea 以外のテキストなら content を変換
             element.content = filter(:hankaku, element.content)
           end
-        elsif (element.node_name == 'input') && ['submit', 'reset', 'button'].include?(element['type'])
+        elsif (element.node_name == 'input') && %w(submit reset button).include?(element['type'])
           # テキスト以外でもボタンの value は変換
           element['value'] = filter(:hankaku, element['value'])
         elsif element.children.any?

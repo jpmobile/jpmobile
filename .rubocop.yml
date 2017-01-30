@@ -19,3 +19,24 @@ AllCops:
 
 Style/StringLiterals:
   EnforcedStyle: single_quotes
+
+Style/BlockDelimiters:
+  EnforcedStyle: semantic
+  FunctionalMethods:
+    - before
+    - let
+    - let!
+    - subject
+    - watch
+    - expect
+
+Style/IndentationConsistency:
+  EnforcedStyle: normal
+
+Metrics/LineLength:
+  Exclude:
+    - '**/*_spec.rb'
+
+Metrics/BlockLength:
+  Exclude:
+    - '**/*_spec.rb'

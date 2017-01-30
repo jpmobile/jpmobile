@@ -9,8 +9,8 @@ describe MobileMailer, type: :mailer do
     @to      = ['outer@jp.mobile', 'outer1@jp.mobile']
     @subject = '日本語題名'
     @text    = '日本語テキスト'
-    @sjis_regexp = %r!=\?shift_jis\?B\?(.+)\?=!
-    @jis_regexp  = %r!=\?iso-2022-jp\?B\?(.+)\?=!
+    @sjis_regexp = /=\?shift_jis\?B\?(.+)\?=/
+    @jis_regexp  = /=\?iso-2022-jp\?B\?(.+)\?=/
   end
 
   shared_examples_for 'PC宛メール' do

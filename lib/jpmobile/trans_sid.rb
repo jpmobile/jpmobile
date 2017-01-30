@@ -68,7 +68,7 @@ module Jpmobile
     def redirect_to(options = {}, response_status = {})
       if apply_trans_sid? and jpmobile_session_id
         case options
-        when %r{^\w[\w+.-]*:.*}
+        when /^\w[\w+.-]*:.*/
           # nothing to do
         when String
           unless options.match(/#{session_key}/)

@@ -87,6 +87,7 @@ module Jpmobile::Mobile
       # 数値参照を UTF-8 に変換
       Jpmobile::Emoticon.unicodecr_to_utf8(str)
     end
+
     def to_external(str, content_type, charset)
       # UTF-8を数値参照に
       str = Jpmobile::Emoticon.utf8_to_unicodecr(str)
@@ -100,6 +101,7 @@ module Jpmobile::Mobile
 
       [str, charset]
     end
+
     def default_charset
       'Shift_JIS'
     end

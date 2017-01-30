@@ -20,6 +20,7 @@ module Jpmobile::Mobile
       pos.tokyo2wgs84!
       return @__position = pos
     end
+
     # cookieに対応しているか？
     def supports_cookie?
       true

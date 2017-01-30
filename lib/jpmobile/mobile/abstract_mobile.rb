@@ -27,8 +27,10 @@ module Jpmobile::Mobile
 
     # 契約者又は端末を識別する文字列があれば返す。
     def ident; ident_subscriber || ident_device; end
+
     # 契約者を識別する文字列があれば返す。
     def ident_subscriber; nil; end
+
     # 端末を識別する文字列があれば返す。
     def ident_device; nil; end
 
@@ -72,9 +74,11 @@ module Jpmobile::Mobile
     def to_internal(str)
       str
     end
+
     def to_external(str, content_type, charset)
       [str, charset]
     end
+
     def default_charset
       'UTF-8'
     end
@@ -104,6 +108,7 @@ module Jpmobile::Mobile
 
       @_variants || []
     end
+
     def mail_variants
       return @_mail_variants if @_mail_variants
 
@@ -116,14 +121,17 @@ module Jpmobile::Mobile
         map{ |text| "=?#{mail_charset}?B?" + [to_mail_encoding(text)].pack('m').gsub(/\n/, '') + '?=' }.
         join("\n\s")
     end
+
     def to_mail_body(str)
       to_mail_encoding(str)
     end
+
     def mail_charset(charset = nil)
       # (charset.nil? or charset == "") ? self.class::MAIL_CHARSET : charset
       # self.class::MAIL_CHARSET
       charset.nil? || charset == '' || charset =~ /US-ASCII/i ? self.class::MAIL_CHARSET : charset
     end
+
     def content_transfer_encoding(headers)
       transfer_encoding = headers['Content-Transfer-Encoding']
       case headers['Content-Type'].to_s
@@ -139,11 +147,13 @@ module Jpmobile::Mobile
         transfer_encoding
       end
     end
+
     def to_mail_encoding(str)
       str = Jpmobile::Emoticon.utf8_to_unicodecr(str)
       str = Jpmobile::Emoticon.unicodecr_to_external(str, Jpmobile::Emoticon::CONVERSION_TABLE_TO_PC_EMAIL, false)
       Jpmobile::Util.encode(str, mail_charset)
     end
+
     def utf8_to_mail_encode(str)
       case mail_charset
       when /ISO-2022-JP/i
@@ -154,29 +164,37 @@ module Jpmobile::Mobile
         str
       end
     end
+
     def to_mail_internal(str, charset)
       str
     end
+
     def to_mail_subject_encoded?(str)
       str.match(/\=\?#{mail_charset}\?B.+\?\=/i)
     end
+
     def to_mail_body_encoded?(str)
       Jpmobile::Util.jis?(str)
     end
+
     def decode_transfer_encoding(body, charset)
       body = Jpmobile::Util.set_encoding(body, charset)
       body = to_mail_internal(body, nil)
       Jpmobile::Util.force_encode(body, charset, Jpmobile::Util::UTF8)
     end
+
     def decoratable?
       false
     end
+
     def require_related_part?
       false
     end
+
     def decorated=(boolean)
       @decorated = boolean
     end
+
     def decorated?
       @decorated
     end

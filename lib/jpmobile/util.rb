@@ -267,12 +267,15 @@ module Jpmobile
     def ascii_8bit?(str)
       detect_encoding(str) == BINARY
     end
+
     def utf8?(str)
       detect_encoding(str) == UTF8
     end
+
     def shift_jis?(str)
       detect_encoding(str) == SJIS
     end
+
     def jis?(str)
       detect_encoding(str) == JIS
     end

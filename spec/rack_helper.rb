@@ -60,6 +60,7 @@ module Jpmobile::RackHelper
   def user_agent(str)
     @request.user_agent = str
   end
+
   def init(c)
     @controller = c.new
     @controller.logger = Logger.new(nil)

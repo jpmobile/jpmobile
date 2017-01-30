@@ -78,6 +78,7 @@ module Jpmobile
         '&#x%04x;' % (unicode + 0x1000)
       end
     end
+
     def self.external_to_unicodecr_softbank_sjis(str)
       # SoftBank Shift_JIS
       str.gsub(SOFTBANK_SJIS_REGEXP) do |match|
@@ -86,6 +87,7 @@ module Jpmobile
         '&#x%04x;' % (unicode + 0x1000)
       end
     end
+
     def self.external_to_unicodecr_vodafone(str)
       external_to_unicodecr_softbank(str)
     end
@@ -193,6 +195,7 @@ module Jpmobile
         end
       end
     end
+
     # +str+ のなかでUnicode数値文字参照で表記された絵文字をUTF-8に置換する。
     def self.unicodecr_to_utf8(str)
       str.gsub(/&#x([0-9a-f]{4});/i) do |match|
@@ -204,6 +207,7 @@ module Jpmobile
         end
       end
     end
+
     # +str+ のなかでUTF-8で表記された絵文字をUnicode数値文字参照に置換する。
     def self.utf8_to_unicodecr(str)
       str.gsub(UTF8_REGEXP) do |match|
@@ -274,6 +278,7 @@ module Jpmobile
     def self.pc_emoticon_image_path
       @@pc_emoticon_image_path
     end
+
     def self.pc_emoticon_image_path=(path)
       @@pc_emoticon_image_path = (path)
     end
@@ -281,6 +286,7 @@ module Jpmobile
     def self.pc_emoticon_yaml=(file)
       @@pc_emoticon_yaml = file
     end
+
     def self.pc_emoticon_yaml
       @@pc_emoticon_yaml
     end

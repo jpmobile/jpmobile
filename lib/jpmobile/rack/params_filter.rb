@@ -30,6 +30,7 @@ module Jpmobile
     def to_internal(str)
       ::Rack::Utils.escape(@mobile.to_internal(::Rack::Utils.unescape(str)))
     end
+
     def parse_query(str)
       return nil unless str
 

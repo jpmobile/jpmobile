@@ -54,6 +54,7 @@ module Jpmobile::Mobile
       # 数値参照を UTF-8 に変換
       Jpmobile::Emoticon.unicodecr_to_utf8(str)
     end
+
     def to_external(str, content_type, charset)
       # UTF-8を数値参照に
       str = Jpmobile::Emoticon.utf8_to_unicodecr(str)
@@ -67,6 +68,7 @@ module Jpmobile::Mobile
     def to_mail_body(str)
       to_mail_encoding(str)
     end
+
     def to_mail_internal(str, charset)
       # 絵文字を数値参照に変換
       if Jpmobile::Util.utf8?(str) or charset == 'UTF-8'
@@ -79,12 +81,15 @@ module Jpmobile::Mobile
 
       str
     end
+
     def to_mail_body_encoded?(str)
       Jpmobile::Util.shift_jis?(str)
     end
+
     def decoratable?
       true
     end
+
     def require_related_part?
       true
     end

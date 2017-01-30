@@ -15,8 +15,11 @@ module Jpmobile
       # GeoKitが読み込まれている場合はMappableにする
       include ::GeoKit::Mappable
       def self.acts_as_mappable; end
+
       def self.distance_column_name; end
+
       def self.lat_column_name; :lat; end
+
       def self.lng_column_name; :lng; end
     end
     def initialize
@@ -24,14 +27,17 @@ module Jpmobile
       @lon = nil
       @options = {}
     end
+
     # 度分秒を度に変換する。
     def self.dms2deg(d, m, s)
       return d.to_i + m.to_i.to_f / 60 + s.to_f / 3600
     end
+
     # 日本測地系から世界測地系に変換する。
     def tokyo2wgs84!
       @lat, @lon = DatumConv.tky2jgd(@lat, @lon)
     end
+
     # 文字列で緯度経度を返す。
     def to_s
       sprintf('%s%f%s%f', @lat > 0 ? 'N' : 'S', @lat, @lon > 0 ? 'E' : 'W', @lon)

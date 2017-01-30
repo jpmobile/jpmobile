@@ -50,7 +50,7 @@ module Jpmobile
         options[:only_path] = false
         url = url_for(options)
       end
-      return %{<a href="#{url}" lcs>#{str}</a>}.html_safe
+      return %(<a href="#{url}" lcs>#{str}</a>).html_safe
     end
 
     # DoCoMoでオープンiエリアを取得するためのURLを返す。
@@ -80,7 +80,7 @@ module Jpmobile
         options[:only_path] = false
         url = url_for(options)
       end
-      return %{<a href="#{url}" utn>#{str}</a>}.html_safe
+      return %(<a href="#{url}" utn>#{str}</a>).html_safe
     end
 
     # DoCoMoでiモードIDを取得するためのリンクを返す。

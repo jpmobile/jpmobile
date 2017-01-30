@@ -145,8 +145,8 @@ module Jpmobile
     end
 
     # Softbank(含むVodafone 3G)で位置情報を取得するためのリンクを返す。
-    def softbank_location_link_to(str,options={})
-      link_to_url(str,softbank_location_url_for(options))
+    def softbank_location_link_to(str, options={})
+      link_to_url(str, softbank_location_url_for(options))
     end
 
     # Willcom 基地局位置情報を取得するためのURLを返す。
@@ -161,7 +161,7 @@ module Jpmobile
     end
 
     # Willcom 基地局位置情報を取得するためのリンクを返す。
-    def willcom_location_link_to(str,options={})
+    def willcom_location_link_to(str, options={})
       link_to_url(str, willcom_location_url_for(options))
     end
 

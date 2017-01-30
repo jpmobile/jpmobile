@@ -114,7 +114,7 @@ module Jpmobile
 
         doc = convert_text_content(doc)
 
-        html = doc.to_html.gsub("\xc2\xa0",'&nbsp;')
+        html = doc.to_html.gsub("\xc2\xa0", '&nbsp;')
         html = html.gsub(/charset=[a-z0-9\-]+/i, "charset=#{default_charset}") if default_charset
         html
       end

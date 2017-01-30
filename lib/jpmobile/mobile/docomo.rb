@@ -32,9 +32,9 @@ module Jpmobile::Mobile
       raise 'Unsuppoted datum' if geo.downcase != 'wgs84'
       pos = Jpmobile::Position.new
       raise 'Unsuppoted' unless lat =~ /^([+-]\d+)\.(\d+)\.(\d+\.\d+)/
-      pos.lat = Jpmobile::Position.dms2deg($1,$2,$3)
+      pos.lat = Jpmobile::Position.dms2deg($1, $2, $3)
       raise 'Unsuppoted' unless lon =~ /^([+-]\d+)\.(\d+)\.(\d+\.\d+)/
-      pos.lon = Jpmobile::Position.dms2deg($1,$2,$3)
+      pos.lon = Jpmobile::Position.dms2deg($1, $2, $3)
       return @__position = pos
     end
 

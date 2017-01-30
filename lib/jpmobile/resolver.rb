@@ -21,7 +21,7 @@ module Jpmobile
         self.class_eval do
           def find_template_paths(query)
             # deals with case-insensitive file systems.
-            sanitizer = Hash.new { |h,dir| h[dir] = Dir["#{dir}/*"] }
+            sanitizer = Hash.new { |h, dir| h[dir] = Dir["#{dir}/*"] }
 
             Dir[query].reject { |filename|
               File.directory?(filename) ||

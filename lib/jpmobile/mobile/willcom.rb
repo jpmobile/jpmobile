@@ -15,8 +15,8 @@ module Jpmobile::Mobile
       return @__position = nil if ( params['pos'].nil? || params['pos'] == '' )
       raise 'unsupported format' unless params['pos'] =~ /^N(\d\d)\.(\d\d)\.(\d\d\.\d\d\d)E(\d\d\d)\.(\d\d)\.(\d\d\.\d\d\d)$/
       pos = Jpmobile::Position.new
-      pos.lat = Jpmobile::Position.dms2deg($1,$2,$3)
-      pos.lon = Jpmobile::Position.dms2deg($4,$5,$6)
+      pos.lat = Jpmobile::Position.dms2deg($1, $2, $3)
+      pos.lon = Jpmobile::Position.dms2deg($4, $5, $6)
       pos.tokyo2wgs84!
       return @__position = pos
     end

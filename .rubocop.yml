@@ -21,7 +21,6 @@ Style/StringLiterals:
   EnforcedStyle: single_quotes
 
 Style/BlockDelimiters:
-  EnforcedStyle: semantic
   FunctionalMethods:
     - before
     - let

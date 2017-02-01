@@ -242,7 +242,7 @@ module Jpmobile::Mobile
       end
     end
 
-    #XXX: lib/jpmobile.rbのautoloadで先に各キャリアの定数を定義しているから動くのです
+    # XXX: lib/jpmobile.rbのautoloadで先に各キャリアの定数を定義しているから動くのです
     Jpmobile::Mobile.carriers.each do |carrier|
       carrier_class = Jpmobile::Mobile.const_get(carrier)
       next if carrier_class == self

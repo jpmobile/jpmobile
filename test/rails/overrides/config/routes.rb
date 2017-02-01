@@ -8,7 +8,7 @@ RailsRoot::Application.routes.draw do
     end
   end
 
-  #get ':controller(/:action(/:id(.:format)))'
+  # get ':controller(/:action(/:id(.:format)))'
 
   get 'trans_sid_metal/redirect', to: 'trans_sid_metal#redirect'
 

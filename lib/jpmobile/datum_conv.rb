@@ -68,5 +68,5 @@ module DatumConv
   end
 end
 
-#DatumConv.tky2jgd(b,l)
-#DatumConv.jgd2tky(b,l)
+# DatumConv.tky2jgd(b,l)
+# DatumConv.jgd2tky(b,l)

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#DoCoMoの時guid=onの付与
+# DoCoMoの時guid=onの付与
 class ActionController::Base #:nodoc:
   class_attribute :docomo_guid_mode
 
@@ -22,7 +22,7 @@ module Jpmobile::DocomoGuid #:nodoc:
     result.merge({ guid: 'ON' })
   end
 
-  #guid=ONを付与すべきか否かを返す
+  # guid=ONを付与すべきか否かを返す
   def apply_add_guid?
     return true if docomo_guid_mode == :always
     return false if docomo_guid_mode == :none

@@ -23,16 +23,24 @@ module Jpmobile::Mobile
     MAIL_CONTENT_TRANSFER_ENCODING = '7bit'.freeze
 
     # 緯度経度があれば Position のインスタンスを返す。
-    def position; nil; end
+    def position; 
+      nil; 
+    end
 
     # 契約者又は端末を識別する文字列があれば返す。
-    def ident; ident_subscriber || ident_device; end
+    def ident; 
+      ident_subscriber || ident_device; 
+    end
 
     # 契約者を識別する文字列があれば返す。
-    def ident_subscriber; nil; end
+    def ident_subscriber; 
+      nil; 
+    end
 
     # 端末を識別する文字列があれば返す。
-    def ident_device; nil; end
+    def ident_device; 
+      nil; 
+    end
 
     def valid_ip?
       @__valid_ip ||= self.class.valid_ip? @request.ip

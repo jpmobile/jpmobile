@@ -18,9 +18,13 @@ module Jpmobile
 
       def self.distance_column_name; end
 
-      def self.lat_column_name; :lat; end
+      def self.lat_column_name; 
+        :lat; 
+      end
 
-      def self.lng_column_name; :lng; end
+      def self.lng_column_name; 
+        :lng; 
+      end
     end
     def initialize
       @lat = nil

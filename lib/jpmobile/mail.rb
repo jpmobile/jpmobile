@@ -91,20 +91,20 @@ module Mail
     def process_body_raw_with_jpmobile
       process_body_raw_without_jpmobile
 
-      if @mobile
-        @body.mobile = @mobile
-        @body.content_type_with_jpmobile = self.content_type
+      return unless @mobile
 
-        if has_content_transfer_encoding? &&
-           ['base64', 'quoted-printable'].include?(self.content_transfer_encoding) &&
-           ['text'].include?(@mobile_main_type)
-          @body.decode_transfer_encoding
-        end
+      @body.mobile = @mobile
+      @body.content_type_with_jpmobile = self.content_type
 
-        if @body.multipart?
-          @body.parts.each do |p|
-            p.mobile = @mobile
-          end
+      if has_content_transfer_encoding? &&
+         ['base64', 'quoted-printable'].include?(self.content_transfer_encoding) &&
+         ['text'].include?(@mobile_main_type)
+        @body.decode_transfer_encoding
+      end
+
+      if @body.multipart?
+        @body.parts.each do |p|
+          p.mobile = @mobile
         end
       end
     end
@@ -164,52 +164,52 @@ module Mail
 #   |- image/xxxx (添付画像)
 
     def rearrange!
-      if @mobile && @mobile.decoratable?
-        @mobile.decorated = true
-        text_body_part = find_part_by_content_type('text/plain').first
-        html_body_part = find_part_by_content_type('text/html').first
-        html_body_part.transport_encoding = 'quoted-printable' if html_body_part
-        inline_images  = []
-        attached_files = []
-        attachments.each do |p|
-          if p.content_type.match(/^image\//) && p.content_disposition.match(/^inline/)
-            if p.header['Content-Type'].parameters['filename']
-              p.header['Content-Type'].parameters['name'] = p.header['Content-Type'].parameters['filename'].to_s
-            end
-            inline_images << p
-          elsif p.content_disposition
-            attached_files << p
+      return unless @mobile && @mobile.decoratable?
+
+      @mobile.decorated = true
+      text_body_part = find_part_by_content_type('text/plain').first
+      html_body_part = find_part_by_content_type('text/html').first
+      html_body_part.transport_encoding = 'quoted-printable' if html_body_part
+      inline_images  = []
+      attached_files = []
+      attachments.each do |p|
+        if p.content_type.match(/^image\//) && p.content_disposition.match(/^inline/)
+          if p.header['Content-Type'].parameters['filename']
+            p.header['Content-Type'].parameters['name'] = p.header['Content-Type'].parameters['filename'].to_s
           end
+          inline_images << p
+        elsif p.content_disposition
+          attached_files << p
         end
+      end
 
-        alternative_part = Mail::Part.new { content_type 'multipart/alternative' }
-        alternative_part.add_part(text_body_part) if text_body_part
-        alternative_part.add_part(html_body_part) if html_body_part
+      alternative_part = Mail::Part.new { content_type 'multipart/alternative' }
+      alternative_part.add_part(text_body_part) if text_body_part
+      alternative_part.add_part(html_body_part) if html_body_part
 
-        if @mobile.require_related_part?
-          related_part = Mail::Part.new { content_type 'multipart/related' }
-          related_part.add_part(alternative_part)
-          inline_images.each do |inline_image|
-            related_part.add_part(inline_image)
-          end
-          inline_images.clear
-        else
-          related_part = alternative_part
-        end
-
-        unless self.header['Content-Type'].sub_type == 'mixed'
-          self.header['Content-Type'] = self.content_type.gsub(/#{self.header['Content-Type'].sub_type}/, 'mixed')
-        end
-        self.parts.clear
-        self.body = nil
-
-        self.add_part(related_part)
+      if @mobile.require_related_part?
+        related_part = Mail::Part.new { content_type 'multipart/related' }
+        related_part.add_part(alternative_part)
         inline_images.each do |inline_image|
-          self.add_part(inline_image)
+          related_part.add_part(inline_image)
         end
-        attached_files.each do |attached_file|
-          self.add_part(attached_file)
-        end
+        inline_images.clear
+      else
+        related_part = alternative_part
+      end
+
+      unless self.header['Content-Type'].sub_type == 'mixed'
+        self.header['Content-Type'] = self.content_type.gsub(/#{self.header['Content-Type'].sub_type}/, 'mixed')
+      end
+      self.parts.clear
+      self.body = nil
+
+      self.add_part(related_part)
+      inline_images.each do |inline_image|
+        self.add_part(inline_image)
+      end
+      attached_files.each do |attached_file|
+        self.add_part(attached_file)
       end
     end
 
@@ -250,14 +250,14 @@ module Mail
         header[:subject].value = header[:subject].decoded
       end
 
-      if @body_part_jpmobile && @mobile && !@charset.empty?
-        if ['base64', 'quoted-printable'].include?(self.content_transfer_encoding) &&
-           self.content_type.match(/text/)
-          @body_part_jpmobile = Jpmobile::Util.decode(@body_part_jpmobile, self.content_transfer_encoding, @charset)
-          self.content_transfer_encoding = @mobile.class::MAIL_CONTENT_TRANSFER_ENCODING
-        end
-        @body_part_jpmobile = @mobile.decode_transfer_encoding(@body_part_jpmobile, @charset)
+      return unless @body_part_jpmobile && @mobile && !@charset.empty?
+
+      if ['base64', 'quoted-printable'].include?(self.content_transfer_encoding) &&
+         self.content_type.match(/text/)
+        @body_part_jpmobile = Jpmobile::Util.decode(@body_part_jpmobile, self.content_transfer_encoding, @charset)
+        self.content_transfer_encoding = @mobile.class::MAIL_CONTENT_TRANSFER_ENCODING
       end
+      @body_part_jpmobile = @mobile.decode_transfer_encoding(@body_part_jpmobile, @charset)
     end
 
     def ascii_compatible!(str)
@@ -558,12 +558,10 @@ module Mail
       begin
         get_display_name_without_jpmobile
       rescue NoMethodError => ex
-        if ex.message.match?(/undefined method `gsub' for nil:NilClass/)
-          name = unquote(tree.display_name.text_value.strip.to_s)
-          strip_all_comments(name.to_s)
-        else
-          raise ex
-        end
+        raise ex unless ex.message.match?(/undefined method `gsub' for nil:NilClass/)
+
+        name = unquote(tree.display_name.text_value.strip.to_s)
+        strip_all_comments(name.to_s)
       end
     end
 

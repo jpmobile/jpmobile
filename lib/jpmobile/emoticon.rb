@@ -292,18 +292,15 @@ module Jpmobile
 
     def self.pc_emoticon?
       if @pc_emoticon_yaml && File.exist?(@pc_emoticon_yaml) && @pc_emoticon_image_path
+        return true if @pc_emoticon_hash
 
-        unless @pc_emoticon_hash
-          begin
-            yaml_hash = YAML.load_file(@pc_emoticon_yaml)
-            @pc_emoticon_hash = Hash[*(yaml_hash.values.inject([]) { |r, v| r += v.to_a.flatten; r })]
-            @pc_emoticon_image_path.chop if @pc_emoticon_image_path.match?(/\/$/)
+        begin
+          yaml_hash = YAML.load_file(@pc_emoticon_yaml)
+          @pc_emoticon_hash = Hash[*(yaml_hash.values.inject([]) { |r, v| r += v.to_a.flatten; r })]
+          @pc_emoticon_image_path.chop if @pc_emoticon_image_path.match?(/\/$/)
 
-            return true
-          rescue
-          end
-        else
           return true
+        rescue
         end
       end
 
@@ -311,14 +308,14 @@ module Jpmobile
     end
 
     def self.emoticons_to_image(str)
-      if @pc_emoticon_hash
-        utf8_to_unicodecr(str).gsub(/&#x([0-9a-f]{4});/i) do |match|
-          img = @pc_emoticon_hash[$1.upcase] || (@pc_emoticon_hash[('%x' % ($1.scanf('%x').first - 0x1000)).upcase] rescue nil)
-          if img
-            "<img src=\"#{@pc_emoticon_image_path}/#{img}.gif\" alt=\"#{img}\" />"
-          else
-            ''
-          end
+      return str unless @pc_emoticon_hash
+
+      utf8_to_unicodecr(str).gsub(/&#x([0-9a-f]{4});/i) do |match|
+        img = @pc_emoticon_hash[$1.upcase] || (@pc_emoticon_hash[('%x' % ($1.scanf('%x').first - 0x1000)).upcase] rescue nil)
+        if img
+          "<img src=\"#{@pc_emoticon_image_path}/#{img}.gif\" alt=\"#{img}\" />"
+        else
+          ''
         end
       end
     end

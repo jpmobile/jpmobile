@@ -221,12 +221,10 @@ module Jpmobile
         s.encode(to)
       rescue ::Encoding::InvalidByteSequenceError, ::Encoding::UndefinedConversionError => e
         # iPhone MailがISO-2022-JPに半角カナや①などのCP50220文字を含めてくる問題対策
-        if s.encoding == ::Encoding::ISO2022_JP
-          s.force_encoding(::Encoding::CP50220)
-          retry
-        else
-          raise e
-        end
+        raise e unless s.encoding == ::Encoding::ISO2022_JP
+
+        s.force_encoding(::Encoding::CP50220)
+        retry
       end
     end
 

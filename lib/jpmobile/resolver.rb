@@ -44,7 +44,10 @@ module Jpmobile
           virtual_path = path.virtual
         end
 
-        ActionView::Template.new(contents, File.expand_path(template), handler,
+        ActionView::Template.new(
+          contents,
+          File.expand_path(template),
+          handler,
           virtual_path: virtual_path,
           format: format,
           variant: variant,

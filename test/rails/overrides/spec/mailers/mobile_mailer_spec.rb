@@ -43,8 +43,11 @@ describe MobileMailer, type: :mailer do
     end
 
     it 'quoted-printableではないときに勝手に変換されないこと' do
-      email = MobileMailer.view_selection(@to, '題名',
-        "本文です\nhttp://test.rails/foo/bar/index?d=430d0d1cea109cdb384ec5554b890e3940f293c7&e=ZVG%0FE%16%5E%07%04%21P%5CZ%06%00%0D%1D%40L").deliver_now
+      email = MobileMailer.view_selection(
+        @to,
+        '題名',
+        "本文です\nhttp://test.rails/foo/bar/index?d=430d0d1cea109cdb384ec5554b890e3940f293c7&e=ZVG%0FE%16%5E%07%04%21P%5CZ%06%00%0D%1D%40L"
+      ).deliver_now
 
       expect(ActionMailer::Base.deliveries.size).to eq(1)
 
@@ -127,8 +130,11 @@ describe MobileMailer, type: :mailer do
     end
 
     it 'quoted-printable ではないときに勝手に変換されないこと' do
-      email = MobileMailer.view_selection(@to, '題名',
-        "本文です\nhttp://test.rails/foo/bar/index?d=430d0d1cea109cdb384ec5554b890e3940f293c7&e=ZVG%0FE%16%5E%07%04%21P%5CZ%06%00%0D%1D%40L").deliver_now
+      email = MobileMailer.view_selection(
+        @to,
+        '題名',
+        "本文です\nhttp://test.rails/foo/bar/index?d=430d0d1cea109cdb384ec5554b890e3940f293c7&e=ZVG%0FE%16%5E%07%04%21P%5CZ%06%00%0D%1D%40L"
+      ).deliver_now
 
       expect(ActionMailer::Base.deliveries.size).to eq(1)
 
@@ -168,8 +174,11 @@ describe MobileMailer, type: :mailer do
     end
 
     it 'quoted-printable ではないときに勝手に変換されないこと' do
-      email = MobileMailer.view_selection(@to, '題名',
-        "本文です\nhttp://test.rails/foo/bar/index?d=430d0d1cea109cdb384ec5554b890e3940f293c7&e=ZVG%0FE%16%5E%07%04%21P%5CZ%06%00%0D%1D%40L").deliver_now
+      email = MobileMailer.view_selection(
+        @to,
+        '題名',
+        "本文です\nhttp://test.rails/foo/bar/index?d=430d0d1cea109cdb384ec5554b890e3940f293c7&e=ZVG%0FE%16%5E%07%04%21P%5CZ%06%00%0D%1D%40L"
+      ).deliver_now
 
       expect(ActionMailer::Base.deliveries.size).to eq(1)
 
@@ -210,8 +219,11 @@ describe MobileMailer, type: :mailer do
     end
 
     it 'quoted-printable ではないときに勝手に変換されないこと' do
-      email = MobileMailer.view_selection(@to, '題名',
-        "本文です\nhttp://test.rails/foo/bar/index?d=430d0d1cea109cdb384ec5554b890e3940f293c7&e=ZVG%0FE%16%5E%07%04%21P%5CZ%06%00%0D%1D%40L").deliver_now
+      email = MobileMailer.view_selection(
+        @to,
+        '題名',
+        "本文です\nhttp://test.rails/foo/bar/index?d=430d0d1cea109cdb384ec5554b890e3940f293c7&e=ZVG%0FE%16%5E%07%04%21P%5CZ%06%00%0D%1D%40L"
+      ).deliver_now
 
       expect(ActionMailer::Base.deliveries.size).to eq(1)
 
@@ -252,8 +264,11 @@ describe MobileMailer, type: :mailer do
     end
 
     it 'quoted-printable ではないときに勝手に変換されないこと' do
-      email = MobileMailer.view_selection(@to, '題名',
-        "本文です\nhttp://test.rails/foo/bar/index?d=430d0d1cea109cdb384ec5554b890e3940f293c7&e=ZVG%0FE%16%5E%07%04%21P%5CZ%06%00%0D%1D%40L").deliver_now
+      email = MobileMailer.view_selection(
+        @to,
+        '題名',
+        "本文です\nhttp://test.rails/foo/bar/index?d=430d0d1cea109cdb384ec5554b890e3940f293c7&e=ZVG%0FE%16%5E%07%04%21P%5CZ%06%00%0D%1D%40L"
+      ).deliver_now
 
       expect(ActionMailer::Base.deliveries.size).to eq(1)
 

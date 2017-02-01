@@ -32,9 +32,9 @@ module Jpmobile::Mobile
       raise 'Unsuppoted datum' if geo.downcase != 'wgs84'
       pos = Jpmobile::Position.new
       raise 'Unsuppoted' unless lat =~ /^([+-]\d+)\.(\d+)\.(\d+\.\d+)/
-      pos.lat = Jpmobile::Position.dms2deg($1, $2, $3)
+      pos.lat = Jpmobile::Position.dms2deg(Regexp.last_match(1), Regexp.last_match(2), Regexp.last_match(3))
       raise 'Unsuppoted' unless lon =~ /^([+-]\d+)\.(\d+)\.(\d+\.\d+)/
-      pos.lon = Jpmobile::Position.dms2deg($1, $2, $3)
+      pos.lon = Jpmobile::Position.dms2deg(Regexp.last_match(1), Regexp.last_match(2), Regexp.last_match(3))
       @__position = pos
     end
 
@@ -42,9 +42,9 @@ module Jpmobile::Mobile
     def serial_number
       case @env['HTTP_USER_AGENT']
       when /ser([0-9a-zA-Z]{11})$/ # mova
-        $1
+        Regexp.last_match(1)
       when /ser([0-9a-zA-Z]{15});/ # FOMA
-        $1
+        Regexp.last_match(1)
       else
         nil
       end
@@ -54,7 +54,7 @@ module Jpmobile::Mobile
     # FOMAカード製造番号があれば返す。無ければ +nil+ を返す。
     def icc
       @env['HTTP_USER_AGENT'] =~ /icc([0-9a-zA-Z]{20})\)/
-      $1
+      Regexp.last_match(1)
     end
 
     # iモードIDを返す。
@@ -139,8 +139,8 @@ module Jpmobile::Mobile
         # 必ずv1.0
       when %r{^DoCoMo/2.0 }
         @request.env['HTTP_USER_AGENT'] =~ / (\w+)\(c(\d+);/
-        model = $1
-        cache_size = $2.to_i
+        model = Regexp.last_match(1)
+        cache_size = Regexp.last_match(2).to_i
 
         ver = (cache_size >= 500) ? (%w(P03B P05B L01B).member?(model) ? '2.0LE' : '2.0') : '1.0'
       else
@@ -154,9 +154,9 @@ module Jpmobile::Mobile
     # モデル名を返す。
     def model_name
       if @env['HTTP_USER_AGENT'] =~ /^DoCoMo\/2.0 (.+)\(/
-        return $1
+        return Regexp.last_match(1)
       elsif @env['HTTP_USER_AGENT'] =~ /^DoCoMo\/1.0\/(.+?)\//
-        return $1
+        return Regexp.last_match(1)
       end
       nil
     end

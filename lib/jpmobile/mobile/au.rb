@@ -34,9 +34,9 @@ module Jpmobile::Mobile
         l.lon = params['lon'].to_f
       when '0', 'dms'
         raise 'Invalid dms form' unless params['lat'] =~ /^([+-]?\d+)\.(\d+)\.(\d+\.\d+)$/
-        l.lat = Jpmobile::Position.dms2deg($1, $2, $3)
+        l.lat = Jpmobile::Position.dms2deg(Regexp.last_match(1), Regexp.last_match(2), Regexp.last_match(3))
         raise 'Invalid dms form' unless params['lon'] =~ /^([+-]?\d+)\.(\d+)\.(\d+\.\d+)$/
-        l.lon = Jpmobile::Position.dms2deg($1, $2, $3)
+        l.lon = Jpmobile::Position.dms2deg(Regexp.last_match(1), Regexp.last_match(2), Regexp.last_match(3))
       else
         return @__posotion = nil
       end
@@ -52,7 +52,7 @@ module Jpmobile::Mobile
     # デバイスIDを返す
     def device_id
       if @request.env['HTTP_USER_AGENT'] =~ USER_AGENT_REGEXP
-        $1
+        Regexp.last_match(1)
       else
         nil
       end

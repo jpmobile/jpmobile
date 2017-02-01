@@ -455,7 +455,7 @@ module Mail
         return value unless value =~ /\=\?[^?]+\?([QB])\?[^?]*?\?\=/mi
         Encodings.collapse_adjacent_encodings(value).each do |line|
           line.gsub!(/\=\?[^?]+\?([QB])\?[^?]*?\?\=/mi) do |string|
-            case $1
+            case Regexp.last_match(1)
             when 'B', 'b' then decode_b_value_for_mobile(string)
             when 'Q', 'q' then Encodings.q_value_decode(string)
             else line

@@ -67,7 +67,7 @@ describe Jpmobile::Util do
   describe 'jis_string_regexp' do
     it 'jis_string_regexpでISO-2022-JPの文字列がマッチすること' do
       expect(jis_string_regexp.match(ascii_8bit(utf8_to_jis('abcしからずんばこじをえずdef')))).not_to be_nil
-      expect(jis_to_utf8(jis("\x1b\x24\x42#{$1}\x1b\x28\x42"))).to eq('しからずんばこじをえず')
+      expect(jis_to_utf8(jis("\x1b\x24\x42#{Regexp.last_match(1)}\x1b\x28\x42"))).to eq('しからずんばこじをえず')
     end
   end
 
@@ -98,9 +98,9 @@ describe Jpmobile::Util do
   describe '#fold_text' do
     it 'UTF-8の日本語文字列が指定文字数で折り返された配列で返ること' do
       expect(fold_text('長い日本語の題名で折り返されるかようにするには事前に分割していないとダメなことがわかりましたよ', 15)).to eq(%w(
-長い日本語の題名で折り返される 
-かようにするには事前に分割して 
-いないとダメなことがわかりまし 
+長い日本語の題名で折り返される
+かようにするには事前に分割して
+いないとダメなことがわかりまし
 たよ))
     end
 
@@ -116,7 +116,7 @@ describe Jpmobile::Util do
   describe '#split_text' do
     it 'UTF-8の日本語文字列が指定文字数で2つに分割されること' do
       expect(split_text('長い日本語の題名で折り返されるかようにするには事前に分割していないとダメなことがわかりましたよ', 15)).to eq(%w(
-長い日本語の題名で折り返される 
+長い日本語の題名で折り返される
 かようにするには事前に分割していないとダメなことがわかりましたよ))
     end
 

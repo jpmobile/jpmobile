@@ -38,7 +38,7 @@ module Jpmobile
         contents = File.binread(template)
 
         if format
-          jpmobile_variant = template.match(/.+#{path}(.+)\.#{format.to_sym.to_s}.*$/) ? $1 : ''
+          jpmobile_variant = template.match(/.+#{path}(.+)\.#{format.to_sym.to_s}.*$/) ? Regexp.last_match(1) : ''
           virtual_path = jpmobile_variant.blank? ? path.virtual : path.to_str + jpmobile_variant
         else
           virtual_path = path.virtual

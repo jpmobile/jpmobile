@@ -146,7 +146,7 @@ module Jpmobile
     # +true+ を指定すると変換テーブルに文字列が指定されている場合にShift_JISで出力される。
     def self.unicodecr_to_external(str, conversion_table = nil, to_sjis = true)
       str.gsub(/&#x([0-9a-f]{4});/i) do |match|
-        unicode = $1.scanf('%x').first
+        unicode = Regexp.last_match(1).scanf('%x').first
 
         converted = if conversion_table
                       conversion_table[unicode] # キャリア間変換
@@ -199,7 +199,7 @@ module Jpmobile
     # +str+ のなかでUnicode数値文字参照で表記された絵文字をUTF-8に置換する。
     def self.unicodecr_to_utf8(str)
       str.gsub(/&#x([0-9a-f]{4});/i) do |match|
-        unicode = $1.scanf('%x').first
+        unicode = Regexp.last_match(1).scanf('%x').first
         if UNICODE_TO_SJIS[unicode] || SOFTBANK_UNICODE_TO_WEBCODE[unicode - 0x1000]
           [unicode].pack('U')
         else
@@ -221,7 +221,7 @@ module Jpmobile
       str = Jpmobile::Util.ascii_8bit(in_str)
       regexp = Regexp.compile(Jpmobile::Util.ascii_8bit('&#x([0-9a-f]{4});'), Regexp::IGNORECASE)
       str = str.gsub(regexp) do |match|
-        unicode = $1.scanf('%x').first
+        unicode = Regexp.last_match(1).scanf('%x').first
         converted = CONVERSION_TABLE_TO_AU[unicode]
 
         # メール用エンコーディングに変換する
@@ -253,7 +253,7 @@ module Jpmobile
     # softbank 専用
     def self.unicodecr_to_softbank_email(str)
       str.gsub(/&#x([0-9a-f]{4});/i) do |match|
-        unicode = $1.scanf('%x').first
+        unicode = Regexp.last_match(1).scanf('%x').first
         converted = CONVERSION_TABLE_TO_SOFTBANK[unicode]
 
         # メール用エンコーディングに変換する
@@ -311,7 +311,7 @@ module Jpmobile
       return str unless @pc_emoticon_hash
 
       utf8_to_unicodecr(str).gsub(/&#x([0-9a-f]{4});/i) do |match|
-        img = @pc_emoticon_hash[$1.upcase] || (@pc_emoticon_hash[('%x' % ($1.scanf('%x').first - 0x1000)).upcase] rescue nil)
+        img = @pc_emoticon_hash[Regexp.last_match(1).upcase] || (@pc_emoticon_hash[('%x' % (Regexp.last_match(1).scanf('%x').first - 0x1000)).upcase] rescue nil)
         if img
           "<img src=\"#{@pc_emoticon_image_path}/#{img}.gif\" alt=\"#{img}\" />"
         else

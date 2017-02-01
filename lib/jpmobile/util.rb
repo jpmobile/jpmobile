@@ -142,7 +142,7 @@ module Jpmobile
     end
 
     def sjis_regexp(sjis)
-      sjis_str = if sjis.kind_of?(Numeric)
+      sjis_str = if sjis.is_a?(Numeric)
                    [sjis].pack('n')
                  else
                    sjis
@@ -152,7 +152,7 @@ module Jpmobile
     end
 
     def jis_regexp(jis)
-      jis_str = jis.kind_of?(Numeric) ? [jis].pack('n') : jis
+      jis_str = jis.is_a?(Numeric) ? [jis].pack('n') : jis
 
       Regexp.compile(Regexp.escape(jis_str.force_encoding(BINARY)))
     end
@@ -300,7 +300,7 @@ module Jpmobile
       result = {}
       hash.keys.each do |key|
         if result[hash[key]]
-          if !key.kind_of?(Array) && !result[hash[key]].kind_of?(Array) && result[hash[key]] > key
+          if !key.is_a?(Array) && !result[hash[key]].is_a?(Array) && result[hash[key]] > key
             result[hash[key]] = key
           end
         else

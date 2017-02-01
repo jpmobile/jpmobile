@@ -29,8 +29,8 @@ module Jpmobile
     UNICODE_EMOTICONS = (UNICODE_TO_DOCOMO_UNICODE.keys | UNICODE_TO_AU_UNICODE.keys | UNICODE_TO_SOFTBANK_UNICODE.keys).uniq
     GOOGLE_EMOTICONS = (GOOGLE_TO_DOCOMO_UNICODE.keys | GOOGLE_TO_AU_UNICODE.keys | GOOGLE_TO_SOFTBANK_UNICODE.keys).uniq
 
-    UNICODE_EMOTICON_REGEXP = Regexp.union(*UNICODE_EMOTICONS.map { |x| x.kind_of?(Array) ? x.pack('UU') : [x].pack('U') }).freeze
-    GOOGLE_EMOTICON_REGEXP = Regexp.union(*GOOGLE_EMOTICONS.map { |x| x.kind_of?(Array) ? x.pack('UU') : [x].pack('U') }).freeze
+    UNICODE_EMOTICON_REGEXP = Regexp.union(*UNICODE_EMOTICONS.map { |x| x.is_a?(Array) ? x.pack('UU') : [x].pack('U') }).freeze
+    GOOGLE_EMOTICON_REGEXP = Regexp.union(*GOOGLE_EMOTICONS.map { |x| x.is_a?(Array) ? x.pack('UU') : [x].pack('U') }).freeze
 
     UNICODE_EMOTICON_TO_CARRIER_EMOTICON = UNICODE_TO_DOCOMO_UNICODE.merge(UNICODE_TO_AU_UNICODE.merge(UNICODE_TO_SOFTBANK_UNICODE))
     GOOGLE_EMOTICON_TO_CARRIER_EMOTICON = GOOGLE_TO_SOFTBANK_UNICODE.merge(GOOGLE_TO_AU_UNICODE.merge(GOOGLE_TO_DOCOMO_UNICODE))

@@ -140,7 +140,7 @@ module Jpmobile
     # 再帰的に探す
     def convert_text_content(document)
       document.children.each do |element|
-        if element.kind_of?(Nokogiri::XML::Text)
+        if element.is_a?(Nokogiri::XML::Text)
           unless element.parent.node_name == 'textarea'
             # textarea 以外のテキストなら content を変換
             element.content = filter(:hankaku, element.content)

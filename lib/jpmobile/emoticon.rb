@@ -148,11 +148,11 @@ module Jpmobile
       str.gsub(/&#x([0-9a-f]{4});/i) do |match|
         unicode = $1.scanf('%x').first
 
-        if conversion_table
-          converted = conversion_table[unicode] # キャリア間変換
-        else
-          converted = unicode # 変換しない
-        end
+        converted = if conversion_table
+                      conversion_table[unicode] # キャリア間変換
+                    else
+                      unicode # 変換しない
+                    end
 
         # 携帯側エンコーディングに変換する
         case converted

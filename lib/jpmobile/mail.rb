@@ -276,11 +276,11 @@ module Mail
     def parse_message_with_jpmobile
       header_part, body_part = raw_source.split(/#{CRLF}#{WSP}*#{CRLF}/m, 2)
 
-      if header_part && header_part.match?(HEADER_LINE)
-        self.header = header_part
-      else
-        self.header = "Content-Type: text/plain\r\n"
-      end
+      self.header = if header_part && header_part.match?(HEADER_LINE)
+                      header_part
+                    else
+                      "Content-Type: text/plain\r\n"
+                    end
 
       @body_part_jpmobile = body_part
       convert_encoding_jpmobile
@@ -616,11 +616,11 @@ module Mail
 
   class Sendmail
     def Sendmail.call(path, arguments, destinations, mail)
-      if mail.respond_to?(:encoded)
-        encoded_mail = mail.encoded
-      else
-        encoded_mail = mail
-      end
+      encoded_mail = if mail.respond_to?(:encoded)
+                       mail.encoded
+                     else
+                       mail
+                     end
       if Jpmobile::Util.jis?(encoded_mail)
         encoded_mail = Jpmobile::Util.ascii_8bit(encoded_mail)
       end

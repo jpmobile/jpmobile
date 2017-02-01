@@ -96,8 +96,8 @@ module Mail
         @body.content_type_with_jpmobile = self.content_type
 
         if has_content_transfer_encoding? &&
-            ['base64', 'quoted-printable'].include?(self.content_transfer_encoding) &&
-            ['text'].include?(@mobile_main_type)
+           ['base64', 'quoted-printable'].include?(self.content_transfer_encoding) &&
+           ['text'].include?(@mobile_main_type)
           @body.decode_transfer_encoding
         end
 
@@ -252,7 +252,7 @@ module Mail
 
       if @body_part_jpmobile && @mobile && !@charset.empty?
         if ['base64', 'quoted-printable'].include?(self.content_transfer_encoding) &&
-            self.content_type.match(/text/)
+           self.content_type.match(/text/)
           @body_part_jpmobile = Jpmobile::Util.decode(@body_part_jpmobile, self.content_transfer_encoding, @charset)
           self.content_transfer_encoding = @mobile.class::MAIL_CONTENT_TRANSFER_ENCODING
         end
@@ -339,7 +339,7 @@ module Mail
       @mobile = m
 
       if ['base64', 'quoted-printable'].include?(self.encoding) &&
-          /text/.match(self.content_type_with_jpmobile)
+         /text/.match(self.content_type_with_jpmobile)
         self.decode_transfer_encoding
       end
 
@@ -577,7 +577,7 @@ module Mail
   class ContentTypeElement # :nodoc:
     def initialize_with_jpmobile(string)
       if (m = string.match(/\A(.*?)(name|filename)=("|')(.+)("|')(.*?)\z/)) &&
-          m[4].each_byte.detect { |b| (b == 0 || b > 127) }
+         m[4].each_byte.detect { |b| (b == 0 || b > 127) }
         name = [m[4]].pack('m').strip
         string = "#{m[1]}#{m[2]}=#{m[3]}#{name}#{m[5]}#{m[6]}"
       end
@@ -591,7 +591,7 @@ module Mail
   class ContentDispositionElement # :nodoc:
     def initialize_with_jpmobile(string)
       if (m = string.match(/\A(.*?)(name|filename)=("|')(.+)("|')(.*?)\z/)) &&
-          m[4].each_byte.detect { |b| (b == 0 || b > 127) }
+         m[4].each_byte.detect { |b| (b == 0 || b > 127) }
         name = [m[4]].pack('m').strip
         string = "#{m[1]}#{m[2]}=#{m[3]}#{name}#{m[5]}#{m[6]}"
       end
@@ -605,7 +605,7 @@ module Mail
   class ContentLocationElement # :nodoc:
     def initialize_with_jpmobile(string)
       if (m = string.match(/\A(.*?)(name|filename)=("|')(.+)("|')(.*?)\z/)) &&
-          m[4].each_byte.detect { |b| (b == 0 || b > 127) }
+         m[4].each_byte.detect { |b| (b == 0 || b > 127) }
         name = [m[4]].pack('m').strip
         string = "#{m[1]}#{m[2]}=#{m[3]}#{name}#{m[5]}#{m[6]}"
       end

@@ -30,7 +30,7 @@ describe LinksController, type: :controller do
       links = get_href_and_texts(response.body)
 
       expect(links.size).to eq(1)
-      text, _, path, _ = links.first
+      text, _, path, = links.first
       expect(text).to eq('STRING')
       expect(path).to eq('http://test.host/links/link')
       expect(response.body).to match(/lcs>/)
@@ -42,7 +42,7 @@ describe LinksController, type: :controller do
       links = get_href_and_texts(response.body)
 
       expect(links.size).to eq(1)
-      text, _, path, _ = links.first
+      text, _, path, = links.first
       expect(text).to eq('STRING')
       expect(path).to eq('http://test.host/links/docomo_utn')
       expect(response.body).to match(/utn>/)
@@ -69,7 +69,7 @@ describe LinksController, type: :controller do
       links = get_href_and_texts(response.body)
 
       expect(links.size).to eq(1)
-      text, _, path, _ = links.first
+      text, _, path, = links.first
       expect(text).to eq('STRING')
       expect(path).to eq('http://test.host/links/docomo_foma_gps')
       expect(response.body).to match(/lcs>/)
@@ -143,7 +143,7 @@ describe LinksController, type: :controller do
       get :link
       links = get_href_and_texts(response.body)
       assert_equal(1, links.size)
-      text, _, path, _ = links.first
+      text, _, path, = links.first
       assert_equal('STRING', text)
       assert_equal('location:auto', path)
     end
@@ -154,7 +154,7 @@ describe LinksController, type: :controller do
       get :link
       links = get_href_and_texts(response.body)
       assert_equal(1, links.size)
-      text, _, path, _ = links.first
+      text, _, path, = links.first
       assert_equal('STRING', text)
       assert_equal('location:auto', path)
     end
@@ -165,7 +165,7 @@ describe LinksController, type: :controller do
       get :softbank_location
       links = get_href_and_texts(response.body)
       assert_equal(1, links.size)
-      text, _, path, _ = links.first
+      text, _, path, = links.first
       assert_equal('STRING', text)
       assert_equal('location:auto', path)
     end

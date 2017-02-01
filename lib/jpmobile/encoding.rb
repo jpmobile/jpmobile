@@ -10,6 +10,7 @@ module Jpmobile
       # 変換
       @parameters = Jpmobile::Util.deep_convert(@parameters) do |value|
         value = Jpmobile::Util.utf8(value)
+        value
       end
 
       @jpmobile_params_converted = true

@@ -56,17 +56,17 @@ module Jpmobile
 
     # 経度
     def lng
-      lon
+      self.lon
     end
 
     # 経度を設定
     def lng=(l)
-      lon = l
+      self.lon = l
     end
 
     # 緯度と経度が一致している場合に +true+
     def ==(x)
-      x.lat == lat && x.lon == lon
+      x.lat == self.lat && x.lon == self.lon
     end
 
     # その他の情報

@@ -152,6 +152,7 @@ module Jpmobile
           # 子要素があれば再帰的に変換
           element = convert_text_content(element)
         end
+        element
       end
 
       document

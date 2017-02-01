@@ -26,7 +26,6 @@ namespace :test do
   desc 'Generate rails app and run jpmobile tests in the app'
   task :rails, [:skip] do |t, args|
     rails_root     = 'test/rails/rails_root'
-    relative_root  = '../../../'
 
     puts 'Running tests in Rails'
     skip = args.skip == 'true'

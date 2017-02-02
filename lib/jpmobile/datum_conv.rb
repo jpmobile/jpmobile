@@ -5,8 +5,8 @@
 # 日本測量協会, 2002.
 
 module DatumConv
-  GRS80  = [6378137, 298.257222101].freeze
-  Bessel = [6377397.155, 299.152813].freeze
+  GRS80  = [6_378_137, 298.257222101].freeze
+  Bessel = [6_377_397.155, 299.152813].freeze
   Tokyo97toITRF94 = [-146.414, 507.337, 680.507].freeze
   ITRF94toTokyo97 = [146.414, -507.337, -680.507].freeze
   Deg2Rad = Math::PI / 180

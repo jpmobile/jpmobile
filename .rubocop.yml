@@ -75,6 +75,7 @@ Metrics/PerceivedComplexity:
     - 'lib/jpmobile/mail.rb'
     - 'lib/jpmobile/mobile/au.rb'
     - 'lib/jpmobile/mobile/docomo.rb'
+    - 'lib/jpmobile/trans_sid.rb'
 
 Metrics/LineLength:
   Exclude:
@@ -84,12 +85,22 @@ Metrics/LineLength:
     - 'lib/jpmobile/mobile/au.rb'
     - 'lib/jpmobile/mobile/emobile.rb'
 
+Metrics/ModuleLength:
+  Exclude:
+    - 'lib/jpmobile/emoticon.rb'
+    - 'lib/jpmobile/helpers.rb'
+    - 'lib/jpmobile/util.rb'
+
 Metrics/BlockLength:
   Exclude:
     - '**/*_spec.rb'
     - 'lib/jpmobile/emoticon.rb'
     - 'lib/tasks/jpmobile_tasks.rake'
     - 'test/rails/overrides/config/routes.rb'
+
+Metrics/BlockNesting:
+  Exclude:
+    - 'lib/jpmobile/trans_sid.rb'
 
 Metrics/ClassLength:
   Exclude:

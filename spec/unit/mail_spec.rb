@@ -349,7 +349,7 @@ describe 'Jpmobile::Mail' do
                               address: 'mailtrap.io',
                               domain: 'mailtrap.io',
                               port: '2525',
-                              authentication: :cram_md5
+                              authentication: :cram_md5,
                             }
 
       expect {

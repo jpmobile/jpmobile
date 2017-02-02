@@ -960,6 +960,6 @@ Jpmobile::Emoticon::SOFTBANK_UNICODE_TO_SJIS = {
   0xE53B => 0xFBDB,
   0xE53C => 0xFBDC,
   0xE53D => 0xFBDD,
-  0xE53E => 0xFBDE
+  0xE53E => 0xFBDE,
 }.freeze
 Jpmobile::Emoticon::SOFTBANK_SJIS_TO_UNICODE = Jpmobile::Emoticon::SOFTBANK_UNICODE_TO_SJIS.invert

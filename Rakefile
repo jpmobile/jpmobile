@@ -20,7 +20,7 @@ namespace :test do
   task :prepare do
     external_repos = [
       'jpmobile-ipaddresses',
-      'jpmobile-terminfo'
+      'jpmobile-terminfo',
     ]
     github_prefix = 'git://github.com/jpmobile'
     vendor_path = Pathname.new(Dir.pwd).join('vendor')

@@ -214,7 +214,7 @@ describe 'jpmobile integration spec', type: :feature do
       it_should_behave_like 'hankaku_filter input: true のとき'
 
       it 'Content-Type が Shift_JIS であること' do
-        visit "/#{controller }/with_charset"
+        visit "/#{controller}/with_charset"
         expect(body).to match(/Shift_JIS/)
       end
     end

@@ -38,8 +38,8 @@ describe 'Jpmobile::Mail' do
         end
 
         it 'should be able to decode bodies' do
-          subject.parts[0].body == 'ほげ'
-          subject.parts[1].body == 'ほげほげ'
+          expect(subject.parts[0].body).to eq('ほげ')
+          expect(subject.parts[1].body).to eq('ほげほげ')
         end
       end
     end
@@ -61,7 +61,7 @@ describe 'Jpmobile::Mail' do
         expect(ascii_8bit(@mail.to_s)).to match(Regexp.compile(Regexp.escape(ascii_8bit("\x1b\x24\x42\x24\x5B\x24\x32\e\x28\x42"))))
       end
 
-      it 'should contain encoded from'do
+      it 'should contain encoded from' do
         expect(ascii_8bit(@mail.to_s)).to match(Regexp.compile(Regexp.escape(ascii_8bit('=?ISO-2022-JP?B?GyRCJEEkTyRkJFUkaxsoQg==?='))))
       end
 

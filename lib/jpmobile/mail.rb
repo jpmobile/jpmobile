@@ -138,30 +138,30 @@ module Mail
     alias_method :add_charset_without_jpmobile, :add_charset
     alias_method :add_charset, :add_charset_with_jpmobile
 
-# -- docomo
-# multipart/mixed
-#   |- multipart/related
-#   |    |- multipart/alternative
-#   |    |    |- text/plain
-#   |    |    |- text/html
-#   |    |- image/xxxx (インライン画像)
-#   |- image/xxxx (添付画像)
+    # -- docomo
+    # multipart/mixed
+    #   |- multipart/related
+    #   |    |- multipart/alternative
+    #   |    |    |- text/plain
+    #   |    |    |- text/html
+    #   |    |- image/xxxx (インライン画像)
+    #   |- image/xxxx (添付画像)
 
-# -- au
-# multipart/mixed
-#   |- multipart/alternative
-#   |    |- text/plain
-#   |    |- text/html
-#   |- image/xxxx (インライン画像)
-#   |- image/xxxx (添付画像)
+    # -- au
+    # multipart/mixed
+    #   |- multipart/alternative
+    #   |    |- text/plain
+    #   |    |- text/html
+    #   |- image/xxxx (インライン画像)
+    #   |- image/xxxx (添付画像)
 
-# -- normal
-# multipart/mixed
-#   |- multipart/alternative
-#   |    |- text/plain
-#   |    |- text/html
-#   |    |- image/xxxx (インライン画像)
-#   |- image/xxxx (添付画像)
+    # -- normal
+    # multipart/mixed
+    #   |- multipart/alternative
+    #   |    |- text/plain
+    #   |    |- text/html
+    #   |    |- image/xxxx (インライン画像)
+    #   |- image/xxxx (添付画像)
 
     def rearrange!
       return unless @mobile && @mobile.decoratable?

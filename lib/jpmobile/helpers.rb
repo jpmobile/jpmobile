@@ -29,7 +29,7 @@ module Jpmobile
         if show_all || request.mobile.supports_gps?
           s << au_gps_link_to(str || 'au(GPS)', options)
         end
-        if show_all || (!(request.mobile.supports_gps?) && request.mobile.supports_location?)
+        if show_all || (!request.mobile.supports_gps? && request.mobile.supports_location?)
           s << au_location_link_to(str || 'au(antenna)', options)
         end
       end

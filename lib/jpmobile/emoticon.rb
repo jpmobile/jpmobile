@@ -279,7 +279,7 @@ module Jpmobile
     end
 
     def self.pc_emoticon_image_path=(path)
-      @pc_emoticon_image_path = (path)
+      @pc_emoticon_image_path = path
     end
 
     def self.pc_emoticon_yaml=(file)

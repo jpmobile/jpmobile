@@ -17,7 +17,11 @@ module Jpmobile
       elsif respond_to?(:ip)
         __send__(:ip)         # for Rack
       else
-        (env['HTTP_X_FORWARDED_FOR'] ? env['HTTP_X_FORWARDED_FOR'].split(',').pop : env['REMOTE_ADDR'])
+        if env['HTTP_X_FORWARDED_FOR']
+          env['HTTP_X_FORWARDED_FOR'].split(',').pop
+        else
+          env['REMOTE_ADDR']
+        end
       end
     end
 
@@ -28,7 +32,7 @@ module Jpmobile
 
     # 携帯電話からであれば +true+を、そうでなければ +false+ を返す。
     def mobile?
-      mobile and not mobile.smart_phone?
+      mobile and !mobile.smart_phone?
     end
 
     # viewの切り替えをするかどうか

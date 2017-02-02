@@ -46,7 +46,12 @@ module Jpmobile
 
     # 文字列で緯度経度を返す。
     def to_s
-      sprintf('%s%f%s%f', (@lat > 0) ? 'N' : 'S', @lat, (@lon > 0) ? 'E' : 'W', @lon)
+      '%s%f%s%f' %
+        [
+          (@lat > 0) ? 'N' : 'S',
+          @lat, (@lon > 0) ? 'E' : 'W',
+          @lon
+        ]
     end
 
     # 緯度経度をカンマ区切りで返す
@@ -71,8 +76,8 @@ module Jpmobile
     end
 
     # 緯度と経度が一致している場合に +true+
-    def ==(x)
-      x.lat == self.lat && x.lon == self.lon
+    def ==(other)
+      other.lat == self.lat && other.lon == self.lon
     end
 
     # その他の情報

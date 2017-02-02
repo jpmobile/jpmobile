@@ -503,9 +503,9 @@ describe MobileMailer, 'receiving', type: :mailer do
   describe 'blank mail' do
     it 'softbank からの空メールがで受信できること' do
       email = open(Rails.root + 'spec/fixtures/mobile_mailer/softbank-blank.eml').read
-        # expect {
+      expect {
         email = MobileMailer.receive(email)
-      # }.to_not raise_error
+      }.to_not raise_error
 
       expect(email.subject).to be_blank
       expect(email.body).to be_blank

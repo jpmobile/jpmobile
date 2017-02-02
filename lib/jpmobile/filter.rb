@@ -100,9 +100,7 @@ module Jpmobile
     end
 
     def to_external(str)
-      unless @options[:input]
-        filter(:hankaku, str)
-      else
+      if @options[:input]
         encoding = (str =~ /^\s*<[^Hh>]*html/)
         nokogiri_klass =
           (str =~ /^\s*<[^Hh>]*html/) ? Nokogiri::HTML::Document : Nokogiri::HTML::DocumentFragment
@@ -117,6 +115,8 @@ module Jpmobile
         html = doc.to_html.gsub("\xc2\xa0", '&nbsp;')
         html = html.gsub(/charset=[a-z0-9\-]+/i, "charset=#{default_charset}") if default_charset
         html
+      else
+        filter(:hankaku, str)
       end
     end
 

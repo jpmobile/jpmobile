@@ -26,4 +26,3 @@ class TemplatePathController < ApplicationController
   def with_ipd
   end
 end
-

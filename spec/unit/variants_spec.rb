@@ -9,7 +9,7 @@ describe Jpmobile::Mobile::AbstractMobile do
   describe '#variants' do
     describe '#variants' do
       subject { super().variants }
-      it { is_expected.to be === ['mobile'] }
+      it { is_expected.to eq(['mobile']) }
     end
   end
 

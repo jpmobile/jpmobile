@@ -16,7 +16,7 @@ module Jpmobile
     AU_SJIS_REGEXP          = Regexp.union(*AU_SJIS_TO_UNICODE.keys.map { |s| Jpmobile::Util.sjis_regexp(s) })
     SOFTBANK_UNICODE_REGEXP = Regexp.union(*SOFTBANK_UNICODE_TO_WEBCODE.keys.map { |x| [x].pack('U') }).freeze
 
-    EMOTICON_UNICODES = UNICODE_TO_SJIS.keys | SOFTBANK_UNICODE_TO_WEBCODE.keys.map { |k|k + 0x1000 }
+    EMOTICON_UNICODES = UNICODE_TO_SJIS.keys | SOFTBANK_UNICODE_TO_WEBCODE.keys.map { |k| k + 0x1000 }
     UTF8_REGEXP = Regexp.union(*EMOTICON_UNICODES.map { |x| [x].pack('U') }).freeze
 
     # for PC conversion "GETA"

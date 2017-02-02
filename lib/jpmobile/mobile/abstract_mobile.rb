@@ -209,7 +209,7 @@ module Jpmobile::Mobile
       # 当該キャリアのIPアドレス帯域からのアクセスであれば +true+ を返す。
       # そうでなければ +false+ を返す。
       # IP空間が定義されていない場合は +nil+ を返す。
-      def valid_ip? remote_addr
+      def valid_ip?(remote_addr)
         @ip_list ||= ip_address_class
         return false unless @ip_list
 

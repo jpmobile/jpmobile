@@ -60,12 +60,12 @@ module Jpmobile::Mobile
 
     # 簡易位置情報取得に対応している場合は +true+ を返す。
     def supports_location?
-      ! LOCATION_UNSUPPORTED_DEVICE_ID.include?(device_id)
+      !LOCATION_UNSUPPORTED_DEVICE_ID.include?(device_id)
     end
 
     # GPS位置情報取得に対応している場合は +true+ を返す。
     def supports_gps?
-      ! GPS_UNSUPPORTED_DEVICE_ID.include?(device_id)
+      !GPS_UNSUPPORTED_DEVICE_ID.include?(device_id)
     end
 
     # cookieに対応しているか？

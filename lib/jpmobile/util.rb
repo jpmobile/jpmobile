@@ -165,15 +165,13 @@ module Jpmobile
       return str if charset.nil? || (charset == '') || str.nil? || (str == '')
       return str.encode(charset) unless utf8?(str)
 
-      if utf8?(str)
-        case charset
-        when /iso-2022-jp/i
-          utf8_to_jis(str)
-        when /shift_jis/i
-          utf8_to_sjis(str)
-        when /utf-8/i
-          str
-        end
+      case charset
+      when /iso-2022-jp/i
+        utf8_to_jis(str)
+      when /shift_jis/i
+        utf8_to_sjis(str)
+      when /utf-8/i
+        str
       end
     end
 

@@ -51,7 +51,8 @@ module Jpmobile
           virtual_path: virtual_path,
           format: format,
           variant: variant,
-          updated_at: mtime(template))
+          updated_at: mtime(template)
+        )
       }
     end
   end

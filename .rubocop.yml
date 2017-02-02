@@ -41,6 +41,10 @@ Style/BlockDelimiters:
 Style/IndentationConsistency:
   EnforcedStyle: normal
 
+Style/AccessorMethodName:
+  Exclude:
+    - 'lib/jpmobile/mail.rb'
+
 Metrics/AbcSize:
   Exclude:
     - 'lib/jpmobile/datum_conv.rb'

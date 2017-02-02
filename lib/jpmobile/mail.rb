@@ -453,7 +453,7 @@ module Mail
     def decoded_with_jpmobile
       if @mobile
         return value unless value =~ /\=\?[^?]+\?([QB])\?[^?]*?\?\=/mi
-        Encodings.collapse_adjacent_encodings(value).each do |line|
+        Encodings.collapse_adjacent_encodings(value).each { |line|
           line.gsub!(/\=\?[^?]+\?([QB])\?[^?]*?\?\=/mi) do |string|
             case Regexp.last_match(1)
             when 'B', 'b' then decode_b_value_for_mobile(string)
@@ -461,7 +461,7 @@ module Mail
             else line
             end
           end
-        end.join('')
+        }.join('')
       else
         decoded_without_jpmobile
       end
@@ -613,7 +613,7 @@ module Mail
   end
 
   class Sendmail
-    def Sendmail.call(path, arguments, destinations, mail)
+    def self.call(path, arguments, destinations, mail)
       encoded_mail = if mail.respond_to?(:encoded)
                        mail.encoded
                      else

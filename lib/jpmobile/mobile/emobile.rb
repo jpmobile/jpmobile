@@ -11,6 +11,6 @@ module Jpmobile::Mobile
     def em_uid
       @request.env['HTTP_X_EM_UID']
     end
-    alias :ident_subscriber :em_uid
+    alias_method :ident_subscriber, :em_uid
   end
 end

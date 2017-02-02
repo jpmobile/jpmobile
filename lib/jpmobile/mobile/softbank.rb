@@ -19,13 +19,13 @@ module Jpmobile::Mobile
       @request.env['HTTP_USER_AGENT'] =~ /SN(.+?) /
       Regexp.last_match(1)
     end
-    alias :ident_device :serial_number
+    alias_method :ident_device, :serial_number
 
     # UIDを返す。
     def x_jphone_uid
       @request.env['HTTP_X_JPHONE_UID']
     end
-    alias :ident_subscriber :x_jphone_uid
+    alias_method :ident_subscriber, :x_jphone_uid
 
     # 位置情報があれば Position のインスタンスを返す。無ければ +nil+ を返す。
     def position

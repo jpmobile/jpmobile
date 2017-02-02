@@ -49,7 +49,7 @@ module Jpmobile::Mobile
         nil
       end
     end
-    alias :ident_device :serial_number
+    alias_method :ident_device, :serial_number
 
     # FOMAカード製造番号があれば返す。無ければ +nil+ を返す。
     def icc

@@ -342,7 +342,8 @@ describe 'Jpmobile::Mail' do
     end
 
     it 'delivers through SMTP' do
-      @mail.delivery_method :smtp, {
+      @mail.delivery_method :smtp,
+                            {
                               enable_starttls_auto: false,
                               user_name: ENV['MAILTRAP_USERNAME'],
                               password: ENV['MAILTRAP_PASSWORD'],

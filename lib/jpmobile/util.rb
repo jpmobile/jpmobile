@@ -162,7 +162,7 @@ module Jpmobile
     end
 
     def encode(str, charset)
-      if (charset.nil? || (charset == '') || str.nil? || (str == ''))
+      if charset.nil? || (charset == '') || str.nil? || (str == '')
         str
       elsif utf8?(str) && charset.match(/iso-2022-jp/i)
         utf8_to_jis(str)

@@ -69,7 +69,7 @@ module Jpmobile
     def redirect_to(options = {}, response_status = {})
       if apply_trans_sid? && jpmobile_session_id
         case options
-        when /^\w[\w+.-]*:.*/
+        when /^\w[\w+.-]*:.*/, :back
           # nothing to do
         when String
           unless options.match?(/#{session_key}/)
@@ -81,14 +81,10 @@ module Jpmobile
             end
             options = url.to_s
           end
-        when :back
-          # nothing to do
         when Hash
           unless options[session_key.to_sym]
             options[session_key.to_sym] = jpmobile_session_id
           end
-        else
-          # nothing to do
         end
       end
 

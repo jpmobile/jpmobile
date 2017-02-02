@@ -30,16 +30,15 @@ module Jpmobile::Mobile
     # 位置情報があれば Position のインスタンスを返す。無ければ +nil+ を返す。
     def position
       return @__position if defined? @__position
-      if params['pos'] =~ /^([NS])(\d+)\.(\d+)\.(\d+\.\d+)([WE])(\d+)\.(\d+)\.(\d+\.\d+)$/
-        raise 'Unsupported datum' if params['geo'] != 'wgs84'
-        l = Jpmobile::Position.new
-        l.lat = ((Regexp.last_match(1) == 'N') ? 1 : -1) * Jpmobile::Position.dms2deg(Regexp.last_match(2), Regexp.last_match(3), Regexp.last_match(4))
-        l.lon = ((Regexp.last_match(5) == 'E') ? 1 : -1) * Jpmobile::Position.dms2deg(Regexp.last_match(6), Regexp.last_match(7), Regexp.last_match(8))
-        l.options = params.reject { |x, _| !['pos', 'geo', 'x-acr'].include?(x) }
-        return @__position = l
-      else
-        return @__position = nil
-      end
+      return @__position = nil unless params['pos'] =~ /^([NS])(\d+)\.(\d+)\.(\d+\.\d+)([WE])(\d+)\.(\d+)\.(\d+\.\d+)$/
+
+      raise 'Unsupported datum' if params['geo'] != 'wgs84'
+      l = Jpmobile::Position.new
+      l.lat = ((Regexp.last_match(1) == 'N') ? 1 : -1) * Jpmobile::Position.dms2deg(Regexp.last_match(2), Regexp.last_match(3), Regexp.last_match(4))
+      l.lon = ((Regexp.last_match(5) == 'E') ? 1 : -1) * Jpmobile::Position.dms2deg(Regexp.last_match(6), Regexp.last_match(7), Regexp.last_match(8))
+      l.options = params.reject { |x, _| !['pos', 'geo', 'x-acr'].include?(x) }
+
+      @__position = l
     end
 
     # cookieに対応しているか？

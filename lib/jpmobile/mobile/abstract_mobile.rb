@@ -199,9 +199,7 @@ module Jpmobile::Mobile
       false
     end
 
-    def decorated=(boolean)
-      @decorated = boolean
-    end
+    attr_writer :decorated
 
     def decorated?
       @decorated

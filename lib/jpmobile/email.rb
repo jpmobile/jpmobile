@@ -34,17 +34,13 @@ module Jpmobile
         nil
       end
 
-      def japanese_mail_address_regexp=(regexp)
-        @japanese_mail_address_regexp = regexp
-      end
+      attr_writer :japanese_mail_address_regexp
 
       def japanese_mail?(header)
         @japanese_mail_address_regexp and header.match(@japanese_mail_address_regexp)
       end
 
-      def converting_content_type=(types)
-        @converting_content_type = types
-      end
+      attr_writer :converting_content_type
 
       def converting_content_type
         @converting_content_type ||= ['text/plain', 'text/html']

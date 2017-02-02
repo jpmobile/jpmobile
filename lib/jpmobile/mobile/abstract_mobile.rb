@@ -143,9 +143,9 @@ module Jpmobile::Mobile
     def content_transfer_encoding(headers)
       transfer_encoding = headers['Content-Transfer-Encoding']
       case headers['Content-Type'].to_s
-      when /text\/plain/
+      when %r{text/plain}
         (transfer_encoding.to_s == MAIL_CONTENT_TRANSFER_ENCODING) ? transfer_encoding : MAIL_CONTENT_TRANSFER_ENCODING
-      when /text\/html/
+      when %r{text/html}
         if self.decorated?
           'quoted-printable'
         else

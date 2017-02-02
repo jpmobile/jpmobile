@@ -7,7 +7,7 @@ module Jpmobile::Mobile
   class Au < AbstractMobile
     # 対応するUser-Agentの正規表現
     # User-Agent文字列中に "UP.Browser" を含むVodafoneの端末があるので注意が必要
-    USER_AGENT_REGEXP = /^(?:KDDI|UP.Browser\/.+?)-(.+?) /
+    USER_AGENT_REGEXP = %r{^(?:KDDI|UP.Browser/.+?)-(.+?) }
     # 対応するメールアドレスの正規表現
     MAIL_ADDRESS_REGEXP = /.+@ezweb\.ne\.jp/
     # 簡易位置情報取得に対応していないデバイスID

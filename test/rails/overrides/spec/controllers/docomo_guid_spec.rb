@@ -7,7 +7,7 @@ shared_examples_for 'docomo_guid が起動しないとき' do
   it 'で link_to の自動書き換えが行われない' do
     get :link
 
-    expect(response.body).to match(/href=\".+\/link\"/)
+    expect(response.body).to match(%r{href=\".+/link\"})
   end
 end
 
@@ -15,7 +15,7 @@ shared_examples_for 'docomo_guid が起動するとき' do
   it 'で link_to の自動書き換えが行われる' do
     get :link
 
-    expect(response.body).to match(/href=\".+\/link\?guid=ON\"/)
+    expect(response.body).to match(%r{href=\".+/link\?guid=ON\"})
   end
 end
 

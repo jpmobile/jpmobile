@@ -39,6 +39,6 @@ module Jpmobile::DocomoGuid #:nodoc:
   end
 
   def not_apply_guid_user_agent?
-    request.user_agent.match(/(?:Googlebot|Y!J-SRD\/1\.0|Y!J-MBS\/1\.0)/)
+    request.user_agent.match(%r{(?:Googlebot|Y!J-SRD/1\.0|Y!J-MBS/1\.0)})
   end
 end

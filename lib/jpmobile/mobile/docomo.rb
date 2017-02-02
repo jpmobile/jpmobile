@@ -153,9 +153,9 @@ module Jpmobile::Mobile
 
     # モデル名を返す。
     def model_name
-      if @env['HTTP_USER_AGENT'] =~ /^DoCoMo\/2.0 (.+)\(/
+      if @env['HTTP_USER_AGENT'] =~ %r{^DoCoMo/2.0 (.+)\(}
         return Regexp.last_match(1)
-      elsif @env['HTTP_USER_AGENT'] =~ /^DoCoMo\/1.0\/(.+?)\//
+      elsif @env['HTTP_USER_AGENT'] =~ %r{^DoCoMo/1.0/(.+?)/}
         return Regexp.last_match(1)
       end
       nil

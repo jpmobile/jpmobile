@@ -33,7 +33,7 @@ module Mail
         self.body.mobile = @mobile
         self.header['Content-Transfer-Encoding'].value = @mobile.content_transfer_encoding(self.header)
         if @mobile.decorated?
-          unless self.content_type.match?(/image\//)
+          unless self.content_type.match?(%r{image/})
             self.header['Content-ID'] = nil
           end
 
@@ -173,7 +173,7 @@ module Mail
       inline_images  = []
       attached_files = []
       attachments.each do |p|
-        if p.content_type.match(/^image\//) && p.content_disposition.match(/^inline/)
+        if p.content_type.match(%r{^image/}) && p.content_disposition.match(/^inline/)
           if p.header['Content-Type'].parameters['filename']
             p.header['Content-Type'].parameters['name'] = p.header['Content-Type'].parameters['filename'].to_s
           end

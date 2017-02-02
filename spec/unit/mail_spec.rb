@@ -33,9 +33,10 @@ describe 'Jpmobile::Mail' do
         @mail.parts.each { |p| p.charset = 'ISO-2022-JP' }
       end
       context 'to_s' do
-        subject {
+        subject do
           Mail.new ascii_8bit(@mail.to_s)
-        }
+        end
+
         it 'should be able to decode bodies' do
           subject.parts[0].body == 'ほげ'
           subject.parts[1].body == 'ほげほげ'

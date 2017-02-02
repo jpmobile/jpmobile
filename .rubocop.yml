@@ -29,6 +29,11 @@ Style/BlockDelimiters:
     - subject
     - watch
     - expect
+  Exclude:
+    # For support original style
+    - 'lib/jpmobile/resolver.rb'
+    - 'lib/jpmobile/mail.rb'
+  EnforcedStyle: braces_for_chaining
 
 Style/IndentationConsistency:
   EnforcedStyle: normal

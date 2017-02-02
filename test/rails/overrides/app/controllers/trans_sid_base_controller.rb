@@ -17,7 +17,10 @@ class TransSidBaseController < ApplicationController
 
   def session_init
     session[:jpmobile] = 'everyleaf'
-    @user = User.find(1) rescue User.create(id: 1, name: 'everyleaf')
+    @user = User.find_by_id(1)
+    unless @user
+      @user = User.create(id: 1, name: 'everyleaf')
+    end
   end
 
   def form_path

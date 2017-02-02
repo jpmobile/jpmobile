@@ -311,7 +311,16 @@ module Jpmobile
       return str unless @pc_emoticon_hash
 
       utf8_to_unicodecr(str).gsub(/&#x([0-9a-f]{4});/i) do |match|
-        img = @pc_emoticon_hash[Regexp.last_match(1).upcase] || (@pc_emoticon_hash[('%x' % (Regexp.last_match(1).scanf('%x').first - 0x1000)).upcase] rescue nil)
+        img = @pc_emoticon_hash[Regexp.last_match(1).upcase]
+        unless img
+          img =
+            begin
+              @pc_emoticon_hash[('%x' % (Regexp.last_match(1).scanf('%x').first - 0x1000)).upcase]
+            rescue
+              nil
+            end
+        end
+
         if img
           "<img src=\"#{@pc_emoticon_image_path}/#{img}.gif\" alt=\"#{img}\" />"
         else

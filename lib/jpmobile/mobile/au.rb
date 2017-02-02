@@ -70,7 +70,17 @@ module Jpmobile::Mobile
 
     # cookieに対応しているか？
     def supports_cookie?
-      protocol = @request.respond_to?(:scheme) ? @request.scheme : @request.protocol rescue 'none'
+      protocol =
+        begin
+          if @request.respond_to?(:scheme)
+            @request.scheme
+          else
+            @request.protocol
+          end
+        rescue
+          'none'
+        end
+
       if protocol.match?(/\Ahttps/)
         false
       else

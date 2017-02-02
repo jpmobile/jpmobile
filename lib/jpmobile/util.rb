@@ -37,10 +37,10 @@ module Jpmobile
           deep_convert(value, &proc)
         end
       when Symbol
-        new_obj = proc.call(obj.to_s).to_sym
+        new_obj = yield(obj.to_s).to_sym
       when String
         obj = obj.to_param if obj.respond_to?(:to_param)
-        new_obj = proc.call(obj)
+        new_obj = yield(obj)
       else
         # NilClass, TrueClass, FalseClass, Tempfile, StringIO, etc...
         new_obj = obj

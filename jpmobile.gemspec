@@ -8,8 +8,8 @@ Gem::Specification.new do |gem|
   gem.version       = Jpmobile::VERSION
   gem.authors       = ['Shin-ichiro OGAWA', 'Yoji Shidara']
   gem.email         = ['rust.stnard@gmail.com']
-  gem.description   = %q(A Rails plugin for mobile devices in Japan)
-  gem.summary       = %q(A Rails plugin for mobile devices in Japan)
+  gem.description   = 'A Rails plugin for mobile devices in Japan'
+  gem.summary       = 'Rails plugin for mobile devices in Japan'
   gem.homepage      = 'http://jpmobile-rails.org'
 
   gem.files         = `git ls-files`.split($INPUT_RECORD_SEPARATOR)

@@ -41,6 +41,14 @@ Style/BlockDelimiters:
 Style/IndentationConsistency:
   EnforcedStyle: normal
 
+Metrics/CyclomaticComplexity:
+  Exclude:
+    - 'lib/jpmobile/emoticon.rb'
+    - 'lib/jpmobile/helpers.rb'
+    - 'lib/jpmobile/mail.rb'
+    - 'lib/jpmobile/mobile/au.rb'
+    - 'lib/jpmobile/mobile/docomo.rb'
+
 Metrics/PerceivedComplexity:
   Exclude:
     - 'lib/jpmobile/emoticon.rb'

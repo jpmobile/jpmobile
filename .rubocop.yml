@@ -41,6 +41,17 @@ Style/BlockDelimiters:
 Style/IndentationConsistency:
   EnforcedStyle: normal
 
+Metrics/AbcSize:
+  Exclude:
+    - 'lib/jpmobile/datum_conv.rb'
+    - 'lib/jpmobile/emoticon.rb'
+    - 'lib/jpmobile/helpers.rb'
+    - 'lib/jpmobile/mail.rb'
+    - 'lib/jpmobile/mobile/*'
+    - 'lib/jpmobile/fallback_view_selector.rb'
+    - 'lib/jpmobile/resolver.rb'
+    - 'lib/jpmobile/rack/filter.rb'
+
 Metrics/CyclomaticComplexity:
   Exclude:
     - 'lib/jpmobile/emoticon.rb'

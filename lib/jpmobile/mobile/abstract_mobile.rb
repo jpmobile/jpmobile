@@ -244,11 +244,9 @@ module Jpmobile::Mobile
 
       #
       def ip_address_class
-        begin
-          eval("::Jpmobile::Mobile::IpAddresses::#{self.to_s.split(/::/).last}").new
-        rescue
-          nil
-        end
+        eval("::Jpmobile::Mobile::IpAddresses::#{self.to_s.split(/::/).last}").new
+      rescue
+        nil
       end
     end
 

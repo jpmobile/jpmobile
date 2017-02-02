@@ -555,14 +555,12 @@ module Mail
     end
 
     def get_display_name_with_jpmobile
-      begin
-        get_display_name_without_jpmobile
-      rescue NoMethodError => ex
-        raise ex unless ex.message.match?(/undefined method `gsub' for nil:NilClass/)
+      get_display_name_without_jpmobile
+    rescue NoMethodError => ex
+      raise ex unless ex.message.match?(/undefined method `gsub' for nil:NilClass/)
 
-        name = unquote(tree.display_name.text_value.strip.to_s)
-        strip_all_comments(name.to_s)
-      end
+      name = unquote(tree.display_name.text_value.strip.to_s)
+      strip_all_comments(name.to_s)
     end
 
     alias_method :encoded_without_jpmobile, :encoded

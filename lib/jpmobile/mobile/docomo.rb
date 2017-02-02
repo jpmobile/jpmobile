@@ -133,10 +133,9 @@ module Jpmobile::Mobile
     # i-mode ブラウザのバージョンを返す。
     # http://labs.unoh.net/2009/07/i_20.html
     def imode_browser_version
-      ver = '1.0'
       case @request.env['HTTP_USER_AGENT']
       when %r{^DoCoMo/1.0/}
-        # 必ずv1.0
+        ver = '1.0'
       when %r{^DoCoMo/2.0 }
         @request.env['HTTP_USER_AGENT'] =~ / (\w+)\(c(\d+);/
         model = Regexp.last_match(1)

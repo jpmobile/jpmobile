@@ -67,10 +67,8 @@ module Jpmobile
 
   module TransSidRedirecting
     def redirect_to(options = {}, response_status = {})
-      if apply_trans_sid? && jpmobile_session_id
+      if apply_trans_sid? && jpmobile_session_id && options != :back && options !~ /^\w[\w+.-]*:.*/
         case options
-        when /^\w[\w+.-]*:.*/, :back
-          # nothing to do
         when String
           unless options.match?(/#{session_key}/)
             url = URI.parse(options)

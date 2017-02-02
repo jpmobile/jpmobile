@@ -96,3 +96,9 @@ Metrics/MethodLength:
     - 'lib/jpmobile/helpers.rb'
     - 'lib/jpmobile/mail.rb'
     - 'lib/jpmobile/resolver.rb'
+
+Lint/HandleExceptions:
+  Exclude:
+    - 'lib/jpmobile/emoticon.rb'
+    - 'lib/jpmobile/fallback_view_selector.rb'
+    - 'lib/jpmobile/position.rb'

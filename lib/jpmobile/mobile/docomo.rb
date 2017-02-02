@@ -29,7 +29,7 @@ module Jpmobile::Mobile
       lon = params['lon'] || params['LON']
       geo = params['geo'] || params['GEO']
       return @__position = nil if lat.nil? || lat == '' || lon.nil? || lon == ''
-      raise 'Unsuppoted datum' if geo.downcase != 'wgs84'
+      raise 'Unsuppoted datum' unless geo.casecmp('wgs84')
       pos = Jpmobile::Position.new
       raise 'Unsuppoted' unless lat =~ /^([+-]\d+)\.(\d+)\.(\d+\.\d+)/
       pos.lat = Jpmobile::Position.dms2deg(Regexp.last_match(1), Regexp.last_match(2), Regexp.last_match(3))
@@ -156,10 +156,14 @@ module Jpmobile::Mobile
 
     # モデル名を返す。
     def model_name
-      return Regexp.last_match(1) if @env['HTTP_USER_AGENT'] =~ %r{^DoCoMo/2.0 (.+)\(}
-      return Regexp.last_match(1) if @env['HTTP_USER_AGENT'] =~ %r{^DoCoMo/1.0/(.+?)/}
-
-      nil
+      case @env['HTTP_USER_AGENT']
+      when %r{^DoCoMo/2.0 (.+)\(}
+        Regexp.last_match(1)
+      when %r{^DoCoMo/1.0/(.+?)/}
+        Regexp.last_match(1)
+      else
+        nil
+      end
     end
   end
 end

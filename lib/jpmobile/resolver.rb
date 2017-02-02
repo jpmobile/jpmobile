@@ -37,12 +37,15 @@ module Jpmobile
         handler, format, variant = extract_handler_and_format_and_variant(template, formats)
         contents = File.binread(template)
 
-        if format
-          jpmobile_variant = template.match(/.+#{path}(.+)\.#{format.to_sym.to_s}.*$/) ? Regexp.last_match(1) : ''
-          virtual_path = jpmobile_variant.blank? ? path.virtual : path.to_str + jpmobile_variant
-        else
-          virtual_path = path.virtual
-        end
+        virtual_path = if format
+                         if template =~ /.+#{path}(.+)\.#{format.to_sym.to_s}.*$/
+                           path.to_str + Regexp.last_match(1)
+                         else
+                           path.virtual
+                         end
+                       else
+                         path.virtual
+                       end
 
         ActionView::Template.new(
           contents,

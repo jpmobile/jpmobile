@@ -40,7 +40,7 @@ RailsRoot::Application.routes.draw do
     docomo_guid_base
     docomo_guid_always
     docomo_guid_docomo
- ).each do |c|
+  ).each do |c|
     get "#{c}/link", to: "#{c}#link"
   end
 

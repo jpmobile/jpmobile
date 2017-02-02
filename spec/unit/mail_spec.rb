@@ -38,8 +38,8 @@ describe 'Jpmobile::Mail' do
         end
 
         it 'should be able to decode bodies' do
-          expect(subject.parts[0].body).to eq('ほげ')
-          expect(subject.parts[1].body).to eq('ほげほげ')
+          expect(subject.parts[0].body.to_s).to eq(ascii_8bit('ほげ'))
+          expect(subject.parts[1].body.to_s).to eq(ascii_8bit('ほげほげ'))
         end
       end
     end

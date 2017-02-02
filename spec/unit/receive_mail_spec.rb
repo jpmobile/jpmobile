@@ -139,7 +139,7 @@ describe 'Jpmobile::Mail#receive' do
 
       it 'body should be parsed correctly' do
         expect(@mail.body.parts.size).to eq(1)
-        expect(@mail.body.parts.first.parts.size).to eq(1)
+        expect(@mail.body.parts.first.parts.size).to eq(2)
         expect(@mail.body.parts.first.parts.first.body.to_s).to match('テストです&#xe595;')
         expect(@mail.body.parts.first.parts.last.body.raw_source).to match('テストです&#xe595;')
       end

@@ -21,6 +21,9 @@ AllCops:
 Style/StringLiterals:
   EnforcedStyle: single_quotes
 
+Style/Semicolon:
+  AllowAsExpressionSeparator: true
+
 Style/BlockDelimiters:
   FunctionalMethods:
     - before

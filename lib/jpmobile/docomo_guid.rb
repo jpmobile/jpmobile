@@ -11,7 +11,6 @@ class ActionController::Base #:nodoc:
   end
 end
 
-
 module Jpmobile::DocomoGuid #:nodoc:
   protected
 

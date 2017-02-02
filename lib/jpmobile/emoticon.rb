@@ -310,7 +310,7 @@ module Jpmobile
     def self.emoticons_to_image(str)
       return str unless @pc_emoticon_hash
 
-      utf8_to_unicodecr(str).gsub(/&#x([0-9a-f]{4});/i) do |match|
+      utf8_to_unicodecr(str).gsub(/&#x([0-9a-f]{4});/i) do
         img = @pc_emoticon_hash[Regexp.last_match(1).upcase]
         unless img
           img =

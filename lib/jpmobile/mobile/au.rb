@@ -27,7 +27,7 @@ module Jpmobile::Mobile
       return @__posotion if defined? @__posotion
       return @__posotion = nil if params['lat'].nil? || params['lat'] == '' || params['lon'].nil? || params['lon'] == ''
       l = Jpmobile::Position.new
-      l.options = params.reject { |x, v| !%w(ver datum unit lat lon alt time smaj smin vert majaa fm).include?(x) }
+      l.options = params.reject { |x, _| !%w(ver datum unit lat lon alt time smaj smin vert majaa fm).include?(x) }
       case params['unit']
       when '1'
         l.lat = params['lat'].to_f

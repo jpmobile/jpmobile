@@ -136,7 +136,7 @@ module Jpmobile
 
     def hash_to_utf8(hash)
       new_hash = {}
-      hash.each do |keu, value|
+      hash.each do |key, value|
         new_hash[utf8(key)] = utf8(value)
       end
     end

@@ -24,7 +24,7 @@ end
 
 namespace :test do
   desc 'Generate rails app and run jpmobile tests in the app'
-  task :rails, [:skip] do |t, args|
+  task :rails, [:skip] do |_, args|
     rails_root     = 'test/rails/rails_root'
 
     puts 'Running tests in Rails'

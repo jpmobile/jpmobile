@@ -71,7 +71,7 @@ Rails](https://github.com/jpmobile/jpmobile/wiki/Version-:-Jpmobile-vs-Rails)
 ## 使用例
 
 ### 携帯電話の識別
-環境変数 [env]('rack.jpmobile') にキャリアクラスのインスタンスが格納されています。また Rack::Request#mobile
+環境変数 `ENV['rack.jpmobile']` にキャリアクラスのインスタンスが格納されています。また Rack::Request#mobile
 としても取得可能です。
 
 #### キャリアの識別

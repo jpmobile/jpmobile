@@ -10,19 +10,21 @@ $ git clone git@github.com:jpmobile/jpmobile-ipaddresses.git
 $ git clone git@github.com:jpmobile/jpmobile-terminfo.git
 ```
 
-## テスト
-テストにはSMTP通信を行うものも含まれるため、
-[koseki-mocksmtpd](https://github.com/koseki/mocksmtpd)などの、
-smtpdのmockを利用する必要があります。
+## SMTPサーバの準備
+SMTP通信を行うテストが含まれており、現時点では[mailtrap](https://mailtrap.io/)を利用しています。
 
-### 必要なgemパッケージ
-テストを実行するためには以下のgemパッケージが必要です。
-* rails (include rack)
-* sqlite3
-* nokogiri
-* rspec
-* rspec-rails
-* rspec-fixture
-* rack-test
-* mocha
-* geokit
+以下のように環境変数を設定してテストを実行してください。
+
+```
+export MAILTRAP_USERNAME=XXXXXXXXXXXXXX
+export MAILTRAP_PASSWORD=YYYYYYYYYYYYYY
+```
+
+## テスト
+以下のテストを通過する必要があります。
+
+
+```
+$ bundle exec rake test
+$ bundle exec rubocop
+```

@@ -6,25 +6,25 @@ require 'jpmobile'
 require 'nkf'
 
 begin
-  require File.dirname(__FILE__)+'/../vendor/jpmobile-ipaddresses/lib/jpmobile-ipaddresses'
+  require File.dirname(__FILE__) + '/../vendor/jpmobile-ipaddresses/lib/jpmobile-ipaddresses'
 rescue LoadError
-  puts "IP Address test requires jpmobile-ipaddresses module"
+  puts 'IP Address test requires jpmobile-ipaddresses module'
 end
 begin
-  require File.dirname(__FILE__)+'/../vendor/jpmobile-terminfo/lib/jpmobile-terminfo'
+  require File.dirname(__FILE__) + '/../vendor/jpmobile-terminfo/lib/jpmobile-terminfo'
 rescue LoadError
-  puts "Terminal display information test requires jpmobile-terminfo module"
+  puts 'Terminal display information test requires jpmobile-terminfo module'
 end
 
 RSpec.configure do |config|
-  config.filter_run :focus => true
+  config.filter_run focus: true
   config.run_all_when_everything_filtered = true
   config.color = true
 end
 
 class UnitApplication
   def initialize(body = nil)
-    @body = Jpmobile::Util.utf8(body || "Body")
+    @body = Jpmobile::Util.utf8(body || 'Body')
   end
 
   def call(env)
@@ -60,13 +60,14 @@ module Jpmobile::RackHelper
   def user_agent(str)
     @request.user_agent = str
   end
+
   def init(c)
     @controller = c.new
     @controller.logger = Logger.new(nil)
     @request = ActionController::TestRequest.new
     @response = ActionController::TestResponse.new
-    @request.host = "www.example.jp"
-    @request.session.session_id = "mysessionid"
+    @request.host = 'www.example.jp'
+    @request.session.session_id = 'mysessionid'
   end
   include Jpmobile::Util
 

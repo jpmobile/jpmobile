@@ -8,9 +8,9 @@ module Jpmobile
   module Mailer
     class Base < ActionMailer::Base
       self._view_paths = self._view_paths.dup
-      self.view_paths.unshift(Jpmobile::Resolver.new(File.join(::Rails.root, "app/views")))
+      self.view_paths.unshift(Jpmobile::Resolver.new(File.join(::Rails.root, 'app/views')))
 
-      def mail(headers={}, &block)
+      def mail(headers = {}, &block)
         tos = headers[:to] || self.default_params[:to]
         tos = tos.split(/,/)
 
@@ -27,7 +27,7 @@ module Jpmobile
 
         m = super(headers, &block)
 
-        m.mobile  = @mobile
+        m.mobile = @mobile
 
         # for decorated-mail manipulation
         m.rearrange! if @mobile.decorated?
@@ -37,6 +37,7 @@ module Jpmobile
 
       class << self
         protected
+
         def set_payload_for_mail(payload, mail) #:nodoc:
           super
 

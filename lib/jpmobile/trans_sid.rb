@@ -5,6 +5,7 @@ require 'active_support/version'
 module Jpmobile
   module SessionID
     require 'action_dispatch/middleware/session/abstract_store'
+
     module_function
 
     extend ActionDispatch::Session::Compatibility
@@ -12,7 +13,7 @@ module Jpmobile
 
   module ParamsOverCookie
     def extract_session_id(req)
-      if req.params[@key] and !@cookie_only
+      if req.params[@key] && !@cookie_only
         sid = req.params[@key]
       end
       sid ||= req.cookies[@key]
@@ -26,21 +27,21 @@ module Jpmobile
     end
 
     protected
+
     # URLにsession_idを追加する。
     def default_url_options
       result = super || {}.with_indifferent_access
       return result unless request # for test process
       return result unless apply_trans_sid?
-      return result.merge({session_key.to_sym => jpmobile_session_id})
+      result.merge({ session_key.to_sym => jpmobile_session_id })
     end
 
     private
+
     # session_keyを返す。
     def session_key
-      unless key = Rails.application.config.session_options.merge(request.session_options || {})[:key]
-        key = ActionDispatch::Session::AbstractStore::DEFAULT_OPTIONS[:key]
-      end
-      key
+      Rails.application.config.session_options.merge(request.session_options || {})[:key] ||
+        ActionDispatch::Session::AbstractStore::DEFAULT_OPTIONS[:key]
     end
 
     # session_idを返す
@@ -52,7 +53,7 @@ module Jpmobile
 
     # session_idを埋め込むためのhidden fieldを出力する。
     def sid_hidden_field_tag
-      "<input type=\"hidden\" name=\"#{CGI::escapeHTML session_key}\" value=\"#{CGI::escapeHTML jpmobile_session_id}\" />"
+      "<input type=\"hidden\" name=\"#{CGI.escapeHTML session_key}\" value=\"#{CGI.escapeHTML jpmobile_session_id}\" />"
     end
 
     # formにsession_idを追加する。
@@ -60,18 +61,16 @@ module Jpmobile
       return unless request # for test process
       return unless apply_trans_sid?
       return unless jpmobile_session_id
-      response.body = response.body.gsub(%r{(</form>)}i, sid_hidden_field_tag+'\1')
+      response.body = response.body.gsub(%r{(</form>)}i, sid_hidden_field_tag + '\1')
     end
   end
 
   module TransSidRedirecting
     def redirect_to(options = {}, response_status = {})
-      if apply_trans_sid? and jpmobile_session_id
+      if apply_trans_sid? && jpmobile_session_id && options != :back && options !~ /^\w[\w+.-]*:.*/
         case options
-        when %r{^\w[\w+.-]*:.*}
-          # nothing to do
         when String
-          unless options.match(/#{session_key}/)
+          unless options.match?(/#{session_key}/)
             url = URI.parse(options)
             if url.query
               url.query += "&#{session_key}=#{jpmobile_session_id}"
@@ -80,14 +79,10 @@ module Jpmobile
             end
             options = url.to_s
           end
-        when :back
-          # nothing to do
         when Hash
           unless options[session_key.to_sym]
             options[session_key.to_sym] = jpmobile_session_id
           end
-        else
-          # nothing to do
         end
       end
 
@@ -109,21 +104,22 @@ module ActionController
     end
 
     private
+
     # trans_sidを適用すべきかを返す。
     def apply_trans_sid?
       # session_id が blank の場合は適用しない
-      return false if trans_sid_mode and jpmobile_session_id.blank?
+      return false if trans_sid_mode && jpmobile_session_id.blank?
 
       case trans_sid_mode
       when :always
         return true
       when :mobile
-        if request.mobile? and !request.mobile.supports_cookie?
+        if request.mobile? && !request.mobile.supports_cookie?
           return true
         end
       end
 
-      return false
+      false
     end
   end
 end

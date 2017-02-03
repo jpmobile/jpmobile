@@ -3,7 +3,7 @@
 # thanks to masuidrive <masuidrive (at) masuidrive.jp>
 
 ActiveSupport.on_load(:action_controller) do
-  def self.hankaku_filter(options={})
+  def self.hankaku_filter(options = {})
     before_action Jpmobile::HankakuFilter.new(options)
     after_action  Jpmobile::HankakuFilter.new(options)
   end
@@ -13,28 +13,28 @@ module Jpmobile
   class HankakuFilter
     cattr_accessor(:zen_to_han_table) do
       {
-        "ガ" => "ｶﾞ", "ギ" => "ｷﾞ", "グ" => "ｸﾞ", "ゲ" => "ｹﾞ", "ゴ" => "ｺﾞ",
-        "ザ" => "ｻﾞ", "ジ" => "ｼﾞ", "ズ" => "ｽﾞ", "ゼ" => "ｾﾞ", "ゾ" => "ｿﾞ",
-        "ダ" => "ﾀﾞ", "ヂ" => "ﾁﾞ", "ヅ" => "ﾂﾞ", "デ" => "ﾃﾞ", "ド" => "ﾄﾞ",
-        "バ" => "ﾊﾞ", "ビ" => "ﾋﾞ", "ブ" => "ﾌﾞ", "ベ" => "ﾍﾞ", "ボ" => "ﾎﾞ",
-        "パ" => "ﾊﾟ", "ピ" => "ﾋﾟ", "プ" => "ﾌﾟ", "ペ" => "ﾍﾟ", "ポ" => "ﾎﾟ",
-        "ヴ" => "ｳﾞ",
-        "ア" => "ｱ", "イ" => "ｲ", "ウ" => "ｳ", "エ" => "ｴ", "オ" => "ｵ",
-        "カ" => "ｶ", "キ" => "ｷ", "ク" => "ｸ", "ケ" => "ｹ", "コ" => "ｺ",
-        "サ" => "ｻ", "シ" => "ｼ", "ス" => "ｽ", "セ" => "ｾ", "ソ" => "ｿ",
-        "タ" => "ﾀ", "チ" => "ﾁ", "ツ" => "ﾂ", "テ" => "ﾃ", "ト" => "ﾄ",
-        "ナ" => "ﾅ", "ニ" => "ﾆ", "ヌ" => "ﾇ", "ネ" => "ﾈ", "ノ" => "ﾉ",
-        "ハ" => "ﾊ", "ヒ" => "ﾋ", "フ" => "ﾌ", "ヘ" => "ﾍ", "ホ" => "ﾎ",
-        "マ" => "ﾏ", "ミ" => "ﾐ", "ム" => "ﾑ", "メ" => "ﾒ", "モ" => "ﾓ",
-        "ヤ" => "ﾔ", "ユ" => "ﾕ", "ヨ" => "ﾖ",
-        "ラ" => "ﾗ", "リ" => "ﾘ", "ル" => "ﾙ", "レ" => "ﾚ", "ロ" => "ﾛ",
-        "ワ" => "ﾜ", "ヲ" => "ｦ", "ン" => "ﾝ",
-        "ャ" => "ｬ", "ュ" => "ｭ", "ョ" => "ｮ",
-        "ァ" => "ｧ", "ィ" => "ｨ", "ゥ" => "ｩ", "ェ" => "ｪ", "ォ" => "ｫ",
-        "ッ" => "ｯ",
-        "゛" => "ﾞ", "゜" => "ﾟ", "ー" => "ｰ", "。" => "｡",
-        "「" => "｢", "」" => "｣",
-        "、" => "､", "・" => "･", "！" => "!", "？" => "?",
+        'ガ' => 'ｶﾞ', 'ギ' => 'ｷﾞ', 'グ' => 'ｸﾞ', 'ゲ' => 'ｹﾞ', 'ゴ' => 'ｺﾞ',
+        'ザ' => 'ｻﾞ', 'ジ' => 'ｼﾞ', 'ズ' => 'ｽﾞ', 'ゼ' => 'ｾﾞ', 'ゾ' => 'ｿﾞ',
+        'ダ' => 'ﾀﾞ', 'ヂ' => 'ﾁﾞ', 'ヅ' => 'ﾂﾞ', 'デ' => 'ﾃﾞ', 'ド' => 'ﾄﾞ',
+        'バ' => 'ﾊﾞ', 'ビ' => 'ﾋﾞ', 'ブ' => 'ﾌﾞ', 'ベ' => 'ﾍﾞ', 'ボ' => 'ﾎﾞ',
+        'パ' => 'ﾊﾟ', 'ピ' => 'ﾋﾟ', 'プ' => 'ﾌﾟ', 'ペ' => 'ﾍﾟ', 'ポ' => 'ﾎﾟ',
+        'ヴ' => 'ｳﾞ',
+        'ア' => 'ｱ', 'イ' => 'ｲ', 'ウ' => 'ｳ', 'エ' => 'ｴ', 'オ' => 'ｵ',
+        'カ' => 'ｶ', 'キ' => 'ｷ', 'ク' => 'ｸ', 'ケ' => 'ｹ', 'コ' => 'ｺ',
+        'サ' => 'ｻ', 'シ' => 'ｼ', 'ス' => 'ｽ', 'セ' => 'ｾ', 'ソ' => 'ｿ',
+        'タ' => 'ﾀ', 'チ' => 'ﾁ', 'ツ' => 'ﾂ', 'テ' => 'ﾃ', 'ト' => 'ﾄ',
+        'ナ' => 'ﾅ', 'ニ' => 'ﾆ', 'ヌ' => 'ﾇ', 'ネ' => 'ﾈ', 'ノ' => 'ﾉ',
+        'ハ' => 'ﾊ', 'ヒ' => 'ﾋ', 'フ' => 'ﾌ', 'ヘ' => 'ﾍ', 'ホ' => 'ﾎ',
+        'マ' => 'ﾏ', 'ミ' => 'ﾐ', 'ム' => 'ﾑ', 'メ' => 'ﾒ', 'モ' => 'ﾓ',
+        'ヤ' => 'ﾔ', 'ユ' => 'ﾕ', 'ヨ' => 'ﾖ',
+        'ラ' => 'ﾗ', 'リ' => 'ﾘ', 'ル' => 'ﾙ', 'レ' => 'ﾚ', 'ロ' => 'ﾛ',
+        'ワ' => 'ﾜ', 'ヲ' => 'ｦ', 'ン' => 'ﾝ',
+        'ャ' => 'ｬ', 'ュ' => 'ｭ', 'ョ' => 'ｮ',
+        'ァ' => 'ｧ', 'ィ' => 'ｨ', 'ゥ' => 'ｩ', 'ェ' => 'ｪ', 'ォ' => 'ｫ',
+        'ッ' => 'ｯ',
+        '゛' => 'ﾞ', '゜' => 'ﾟ', 'ー' => 'ｰ', '。' => '｡',
+        '「' => '｢', '」' => '｣',
+        '、' => '､', '・' => '･', '！' => '!', '？' => '?'
       }
     end
 
@@ -61,7 +61,7 @@ module Jpmobile
 
     def initialize(options = {})
       @options = {
-        :input => false,
+        input: false,
       }.merge(options)
 
       @controller = nil
@@ -78,7 +78,7 @@ module Jpmobile
     # 内部コードから外部コードに変換
     def after(controller)
       @controller = controller
-      if apply_outgoing? and @controller.response.body.is_a?(String)
+      if apply_outgoing? && @controller.response.body.is_a?(String)
         @controller.response.body = to_external(@controller.response.body)
       end
     end
@@ -92,7 +92,7 @@ module Jpmobile
 
     def apply_outgoing?
       @controller.request.mobile? and
-        [nil, "text/html", "application/xhtml+xml"].include?(@controller.response.content_type)
+        [nil, 'text/html', 'application/xhtml+xml'].include?(@controller.response.content_type)
     end
 
     def to_internal(str)
@@ -100,23 +100,23 @@ module Jpmobile
     end
 
     def to_external(str)
-      unless @options[:input]
-        filter(:hankaku, str)
-      else
+      if @options[:input]
         encoding = (str =~ /^\s*<[^Hh>]*html/)
         nokogiri_klass =
           (str =~ /^\s*<[^Hh>]*html/) ? Nokogiri::HTML::Document : Nokogiri::HTML::DocumentFragment
         doc = if encoding
-                nokogiri_klass.parse(str, nil, "UTF-8")
+                nokogiri_klass.parse(str, nil, 'UTF-8')
               else
                 nokogiri_klass.parse(str)
               end
 
         doc = convert_text_content(doc)
 
-        html = doc.to_html.gsub("\xc2\xa0","&nbsp;")
+        html = doc.to_html.gsub("\xc2\xa0", '&nbsp;')
         html = html.gsub(/charset=[a-z0-9\-]+/i, "charset=#{default_charset}") if default_charset
         html
+      else
+        filter(:hankaku, str)
       end
     end
 
@@ -125,7 +125,7 @@ module Jpmobile
 
       # 一度UTF-8に変換
       before_encoding = str.encoding
-      str.force_encoding("UTF-8")
+      str.force_encoding('UTF-8')
 
       str = self.class.send("#{method}_format", str)
 
@@ -140,18 +140,19 @@ module Jpmobile
     # 再帰的に探す
     def convert_text_content(document)
       document.children.each do |element|
-        if element.kind_of?(Nokogiri::XML::Text)
-          unless element.parent.node_name == "textarea"
+        if element.is_a?(Nokogiri::XML::Text)
+          unless element.parent.node_name == 'textarea'
             # textarea 以外のテキストなら content を変換
             element.content = filter(:hankaku, element.content)
           end
-        elsif element.node_name == "input" and ["submit", "reset", "button"].include?(element["type"])
+        elsif (element.node_name == 'input') && %w(submit reset button).include?(element['type'])
           # テキスト以外でもボタンの value は変換
-          element["value"] = filter(:hankaku, element["value"])
+          element['value'] = filter(:hankaku, element['value'])
         elsif element.children.any?
           # 子要素があれば再帰的に変換
           element = convert_text_content(element)
         end
+        element
       end
 
       document
@@ -165,11 +166,11 @@ module Jpmobile
 
     def convert_parameters(params)
       params.each do |k, v|
-        if params[k].respond_to?(:each)
-          params[k] = convert_parameters(params[k])
-        else
-          params[k] = to_internal(v)
-        end
+        params[k] = if params[k].respond_to?(:each)
+                      convert_parameters(params[k])
+                    else
+                      to_internal(v)
+                    end
       end
     end
   end

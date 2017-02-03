@@ -4,8 +4,8 @@ require 'jpmobile/lookup_context'
 module Jpmobile
   module FallbackViewSelector
     def render_to_body(options)
-      if Jpmobile.config.fallback_view_selector and
-          lookup_context.mobile.present? and !lookup_context.mobile.empty?
+      if Jpmobile.config.fallback_view_selector &&
+         lookup_context.mobile.present? && !lookup_context.mobile.empty?
         begin
           expected_view_file = lookup_context.find_template(options[:template], options[:prefixes])
 

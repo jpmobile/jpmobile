@@ -1,0 +1,123 @@
+inherit_gem:
+  onkcop:
+    - "config/rubocop.yml"
+    # uncomment if use rails cops
+    # - "config/rails.yml"
+    # uncomment if use rspec cops
+    # - "config/rspec.yml"
+
+AllCops:
+  TargetRubyVersion: 2.4
+  Exclude:
+    - 'bin/bundle'
+    - 'bin/rails'
+    - 'bin/rake'
+    - 'db/schema.rb'
+    - 'vendor/bundle/**/*'
+    - 'tools/**/*'
+    - 'test/rails/rails_root/**/*'
+    - 'vendor/jpmobile-*/**/*'
+
+Style/StringLiterals:
+  EnforcedStyle: single_quotes
+
+Style/Semicolon:
+  AllowAsExpressionSeparator: true
+
+Style/BlockDelimiters:
+  FunctionalMethods:
+    - before
+    - let
+    - let!
+    - subject
+    - watch
+    - expect
+  Exclude:
+    # For support original style
+    - 'lib/jpmobile/resolver.rb'
+    - 'lib/jpmobile/mail.rb'
+  EnforcedStyle: braces_for_chaining
+
+Style/IndentationConsistency:
+  EnforcedStyle: normal
+
+Style/AccessorMethodName:
+  Exclude:
+    - 'lib/jpmobile/mail.rb'
+
+Style/BlockComments:
+  Exclude:
+    - 'test/rails/overrides/spec/spec_helper.rb'
+
+Metrics/AbcSize:
+  Exclude:
+    - 'lib/jpmobile/datum_conv.rb'
+    - 'lib/jpmobile/emoticon.rb'
+    - 'lib/jpmobile/helpers.rb'
+    - 'lib/jpmobile/mail.rb'
+    - 'lib/jpmobile/mobile/*'
+    - 'lib/jpmobile/fallback_view_selector.rb'
+    - 'lib/jpmobile/resolver.rb'
+    - 'lib/jpmobile/rack/filter.rb'
+
+Metrics/CyclomaticComplexity:
+  Exclude:
+    - 'lib/jpmobile/emoticon.rb'
+    - 'lib/jpmobile/helpers.rb'
+    - 'lib/jpmobile/mail.rb'
+    - 'lib/jpmobile/mobile/au.rb'
+    - 'lib/jpmobile/mobile/docomo.rb'
+
+Metrics/PerceivedComplexity:
+  Exclude:
+    - 'lib/jpmobile/emoticon.rb'
+    - 'lib/jpmobile/helpers.rb'
+    - 'lib/jpmobile/mail.rb'
+    - 'lib/jpmobile/mobile/au.rb'
+    - 'lib/jpmobile/mobile/docomo.rb'
+    - 'lib/jpmobile/trans_sid.rb'
+
+Metrics/LineLength:
+  Exclude:
+    - '**/*_spec.rb'
+    - 'lib/jpmobile/emoticon/z_combine.rb'
+    - 'lib/jpmobile/hook_action_view.rb'
+    - 'lib/jpmobile/mobile/au.rb'
+    - 'lib/jpmobile/mobile/emobile.rb'
+
+Metrics/ModuleLength:
+  Exclude:
+    - 'lib/jpmobile/emoticon.rb'
+    - 'lib/jpmobile/helpers.rb'
+    - 'lib/jpmobile/util.rb'
+
+Metrics/BlockLength:
+  Exclude:
+    - '**/*_spec.rb'
+    - 'lib/jpmobile/emoticon.rb'
+    - 'lib/tasks/jpmobile_tasks.rake'
+    - 'test/rails/overrides/config/routes.rb'
+
+Metrics/BlockNesting:
+  Exclude:
+    - 'lib/jpmobile/trans_sid.rb'
+
+Metrics/ClassLength:
+  Exclude:
+    - 'lib/jpmobile/filter.rb'
+    - 'lib/jpmobile/mail.rb'
+    - 'lib/jpmobile/mobile/abstract_mobile.rb'
+    - 'lib/jpmobile/mobile/docomo.rb'
+
+Metrics/MethodLength:
+  Exclude:
+    - 'lib/jpmobile/emoticon.rb'
+    - 'lib/jpmobile/helpers.rb'
+    - 'lib/jpmobile/mail.rb'
+    - 'lib/jpmobile/resolver.rb'
+
+Lint/HandleExceptions:
+  Exclude:
+    - 'lib/jpmobile/emoticon.rb'
+    - 'lib/jpmobile/fallback_view_selector.rb'
+    - 'lib/jpmobile/position.rb'

@@ -5,7 +5,7 @@ describe MobileSpecController, type: :controller do
 
   describe "GET 'index'" do
     context 'PC access' do
-      it "should be successful" do
+      it 'should be successful' do
         request.user_agent = 'Mozilla'
         get 'index'
 
@@ -16,8 +16,8 @@ describe MobileSpecController, type: :controller do
     end
 
     context 'mobile access' do
-      it "should be successful" do
-        request.user_agent = "DoCoMo/2.0 SH902i(c100;TB;W24H12)"
+      it 'should be successful' do
+        request.user_agent = 'DoCoMo/2.0 SH902i(c100;TB;W24H12)'
         get 'index'
         expect(response).to be_success
         expect(response.body).to match(/RailsRoot mobile/)
@@ -29,7 +29,7 @@ describe MobileSpecController, type: :controller do
 
   describe "GET 'file_render'" do
     context 'PC access' do
-      it "should be successful" do
+      it 'should be successful' do
         request.user_agent = 'Mozilla'
         get 'file_render'
 
@@ -40,8 +40,8 @@ describe MobileSpecController, type: :controller do
     end
 
     context 'mobile access' do
-      it "should be successful" do
-        request.user_agent = "DoCoMo/2.0 SH902i(c100;TB;W24H12)"
+      it 'should be successful' do
+        request.user_agent = 'DoCoMo/2.0 SH902i(c100;TB;W24H12)'
         get 'file_render'
 
         expect(response).to be_success
@@ -63,7 +63,7 @@ describe MobileSpecController, type: :controller do
     end
 
     context 'PC access' do
-      it "should be successful" do
+      it 'should be successful' do
         request.user_agent = 'Mozilla'
         get 'no_mobile'
 
@@ -73,8 +73,8 @@ describe MobileSpecController, type: :controller do
     end
 
     context 'mobile access' do
-      it "should be successful" do
-        request.user_agent = "DoCoMo/2.0 SH902i(c100;TB;W24H12)"
+      it 'should be successful' do
+        request.user_agent = 'DoCoMo/2.0 SH902i(c100;TB;W24H12)'
         get 'no_mobile'
 
         expect(response).to be_success

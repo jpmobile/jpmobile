@@ -4,25 +4,26 @@ require 'tempfile'
 module Jpmobile
   module Util
     # SJIS   = "Shift_JIS"
-    SJIS   = "Windows-31J"
-    UTF8   = "UTF-8"
-    JIS    = "ISO-2022-JP"
-    JIS_WIN = "CP50220"
-    BINARY = "ASCII-8BIT"
+    SJIS   = 'Windows-31J'.freeze
+    UTF8   = 'UTF-8'.freeze
+    JIS    = 'ISO-2022-JP'.freeze
+    JIS_WIN = 'CP50220'.freeze
+    BINARY = 'ASCII-8BIT'.freeze
 
-    WAVE_DASH = [0x301c].pack("U")
-    FULLWIDTH_TILDE = [0xff5e].pack("U")
+    WAVE_DASH = [0x301c].pack('U')
+    FULLWIDTH_TILDE = [0xff5e].pack('U')
 
-    OVERLINE = [0x203e].pack("U")
-    FULLWIDTH_MACRON = [0xffe3].pack("U")
+    OVERLINE = [0x203e].pack('U')
+    FULLWIDTH_MACRON = [0xffe3].pack('U')
 
-    EM_DASH = [0x2014].pack("U")
-    HORIZONTAL_BAR = [0x2015].pack("U")
+    EM_DASH = [0x2014].pack('U')
+    HORIZONTAL_BAR = [0x2015].pack('U')
 
-    MINUS_SIGN = [0x2212].pack("U")
-    FULLWIDTH_HYPHEN_MINUS = [0xFF0D].pack("U")
+    MINUS_SIGN = [0x2212].pack('U')
+    FULLWIDTH_HYPHEN_MINUS = [0xFF0D].pack('U')
 
     module_function
+
     def deep_convert(obj, &proc)
       case obj
       when Hash
@@ -36,10 +37,10 @@ module Jpmobile
           deep_convert(value, &proc)
         end
       when Symbol
-        new_obj = proc.call(obj.to_s).to_sym
+        new_obj = yield(obj.to_s).to_sym
       when String
         obj = obj.to_param if obj.respond_to?(:to_param)
-        new_obj = proc.call(obj)
+        new_obj = yield(obj)
       else
         # NilClass, TrueClass, FalseClass, Tempfile, StringIO, etc...
         new_obj = obj
@@ -102,11 +103,11 @@ module Jpmobile
 
       utf8_str.
         gsub(/(\r\n|\r|\n)/, "\r\n").
-        encode(SJIS, :undef => :replace, :replace => '?')
+        encode(SJIS, undef: :replace, replace: '?')
     end
 
     def sjis_to_utf8(sjis_str)
-      utf8_str = sjis_str.encode("UTF-8", :universal_newline => true)
+      utf8_str = sjis_str.encode('UTF-8', universal_newline: true)
 
       # 波ダッシュ対策
       fullwidth_tilde_to_wavedash(utf8_str)
@@ -118,11 +119,11 @@ module Jpmobile
 
       utf8_str.
         gsub(/(\r\n|\r|\n)/, "\r\n").
-        encode(JIS, :undef => :replace, :replace => '?')
+        encode(JIS, undef: :replace, replace: '?')
     end
 
     def jis_to_utf8(jis_str)
-      jis_str.encode(UTF8, :universal_newline => true)
+      jis_str.encode(UTF8, universal_newline: true)
     end
 
     def regexp_utf8_to_sjis(utf8_str)
@@ -135,13 +136,13 @@ module Jpmobile
 
     def hash_to_utf8(hash)
       new_hash = {}
-      hash.each do |keu, value|
+      hash.each do |key, value|
         new_hash[utf8(key)] = utf8(value)
       end
     end
 
     def sjis_regexp(sjis)
-      sjis_str = if sjis.kind_of?(Numeric)
+      sjis_str = if sjis.is_a?(Numeric)
                    [sjis].pack('n')
                  else
                    sjis
@@ -151,26 +152,26 @@ module Jpmobile
     end
 
     def jis_regexp(jis)
-      jis_str = jis.kind_of?(Numeric) ? [jis].pack('n') : jis
+      jis_str = jis.is_a?(Numeric) ? [jis].pack('n') : jis
 
       Regexp.compile(Regexp.escape(jis_str.force_encoding(BINARY)))
     end
 
     def jis_string_regexp
-      Regexp.compile(Regexp.escape(ascii_8bit("\x1b\x24\x42")) + "(.+?)" + Regexp.escape(ascii_8bit("\x1b\x28\x42")))
+      Regexp.compile(Regexp.escape(ascii_8bit("\x1b\x24\x42")) + '(.+?)' + Regexp.escape(ascii_8bit("\x1b\x28\x42")))
     end
 
     def encode(str, charset)
-      if (charset.nil? or charset == "" or str.nil? or str == "")
-        str
-      elsif utf8?(str) and charset.match(/iso-2022-jp/i)
+      return str if charset.nil? || (charset == '') || str.nil? || (str == '')
+      return str.encode(charset) unless utf8?(str)
+
+      case charset
+      when /iso-2022-jp/i
         utf8_to_jis(str)
-      elsif utf8?(str) and charset.match(/shift_jis/i)
+      when /shift_jis/i
         utf8_to_sjis(str)
-      elsif utf8?(str) and charset.match(/utf-8/i)
+      when /utf-8/i
         str
-      else
-        str.encode(charset)
       end
     end
 
@@ -206,7 +207,7 @@ module Jpmobile
       s = str.dup
       return str if detect_encoding(str) == to
 
-      to = SJIS if to =~ /shift_jis/i
+      to = SJIS if to.match?(/shift_jis/i)
 
       to_enc = ::Encoding.find(to)
       return str if s.encoding == to_enc
@@ -220,17 +221,15 @@ module Jpmobile
         s.encode(to)
       rescue ::Encoding::InvalidByteSequenceError, ::Encoding::UndefinedConversionError => e
         # iPhone MailがISO-2022-JPに半角カナや①などのCP50220文字を含めてくる問題対策
-        if s.encoding == ::Encoding::ISO2022_JP
-          s.force_encoding(::Encoding::CP50220)
-          retry
-        else
-          raise e
-        end
+        raise e unless s.encoding == ::Encoding::ISO2022_JP
+
+        s.force_encoding(::Encoding::CP50220)
+        retry
       end
     end
 
     def set_encoding(str, encoding)
-      encoding = SJIS if encoding =~ /shift_jis/i
+      encoding = SJIS if encoding.match?(/shift_jis/i)
       str.force_encoding(encoding)
 
       str
@@ -239,13 +238,13 @@ module Jpmobile
     def extract_charset(str)
       case str
       when /iso-2022-jp/i
-        "ISO-2022-JP"
+        'ISO-2022-JP'
       when /shift_jis/i
-        "Shift_JIS"
+        'Shift_JIS'
       when /utf-8/i
-        "UTF-8"
+        'UTF-8'
       else
-        ""
+        ''
       end
     end
 
@@ -267,12 +266,15 @@ module Jpmobile
     def ascii_8bit?(str)
       detect_encoding(str) == BINARY
     end
+
     def utf8?(str)
       detect_encoding(str) == UTF8
     end
+
     def shift_jis?(str)
       detect_encoding(str) == SJIS
     end
+
     def jis?(str)
       detect_encoding(str) == JIS
     end
@@ -280,7 +282,7 @@ module Jpmobile
     def fold_text(str, size = 15)
       folded_texts = []
 
-      while texts = split_text(str, size) and texts.first.size != 0
+      while (texts = split_text(str, size)) && (texts.first.size != 0)
         folded_texts << texts.first
         str = texts.last
       end
@@ -289,16 +291,16 @@ module Jpmobile
     end
 
     def split_text(str, size = 15)
-      return nil if str.nil? or str == ''
+      return nil if str.nil? || (str == '')
 
-      [str[0..(size-1)], str[size..-1]]
+      [str[0..(size - 1)], str[size..-1]]
     end
 
     def invert_table(hash)
       result = {}
       hash.keys.each do |key|
         if result[hash[key]]
-          if !key.kind_of?(Array) and !result[hash[key]].kind_of?(Array) and result[hash[key]] > key
+          if !key.is_a?(Array) && !result[hash[key]].is_a?(Array) && result[hash[key]] > key
             result[hash[key]] = key
           end
         else
@@ -319,7 +321,7 @@ module Jpmobile
              end
 
       _extract_charset = Jpmobile::Util.extract_charset(_str)
-      charset = _extract_charset unless _extract_charset.empty? or _extract_charset == charset
+      charset = _extract_charset unless _extract_charset.empty? || (_extract_charset == charset)
       Jpmobile::Util.set_encoding(_str, charset)
     end
   end

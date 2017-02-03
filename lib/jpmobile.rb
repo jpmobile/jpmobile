@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-$:.unshift(File.dirname(__FILE__)) unless $:.include?(File.dirname(__FILE__)) ||
-                                          $:.include?(File.expand_path(File.dirname(__FILE__)))
-require "jpmobile/version"
+$LOAD_PATH.unshift(File.dirname(__FILE__)) unless $LOAD_PATH.include?(File.dirname(__FILE__)) ||
+                                                  $LOAD_PATH.include?(File.expand_path(File.dirname(__FILE__)))
+require 'jpmobile/version'
 require 'singleton'
 require 'rack/utils'
 
@@ -41,7 +41,7 @@ module Jpmobile
     autoload :UnicodeEmoticon, 'jpmobile/mobile/unicode_emoticon'
     autoload :GoogleEmoticon, 'jpmobile/mobile/google_emoticon'
 
-    DEFAULT_CARRIERS = %w(Docomo Au Softbank Vodafone Emobile Willcom Ddipocket Ipad AndroidTablet Iphone Android WindowsPhone BlackBerry)
+    DEFAULT_CARRIERS = %w(Docomo Au Softbank Vodafone Emobile Willcom Ddipocket Ipad AndroidTablet Iphone Android WindowsPhone BlackBerry).freeze
 
     def self.carriers
       @carriers ||= DEFAULT_CARRIERS.dup
@@ -69,6 +69,7 @@ module Jpmobile
   autoload :TransSid,            'jpmobile/trans_sid'
 
   module_function
+
   def config
     ::Jpmobile::Configuration.instance
   end

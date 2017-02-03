@@ -1,10 +1,10 @@
 module Jpmobile
   class Resolver < ActionView::FileSystemResolver
-    EXTENSIONS = [:locale, :formats, :handlers, :mobile]
-    DEFAULT_PATTERN = ":prefix/:action{_:mobile,}{.:locale,}{.:formats,}{+:variants,}{.:handlers,}"
+    EXTENSIONS = [:locale, :formats, :handlers, :mobile].freeze
+    DEFAULT_PATTERN = ':prefix/:action{_:mobile,}{.:locale,}{.:formats,}{+:variants,}{.:handlers,}'.freeze
 
-    def initialize(path, pattern=nil)
-      raise ArgumentError, "path already is a Resolver class" if path.is_a?(Resolver)
+    def initialize(path, pattern = nil)
+      raise ArgumentError, 'path already is a Resolver class' if path.is_a?(Resolver)
       super(path, pattern || DEFAULT_PATTERN)
       @path = File.expand_path(path)
     end
@@ -21,7 +21,7 @@ module Jpmobile
         self.class_eval do
           def find_template_paths(query)
             # deals with case-insensitive file systems.
-            sanitizer = Hash.new { |h,dir| h[dir] = Dir["#{dir}/*"] }
+            sanitizer = Hash.new { |h, dir| h[dir] = Dir["#{dir}/*"] }
 
             Dir[query].reject { |filename|
               File.directory?(filename) ||
@@ -37,18 +37,24 @@ module Jpmobile
         handler, format, variant = extract_handler_and_format_and_variant(template, formats)
         contents = File.binread(template)
 
-        if format
-          jpmobile_variant = template.match(/.+#{path}(.+)\.#{format.to_sym.to_s}.*$/) ? $1 : ''
-          virtual_path = jpmobile_variant.blank? ? path.virtual : path.to_str + jpmobile_variant
-        else
-          virtual_path = path.virtual
-        end
+        virtual_path = if format
+                         if template =~ /.+#{path}(.+)\.#{format.to_sym.to_s}.*$/
+                           path.to_str + Regexp.last_match(1)
+                         else
+                           path.virtual
+                         end
+                       else
+                         path.virtual
+                       end
 
-        ActionView::Template.new(contents, File.expand_path(template), handler,
-          :virtual_path => virtual_path,
-          :format       => format,
-          :variant      => variant,
-          :updated_at   => mtime(template)
+        ActionView::Template.new(
+          contents,
+          File.expand_path(template),
+          handler,
+          virtual_path: virtual_path,
+          format: format,
+          variant: variant,
+          updated_at: mtime(template)
         )
       }
     end

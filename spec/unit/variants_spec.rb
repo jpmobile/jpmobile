@@ -4,12 +4,12 @@ require 'mail'
 require 'jpmobile/mail'
 
 describe Jpmobile::Mobile::AbstractMobile do
-  subject{ Jpmobile::Mobile::AbstractMobile.new(nil, nil) }
+  subject { Jpmobile::Mobile::AbstractMobile.new(nil, nil) }
 
   describe '#variants' do
     describe '#variants' do
       subject { super().variants }
-      it { is_expected.to be === ['mobile'] }
+      it { is_expected.to eq(['mobile']) }
     end
   end
 
@@ -22,12 +22,12 @@ describe Jpmobile::Mobile::AbstractMobile do
 end
 
 describe Jpmobile::Mobile::Docomo do
-  subject{ Jpmobile::Mobile::Docomo.new(nil, nil) }
+  subject { Jpmobile::Mobile::Docomo.new(nil, nil) }
 
   describe '#variants' do
     describe '#variants' do
       subject { super().variants }
-      it { is_expected.to eq(['mobile_docomo', 'mobile']) }
+      it { is_expected.to eq(%w(mobile_docomo mobile)) }
     end
   end
 
@@ -39,12 +39,12 @@ describe Jpmobile::Mobile::Docomo do
 end
 
 describe Jpmobile::Mobile::Au do
-  subject{ Jpmobile::Mobile::Au.new(nil, nil) }
+  subject { Jpmobile::Mobile::Au.new(nil, nil) }
 
   describe '#variants' do
     describe '#variants' do
       subject { super().variants }
-      it { is_expected.to eq(['mobile_au', 'mobile']) }
+      it { is_expected.to eq(%w(mobile_au mobile)) }
     end
   end
 
@@ -56,12 +56,12 @@ describe Jpmobile::Mobile::Au do
 end
 
 describe Jpmobile::Mobile::Softbank do
-  subject{ Jpmobile::Mobile::Softbank.new(nil, nil) }
+  subject { Jpmobile::Mobile::Softbank.new(nil, nil) }
 
   describe '#variants' do
     describe '#variants' do
       subject { super().variants }
-      it { is_expected.to eq(['mobile_softbank', 'mobile']) }
+      it { is_expected.to eq(%w(mobile_softbank mobile)) }
     end
   end
 
@@ -73,12 +73,12 @@ describe Jpmobile::Mobile::Softbank do
 end
 
 describe Jpmobile::Mobile::Android do
-  subject{ Jpmobile::Mobile::Android.new(nil, nil) }
+  subject { Jpmobile::Mobile::Android.new(nil, nil) }
 
   describe '#variants' do
     describe '#variants' do
       subject { super().variants }
-      it { is_expected.to eq(['smart_phone_android', 'smart_phone']) }
+      it { is_expected.to eq(%w(smart_phone_android smart_phone)) }
     end
   end
 
@@ -90,12 +90,12 @@ describe Jpmobile::Mobile::Android do
 end
 
 describe Jpmobile::Mobile::AndroidTablet do
-  subject{ Jpmobile::Mobile::AndroidTablet.new(nil, nil) }
+  subject { Jpmobile::Mobile::AndroidTablet.new(nil, nil) }
 
   describe '#variants' do
     describe '#variants' do
       subject { super().variants }
-      it { is_expected.to eq(['tablet_android_tablet', 'tablet', 'smart_phone']) }
+      it { is_expected.to eq(%w(tablet_android_tablet tablet smart_phone)) }
     end
   end
 
@@ -107,12 +107,12 @@ describe Jpmobile::Mobile::AndroidTablet do
 end
 
 describe Jpmobile::Mobile::Iphone do
-  subject{ Jpmobile::Mobile::Iphone.new(nil, nil) }
+  subject { Jpmobile::Mobile::Iphone.new(nil, nil) }
 
   describe '#variants' do
     describe '#variants' do
       subject { super().variants }
-      it { is_expected.to eq(['smart_phone_iphone', 'smart_phone']) }
+      it { is_expected.to eq(%w(smart_phone_iphone smart_phone)) }
     end
   end
 
@@ -124,12 +124,12 @@ describe Jpmobile::Mobile::Iphone do
 end
 
 describe Jpmobile::Mobile::Ipad do
-  subject{ Jpmobile::Mobile::Ipad.new(nil, nil) }
+  subject { Jpmobile::Mobile::Ipad.new(nil, nil) }
 
   describe '#variants' do
     describe '#variants' do
       subject { super().variants }
-      it { is_expected.to eq(['tablet_ipad', 'tablet', 'smart_phone']) }
+      it { is_expected.to eq(%w(tablet_ipad tablet smart_phone)) }
     end
   end
 
@@ -141,12 +141,12 @@ describe Jpmobile::Mobile::Ipad do
 end
 
 describe Jpmobile::Mobile::WindowsPhone do
-  subject{ Jpmobile::Mobile::WindowsPhone.new(nil, nil) }
+  subject { Jpmobile::Mobile::WindowsPhone.new(nil, nil) }
 
   describe '#variants' do
     describe '#variants' do
       subject { super().variants }
-      it { is_expected.to eq(['smart_phone_windows_phone', 'smart_phone']) }
+      it { is_expected.to eq(%w(smart_phone_windows_phone smart_phone)) }
     end
   end
 

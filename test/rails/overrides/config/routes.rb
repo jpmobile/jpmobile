@@ -8,7 +8,7 @@ RailsRoot::Application.routes.draw do
     end
   end
 
-  #get ':controller(/:action(/:id(.:format)))'
+  # get ':controller(/:action(/:id(.:format)))'
 
   get 'trans_sid_metal/redirect', to: 'trans_sid_metal#redirect'
 
@@ -40,7 +40,7 @@ RailsRoot::Application.routes.draw do
     docomo_guid_base
     docomo_guid_always
     docomo_guid_docomo
- ).each do |c|
+  ).each do |c|
     get "#{c}/link", to: "#{c}#link"
   end
 

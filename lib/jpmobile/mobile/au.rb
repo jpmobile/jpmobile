@@ -81,7 +81,7 @@ module Jpmobile::Mobile
           'none'
         end
 
-      if protocol.match?(/\Ahttps/)
+      if protocol.start_with?('https')
         false
       else
         true

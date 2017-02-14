@@ -70,7 +70,7 @@ module Jpmobile
       if apply_trans_sid? && jpmobile_session_id && options != :back && options !~ /^\w[\w+.-]*:.*/
         case options
         when String
-          unless options.match?(/#{session_key}/)
+          unless options =~ /#{session_key}/
             url = URI.parse(options)
             if url.query
               url.query += "&#{session_key}=#{jpmobile_session_id}"

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # UserAgent から生成すべき class 名を判定する
 module Jpmobile
   class MobileCarrier

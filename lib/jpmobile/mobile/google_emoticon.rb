@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 module Jpmobile::Mobile
   module GoogleEmoticon
     # Jpmobile::Filter を適用する

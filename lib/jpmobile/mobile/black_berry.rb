@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # =BlackBerry
 
 module Jpmobile::Mobile

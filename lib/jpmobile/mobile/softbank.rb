@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # =SoftBank携帯電話
 # Vodafoneを含む
 module Jpmobile::Mobile

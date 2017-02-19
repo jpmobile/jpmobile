@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # =EMOBILE携帯電話
 
 module Jpmobile::Mobile

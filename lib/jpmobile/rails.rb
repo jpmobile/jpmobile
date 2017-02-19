@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ActiveSupport.on_load(:action_controller) do
   require 'jpmobile/docomo_guid'
   require 'jpmobile/filter'

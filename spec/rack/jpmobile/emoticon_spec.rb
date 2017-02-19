@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 require File.join(File.expand_path(File.dirname(__FILE__)), '../../rack_helper.rb')
 
 describe '絵文字が' do

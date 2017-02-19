@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # =WindowsPhone
 
 module Jpmobile::Mobile

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # = 半角変換フィルター
 # thanks to masuidrive <masuidrive (at) masuidrive.jp>
 

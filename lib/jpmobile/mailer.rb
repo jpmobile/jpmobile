@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 require 'jpmobile/mail'
 require 'jpmobile/lookup_context'
 

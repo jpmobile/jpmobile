@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 require 'guestbook'
 require 'rack/test'
 require 'test/unit'

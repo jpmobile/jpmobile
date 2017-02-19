@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # リクエストパラメータの変換
 module Jpmobile
   class ParamsFilter

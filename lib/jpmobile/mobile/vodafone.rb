@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Vodafone
 module Jpmobile::Mobile
   # ==Vodafone 3G携帯電話(SoftBank含まず)

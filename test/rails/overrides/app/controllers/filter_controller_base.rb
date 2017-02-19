@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 class FilterControllerBase < ApplicationController
   def abracadabra_utf8
     @text = 'アブラカダブラ'

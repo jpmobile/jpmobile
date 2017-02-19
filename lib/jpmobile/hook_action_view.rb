@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #:stopdoc:
 # helperを追加
 ActionView::Base.class_eval { include Jpmobile::Helpers }

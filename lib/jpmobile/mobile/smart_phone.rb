@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # =スマートフォンの親クラス
 
 module Jpmobile::Mobile

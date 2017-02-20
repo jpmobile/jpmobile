@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # =DDI-POCKET
 module Jpmobile::Mobile
   # ==DDI-POCKET

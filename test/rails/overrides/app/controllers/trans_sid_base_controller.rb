@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 class TransSidBaseController < ApplicationController
   # 事前にセッションを作成しないと trans_sid が有効にならない
   before_action :session_init

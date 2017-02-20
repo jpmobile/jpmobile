@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # =iPhone
 
 module Jpmobile::Mobile

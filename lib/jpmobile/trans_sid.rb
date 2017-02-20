@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # = セッションIDの付与
 require 'active_support/version'
 

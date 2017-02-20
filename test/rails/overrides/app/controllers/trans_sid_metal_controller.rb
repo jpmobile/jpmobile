@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 class TransSidMetalController < ActionController::Metal
   include ActionController::UrlFor
   include ActionController::Redirecting

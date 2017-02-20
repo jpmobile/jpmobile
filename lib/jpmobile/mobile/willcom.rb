@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # =Willcom携帯電話
 module Jpmobile::Mobile
   # ==Willcom携帯電話

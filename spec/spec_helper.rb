@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 unless RSpec.const_defined?(:Rails)
   dir = File.dirname(__FILE__)
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 class DecoratedMailer < Jpmobile::Mailer::Base
   default from: 'info@jp.mobile'
   default to: 'info@jp.mobile'

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # params を UTF-8 にする拡張
 module Jpmobile
   module Encoding

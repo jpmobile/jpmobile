@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 require 'rails_helper'
 
 shared_examples_for 'docomo_guid が起動しないとき' do

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # 出力変換
 require 'scanf'
 

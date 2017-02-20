@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 class NormalMailer < ActionMailer::Base
   default from: 'info@jp.mobile'
 

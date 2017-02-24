@@ -14,27 +14,11 @@ module Jpmobile
     def query(path, details, formats, outside_app_allowed)
       query = build_query(path, details)
 
-      begin
-        template_paths = find_template_paths query
-        template_paths = reject_files_external_to_app(template_paths) unless outside_app_allowed
-      rescue NoMethodError
-        self.class_eval do
-          def find_template_paths(query)
-            # deals with case-insensitive file systems.
-            sanitizer = Hash.new { |h, dir| h[dir] = Dir["#{dir}/*"] }
+      template_paths = find_template_paths(query)
+      template_paths = reject_files_external_to_app(template_paths) unless outside_app_allowed
 
-            Dir[query].reject { |filename|
-              File.directory?(filename) ||
-                !sanitizer[File.dirname(filename)].include?(filename)
-            }
-          end
-        end
-
-        retry
-      end
-
-      template_paths.map { |template|
-        handler, format, variant = extract_handler_and_format_and_variant(template, formats)
+      template_paths.map do |template|
+        handler, format, variant = extract_handler_and_format_and_variant(template)
         contents = File.binread(template)
 
         virtual_path = if format
@@ -56,7 +40,7 @@ module Jpmobile
           variant: variant,
           updated_at: mtime(template)
         )
-      }
+      end
     end
   end
 end

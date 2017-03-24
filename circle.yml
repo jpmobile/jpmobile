@@ -4,6 +4,10 @@ machine:
   ruby:
     version: 2.4.0
 
+database:
+  override:
+    - echo "Skip create database."
+
 test:
   override:
     - bundle exec rubocop

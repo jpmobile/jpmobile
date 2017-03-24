@@ -229,7 +229,7 @@ module Jpmobile
           if sjis
             email_jis = SJIS_TO_EMAIL_JIS[sjis]
             if email_jis
-              Jpmobile::Util.ascii_8bit("\x1b\x24\x42#{[email_jis].pack('n')}\x1b\x28\x42")
+              Jpmobile::Util.ascii_8bit("\x1b\x24\x42#{[email_jis].pack("n")}\x1b\x28\x42")
             else
               Jpmobile::Util.ascii_8bit([sjis].pack('n'))
             end

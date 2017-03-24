@@ -2,8 +2,6 @@ doc
 tmp
 pkg
 .bundle
-Gemfile
-Gemfile.lock
 vendor
 *.gem
 *.rbc
@@ -17,5 +15,4 @@ rdoc
 spec/reports
 test/tmp
 test/version_tmp
-.ruby-version
 .envrc

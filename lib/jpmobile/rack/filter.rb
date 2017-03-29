@@ -18,10 +18,12 @@ module Jpmobile
           type, charset = env['Content-Type'].split(/;\s*charset=/)
 
           body = response_to_body(response)
-          body = body.gsub(/<input name="utf8" type="hidden" value="#{[0x2713].pack("U")}"[^>]*?>/, ' ')
-          body = body.gsub(/<input name="utf8" type="hidden" value="&#x2713;"[^>]*?>/, ' ')
-
-          response, charset = mobile.to_external(body, type, charset)
+          if body.to_str.encoding == ::Encoding::UTF_8
+          # or unless body.to_str.encoding == ::Encoding::BINARY
+            body = body.gsub(/<input name="utf8" type="hidden" value="#{[0x2713].pack("U")}"[^>]*?>/, ' ')
+            body = body.gsub(/<input name="utf8" type="hidden" value="&#x2713;"[^>]*?>/, ' ')
+            response, charset = mobile.to_external(body, type, charset)
+          end
 
           if type && charset
             env['Content-Type'] = "#{type}; charset=#{charset}"

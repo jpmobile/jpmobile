@@ -4,22 +4,22 @@ require 'nkf'
 module Jpmobile
   # 絵文字関連処理
   module Emoticon
-    %w(DOCOMO_SJIS_TO_UNICODE DOCOMO_UNICODE_TO_SJIS).each do |const|
+    %w[DOCOMO_SJIS_TO_UNICODE DOCOMO_UNICODE_TO_SJIS].each do |const|
       autoload const, 'jpmobile/emoticon/docomo'
     end
-    %w(AU_SJIS_TO_UNICODE AU_UNICODE_TO_EMAILJIS AU_SJIS_TO_EMAIL_JIS AU_EMAILJIS_TO_UNICODE).each do |const|
+    %w[AU_SJIS_TO_UNICODE AU_UNICODE_TO_EMAILJIS AU_SJIS_TO_EMAIL_JIS AU_EMAILJIS_TO_UNICODE].each do |const|
       autoload const, 'jpmobile/emoticon/au'
     end
-    %w(
+    %w[
       SOFTBANK_UNICODE_TO_WEBCODE SOFTBANK_WEBCODE_TO_UNICODE
       SOFTBANK_UNICODE_TO_SJIS SOFTBANK_SJIS_TO_UNICODE
-    ).each do |const|
+    ].each do |const|
       autoload const, 'jpmobile/emoticon/softbank'
     end
-    %w(CONVERSION_TABLE_TO_DOCOMO CONVERSION_TABLE_TO_AU CONVERSION_TABLE_TO_SOFTBANK).each do |const|
+    %w[CONVERSION_TABLE_TO_DOCOMO CONVERSION_TABLE_TO_AU CONVERSION_TABLE_TO_SOFTBANK].each do |const|
       autoload const, 'jpmobile/emoticon/conversion_table'
     end
-    %w(
+    %w[
       SJIS_TO_UNICODE UNICODE_TO_SJIS
       SJIS_REGEXP SOFTBANK_WEBCODE_REGEXP DOCOMO_SJIS_REGEXP AU_SJIS_REGEXP SOFTBANK_UNICODE_REGEXP
       EMOTICON_UNICODES UTF8_REGEXP
@@ -28,13 +28,13 @@ module Jpmobile
       GOOGLE_EMOTICONS GOOGLE_EMOTICON_REGEXP GOOGLE_EMOTICON_TO_CARRIER_EMOTICON
       CONVERSION_TABLE_TO_UNICODE_EMOTICON CONVERSION_TABLE_TO_GOOGLE_EMOTICON
       GETA_CODE GETA
-    ).each do |const|
+    ].each do |const|
       autoload const, 'jpmobile/emoticon/z_combine'
     end
-    %w(GOOGLE_TO_DOCOMO_UNICODE GOOGLE_TO_AU_UNICODE GOOGLE_TO_SOFTBANK_UNICODE).each do |const|
+    %w[GOOGLE_TO_DOCOMO_UNICODE GOOGLE_TO_AU_UNICODE GOOGLE_TO_SOFTBANK_UNICODE].each do |const|
       autoload const, 'jpmobile/emoticon/google'
     end
-    %w(UNICODE_TO_DOCOMO_UNICODE UNICODE_TO_AU_UNICODE UNICODE_TO_SOFTBANK_UNICODE).each do |const|
+    %w[UNICODE_TO_DOCOMO_UNICODE UNICODE_TO_AU_UNICODE UNICODE_TO_SOFTBANK_UNICODE].each do |const|
       autoload const, 'jpmobile/emoticon/unicode'
     end
 

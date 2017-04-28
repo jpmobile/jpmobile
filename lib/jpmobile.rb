@@ -40,7 +40,7 @@ module Jpmobile
     autoload :UnicodeEmoticon, 'jpmobile/mobile/unicode_emoticon'
     autoload :GoogleEmoticon, 'jpmobile/mobile/google_emoticon'
 
-    DEFAULT_CARRIERS = %w(Docomo Au Softbank Vodafone Emobile Willcom Ddipocket Ipad AndroidTablet Iphone Android WindowsPhone BlackBerry).freeze
+    DEFAULT_CARRIERS = %w[Docomo Au Softbank Vodafone Emobile Willcom Ddipocket Ipad AndroidTablet Iphone Android WindowsPhone BlackBerry].freeze
 
     def self.carriers
       @carriers ||= DEFAULT_CARRIERS.dup

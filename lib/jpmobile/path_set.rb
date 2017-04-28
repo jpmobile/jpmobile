@@ -1,6 +1,6 @@
 module Jpmobile
   class PathSet < Array
-    %w(initialize << concat insert push unshift).each do |method|
+    %w[initialize << concat insert push unshift].each do |method|
       class_eval <<-METHOD, __FILE__, __LINE__ + 1
         def #{method}(*args)
           super

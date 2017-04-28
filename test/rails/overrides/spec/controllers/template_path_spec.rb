@@ -13,7 +13,7 @@ describe TemplatePathController, type: :controller do
     it 'テンプレートの探索順が正しいこと' do
       get :index
 
-      expect(controller.lookup_context.mobile).to eq(%w(mobile_docomo mobile))
+      expect(controller.lookup_context.mobile).to eq(%w[mobile_docomo mobile])
     end
   end
 
@@ -24,7 +24,7 @@ describe TemplatePathController, type: :controller do
     it 'テンプレートの探索順が正しいこと' do
       get :index
 
-      expect(controller.lookup_context.mobile).to eq(%w(mobile_au mobile))
+      expect(controller.lookup_context.mobile).to eq(%w[mobile_au mobile])
     end
   end
 
@@ -35,7 +35,7 @@ describe TemplatePathController, type: :controller do
     it 'テンプレートの探索順が正しいこと' do
       get :index
 
-      expect(controller.lookup_context.mobile).to eq(%w(mobile_vodafone mobile_softbank mobile))
+      expect(controller.lookup_context.mobile).to eq(%w[mobile_vodafone mobile_softbank mobile])
     end
   end
 
@@ -46,7 +46,7 @@ describe TemplatePathController, type: :controller do
     it 'テンプレートの探索順が正しいこと' do
       get :index
 
-      expect(controller.lookup_context.mobile).to eq(%w(mobile_softbank mobile))
+      expect(controller.lookup_context.mobile).to eq(%w[mobile_softbank mobile])
     end
   end
 
@@ -57,7 +57,7 @@ describe TemplatePathController, type: :controller do
     it 'テンプレートの探索順が正しいこと' do
       get :index
 
-      expect(controller.lookup_context.mobile).to eq(%w(smart_phone_iphone smart_phone))
+      expect(controller.lookup_context.mobile).to eq(%w[smart_phone_iphone smart_phone])
     end
   end
 
@@ -68,7 +68,7 @@ describe TemplatePathController, type: :controller do
     it 'テンプレートの探索順が正しいこと' do
       get :index
 
-      expect(controller.lookup_context.mobile).to eq(%w(smart_phone_android smart_phone))
+      expect(controller.lookup_context.mobile).to eq(%w[smart_phone_android smart_phone])
     end
   end
 
@@ -79,7 +79,7 @@ describe TemplatePathController, type: :controller do
     it 'テンプレートの探索順が正しいこと' do
       get :index
 
-      expect(controller.lookup_context.mobile).to eq(%w(smart_phone_windows_phone smart_phone))
+      expect(controller.lookup_context.mobile).to eq(%w[smart_phone_windows_phone smart_phone])
     end
   end
 end

@@ -34,7 +34,7 @@ namespace :test do
       # generate rails app
       FileUtils.rm_rf(rails_root)
       FileUtils.mkdir_p(rails_root)
-      `rails _5.1.0.beta1_ new #{rails_root} --skip-bundle`
+      `rails _5.1.0_ new #{rails_root} --skip-bundle`
     end
 
     # setup jpmobile
@@ -86,9 +86,9 @@ namespace :test do
       # for cookie_only option
       config_path = File.join(rails_root, 'config', 'initializers', 'session_store.rb')
       File.open(config_path, 'w') do |file|
-        file.write <<-END
-Rails.application.config.session_store :active_record_store, :key => '_session_id'
-Rails.application.config.session_options = {:cookie_only => false}
+        file.write <<~END
+          Rails.application.config.session_store :active_record_store, :key => '_session_id'
+          Rails.application.config.session_options = {:cookie_only => false}
 END
       end
     end
@@ -97,8 +97,8 @@ END
       # add gems for jpmobile spec
       config_path = File.join(rails_root, 'Gemfile')
       File.open(config_path, 'a+') do |file|
-        file.write <<-END
-instance_eval File.read(File.expand_path(__FILE__) + '.jpmobile')
+        file.write <<~END
+          instance_eval File.read(File.expand_path(__FILE__) + '.jpmobile')
 END
       end
     end

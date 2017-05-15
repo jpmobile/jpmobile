@@ -141,7 +141,7 @@ module Jpmobile::Mobile
         cache_size = Regexp.last_match(2).to_i
 
         ver = if cache_size >= 500
-                (%w(P03B P05B L01B).member?(model) ? '2.0LE' : '2.0')
+                (%w[P03B P05B L01B].member?(model) ? '2.0LE' : '2.0')
               else
                 '1.0'
               end

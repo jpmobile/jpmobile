@@ -12,15 +12,15 @@ RailsRoot::Application.routes.draw do
 
   get 'trans_sid_metal/redirect', to: 'trans_sid_metal#redirect'
 
-  %w(
+  %w[
     trans_sid_base
     trans_sid_always_and_session_off
     trans_sid_always
     trans_sid_metal
     trans_sid_mobile
     trans_sid_none
-  ).each do |c|
-    %w(
+  ].each do |c|
+    %w[
       form
       link
       redirect
@@ -31,20 +31,20 @@ RailsRoot::Application.routes.draw do
       redirect_path
       redirect_path_admin
       redirect_action
-    ).each do |a|
+    ].each do |a|
       get "#{c}/#{a}", to: "#{c}##{a}"
     end
   end
 
-  %w(
+  %w[
     docomo_guid_base
     docomo_guid_always
     docomo_guid_docomo
-  ).each do |c|
+  ].each do |c|
     get "#{c}/link", to: "#{c}#link"
   end
 
-  %w(
+  %w[
     show_all
     link
     docomo_utn
@@ -54,19 +54,19 @@ RailsRoot::Application.routes.draw do
     au_gps
     softbank_location
     willcom_location
-  ).each do |a|
+  ].each do |a|
     get "links/#{a}", to: "links##{a}"
   end
 
-  %w(
+  %w[
     index
     file_render
     no_mobile
-  ).each do |a|
+  ].each do |a|
     get "mobile_spec/#{a}", to: "mobile_spec##{a}"
   end
 
-  %w(
+  %w[
     index
     show
     optioned_index
@@ -75,16 +75,16 @@ RailsRoot::Application.routes.draw do
     with_tblt
     with_ipd
     partial
-  ).each do |a|
+  ].each do |a|
     get "template_path/#{a}", to: "template_path##{a}"
   end
 
-  %w(
+  %w[
     filter
     hankaku_filter
     hankaku_input_filter
-  ).each do |c|
-    %w(
+  ].each do |c|
+    %w[
       abracadabra_utf8
       abracadabra_xhtml_utf8
       index
@@ -97,7 +97,7 @@ RailsRoot::Application.routes.draw do
       nbsp_char
       index_xhtml
       with_charset
-    ).each do |a|
+    ].each do |a|
       get "#{c}/#{a}", to: "#{c}##{a}"
     end
   end

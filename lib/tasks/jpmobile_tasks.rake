@@ -34,7 +34,7 @@ namespace :test do
       # generate rails app
       FileUtils.rm_rf(rails_root)
       FileUtils.mkdir_p(rails_root)
-      `rails _5.1.0_ new #{rails_root} --skip-bundle`
+      `rails new #{rails_root} --skip-bundle`
     end
 
     # setup jpmobile

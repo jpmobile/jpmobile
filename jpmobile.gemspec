@@ -10,6 +10,7 @@ Gem::Specification.new do |gem|
   gem.description   = 'A Rails plugin for mobile devices in Japan'
   gem.summary       = 'Rails plugin for mobile devices in Japan'
   gem.homepage      = 'http://jpmobile-rails.org'
+  gem.license       = 'MIT'
 
   gem.files         = `git ls-files`.split($INPUT_RECORD_SEPARATOR)
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})

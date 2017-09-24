@@ -64,6 +64,7 @@ module Jpmobile
 
   autoload :FallbackViewSelector, 'jpmobile/fallback_view_selector'
 
+  autoload :ParamsOverCookie,    'jpmobile/trans_sid'
   autoload :TransSidRedirecting, 'jpmobile/trans_sid'
   autoload :TransSid,            'jpmobile/trans_sid'
 

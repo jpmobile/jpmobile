@@ -312,7 +312,7 @@ module Mail
           _raw_source = if transfer_encoding == encoding
                           @raw_source.dup
                         else
-                          get_best_encoding(transfer_encoding).encode(@raw_source)
+                          negotiate_best_encoding(transfer_encoding).encode(@raw_source)
                         end
           Jpmobile::Util.set_encoding(_raw_source, @mobile.mail_charset(@charset))
         when /quoted-printable/
@@ -331,7 +331,7 @@ module Mail
 
     # fix charset
     def set_charset_with_jpmobile
-      @charset ||= only_us_ascii? ? 'US-ASCII' : nil
+      @charset ||= ascii_only? ? 'US-ASCII' : nil
     end
 
     def mobile=(m)
@@ -509,6 +509,15 @@ module Mail
     def encoded_with_jpmobile
       if @mobile
         self.charset = @mobile.mail_charset
+
+        _value = address_list.addresses.map { |_a|
+          if Utilities.blank?(_a.display_name)
+            _a.to_s
+          else
+            "#{@mobile.to_mail_subject(_a.display_name)} <#{_a.address}>"
+          end
+        }.join(", ")
+        @address_list = AddressList.new(_value)
       end
 
       encoded_without_jpmobile
@@ -539,6 +548,15 @@ module Mail
     def encoded_with_jpmobile
       if @mobile
         self.charset = @mobile.mail_charset
+
+        _value = address_list.addresses.map { |_a|
+          if Utilities.blank?(_a.display_name)
+            _a.to_s
+          else
+            "#{@mobile.to_mail_subject(_a.display_name)} <#{_a.address}>"
+          end
+        }.join(", ")
+        @address_list = AddressList.new(_value)
       end
 
       encoded_without_jpmobile

@@ -17,7 +17,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ['lib']
 
   gem.add_dependency 'mail', '~> 2.6.6'
-  gem.add_development_dependency 'rails', '5.2.0.beta1'
+  gem.add_development_dependency 'rails', '~> 5.2.0.beta1'
   gem.add_development_dependency 'rspec'
   gem.add_development_dependency 'rspec-rails'
   gem.add_development_dependency 'rspec-its'

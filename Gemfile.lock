@@ -194,7 +194,7 @@ DEPENDENCIES
   jpmobile!
   onkcop (= 0.48.1.1)
   pry
-  rails (= 5.2.0.beta1)
+  rails (~> 5.2.0.beta1)
   rspec
   rspec-its
   rspec-rails

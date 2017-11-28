@@ -207,7 +207,7 @@ describe 'Jpmobile::Mail#receive' do
     end
 
     it 'body should be parsed correctly' do
-      expect(@mail.body.to_s).to eq("本文&#xe6e2;\nFor docomo\n\n")
+      expect(@mail.body.to_s).to eq("本文&#xe6e2;\r\nFor docomo\r\n\r\n")
     end
 
     context 'to_s' do
@@ -352,7 +352,7 @@ describe 'Jpmobile::Mail#receive' do
     end
 
     it 'body should be parsed correctly' do
-      expect(@mail.body.to_s).to eq("本文&#xf21c;\nFor softbank\n\n")
+      expect(@mail.body.to_s).to eq("本文&#xf21c;\r\nFor softbank\r\n\r\n")
     end
 
     context 'to_s' do

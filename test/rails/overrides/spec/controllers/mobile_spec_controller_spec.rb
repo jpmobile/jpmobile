@@ -9,7 +9,7 @@ describe MobileSpecController, type: :controller do
         request.user_agent = 'Mozilla'
         get 'index'
 
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response.body).to match(/RailsRoot PC/)
         expect(request.mobile?).to be_falsey
       end
@@ -19,7 +19,7 @@ describe MobileSpecController, type: :controller do
       it 'should be successful' do
         request.user_agent = 'DoCoMo/2.0 SH902i(c100;TB;W24H12)'
         get 'index'
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response.body).to match(/RailsRoot mobile/)
         expect(request.mobile?).to be_truthy
         expect(request.mobile).to be_a(Jpmobile::Mobile::Docomo)
@@ -33,7 +33,7 @@ describe MobileSpecController, type: :controller do
         request.user_agent = 'Mozilla'
         get 'file_render'
 
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response.body).to match('The change you wanted was rejected')
         expect(request.mobile?).to be_falsey
       end
@@ -44,7 +44,7 @@ describe MobileSpecController, type: :controller do
         request.user_agent = 'DoCoMo/2.0 SH902i(c100;TB;W24H12)'
         get 'file_render'
 
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response.body).to match('The change you wanted was rejected')
         expect(request.mobile?).to be_truthy
         expect(request.mobile).to be_a(Jpmobile::Mobile::Docomo)
@@ -67,7 +67,7 @@ describe MobileSpecController, type: :controller do
         request.user_agent = 'Mozilla'
         get 'no_mobile'
 
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response.body).not_to match('RailsRoot PC mobile')
       end
     end
@@ -77,7 +77,7 @@ describe MobileSpecController, type: :controller do
         request.user_agent = 'DoCoMo/2.0 SH902i(c100;TB;W24H12)'
         get 'no_mobile'
 
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response.body).not_to match('RailsRoot mobile')
       end
     end

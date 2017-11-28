@@ -54,7 +54,8 @@ module Mail
     end
 
     def parse_message_with_jpmobile
-      header_part, body_part = raw_source.lstrip.split(/#{CRLF}#{CRLF}|#{CRLF}#{WSP}*#{CRLF}(?!#{WSP})/m, 2)
+      _crlf_raw_source = raw_source.encode(raw_source.encoding, universal_newline: true).encode!(raw_source.encoding, crlf_newline: true)
+      header_part, body_part = _crlf_raw_source.lstrip.split(/#{CRLF}#{CRLF}|#{CRLF}#{WSP}*#{CRLF}(?!#{WSP})/m, 2)
       # header_part, body_part = raw_source.lstrip.split(HEADER_SEPARATOR, 2)
 
       self.header = header_part
@@ -81,6 +82,9 @@ module Mail
     def init_with_string(string)
       # convert to ASCII-8BIT for ascii incompatible encodings
       s = Jpmobile::Util.ascii_8bit(string)
+      unless s.ascii_only?
+        s = s.kind_of?(String) ? s.to_str.encode(s.encoding, :universal_newline => true).encode!(s.encoding, :crlf_newline => true) : ''
+      end
       self.raw_source = s
       set_envelope_header
       parse_message
@@ -511,7 +515,7 @@ module Mail
         self.charset = @mobile.mail_charset
 
         _value = address_list.addresses.map { |_a|
-          if Utilities.blank?(_a.display_name)
+          if Utilities.blank?(_a.display_name) || _a.display_name.ascii_only?
             _a.to_s
           else
             "#{@mobile.to_mail_subject(_a.display_name)} <#{_a.address}>"
@@ -550,7 +554,7 @@ module Mail
         self.charset = @mobile.mail_charset
 
         _value = address_list.addresses.map { |_a|
-          if Utilities.blank?(_a.display_name)
+          if Utilities.blank?(_a.display_name) || _a.display_name.ascii_only?
             _a.to_s
           else
             "#{@mobile.to_mail_subject(_a.display_name)} <#{_a.address}>"

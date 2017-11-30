@@ -1,4 +1,4 @@
-require File.join(File.expand_path(File.dirname(__FILE__)), '../../rack_helper.rb')
+require File.join(__dir__, '../../rack_helper.rb')
 
 describe '絵文字が' do
   include Rack::Test::Methods
@@ -18,8 +18,8 @@ describe '絵文字が' do
     @softbank_cr        = '&#xF04A;'
     @softbank_utf8      = [0xf04a].pack('U')
 
-    @emoticon_yaml   = File.join(File.expand_path(File.dirname(__FILE__)), '../../../tmp/emoticon.yml')
-    @emoticon_images = File.join(File.expand_path(File.dirname(__FILE__)), '../../../tmp/emoticons')
+    @emoticon_yaml   = File.join(__dir__, '../../../tmp/emoticon.yml')
+    @emoticon_images = File.join(__dir__, '../../../tmp/emoticons')
   end
 
   context 'PC のとき' do
@@ -51,8 +51,8 @@ describe '絵文字が' do
 
   context 'PC で絵文字を変換するとき' do
     before(:each) do
-      unless FileTest.exist?(File.join(File.expand_path(File.dirname(__FILE__)), '../../../tmp/emoticon.yaml')) &&
-             FileTest.directory?(File.join(File.expand_path(File.dirname(__FILE__)), '../../../tmp/emoticons'))
+      unless FileTest.exist?(File.join(__dir__, '../../../tmp/emoticon.yaml')) &&
+             FileTest.directory?(File.join(__dir__, '../../../tmp/emoticons'))
         skip "emoticon.yaml and emoticons directory don't exists"
       end
 

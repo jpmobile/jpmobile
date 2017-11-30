@@ -7,7 +7,7 @@ describe Jpmobile::MobileCarrier, 'Windows Phone' do
     it 'WindowsPhone を判別できること' do
       res = Rack::MockRequest.env_for(
         'http://jpmobile-rails.org/',
-        'HTTP_USER_AGENT' => 'Mozilla/4.0 (Compatible; MSIE 6.0; Windows NT 5.1 T-01A_6.5; Windows Phone 6.5)'
+        'HTTP_USER_AGENT' => 'Mozilla/4.0 (Compatible; MSIE 6.0; Windows NT 5.1 T-01A_6.5; Windows Phone 6.5)',
       )
       env = Jpmobile::MobileCarrier.new(UnitApplication.new).call(res)[1]
 

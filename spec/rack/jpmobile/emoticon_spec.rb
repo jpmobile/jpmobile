@@ -113,7 +113,7 @@ describe '絵文字が' do
       @res = Rack::MockRequest.env_for(
         '/',
         'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH902i(c100;TB;W24H12)',
-        'Content-Type' => 'text/html; charset=utf-8'
+        'Content-Type' => 'text/html; charset=utf-8',
       )
     end
 
@@ -148,7 +148,7 @@ describe '絵文字が' do
         "/?#{query_string}",
         'REQUEST_METHOD' => 'GET',
         'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)',
-        'Content-Type' => 'text/html; charset=utf-8'
+        'Content-Type' => 'text/html; charset=utf-8',
       )
       res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(Jpmobile::Filter.new(RenderParamApp.new))).call(res)
       req = Rack::Request.new(res[1])
@@ -162,7 +162,7 @@ describe '絵文字が' do
       @res = Rack::MockRequest.env_for(
         '/',
         'HTTP_USER_AGENT' => 'KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0',
-        'Content-Type' => 'text/html; charset=utf-8'
+        'Content-Type' => 'text/html; charset=utf-8',
       )
     end
 
@@ -197,7 +197,7 @@ describe '絵文字が' do
         "/?#{query_string}",
         'REQUEST_METHOD' => 'GET',
         'HTTP_USER_AGENT' => 'KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0',
-        'Content-Type' => 'text/html; charset=utf-8'
+        'Content-Type' => 'text/html; charset=utf-8',
       )
       res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(Jpmobile::Filter.new(RenderParamApp.new))).call(res)
       req = Rack::Request.new(res[1])
@@ -211,7 +211,7 @@ describe '絵文字が' do
       @res = Rack::MockRequest.env_for(
         '/',
         'HTTP_USER_AGENT' => 'SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1',
-        'Content-Type' => 'text/html; charset=utf-8'
+        'Content-Type' => 'text/html; charset=utf-8',
       )
     end
 
@@ -246,7 +246,7 @@ describe '絵文字が' do
         "/?#{query_string}",
         'REQUEST_METHOD' => 'GET',
         'HTTP_USER_AGENT' => 'SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1',
-        'Content-Type' => 'text/html; charset=utf-8'
+        'Content-Type' => 'text/html; charset=utf-8',
       )
       res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(Jpmobile::Filter.new(RenderParamApp.new))).call(res)
       req = Rack::Request.new(res[1])
@@ -260,7 +260,7 @@ describe '絵文字が' do
       @res = Rack::MockRequest.env_for(
         '/',
         'HTTP_USER_AGENT' => 'Vodafone/1.0/V705SH/SHJ001/SN000000000000000 Browser/VF-NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1',
-        'Content-Type' => 'text/html; charset=utf-8'
+        'Content-Type' => 'text/html; charset=utf-8',
       )
     end
 
@@ -278,7 +278,7 @@ describe '絵文字が' do
         "/?#{query_string}",
         'REQUEST_METHOD' => 'GET',
         'HTTP_USER_AGENT' => 'Vodafone/1.0/V705SH/SHJ001/SN000000000000000 Browser/VF-NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1',
-        'Content-Type' => 'text/html; charset=utf-8'
+        'Content-Type' => 'text/html; charset=utf-8',
       )
       res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(Jpmobile::Filter.new(RenderParamApp.new))).call(res)
       req = Rack::Request.new(res[1])
@@ -293,7 +293,7 @@ describe '絵文字が' do
         @res = Rack::MockRequest.env_for(
           '/',
           'HTTP_USER_AGENT' => 'Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_0_1 like Mac OS X; ja-jp) AppleWebKit/532.9 (KHTML, like Gecko) Version/4.0.5 Mobile/8A306 Safari/6531.22.7',
-          'Content-Type' => 'text/html; charset=utf-8'
+          'Content-Type' => 'text/html; charset=utf-8',
         )
       end
 
@@ -311,7 +311,7 @@ describe '絵文字が' do
           "/?#{query_string}",
           'REQUEST_METHOD' => 'GET',
           'HTTP_USER_AGENT' => 'Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_0_1 like Mac OS X; ja-jp) AppleWebKit/532.9 (KHTML, like Gecko) Version/4.0.5 Mobile/8A306 Safari/6531.22.7',
-          'Content-Type' => 'text/html; charset=utf-8'
+          'Content-Type' => 'text/html; charset=utf-8',
         )
         res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(Jpmobile::Filter.new(RenderParamApp.new))).call(res)
         req = Rack::Request.new(res[1])
@@ -330,7 +330,7 @@ describe '絵文字が' do
         @res = Rack::MockRequest.env_for(
           '/',
           'HTTP_USER_AGENT' => 'Mozilla/5.0 (iPhone; U; CPU iPhone OS 5_0 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Mobile/9A334 Safari/7534.48.3',
-          'Content-Type' => 'text/html; charset=utf-8'
+          'Content-Type' => 'text/html; charset=utf-8',
         )
         @unicode_single = "\342\230\200"
         @unicode_multi  = "\342\233\205"
@@ -350,7 +350,7 @@ describe '絵文字が' do
           "/?#{query_string}",
           'REQUEST_METHOD' => 'GET',
           'HTTP_USER_AGENT' => 'Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_0_1 like Mac OS X; ja-jp) AppleWebKit/532.9 (KHTML, like Gecko) Version/4.0.5 Mobile/8A306 Safari/6531.22.7',
-          'Content-Type' => 'text/html; charset=utf-8'
+          'Content-Type' => 'text/html; charset=utf-8',
         )
         res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(Jpmobile::Filter.new(RenderParamApp.new))).call(res)
         req = Rack::Request.new(res[1])
@@ -376,7 +376,7 @@ describe '絵文字が' do
         @res = Rack::MockRequest.env_for(
           '/',
           'HTTP_USER_AGENT' => 'Mozilla/5.0 (Linux; U; Android 1.6; ja-jp; SonyEriccsonSO-01B Build/R1EA018) AppleWebKit/528.5+ (KHTML, like Gecko) Version/3.1.2 Mobile Safari/525.20.1',
-          'Content-Type' => 'text/html; charset=utf-8'
+          'Content-Type' => 'text/html; charset=utf-8',
         )
       end
 
@@ -394,7 +394,7 @@ describe '絵文字が' do
           "/?#{query_string}",
           'REQUEST_METHOD' => 'GET',
           'HTTP_USER_AGENT' => 'Mozilla/5.0 (Linux; U; Android 1.6; ja-jp; SonyEriccsonSO-01B Build/R1EA018) AppleWebKit/528.5+ (KHTML, like Gecko) Version/3.1.2 Mobile Safari/525.20.1',
-          'Content-Type' => 'text/html; charset=utf-8'
+          'Content-Type' => 'text/html; charset=utf-8',
         )
         res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(Jpmobile::Filter.new(RenderParamApp.new))).call(res)
         req = Rack::Request.new(res[1])
@@ -413,7 +413,7 @@ describe '絵文字が' do
         @res = Rack::MockRequest.env_for(
           '/',
           'HTTP_USER_AGENT' => 'Mozilla/5.0 (Linux; U; Android 2.2; ja-jp; SC-01C Build/FROYO) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1',
-          'Content-Type' => 'text/html; charset=utf-8'
+          'Content-Type' => 'text/html; charset=utf-8',
         )
       end
 
@@ -431,7 +431,7 @@ describe '絵文字が' do
           "/?#{query_string}",
           'REQUEST_METHOD' => 'GET',
           'HTTP_USER_AGENT' => 'Mozilla/5.0 (Linux; U; Android 2.2; ja-jp; SC-01C Build/FROYO) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1',
-          'Content-Type' => 'text/html; charset=utf-8'
+          'Content-Type' => 'text/html; charset=utf-8',
         )
         res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(Jpmobile::Filter.new(RenderParamApp.new))).call(res)
         req = Rack::Request.new(res[1])
@@ -451,7 +451,7 @@ describe '絵文字が' do
           "/?#{query_string}",
           'REQUEST_METHOD' => 'GET',
           'HTTP_USER_AGENT' => 'Mozilla/5.0 (Linux; U; Android 2.2; ja-jp; SC-01C Build/FROYO) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1',
-          'Content-Type' => 'text/html; charset=utf-8'
+          'Content-Type' => 'text/html; charset=utf-8',
         )
         res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(Jpmobile::Filter.new(RenderParamApp.new))).call(res)
         req = Rack::Request.new(res[1])

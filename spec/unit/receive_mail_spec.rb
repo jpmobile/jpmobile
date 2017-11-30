@@ -458,7 +458,7 @@ describe 'Jpmobile::Mail#receive' do
 
     context 'no From header' do
       before(:each) do
-        @mail = Mail.new(open(File.join(__dir__ , '../../test/rails/overrides/spec/fixtures/mobile_mailer/no-from.eml')).read)
+        @mail = Mail.new(open(File.join(__dir__, '../../test/rails/overrides/spec/fixtures/mobile_mailer/no-from.eml')).read)
       end
 
       it 'mobile should be nil' do

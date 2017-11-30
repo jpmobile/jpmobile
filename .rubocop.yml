@@ -121,3 +121,7 @@ Lint/HandleExceptions:
     - 'lib/jpmobile/emoticon.rb'
     - 'lib/jpmobile/fallback_view_selector.rb'
     - 'lib/jpmobile/position.rb'
+
+Lint/Void:
+  Exclude:
+    - 'lib/jpmobile/filter.rb'

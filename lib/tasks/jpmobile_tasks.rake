@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # desc "Explaining what the task does"
 # task :jpmobile do
 #   # Task goes here
@@ -86,10 +85,10 @@ namespace :test do
       # for cookie_only option
       config_path = File.join(rails_root, 'config', 'initializers', 'session_store.rb')
       File.open(config_path, 'w') do |file|
-        file.write <<~END
-          Rails.application.config.session_store :active_record_store, :key => '_session_id'
-          Rails.application.config.session_options = {:cookie_only => false}
-END
+        file.write <<-SESSION_CONFIG
+        Rails.application.config.session_store :active_record_store, :key => '_session_id'
+        Rails.application.config.session_options = { :cookie_only => false }
+        SESSION_CONFIG
       end
     end
 
@@ -97,9 +96,9 @@ END
       # add gems for jpmobile spec
       config_path = File.join(rails_root, 'Gemfile')
       File.open(config_path, 'a+') do |file|
-        file.write <<~END
-          instance_eval File.read(File.expand_path(__FILE__) + '.jpmobile')
-END
+        file.write <<-GEMFILE
+        instance_eval File.read(File.expand_path(__FILE__) + '.jpmobile')
+        GEMFILE
       end
     end
 

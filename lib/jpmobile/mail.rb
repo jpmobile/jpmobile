@@ -83,7 +83,7 @@ module Mail
       # convert to ASCII-8BIT for ascii incompatible encodings
       s = Jpmobile::Util.ascii_8bit(string)
       unless s.ascii_only?
-        s = s.kind_of?(String) ? s.to_str.encode(s.encoding, :universal_newline => true).encode!(s.encoding, :crlf_newline => true) : ''
+        s = s.is_a?(String) ? s.to_str.encode(s.encoding, universal_newline: true).encode!(s.encoding, crlf_newline: true) : ''
       end
       self.raw_source = s
       set_envelope_header
@@ -302,7 +302,8 @@ module Mail
   end
 
   class Body
-    attr_accessor :mobile, :content_type_with_jpmobile
+    attr_reader :mobile
+    attr_accessor :content_type_with_jpmobile
 
     def raw_source_with_jpmobile
       ::Mail::Utilities.to_crlf(raw_source_without_jpmobile)
@@ -520,7 +521,7 @@ module Mail
           else
             "#{@mobile.to_mail_subject(_a.display_name)} <#{_a.address}>"
           end
-        }.join(", ")
+        }.join(', ')
         @address_list = AddressList.new(_value)
       end
 
@@ -559,7 +560,7 @@ module Mail
           else
             "#{@mobile.to_mail_subject(_a.display_name)} <#{_a.address}>"
           end
-        }.join(", ")
+        }.join(', ')
         @address_list = AddressList.new(_value)
       end
 

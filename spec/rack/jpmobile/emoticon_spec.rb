@@ -142,7 +142,7 @@ describe '絵文字が' do
     end
 
     it 'パラメータが変換されること' do
-      query_string = ascii_8bit('q=' + URI.encode(sjis("\xf8\x9f")))
+      query_string = ascii_8bit('q=' + CGI.escape(sjis("\xf8\x9f")))
 
       res = Rack::MockRequest.env_for(
         "/?#{query_string}",
@@ -191,7 +191,7 @@ describe '絵文字が' do
     end
 
     it 'パラメータが変換されること' do
-      query_string = ascii_8bit('q=' + URI.encode(sjis("\xf6\x60")))
+      query_string = ascii_8bit('q=' + CGI.escape(sjis("\xf6\x60")))
 
       res = Rack::MockRequest.env_for(
         "/?#{query_string}",
@@ -240,7 +240,7 @@ describe '絵文字が' do
     end
 
     it 'パラメータが変換されること' do
-      query_string = 'q=' + URI.encode([0xe04A].pack('U'))
+      query_string = 'q=' + CGI.escape([0xe04A].pack('U'))
 
       res = Rack::MockRequest.env_for(
         "/?#{query_string}",
@@ -272,7 +272,7 @@ describe '絵文字が' do
     end
 
     it 'パラメータが変換されること' do
-      query_string = 'q=' + URI.encode([0xe04A].pack('U'))
+      query_string = 'q=' + CGI.escape([0xe04A].pack('U'))
 
       res = Rack::MockRequest.env_for(
         "/?#{query_string}",
@@ -305,7 +305,7 @@ describe '絵文字が' do
       end
 
       it 'converts query parameters' do
-        query_string = 'q=' + URI.encode([0xe04A].pack('U'))
+        query_string = 'q=' + CGI.escape([0xe04A].pack('U'))
 
         res = Rack::MockRequest.env_for(
           "/?#{query_string}",
@@ -344,7 +344,7 @@ describe '絵文字が' do
       end
 
       it 'converts query parameters' do
-        query_string = 'q=' + URI.encode(@unicode_multi)
+        query_string = 'q=' + CGI.escape(@unicode_multi)
 
         res = Rack::MockRequest.env_for(
           "/?#{query_string}",
@@ -388,7 +388,7 @@ describe '絵文字が' do
       end
 
       it 'converts query parameters irreversibly' do
-        query_string = 'q=' + URI.encode(@google_multi)
+        query_string = 'q=' + CGI.escape(@google_multi)
 
         res = Rack::MockRequest.env_for(
           "/?#{query_string}",
@@ -425,7 +425,7 @@ describe '絵文字が' do
       end
 
       it 'converts query parameters irreversibly' do
-        query_string = 'q=' + URI.encode(@google_multi)
+        query_string = 'q=' + CGI.escape(@google_multi)
 
         res = Rack::MockRequest.env_for(
           "/?#{query_string}",
@@ -445,7 +445,7 @@ describe '絵文字が' do
       end
 
       it 'should convert unsupported emoticon to "〓"' do
-        query_string = 'q=' + URI.encode("\xF3\xBE\x93\xA4")
+        query_string = 'q=' + CGI.escape("\xF3\xBE\x93\xA4")
 
         res = Rack::MockRequest.env_for(
           "/?#{query_string}",

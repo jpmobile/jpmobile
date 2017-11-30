@@ -17,14 +17,14 @@ Gem::Specification.new do |gem|
   gem.require_paths = ['lib']
 
   gem.add_dependency 'mail', '~> 2.7.0'
-  gem.add_development_dependency 'rails', '~> 5.2.0.beta1'
-  gem.add_development_dependency 'rspec'
-  gem.add_development_dependency 'rspec-rails'
-  gem.add_development_dependency 'rspec-its'
   gem.add_development_dependency 'capybara-webkit'
   gem.add_development_dependency 'geokit'
-  gem.add_development_dependency 'sqlite3-ruby'
-  gem.add_development_dependency 'hpricot'
   gem.add_development_dependency 'git'
+  gem.add_development_dependency 'hpricot'
   gem.add_development_dependency 'pry'
+  gem.add_development_dependency 'rails', '~> 5.2.0.beta1'
+  gem.add_development_dependency 'rspec'
+  gem.add_development_dependency 'rspec-its'
+  gem.add_development_dependency 'rspec-rails'
+  gem.add_development_dependency 'sqlite3-ruby'
 end

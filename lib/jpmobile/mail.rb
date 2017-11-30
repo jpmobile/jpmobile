@@ -11,7 +11,7 @@ module Mail
   end
 
   class Message
-    attr_accessor :mobile
+    attr_reader :mobile
 
     def mobile=(m)
       @mobile = m

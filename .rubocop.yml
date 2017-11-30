@@ -7,7 +7,7 @@ inherit_gem:
     # - "config/rspec.yml"
 
 AllCops:
-  TargetRubyVersion: 2.3
+  TargetRubyVersion: 2.2
   Exclude:
     - 'bin/bundle'
     - 'bin/rails'
@@ -38,10 +38,10 @@ Style/BlockDelimiters:
     - 'lib/jpmobile/mail.rb'
   EnforcedStyle: braces_for_chaining
 
-Style/IndentationConsistency:
+Layout/IndentationConsistency:
   EnforcedStyle: normal
 
-Style/AccessorMethodName:
+Naming/AccessorMethodName:
   Exclude:
     - 'lib/jpmobile/mail.rb'
 

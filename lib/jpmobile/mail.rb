@@ -32,7 +32,7 @@ module Mail
         self.body.mobile = @mobile
         self.header['Content-Transfer-Encoding'].value = @mobile.content_transfer_encoding(self.header)
         if @mobile.decorated?
-          unless self.content_type =~ %r{image/}
+          unless self.content_type.match?(%r{image/})
             self.header['Content-ID'] = nil
           end
 
@@ -222,7 +222,7 @@ module Mail
       self.parts.each do |part|
         if part.multipart?
           finded_parts << part.find_part_by_content_type(content_type)
-        elsif part.content_type =~ /^#{content_type}/
+        elsif part.content_type.match?(/^#{content_type}/)
           finded_parts << part
         end
       end
@@ -579,7 +579,7 @@ module Mail
     def get_display_name_with_jpmobile
       get_display_name_without_jpmobile
     rescue NoMethodError => ex
-      raise ex unless ex.message =~ /undefined method `gsub' for nil:NilClass/
+      raise ex unless ex.message.match?(/undefined method `gsub' for nil:NilClass/)
 
       name = unquote(tree.display_name.text_value.strip.to_s)
       strip_all_comments(name.to_s)

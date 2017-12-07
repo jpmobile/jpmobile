@@ -1,4 +1,4 @@
-require File.join(File.expand_path(File.dirname(__FILE__)), '../../rack_helper.rb')
+require File.join(__dir__, '../../rack_helper.rb')
 
 describe Jpmobile::MobileCarrier, 'docomo' do
   include Rack::Test::Methods
@@ -7,7 +7,7 @@ describe Jpmobile::MobileCarrier, 'docomo' do
     before(:each) do
       res = Rack::MockRequest.env_for(
         'http://jpmobile-rails.org/',
-        'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH902i(c100;TB;W24H16)'
+        'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH902i(c100;TB;W24H16)',
       )
       @env = Jpmobile::MobileCarrier.new(UnitApplication.new).call(res)[1]
     end
@@ -39,7 +39,7 @@ describe Jpmobile::MobileCarrier, 'docomo' do
     before(:each) do
       res = Rack::MockRequest.env_for(
         'http://jpmobile-rails.org/',
-        'HTTP_USER_AGENT' => 'DoCoMo/1.0/SO506iC/c20/TB/W20H10'
+        'HTTP_USER_AGENT' => 'DoCoMo/1.0/SO506iC/c20/TB/W20H10',
       )
       @env = Jpmobile::MobileCarrier.new(UnitApplication.new).call(res)[1]
     end
@@ -71,7 +71,7 @@ describe Jpmobile::MobileCarrier, 'docomo' do
     before(:each) do
       res = Rack::MockRequest.env_for(
         'http://jpmobile-rails.org/',
-        'HTTP_USER_AGENT' => 'DoCoMo/2.0 P09A3(c500;TB;W20H12)'
+        'HTTP_USER_AGENT' => 'DoCoMo/2.0 P09A3(c500;TB;W20H12)',
       )
       @env = Jpmobile::MobileCarrier.new(UnitApplication.new).call(res)[1]
     end
@@ -89,7 +89,7 @@ describe Jpmobile::MobileCarrier, 'docomo' do
     before(:each) do
       res = Rack::MockRequest.env_for(
         'http://jpmobile-rails.org/',
-        'HTTP_USER_AGENT' => 'DoCoMo/2.0 P07A3(c500;TB;W24H15)'
+        'HTTP_USER_AGENT' => 'DoCoMo/2.0 P07A3(c500;TB;W24H15)',
       )
       @env = Jpmobile::MobileCarrier.new(UnitApplication.new).call(res)[1]
     end
@@ -107,7 +107,7 @@ describe Jpmobile::MobileCarrier, 'docomo' do
     before(:each) do
       res = Rack::MockRequest.env_for(
         'http://jpmobile-rails.org/',
-        'HTTP_USER_AGENT' => 'DoCoMo/2.0 L01B(c500;TB;W40H10)'
+        'HTTP_USER_AGENT' => 'DoCoMo/2.0 L01B(c500;TB;W40H10)',
       )
       @env = Jpmobile::MobileCarrier.new(UnitApplication.new).call(res)[1]
     end
@@ -126,7 +126,7 @@ describe Jpmobile::MobileCarrier, 'docomo' do
       res = Rack::MockRequest.env_for(
         'http://jpmobile-rails.org/',
         'HTTP_USER_AGENT' => 'DoCoMo/1.0/SO506iC/c20/TB/W20H10',
-        'QUERY_STRING' => 'AREACODE=00100&ACTN=OK'
+        'QUERY_STRING' => 'AREACODE=00100&ACTN=OK',
       )
       env = Jpmobile::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
@@ -137,7 +137,7 @@ describe Jpmobile::MobileCarrier, 'docomo' do
       res = Rack::MockRequest.env_for(
         'http://jpmobile-rails.org/',
         'HTTP_USER_AGENT' => 'DoCoMo/1.0/SO506iC/c20/TB/W20H10',
-        'QUERY_STRING' => 'LAT=%2B35.00.35.600&LON=%2B135.41.35.600&GEO=wgs84&POSINFO=2&AREACODE=00100&ACTN=OK'
+        'QUERY_STRING' => 'LAT=%2B35.00.35.600&LON=%2B135.41.35.600&GEO=wgs84&POSINFO=2&AREACODE=00100&ACTN=OK',
       )
       env = Jpmobile::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
@@ -153,7 +153,7 @@ describe Jpmobile::MobileCarrier, 'docomo' do
       res = Rack::MockRequest.env_for(
         'http://jpmobile-rails.org/',
         'HTTP_USER_AGENT' => 'DoCoMo/2.0 SA702i(c100;TB;W30H15)',
-        'QUERY_STRING' => 'lat=%2B35.00.35.600&lon=%2B135.41.35.600&geo=wgs84&x-acc=3'
+        'QUERY_STRING' => 'lat=%2B35.00.35.600&lon=%2B135.41.35.600&geo=wgs84&x-acc=3',
       )
       env = Jpmobile::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
@@ -168,7 +168,7 @@ describe Jpmobile::MobileCarrier, 'docomo' do
       res = Rack::MockRequest.env_for(
         'http://jpmobile-rails.org/',
         'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH903i(c100;TB;W24H16)',
-        'QUERY_STRING' => 'lat=%2B35.00.35.600&lon=%2B135.41.35.600&geo=WGS84&alt=%2B64.000&x-acc=1'
+        'QUERY_STRING' => 'lat=%2B35.00.35.600&lon=%2B135.41.35.600&geo=WGS84&alt=%2B64.000&x-acc=1',
       )
       env = Jpmobile::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
@@ -181,7 +181,7 @@ describe Jpmobile::MobileCarrier, 'docomo' do
     it 'mova で取得できること' do
       res = Rack::MockRequest.env_for(
         'http://jpmobile-rails.org/',
-        'HTTP_USER_AGENT' => 'DoCoMo/1.0/SO505iS/c20/TC/W30H16/serXXXXX000000'
+        'HTTP_USER_AGENT' => 'DoCoMo/1.0/SO505iS/c20/TC/W30H16/serXXXXX000000',
       )
       env = Jpmobile::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
@@ -195,7 +195,7 @@ describe Jpmobile::MobileCarrier, 'docomo' do
     it 'FOMA で取得できること' do
       res = Rack::MockRequest.env_for(
         'http://jpmobile-rails.org/',
-        'HTTP_USER_AGENT' => 'DoCoMo/2.0 D902i(c100;TB;W23H16;ser999999999999999;icc0000000000000000000f)'
+        'HTTP_USER_AGENT' => 'DoCoMo/2.0 D902i(c100;TB;W23H16;ser999999999999999;icc0000000000000000000f)',
       )
       env = Jpmobile::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
@@ -212,7 +212,7 @@ describe Jpmobile::MobileCarrier, 'docomo' do
       res = Rack::MockRequest.env_for(
         'http://jpmobile-rails.org/',
         'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH902i(c100;TB;W24H12)',
-        'REMOTE_ADDR' => '210.153.84.1'
+        'REMOTE_ADDR' => '210.153.84.1',
       )
       env = Jpmobile::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
@@ -223,7 +223,7 @@ describe Jpmobile::MobileCarrier, 'docomo' do
       res = Rack::MockRequest.env_for(
         'http://jpmobile-rails.org/',
         'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH902i(c100;TB;W24H12)',
-        'REMOTE_ADDR' => '127.0.0.1'
+        'REMOTE_ADDR' => '127.0.0.1',
       )
       env = Jpmobile::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
@@ -235,7 +235,7 @@ describe Jpmobile::MobileCarrier, 'docomo' do
     it 'SO506iCのサイズを適切に取得できること' do
       res = Rack::MockRequest.env_for(
         'http://jpmobile-rails.org/',
-        'HTTP_USER_AGENT' => 'DoCoMo/1.0/SO506iC/c20/TB/W20H10'
+        'HTTP_USER_AGENT' => 'DoCoMo/1.0/SO506iC/c20/TB/W20H10',
       )
       env = Jpmobile::MobileCarrier.new(UnitApplication.new).call(res)[1]
 

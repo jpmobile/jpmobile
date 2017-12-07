@@ -44,7 +44,7 @@ describe 'Jpmobile::Mobile::valid_ip?' do
     ['127.0.0.1', :Emobile],
     ['117.55.1.223', :Emobile],
   ].each do |remote_ip, carrier|
-    it 'should not be return true if #{:remote_ip} is in #{carrier} address' do
+    it "should not be return true if #{remote_ip} is in #{carrier} address" do
       expect(Jpmobile::Mobile.const_get(carrier).valid_ip?(remote_ip)).not_to eq(true)
     end
   end

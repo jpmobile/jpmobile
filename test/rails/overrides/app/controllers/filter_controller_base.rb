@@ -16,11 +16,11 @@ class FilterControllerBase < ApplicationController
   end
 
   def index_hankaku
-    render plain: 'ｱﾌﾞﾗｶﾀﾞﾌﾞﾗ' == params[:q]
+    render plain: params[:q] == 'ｱﾌﾞﾗｶﾀﾞﾌﾞﾗ'
   end
 
   def index_zenkaku
-    render plain: 'アブラカダブラ' == params[:q]
+    render plain: params[:q] == 'アブラカダブラ'
   end
 
   def empty

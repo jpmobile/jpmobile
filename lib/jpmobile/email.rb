@@ -48,7 +48,7 @@ module Jpmobile
       def convertable?(content_type)
         if converting_content_type.respond_to?(:each)
           converting_content_type.each do |c|
-            return true if content_type.match(c)
+            return true if content_type.match?(c)
           end
         end
 

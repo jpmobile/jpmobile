@@ -11,7 +11,7 @@ module Mail
   end
 
   class Message
-    attr_accessor :mobile
+    attr_reader :mobile
 
     def mobile=(m)
       @mobile = m
@@ -32,7 +32,7 @@ module Mail
         self.body.mobile = @mobile
         self.header['Content-Transfer-Encoding'].value = @mobile.content_transfer_encoding(self.header)
         if @mobile.decorated?
-          unless self.content_type =~ %r{image/}
+          unless self.content_type.match?(%r{image/})
             self.header['Content-ID'] = nil
           end
 
@@ -54,7 +54,8 @@ module Mail
     end
 
     def parse_message_with_jpmobile
-      header_part, body_part = raw_source.lstrip.split(/#{CRLF}#{CRLF}|#{CRLF}#{WSP}*#{CRLF}(?!#{WSP})/m, 2)
+      _crlf_raw_source = raw_source.encode(raw_source.encoding, universal_newline: true).encode!(raw_source.encoding, crlf_newline: true)
+      header_part, body_part = _crlf_raw_source.lstrip.split(/#{CRLF}#{CRLF}|#{CRLF}#{WSP}*#{CRLF}(?!#{WSP})/m, 2)
       # header_part, body_part = raw_source.lstrip.split(HEADER_SEPARATOR, 2)
 
       self.header = header_part
@@ -81,6 +82,9 @@ module Mail
     def init_with_string(string)
       # convert to ASCII-8BIT for ascii incompatible encodings
       s = Jpmobile::Util.ascii_8bit(string)
+      unless s.ascii_only?
+        s = s.is_a?(String) ? s.to_str.encode(s.encoding, universal_newline: true).encode!(s.encoding, crlf_newline: true) : ''
+      end
       self.raw_source = s
       set_envelope_header
       parse_message
@@ -218,7 +222,7 @@ module Mail
       self.parts.each do |part|
         if part.multipart?
           finded_parts << part.find_part_by_content_type(content_type)
-        elsif part.content_type =~ /^#{content_type}/
+        elsif part.content_type.match?(/^#{content_type}/)
           finded_parts << part
         end
       end
@@ -298,7 +302,8 @@ module Mail
   end
 
   class Body
-    attr_accessor :mobile, :content_type_with_jpmobile
+    attr_reader :mobile
+    attr_accessor :content_type_with_jpmobile
 
     def raw_source_with_jpmobile
       ::Mail::Utilities.to_crlf(raw_source_without_jpmobile)
@@ -312,7 +317,7 @@ module Mail
           _raw_source = if transfer_encoding == encoding
                           @raw_source.dup
                         else
-                          get_best_encoding(transfer_encoding).encode(@raw_source)
+                          negotiate_best_encoding(transfer_encoding).encode(@raw_source)
                         end
           Jpmobile::Util.set_encoding(_raw_source, @mobile.mail_charset(@charset))
         when /quoted-printable/
@@ -331,7 +336,7 @@ module Mail
 
     # fix charset
     def set_charset_with_jpmobile
-      @charset ||= only_us_ascii? ? 'US-ASCII' : nil
+      @charset ||= ascii_only? ? 'US-ASCII' : nil
     end
 
     def mobile=(m)
@@ -509,6 +514,15 @@ module Mail
     def encoded_with_jpmobile
       if @mobile
         self.charset = @mobile.mail_charset
+
+        _value = address_list.addresses.map { |_a|
+          if Utilities.blank?(_a.display_name) || _a.display_name.ascii_only?
+            _a.to_s
+          else
+            "#{@mobile.to_mail_subject(_a.display_name)} <#{_a.address}>"
+          end
+        }.join(', ')
+        @address_list = AddressList.new(_value)
       end
 
       encoded_without_jpmobile
@@ -539,6 +553,15 @@ module Mail
     def encoded_with_jpmobile
       if @mobile
         self.charset = @mobile.mail_charset
+
+        _value = address_list.addresses.map { |_a|
+          if Utilities.blank?(_a.display_name) || _a.display_name.ascii_only?
+            _a.to_s
+          else
+            "#{@mobile.to_mail_subject(_a.display_name)} <#{_a.address}>"
+          end
+        }.join(', ')
+        @address_list = AddressList.new(_value)
       end
 
       encoded_without_jpmobile
@@ -556,7 +579,7 @@ module Mail
     def get_display_name_with_jpmobile
       get_display_name_without_jpmobile
     rescue NoMethodError => ex
-      raise ex unless ex.message =~ /undefined method `gsub' for nil:NilClass/
+      raise ex unless ex.message.match?(/undefined method `gsub' for nil:NilClass/)
 
       name = unquote(tree.display_name.text_value.strip.to_s)
       strip_all_comments(name.to_s)

@@ -1,4 +1,4 @@
-require File.join(File.expand_path(File.dirname(__FILE__)), '../../rack_helper.rb')
+require File.join(__dir__, '../../rack_helper.rb')
 
 describe '絵文字が' do
   include Rack::Test::Methods
@@ -18,8 +18,8 @@ describe '絵文字が' do
     @softbank_cr        = '&#xF04A;'
     @softbank_utf8      = [0xf04a].pack('U')
 
-    @emoticon_yaml   = File.join(File.expand_path(File.dirname(__FILE__)), '../../../tmp/emoticon.yml')
-    @emoticon_images = File.join(File.expand_path(File.dirname(__FILE__)), '../../../tmp/emoticons')
+    @emoticon_yaml   = File.join(__dir__, '../../../tmp/emoticon.yml')
+    @emoticon_images = File.join(__dir__, '../../../tmp/emoticons')
   end
 
   context 'PC のとき' do
@@ -51,8 +51,8 @@ describe '絵文字が' do
 
   context 'PC で絵文字を変換するとき' do
     before(:each) do
-      unless FileTest.exist?(File.join(File.expand_path(File.dirname(__FILE__)), '../../../tmp/emoticon.yaml')) &&
-             FileTest.directory?(File.join(File.expand_path(File.dirname(__FILE__)), '../../../tmp/emoticons'))
+      unless FileTest.exist?(File.join(__dir__, '../../../tmp/emoticon.yaml')) &&
+             FileTest.directory?(File.join(__dir__, '../../../tmp/emoticons'))
         skip "emoticon.yaml and emoticons directory don't exists"
       end
 
@@ -113,7 +113,7 @@ describe '絵文字が' do
       @res = Rack::MockRequest.env_for(
         '/',
         'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH902i(c100;TB;W24H12)',
-        'Content-Type' => 'text/html; charset=utf-8'
+        'Content-Type' => 'text/html; charset=utf-8',
       )
     end
 
@@ -142,13 +142,13 @@ describe '絵文字が' do
     end
 
     it 'パラメータが変換されること' do
-      query_string = ascii_8bit('q=' + URI.encode(sjis("\xf8\x9f")))
+      query_string = ascii_8bit('q=' + CGI.escape(sjis("\xf8\x9f")))
 
       res = Rack::MockRequest.env_for(
         "/?#{query_string}",
         'REQUEST_METHOD' => 'GET',
         'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)',
-        'Content-Type' => 'text/html; charset=utf-8'
+        'Content-Type' => 'text/html; charset=utf-8',
       )
       res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(Jpmobile::Filter.new(RenderParamApp.new))).call(res)
       req = Rack::Request.new(res[1])
@@ -162,7 +162,7 @@ describe '絵文字が' do
       @res = Rack::MockRequest.env_for(
         '/',
         'HTTP_USER_AGENT' => 'KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0',
-        'Content-Type' => 'text/html; charset=utf-8'
+        'Content-Type' => 'text/html; charset=utf-8',
       )
     end
 
@@ -191,13 +191,13 @@ describe '絵文字が' do
     end
 
     it 'パラメータが変換されること' do
-      query_string = ascii_8bit('q=' + URI.encode(sjis("\xf6\x60")))
+      query_string = ascii_8bit('q=' + CGI.escape(sjis("\xf6\x60")))
 
       res = Rack::MockRequest.env_for(
         "/?#{query_string}",
         'REQUEST_METHOD' => 'GET',
         'HTTP_USER_AGENT' => 'KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0',
-        'Content-Type' => 'text/html; charset=utf-8'
+        'Content-Type' => 'text/html; charset=utf-8',
       )
       res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(Jpmobile::Filter.new(RenderParamApp.new))).call(res)
       req = Rack::Request.new(res[1])
@@ -211,7 +211,7 @@ describe '絵文字が' do
       @res = Rack::MockRequest.env_for(
         '/',
         'HTTP_USER_AGENT' => 'SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1',
-        'Content-Type' => 'text/html; charset=utf-8'
+        'Content-Type' => 'text/html; charset=utf-8',
       )
     end
 
@@ -240,13 +240,13 @@ describe '絵文字が' do
     end
 
     it 'パラメータが変換されること' do
-      query_string = 'q=' + URI.encode([0xe04A].pack('U'))
+      query_string = 'q=' + CGI.escape([0xe04A].pack('U'))
 
       res = Rack::MockRequest.env_for(
         "/?#{query_string}",
         'REQUEST_METHOD' => 'GET',
         'HTTP_USER_AGENT' => 'SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1',
-        'Content-Type' => 'text/html; charset=utf-8'
+        'Content-Type' => 'text/html; charset=utf-8',
       )
       res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(Jpmobile::Filter.new(RenderParamApp.new))).call(res)
       req = Rack::Request.new(res[1])
@@ -260,7 +260,7 @@ describe '絵文字が' do
       @res = Rack::MockRequest.env_for(
         '/',
         'HTTP_USER_AGENT' => 'Vodafone/1.0/V705SH/SHJ001/SN000000000000000 Browser/VF-NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1',
-        'Content-Type' => 'text/html; charset=utf-8'
+        'Content-Type' => 'text/html; charset=utf-8',
       )
     end
 
@@ -272,13 +272,13 @@ describe '絵文字が' do
     end
 
     it 'パラメータが変換されること' do
-      query_string = 'q=' + URI.encode([0xe04A].pack('U'))
+      query_string = 'q=' + CGI.escape([0xe04A].pack('U'))
 
       res = Rack::MockRequest.env_for(
         "/?#{query_string}",
         'REQUEST_METHOD' => 'GET',
         'HTTP_USER_AGENT' => 'Vodafone/1.0/V705SH/SHJ001/SN000000000000000 Browser/VF-NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1',
-        'Content-Type' => 'text/html; charset=utf-8'
+        'Content-Type' => 'text/html; charset=utf-8',
       )
       res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(Jpmobile::Filter.new(RenderParamApp.new))).call(res)
       req = Rack::Request.new(res[1])
@@ -293,7 +293,7 @@ describe '絵文字が' do
         @res = Rack::MockRequest.env_for(
           '/',
           'HTTP_USER_AGENT' => 'Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_0_1 like Mac OS X; ja-jp) AppleWebKit/532.9 (KHTML, like Gecko) Version/4.0.5 Mobile/8A306 Safari/6531.22.7',
-          'Content-Type' => 'text/html; charset=utf-8'
+          'Content-Type' => 'text/html; charset=utf-8',
         )
       end
 
@@ -305,13 +305,13 @@ describe '絵文字が' do
       end
 
       it 'converts query parameters' do
-        query_string = 'q=' + URI.encode([0xe04A].pack('U'))
+        query_string = 'q=' + CGI.escape([0xe04A].pack('U'))
 
         res = Rack::MockRequest.env_for(
           "/?#{query_string}",
           'REQUEST_METHOD' => 'GET',
           'HTTP_USER_AGENT' => 'Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_0_1 like Mac OS X; ja-jp) AppleWebKit/532.9 (KHTML, like Gecko) Version/4.0.5 Mobile/8A306 Safari/6531.22.7',
-          'Content-Type' => 'text/html; charset=utf-8'
+          'Content-Type' => 'text/html; charset=utf-8',
         )
         res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(Jpmobile::Filter.new(RenderParamApp.new))).call(res)
         req = Rack::Request.new(res[1])
@@ -330,7 +330,7 @@ describe '絵文字が' do
         @res = Rack::MockRequest.env_for(
           '/',
           'HTTP_USER_AGENT' => 'Mozilla/5.0 (iPhone; U; CPU iPhone OS 5_0 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Mobile/9A334 Safari/7534.48.3',
-          'Content-Type' => 'text/html; charset=utf-8'
+          'Content-Type' => 'text/html; charset=utf-8',
         )
         @unicode_single = "\342\230\200"
         @unicode_multi  = "\342\233\205"
@@ -344,13 +344,13 @@ describe '絵文字が' do
       end
 
       it 'converts query parameters' do
-        query_string = 'q=' + URI.encode(@unicode_multi)
+        query_string = 'q=' + CGI.escape(@unicode_multi)
 
         res = Rack::MockRequest.env_for(
           "/?#{query_string}",
           'REQUEST_METHOD' => 'GET',
           'HTTP_USER_AGENT' => 'Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_0_1 like Mac OS X; ja-jp) AppleWebKit/532.9 (KHTML, like Gecko) Version/4.0.5 Mobile/8A306 Safari/6531.22.7',
-          'Content-Type' => 'text/html; charset=utf-8'
+          'Content-Type' => 'text/html; charset=utf-8',
         )
         res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(Jpmobile::Filter.new(RenderParamApp.new))).call(res)
         req = Rack::Request.new(res[1])
@@ -376,7 +376,7 @@ describe '絵文字が' do
         @res = Rack::MockRequest.env_for(
           '/',
           'HTTP_USER_AGENT' => 'Mozilla/5.0 (Linux; U; Android 1.6; ja-jp; SonyEriccsonSO-01B Build/R1EA018) AppleWebKit/528.5+ (KHTML, like Gecko) Version/3.1.2 Mobile Safari/525.20.1',
-          'Content-Type' => 'text/html; charset=utf-8'
+          'Content-Type' => 'text/html; charset=utf-8',
         )
       end
 
@@ -388,13 +388,13 @@ describe '絵文字が' do
       end
 
       it 'converts query parameters irreversibly' do
-        query_string = 'q=' + URI.encode(@google_multi)
+        query_string = 'q=' + CGI.escape(@google_multi)
 
         res = Rack::MockRequest.env_for(
           "/?#{query_string}",
           'REQUEST_METHOD' => 'GET',
           'HTTP_USER_AGENT' => 'Mozilla/5.0 (Linux; U; Android 1.6; ja-jp; SonyEriccsonSO-01B Build/R1EA018) AppleWebKit/528.5+ (KHTML, like Gecko) Version/3.1.2 Mobile Safari/525.20.1',
-          'Content-Type' => 'text/html; charset=utf-8'
+          'Content-Type' => 'text/html; charset=utf-8',
         )
         res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(Jpmobile::Filter.new(RenderParamApp.new))).call(res)
         req = Rack::Request.new(res[1])
@@ -413,7 +413,7 @@ describe '絵文字が' do
         @res = Rack::MockRequest.env_for(
           '/',
           'HTTP_USER_AGENT' => 'Mozilla/5.0 (Linux; U; Android 2.2; ja-jp; SC-01C Build/FROYO) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1',
-          'Content-Type' => 'text/html; charset=utf-8'
+          'Content-Type' => 'text/html; charset=utf-8',
         )
       end
 
@@ -425,13 +425,13 @@ describe '絵文字が' do
       end
 
       it 'converts query parameters irreversibly' do
-        query_string = 'q=' + URI.encode(@google_multi)
+        query_string = 'q=' + CGI.escape(@google_multi)
 
         res = Rack::MockRequest.env_for(
           "/?#{query_string}",
           'REQUEST_METHOD' => 'GET',
           'HTTP_USER_AGENT' => 'Mozilla/5.0 (Linux; U; Android 2.2; ja-jp; SC-01C Build/FROYO) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1',
-          'Content-Type' => 'text/html; charset=utf-8'
+          'Content-Type' => 'text/html; charset=utf-8',
         )
         res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(Jpmobile::Filter.new(RenderParamApp.new))).call(res)
         req = Rack::Request.new(res[1])
@@ -445,13 +445,13 @@ describe '絵文字が' do
       end
 
       it 'should convert unsupported emoticon to "〓"' do
-        query_string = 'q=' + URI.encode("\xF3\xBE\x93\xA4")
+        query_string = 'q=' + CGI.escape("\xF3\xBE\x93\xA4")
 
         res = Rack::MockRequest.env_for(
           "/?#{query_string}",
           'REQUEST_METHOD' => 'GET',
           'HTTP_USER_AGENT' => 'Mozilla/5.0 (Linux; U; Android 2.2; ja-jp; SC-01C Build/FROYO) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1',
-          'Content-Type' => 'text/html; charset=utf-8'
+          'Content-Type' => 'text/html; charset=utf-8',
         )
         res = Jpmobile::MobileCarrier.new(Jpmobile::ParamsFilter.new(Jpmobile::Filter.new(RenderParamApp.new))).call(res)
         req = Rack::Request.new(res[1])

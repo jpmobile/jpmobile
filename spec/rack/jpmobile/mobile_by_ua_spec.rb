@@ -1,4 +1,4 @@
-require File.join(File.expand_path(File.dirname(__FILE__)), '../../rack_helper.rb')
+require File.join(__dir__, '../../rack_helper.rb')
 
 describe Jpmobile::MobileCarrier do
   include Rack::Test::Methods
@@ -26,7 +26,7 @@ describe Jpmobile::MobileCarrier do
     it "#mobile should return #{carrier} when take #{user_agent} as UserAgent" do
       res = Rack::MockRequest.env_for(
         'http://jpmobile-rails.org/',
-        'HTTP_USER_AGENT' => user_agent
+        'HTTP_USER_AGENT' => user_agent,
       )
       env = Jpmobile::MobileCarrier.new(UnitApplication.new).call(res)[1]
       expect(env['rack.jpmobile'].class).to eq(carrier)
@@ -36,7 +36,7 @@ describe Jpmobile::MobileCarrier do
   it "Googlebot のときは rack['rack.jpmobile.carrier'] が nil になること" do
     res = Rack::MockRequest.env_for(
       'http://jpmobile-rails.org/',
-      'HTTP_USER_AGENT' => 'Googlebot'
+      'HTTP_USER_AGENT' => 'Googlebot',
     )
     env = Jpmobile::MobileCarrier.new(UnitApplication.new).call(res)[1]
     expect(env['rack.jpmobile']).to be_nil

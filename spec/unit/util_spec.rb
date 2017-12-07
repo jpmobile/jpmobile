@@ -103,7 +103,7 @@ describe Jpmobile::Util do
             かようにするには事前に分割して
             いないとダメなことがわかりまし
             たよ
-          ]
+          ],
         )
     end
 
@@ -123,7 +123,7 @@ describe Jpmobile::Util do
           %w[
             長い日本語の題名で折り返される
             かようにするには事前に分割していないとダメなことがわかりましたよ
-          ]
+          ],
         )
     end
 
@@ -187,7 +187,7 @@ describe Jpmobile::Util do
           0xFE00B => 0x3013,
           0xFE010 => 0xE6B3,
           0xFE038 => 0xE73F,
-        }
+        },
       )
       expect(hash[0xE63E]).to eq(0xFE009)
       expect(hash[0x3013]).to eq(0xFE00B)
@@ -201,7 +201,7 @@ describe Jpmobile::Util do
           0x1F526            => 0xE6FB,
           [0x0023, 0x20E3]   => 0xE6E0,
           0x1F354            => 0xE673,
-        }
+        },
       )
       expect(hash[0x3013]).to eq([0x1F1E8, 0x1F1F3])
       expect(hash[0xE6FB]).to eq(0x1F526)

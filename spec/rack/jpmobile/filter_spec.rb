@@ -1,4 +1,4 @@
-require File.join(File.expand_path(File.dirname(__FILE__)), '../../rack_helper.rb')
+require File.join(__dir__, '../../rack_helper.rb')
 
 describe Jpmobile::Filter do
   include Rack::Test::Methods
@@ -16,7 +16,7 @@ describe Jpmobile::Filter do
           '/',
           'REQUEST_METHOD' => 'GET',
           'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)',
-          'Content-Type' => 'text/html; charset=utf-8'
+          'Content-Type' => 'text/html; charset=utf-8',
         )
         res = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@utf8))).call(res)
         expect(res[1]['Content-Type']).to eq('text/html; charset=Shift_JIS')
@@ -29,7 +29,7 @@ describe Jpmobile::Filter do
             '/',
             'REQUEST_METHOD' => 'GET',
             'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)',
-            'Content-Type' => 'application/xhtml+xml; charset=utf-8'
+            'Content-Type' => 'application/xhtml+xml; charset=utf-8',
           )
           res = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@utf8))).call(res)
           expect(res[1]['Content-Type']).to eq('application/xhtml+xml; charset=Shift_JIS')
@@ -41,7 +41,7 @@ describe Jpmobile::Filter do
             '/',
             'REQUEST_METHOD' => 'GET',
             'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)',
-            'Content-Type' => 'application/xml; charset=utf-8'
+            'Content-Type' => 'application/xml; charset=utf-8',
           )
           res = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@utf8))).call(res)
           expect(res[1]['Content-Type']).to eq('application/xml; charset=utf-8')
@@ -53,7 +53,7 @@ describe Jpmobile::Filter do
             '/',
             'REQUEST_METHOD' => 'GET',
             'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)',
-            'Content-Type' => 'image/jpeg'
+            'Content-Type' => 'image/jpeg',
           )
           res = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@utf8))).call(res)
           expect(res[1]['Content-Type']).to eq('image/jpeg')
@@ -65,7 +65,7 @@ describe Jpmobile::Filter do
             '/',
             'REQUEST_METHOD' => 'GET',
             'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)',
-            'Content-Type' => 'application/octet-stream'
+            'Content-Type' => 'application/octet-stream',
           )
           res = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@utf8))).call(res)
           expect(res[1]['Content-Type']).to eq('application/octet-stream')
@@ -77,7 +77,7 @@ describe Jpmobile::Filter do
             '/',
             'REQUEST_METHOD' => 'GET',
             'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)',
-            'Content-Type' => 'video/mpeg'
+            'Content-Type' => 'video/mpeg',
           )
           res = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@utf8))).call(res)
           expect(res[1]['Content-Type']).to eq('video/mpeg')
@@ -92,7 +92,7 @@ describe Jpmobile::Filter do
           '/',
           'REQUEST_METHOD' => 'GET',
           'HTTP_USER_AGENT' => 'KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0',
-          'Content-Type' => 'text/html; charset=utf-8'
+          'Content-Type' => 'text/html; charset=utf-8',
         )
         res = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@utf8))).call(res)
         expect(res[1]['Content-Type']).to eq('text/html; charset=Shift_JIS')
@@ -106,7 +106,7 @@ describe Jpmobile::Filter do
           '/',
           'REQUEST_METHOD' => 'GET',
           'HTTP_USER_AGENT' => 'SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1',
-          'Content-Type' => 'text/html; charset=utf-8'
+          'Content-Type' => 'text/html; charset=utf-8',
         )
         res = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@utf8))).call(res)
         expect(res[1]['Content-Type']).to eq('text/html; charset=utf-8')
@@ -119,7 +119,7 @@ describe Jpmobile::Filter do
         '/',
         'REQUEST_METHOD' => 'GET',
         'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)',
-        'Content-Type' => 'text/html; charset=utf-8'
+        'Content-Type' => 'text/html; charset=utf-8',
       )
       res = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new('<input name="utf8" type="hidden" value="&#x2713;" />'))).call(req)
       expect(res[1]['Content-Type']).to eq('text/html; charset=Shift_JIS')
@@ -135,7 +135,7 @@ describe Jpmobile::Filter do
         '/',
         'REQUEST_METHOD' => 'GET',
         'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)',
-        'Content-Type' => 'text/html; charset=utf-8'
+        'Content-Type' => 'text/html; charset=utf-8',
       )
       res = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new("<input name=\"utf8\" type=\"hidden\" value=\"#{[10003].pack("U")}\" />"))).call(req)
       expect(res[1]['Content-Type']).to eq('text/html; charset=Shift_JIS')
@@ -169,7 +169,7 @@ describe Jpmobile::Filter do
           '/',
           'REQUEST_METHOD' => 'GET',
           'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)',
-          'Content-Type' => 'text/html; charset=utf-8'
+          'Content-Type' => 'text/html; charset=utf-8',
         )
         res = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@utf8 + @emoji_docomo_cr))).call(res)
         expect(response_body(res)).to eq(@sjis + @docomo_emoji)
@@ -180,7 +180,7 @@ describe Jpmobile::Filter do
           '/',
           'REQUEST_METHOD' => 'GET',
           'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)',
-          'Content-Type' => 'text/html; charset=utf-8'
+          'Content-Type' => 'text/html; charset=utf-8',
         )
         res = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@utf8 + @emoji_docomo_utf8))).call(res)
         expect(response_body(res)).to eq(@sjis + @docomo_emoji)
@@ -191,7 +191,7 @@ describe Jpmobile::Filter do
           '/',
           'REQUEST_METHOD' => 'GET',
           'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)',
-          'Content-Type' => 'text/html; charset=utf-8'
+          'Content-Type' => 'text/html; charset=utf-8',
         )
         res = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@utf8 + @emoji_au_utf8))).call(res)
         expect(response_body(res)).to eq(@sjis + @docomo_emoji)
@@ -202,7 +202,7 @@ describe Jpmobile::Filter do
           '/',
           'REQUEST_METHOD' => 'GET',
           'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)',
-          'Content-Type' => 'text/html; charset=utf-8'
+          'Content-Type' => 'text/html; charset=utf-8',
         )
         res = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@utf8 + @emoji_softbank_utf8))).call(res)
         expect(response_body(res)).to eq(@sjis + @docomo_emoji)
@@ -215,7 +215,7 @@ describe Jpmobile::Filter do
           '/',
           'REQUEST_METHOD' => 'GET',
           'HTTP_USER_AGENT' => 'KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0',
-          'Content-Type' => 'text/html; charset=utf-8'
+          'Content-Type' => 'text/html; charset=utf-8',
         )
         res = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@utf8 + @emoji_au_cr))).call(res)
         expect(response_body(res)).to eq(@sjis + @au_emoji)
@@ -226,7 +226,7 @@ describe Jpmobile::Filter do
           '/',
           'REQUEST_METHOD' => 'GET',
           'HTTP_USER_AGENT' => 'KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0',
-          'Content-Type' => 'text/html; charset=utf-8'
+          'Content-Type' => 'text/html; charset=utf-8',
         )
         res = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@utf8 + @emoji_docomo_utf8))).call(res)
         expect(response_body(res)).to eq(@sjis + @au_emoji)
@@ -237,7 +237,7 @@ describe Jpmobile::Filter do
           '/',
           'REQUEST_METHOD' => 'GET',
           'HTTP_USER_AGENT' => 'KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0',
-          'Content-Type' => 'text/html; charset=utf-8'
+          'Content-Type' => 'text/html; charset=utf-8',
         )
         res = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@utf8 + @emoji_au_utf8))).call(res)
         expect(response_body(res)).to eq(@sjis + @au_emoji)
@@ -248,7 +248,7 @@ describe Jpmobile::Filter do
           '/',
           'REQUEST_METHOD' => 'GET',
           'HTTP_USER_AGENT' => 'KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0',
-          'Content-Type' => 'text/html; charset=utf-8'
+          'Content-Type' => 'text/html; charset=utf-8',
         )
         res = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@utf8 + @emoji_softbank_utf8))).call(res)
         expect(response_body(res)).to eq(@sjis + @au_emoji)
@@ -261,7 +261,7 @@ describe Jpmobile::Filter do
           '/',
           'REQUEST_METHOD' => 'GET',
           'HTTP_USER_AGENT' => 'SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1',
-          'Content-Type' => 'text/html; charset=utf-8'
+          'Content-Type' => 'text/html; charset=utf-8',
         )
         res = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@utf8 + @emoji_softbank_cr))).call(res)
         expect(response_body(res)).to eq(@utf8 + @softbank_emoji)
@@ -272,7 +272,7 @@ describe Jpmobile::Filter do
           '/',
           'REQUEST_METHOD' => 'GET',
           'HTTP_USER_AGENT' => 'SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1',
-          'Content-Type' => 'text/html; charset=utf-8'
+          'Content-Type' => 'text/html; charset=utf-8',
         )
         res = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@utf8 + @emoji_docomo_utf8))).call(res)
         expect(response_body(res)).to eq(@utf8 + @softbank_emoji)
@@ -283,7 +283,7 @@ describe Jpmobile::Filter do
           '/',
           'REQUEST_METHOD' => 'GET',
           'HTTP_USER_AGENT' => 'SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1',
-          'Content-Type' => 'text/html; charset=utf-8'
+          'Content-Type' => 'text/html; charset=utf-8',
         )
         res = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@utf8 + @emoji_au_utf8))).call(res)
         expect(response_body(res)).to eq(@utf8 + @softbank_emoji)
@@ -294,7 +294,7 @@ describe Jpmobile::Filter do
           '/',
           'REQUEST_METHOD' => 'GET',
           'HTTP_USER_AGENT' => 'SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1',
-          'Content-Type' => 'text/html; charset=utf-8'
+          'Content-Type' => 'text/html; charset=utf-8',
         )
         res = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@utf8 + @emoji_softbank_utf8))).call(res)
         expect(response_body(res)).to eq(@utf8 + @softbank_emoji)

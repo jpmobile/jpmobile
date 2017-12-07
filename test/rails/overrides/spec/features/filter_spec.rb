@@ -62,12 +62,12 @@ describe 'jpmobile integration spec', type: :feature do
       expect(page.response_headers['Content-Type']).to match(/Shift_JIS/i)
     end
     it 'はShift_JISで渡されたパラメタがparamsにUTF-8に変換されて格納されること' do
-      visit "/#{controller}/index_zenkaku?q=#{URI.escape(utf8_to_sjis("アブラカダブラ"))}"
+      visit "/#{controller}/index_zenkaku?q=#{CGI.escape(utf8_to_sjis("アブラカダブラ"))}"
       expect(page.body.encode('UTF-8')).to have_content('true')
     end
     it 'は半角カナのparamsを変換しないこと' do
       # アブラカダブラ半角,SJIS
-      visit "/#{controller}/index_hankaku?q=#{URI.escape(sjis("\261\314\336\327\266\300\336\314\336\327"))}"
+      visit "/#{controller}/index_hankaku?q=#{CGI.escape(sjis("\261\314\336\327\266\300\336\314\336\327"))}"
       expect(page.body.encode('UTF-8')).to have_content('true')
     end
     it_should_behave_like '文字コードフィルタが動作しているとき'
@@ -85,11 +85,11 @@ describe 'jpmobile integration spec', type: :feature do
       expect(page.response_headers['Content-Type']).to match(/utf-8/i)
     end
     it 'はparamsにUTF-8のまま格納されること' do
-      visit "/#{controller}/index_zenkaku?q=#{URI.escape("アブラカダブラ")}"
+      visit "/#{controller}/index_zenkaku?q=#{CGI.escape("アブラカダブラ")}"
       expect(page.body.encode('UTF-8')).to have_content('true')
     end
     it 'は半角カナのparamsを変換しないこと' do
-      visit "/#{controller}/index_hankaku?q=#{URI.escape("ｱﾌﾞﾗｶﾀﾞﾌﾞﾗ")}"
+      visit "/#{controller}/index_hankaku?q=#{CGI.escape("ｱﾌﾞﾗｶﾀﾞﾌﾞﾗ")}"
       expect(page.body.encode('UTF-8')).to have_content('true')
     end
     it_should_behave_like '文字コードフィルタが動作しているとき'
@@ -102,12 +102,12 @@ describe 'jpmobile integration spec', type: :feature do
       expect(page.response_headers['Content-Type']).to match(/Shift_JIS/)
     end
     it 'はShift_JISで渡されたパラメタがparamsにUTF-8に変換されて格納されること' do
-      visit "/#{controller}/index_zenkaku?q=#{URI.escape(utf8_to_sjis("アブラカダブラ"))}"
+      visit "/#{controller}/index_zenkaku?q=#{CGI.escape(utf8_to_sjis("アブラカダブラ"))}"
       expect(page.body.encode('UTF-8')).to have_content('true')
     end
     it 'は半角Shift_JISで渡されたパラメタがparamsに全角UTF-8に変換されて格納されること' do
       # アブラカダブラ半角,SJIS
-      visit "/#{controller}/index_zenkaku?q=#{URI.escape(sjis("\261\314\336\327\266\300\336\314\336\327"))}"
+      visit "/#{controller}/index_zenkaku?q=#{CGI.escape(sjis("\261\314\336\327\266\300\336\314\336\327"))}"
       expect(page.body.encode('UTF-8')).to have_content('true')
     end
     it_should_behave_like '文字コードフィルタが動作しているとき'
@@ -120,11 +120,11 @@ describe 'jpmobile integration spec', type: :feature do
       expect(page.response_headers['Content-Type']).to match(/utf-8/i)
     end
     it 'はparamsにUTF-8のまま格納されること' do
-      visit "/#{controller}/index_zenkaku?q=#{URI.escape("アブラカダブラ")}"
+      visit "/#{controller}/index_zenkaku?q=#{CGI.escape("アブラカダブラ")}"
       expect(page.body.encode('UTF-8')).to have_content('true')
     end
     it 'は半角で渡されたparamsを全角に変換して格納すること' do
-      visit "/#{controller}/index_zenkaku?q=#{URI.escape("ｱﾌﾞﾗｶﾀﾞﾌﾞﾗ")}"
+      visit "/#{controller}/index_zenkaku?q=#{CGI.escape("ｱﾌﾞﾗｶﾀﾞﾌﾞﾗ")}"
       expect(page.body.encode('UTF-8')).to have_content('true')
     end
     it_should_behave_like '文字コードフィルタが動作しているとき'

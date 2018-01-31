@@ -3,7 +3,6 @@ require 'rake/testtask'
 require 'fileutils'
 require 'pathname'
 require 'git'
-include FileUtils
 
 desc 'Default: run unit tests.'
 task :default => :test

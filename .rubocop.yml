@@ -45,6 +45,10 @@ Naming/AccessorMethodName:
   Exclude:
     - 'lib/jpmobile/mail.rb'
 
+Naming/ConstantName:
+  Exclude:
+    - 'lib/jpmobile/datum_conv.rb'
+
 Style/BlockComments:
   Exclude:
     - 'test/rails/overrides/spec/spec_helper.rb'

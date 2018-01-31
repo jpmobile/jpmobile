@@ -6,6 +6,13 @@ module Jpmobile::Mobile
     # メールのデフォルトのcharset
     MAIL_CHARSET = 'ISO-2022-JP'.freeze
 
+    # 対応するuser-agentの正規表現
+    USER_AGENT_REGEXP = nil
+    # 対応するメールアドレスの正規表現
+    MAIL_ADDRESS_REGEXP = nil
+    # テキスト部分の content-transfer-encoding
+    MAIL_CONTENT_TRANSFER_ENCODING = '7bit'.freeze
+
     def initialize(env, request)
       @env            = env
       @request        = request
@@ -13,13 +20,6 @@ module Jpmobile::Mobile
       @_mail_variants = nil
       @decorated      = nil
     end
-
-    # 対応するuser-agentの正規表現
-    USER_AGENT_REGEXP = nil
-    # 対応するメールアドレスの正規表現
-    MAIL_ADDRESS_REGEXP = nil
-    # テキスト部分の content-transfer-encoding
-    MAIL_CONTENT_TRANSFER_ENCODING = '7bit'.freeze
 
     # 緯度経度があれば Position のインスタンスを返す。
     def position

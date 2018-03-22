@@ -49,6 +49,9 @@ Naming/ConstantName:
   Exclude:
     - 'lib/jpmobile/datum_conv.rb'
 
+Naming/MemoizedInstanceVariableName:
+  Enabled: false
+
 Style/BlockComments:
   Exclude:
     - 'test/rails/overrides/spec/spec_helper.rb'

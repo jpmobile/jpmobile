@@ -56,6 +56,9 @@ Style/BlockComments:
   Exclude:
     - 'test/rails/overrides/spec/spec_helper.rb'
 
+Style/FormatStringToken:
+  Enabled: false
+
 Metrics/AbcSize:
   Exclude:
     - 'lib/jpmobile/datum_conv.rb'

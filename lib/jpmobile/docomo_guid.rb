@@ -17,6 +17,7 @@ module Jpmobile::DocomoGuid #:nodoc:
     result = super || {}
     return result unless request # for test process
     return result unless apply_add_guid?
+
     result.merge({ guid: 'ON' })
   end
 

@@ -29,7 +29,7 @@ describe 'Jpmobile::Mail' do
       before(:each) do
         @mail.parts << Mail::Part.new { body 'ほげ' }
         @mail.parts << Mail::Part.new { body 'ほげほげ' }
-        @mail.parts.each { |p| p.charset = 'ISO-2022-JP' }
+        @mail.parts.each {|p| p.charset = 'ISO-2022-JP' }
       end
       context 'to_s' do
         subject do

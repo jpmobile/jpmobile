@@ -116,7 +116,7 @@ describe 'Jpmobile::Mail#receive' do
 
         it 'does not contain charset within multipart Content-Type' do
           expect(@mail.to_s.scan(/Content-Type:\s+multipart(?:.+;\r\n)*.+[^;]\r\n/)).
-            to satisfy { |matches| matches.all? { |type| !type.include?('charset') } }
+            to satisfy {|matches| matches.all? {|type| !type.include?('charset') } }
         end
 
         it 'does not cause double-conversion on reparsing' do

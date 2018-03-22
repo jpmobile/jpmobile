@@ -19,10 +19,10 @@ describe Jpmobile::ParamsFilter do
 
     context 'Shift_JIS 変換の ' do
       before(:each) do
-        @query_string = @query_params.map { |k, v|
+        @query_string = @query_params.map {|k, v|
           '%s=%s' % [::Rack::Utils.escape(utf8_to_sjis(k)), ::Rack::Utils.escape(utf8_to_sjis(v))]
         }.join('&')
-        @form_string = @form_params.map { |k, v|
+        @form_string = @form_params.map {|k, v|
           '%s=%s' % [utf8_to_sjis(k), utf8_to_sjis(v)]
         }.join('&')
       end
@@ -74,10 +74,10 @@ describe Jpmobile::ParamsFilter do
 
     context 'UTF-8 の' do
       before(:each) do
-        @query_string = @query_params.map { |k, v|
+        @query_string = @query_params.map {|k, v|
           '%s=%s' % [::Rack::Utils.escape(k), ::Rack::Utils.escape(v)]
         }.join('&')
-        @form_string = @form_params.map { |k, v|
+        @form_string = @form_params.map {|k, v|
           '%s=%s' % [k, v]
         }.join('&')
       end

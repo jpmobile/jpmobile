@@ -12,6 +12,7 @@ module Jpmobile
     def find(path, prefix = nil, partial = false, details = {}, key = nil)
       template = find_all(path, prefix, partial, details, key).first
       raise MissingTemplate.new(self, "#{prefix}/#{path}", details, partial) unless template
+
       template
     end
 
@@ -33,6 +34,7 @@ module Jpmobile
       each_with_index do |path, i|
         path = path.to_s if path.is_a?(Pathname)
         next unless path.is_a?(String)
+
         self[i] = Jpmobile::Resolver.new(path)
       end
     end

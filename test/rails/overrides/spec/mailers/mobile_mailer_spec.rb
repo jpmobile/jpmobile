@@ -502,7 +502,7 @@ end
 describe MobileMailer, 'receiving', type: :mailer do
   describe 'blank mail' do
     it 'softbank からの空メールがで受信できること' do
-      email = open(Rails.root + 'spec/fixtures/mobile_mailer/softbank-blank.eml').read
+      email = File.open(Rails.root + 'spec/fixtures/mobile_mailer/softbank-blank.eml').read
       expect {
         email = MobileMailer.receive(email)
       }.to_not raise_error
@@ -514,7 +514,7 @@ describe MobileMailer, 'receiving', type: :mailer do
 
   describe 'docomo からのメールを受信するとき' do
     before(:each) do
-      @email = open(Rails.root + 'spec/fixtures/mobile_mailer/docomo-emoji.eml').read
+      @email = File.open(Rails.root + 'spec/fixtures/mobile_mailer/docomo-emoji.eml').read
     end
 
     it '漢字コードを適切に変換できること' do
@@ -532,7 +532,7 @@ describe MobileMailer, 'receiving', type: :mailer do
 
     describe 'jis コードの場合に' do
       before(:each) do
-        @email = open(Rails.root + 'spec/fixtures/mobile_mailer/docomo-jis.eml').read
+        @email = File.open(Rails.root + 'spec/fixtures/mobile_mailer/docomo-jis.eml').read
       end
 
       it '適切に変換できること' do
@@ -547,7 +547,7 @@ describe MobileMailer, 'receiving', type: :mailer do
   describe 'au からのメールを受信するとき' do
     describe 'jpmobile で送信したメールの場合' do
       before(:each) do
-        @email = open(Rails.root + 'spec/fixtures/mobile_mailer/au-emoji.eml').read
+        @email = File.open(Rails.root + 'spec/fixtures/mobile_mailer/au-emoji.eml').read
       end
 
       it '漢字コードを適切に変換できること' do
@@ -567,7 +567,7 @@ describe MobileMailer, 'receiving', type: :mailer do
 
     describe '実機からのメールの場合' do
       before(:each) do
-        @email = open(Rails.root + 'spec/fixtures/mobile_mailer/au-emoji2.eml').read
+        @email = File.open(Rails.root + 'spec/fixtures/mobile_mailer/au-emoji2.eml').read
       end
 
       it '漢字コードを適切に変換できること' do
@@ -589,7 +589,7 @@ describe MobileMailer, 'receiving', type: :mailer do
   describe 'softbank からのメールを受信するとき' do
     describe 'shift_jis のとき' do
       before(:each) do
-        @email = open(Rails.root + 'spec/fixtures/mobile_mailer/softbank-emoji.eml').read
+        @email = File.open(Rails.root + 'spec/fixtures/mobile_mailer/softbank-emoji.eml').read
       end
 
       it '漢字コードを適切に変換できること' do
@@ -609,7 +609,7 @@ describe MobileMailer, 'receiving', type: :mailer do
 
     describe 'utf-8 のとき' do
       before(:each) do
-        @email = open(Rails.root + 'spec/fixtures/mobile_mailer/softbank-emoji-utf8.eml').read
+        @email = File.open(Rails.root + 'spec/fixtures/mobile_mailer/softbank-emoji-utf8.eml').read
       end
 
       it '漢字コードを適切に変換できること' do
@@ -632,7 +632,7 @@ describe MobileMailer, 'receiving', type: :mailer do
     describe 'docomo の場合' do
       # NOTE: キャリアメールサーバで絵文字を変換するため検証は困難
       before(:each) do
-        @email = open(Rails.root + 'spec/fixtures/mobile_mailer/docomo-gmail-sjis.eml').read
+        @email = File.open(Rails.root + 'spec/fixtures/mobile_mailer/docomo-gmail-sjis.eml').read
       end
 
       it '正常に受信できること' do
@@ -657,7 +657,7 @@ describe MobileMailer, 'receiving', type: :mailer do
 
     describe 'au の場合' do
       before(:each) do
-        @email = open(Rails.root + 'spec/fixtures/mobile_mailer/au-decomail.eml').read
+        @email = File.open(Rails.root + 'spec/fixtures/mobile_mailer/au-decomail.eml').read
       end
 
       it '正常に受信できること' do
@@ -682,7 +682,7 @@ describe MobileMailer, 'receiving', type: :mailer do
       context 'iPhone' do
         it 'should parse correctly' do
           expect {
-            @mail = MobileMailer.receive(open(File.join(Rails.root, '../../../spec/unit/email-fixtures/iphone-message.eml')).read)
+            @mail = MobileMailer.receive(File.open(File.join(Rails.root, '../../../spec/unit/email-fixtures/iphone-message.eml')).read)
             @mail.encoded
           }.not_to raise_error
         end
@@ -692,7 +692,7 @@ describe MobileMailer, 'receiving', type: :mailer do
     describe 'softbank(sjis) の場合' do
       # NOTE: キャリアメールサーバで絵文字を変換するため検証は困難
       before(:each) do
-        @email = open(Rails.root + 'spec/fixtures/mobile_mailer/softbank-gmail-sjis.eml').read
+        @email = File.open(Rails.root + 'spec/fixtures/mobile_mailer/softbank-gmail-sjis.eml').read
       end
 
       it '正常に受信できること' do
@@ -716,7 +716,7 @@ describe MobileMailer, 'receiving', type: :mailer do
     describe 'softbank(utf8) の場合' do
       # NOTE: キャリアメールサーバで絵文字を変換するため検証は困難
       before(:each) do
-        @email = open(Rails.root + 'spec/fixtures/mobile_mailer/softbank-gmail-utf8.eml').read
+        @email = File.open(Rails.root + 'spec/fixtures/mobile_mailer/softbank-gmail-utf8.eml').read
       end
 
       it '正常に受信できること' do
@@ -740,7 +740,7 @@ describe MobileMailer, 'receiving', type: :mailer do
     describe '添付ファイルがある場合' do
       # NOTE: au のみテスト
       before(:each) do
-        @email = open(Rails.root + 'spec/fixtures/mobile_mailer/au-attached.eml').read
+        @email = File.open(Rails.root + 'spec/fixtures/mobile_mailer/au-attached.eml').read
       end
 
       it '正常に受信できること' do
@@ -770,7 +770,7 @@ describe MobileMailer, 'receiving', type: :mailer do
   describe 'PCからメールを受信するとき' do
     describe '日本語ではない場合' do
       before(:each) do
-        @email = open(Rails.root + 'spec/fixtures/mobile_mailer/non-jp.eml').read
+        @email = File.open(Rails.root + 'spec/fixtures/mobile_mailer/non-jp.eml').read
       end
 
       it '正常に受信できること' do
@@ -787,7 +787,7 @@ describe MobileMailer, 'receiving', type: :mailer do
 
     describe 'From がない場合' do
       before(:each) do
-        @email = open(Rails.root + 'spec/fixtures/mobile_mailer/no-from.eml').read
+        @email = File.open(Rails.root + 'spec/fixtures/mobile_mailer/no-from.eml').read
       end
 
       it '正常に受信できること' do

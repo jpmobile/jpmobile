@@ -1,4 +1,4 @@
-lib = File.expand_path('../lib', __FILE__)
+lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'jpmobile/version'
 
@@ -22,7 +22,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'git'
   gem.add_development_dependency 'hpricot'
   gem.add_development_dependency 'pry'
-  gem.add_development_dependency 'rails', '~> 5.2.0.rc1'
+  gem.add_development_dependency 'rails', '~> 5.2.0.rc2'
   gem.add_development_dependency 'rspec'
   gem.add_development_dependency 'rspec-its'
   gem.add_development_dependency 'rspec-rails'

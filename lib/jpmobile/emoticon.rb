@@ -294,7 +294,7 @@ module Jpmobile
 
         begin
           yaml_hash = YAML.load_file(@pc_emoticon_yaml)
-          @pc_emoticon_hash = Hash[*(yaml_hash.values.inject([]) { |r, v| r += v.to_a.flatten; r })]
+          @pc_emoticon_hash = Hash[*(yaml_hash.values.inject([]) {|r, v| r += v.to_a.flatten; r })]
           @pc_emoticon_image_path.chop if @pc_emoticon_image_path.match?(%r{/$})
 
           return true

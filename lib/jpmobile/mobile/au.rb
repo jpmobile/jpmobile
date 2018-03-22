@@ -25,16 +25,19 @@ module Jpmobile::Mobile
     def position
       return @__posotion if defined? @__posotion
       return @__posotion = nil if params['lat'].nil? || params['lat'] == '' || params['lon'].nil? || params['lon'] == ''
+
       l = Jpmobile::Position.new
-      l.options = params.select { |x, _| %w[ver datum unit lat lon alt time smaj smin vert majaa fm].include?(x) }
+      l.options = params.select {|x, _| %w[ver datum unit lat lon alt time smaj smin vert majaa fm].include?(x) }
       case params['unit']
       when '1'
         l.lat = params['lat'].to_f
         l.lon = params['lon'].to_f
       when '0', 'dms'
         raise 'Invalid dms form' unless params['lat'] =~ /^([+-]?\d+)\.(\d+)\.(\d+\.\d+)$/
+
         l.lat = Jpmobile::Position.dms2deg(Regexp.last_match(1), Regexp.last_match(2), Regexp.last_match(3))
         raise 'Invalid dms form' unless params['lon'] =~ /^([+-]?\d+)\.(\d+)\.(\d+\.\d+)$/
+
         l.lon = Jpmobile::Position.dms2deg(Regexp.last_match(1), Regexp.last_match(2), Regexp.last_match(3))
       else
         return @__posotion = nil

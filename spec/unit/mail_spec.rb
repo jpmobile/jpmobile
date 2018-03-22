@@ -29,7 +29,7 @@ describe 'Jpmobile::Mail' do
       before(:each) do
         @mail.parts << Mail::Part.new { body 'ほげ' }
         @mail.parts << Mail::Part.new { body 'ほげほげ' }
-        @mail.parts.each { |p| p.charset = 'ISO-2022-JP' }
+        @mail.parts.each {|p| p.charset = 'ISO-2022-JP' }
       end
       context 'to_s' do
         subject do
@@ -285,7 +285,7 @@ describe 'Jpmobile::Mail' do
       @mobile = Jpmobile::Mobile::AbstractMobile.new(nil, nil)
       @mail.mobile = @mobile
       @mail.to = 'むすめふさほせ <info+to@jpmobile-rails.org>'
-      @photo = open(File.join(__dir__, 'email-fixtures/photo.jpg')).read
+      @photo = File.open(File.join(__dir__, 'email-fixtures/photo.jpg')).read
     end
 
     it 'should encodes itself successfully' do
@@ -318,7 +318,7 @@ describe 'Jpmobile::Mail' do
       @mobile = Jpmobile::Mobile::AbstractMobile.new(nil, nil)
       @mail.mobile = @mobile
       @mail.to = 'むすめふさほせ <info+to@jpmobile-rails.org>'
-      @photo = open(File.join(__dir__, 'email-fixtures/photo.jpg')).read
+      @photo = File.open(File.join(__dir__, 'email-fixtures/photo.jpg')).read
     end
 
     it 'wave dash converting correctly' do
@@ -347,8 +347,8 @@ describe 'Jpmobile::Mail' do
                               enable_starttls_auto: false,
                               user_name: ENV['MAILTRAP_USERNAME'],
                               password: ENV['MAILTRAP_PASSWORD'],
-                              address: 'mailtrap.io',
-                              domain: 'mailtrap.io',
+                              address: 'smtp.mailtrap.io',
+                              domain: 'smtp.mailtrap.io',
                               port: '2525',
                               authentication: :cram_md5,
                             }

@@ -424,7 +424,7 @@ module Mail
       self.preamble = parts[0].to_s.strip
       # Make the epilogue equal to the epilogue (if any)
       self.epilogue = parts[-1].to_s.sub('--', '').strip
-      parts[1...-1].to_a.each { |part| @parts << Mail::Part.new(body_raw: part, mobile: @mobile) }
+      parts[1...-1].to_a.each {|part| @parts << Mail::Part.new(body_raw: part, mobile: @mobile) }
       self
     end
   end
@@ -457,7 +457,8 @@ module Mail
     def decoded_with_jpmobile
       if @mobile
         return value unless value =~ /\=\?[^?]+\?([QB])\?[^?]*?\?\=/mi
-        Encodings.collapse_adjacent_encodings(value).each { |line|
+
+        Encodings.collapse_adjacent_encodings(value).each {|line|
           line.gsub!(/\=\?[^?]+\?([QB])\?[^?]*?\?\=/mi) do |string|
             case Regexp.last_match(1)
             when 'B', 'b' then decode_b_value_for_mobile(string)
@@ -515,7 +516,7 @@ module Mail
       if @mobile
         self.charset = @mobile.mail_charset
 
-        _value = address_list.addresses.map { |_a|
+        _value = address_list.addresses.map {|_a|
           if Utilities.blank?(_a.display_name) || _a.display_name.ascii_only?
             _a.to_s
           else
@@ -554,7 +555,7 @@ module Mail
       if @mobile
         self.charset = @mobile.mail_charset
 
-        _value = address_list.addresses.map { |_a|
+        _value = address_list.addresses.map {|_a|
           if Utilities.blank?(_a.display_name) || _a.display_name.ascii_only?
             _a.to_s
           else
@@ -595,7 +596,7 @@ module Mail
   class ContentTypeElement # :nodoc:
     def initialize_with_jpmobile(string)
       if (m = string.match(/\A(.*?)(name|filename)=("|')(.+)("|')(.*?)\z/)) &&
-         m[4].each_byte.detect { |b| (b == 0 || b > 127) }
+         m[4].each_byte.detect {|b| (b == 0 || b > 127) }
         name = [m[4]].pack('m').strip
         string = "#{m[1]}#{m[2]}=#{m[3]}#{name}#{m[5]}#{m[6]}"
       end
@@ -609,7 +610,7 @@ module Mail
   class ContentDispositionElement # :nodoc:
     def initialize_with_jpmobile(string)
       if (m = string.match(/\A(.*?)(name|filename)=("|')(.+)("|')(.*?)\z/)) &&
-         m[4].each_byte.detect { |b| (b == 0 || b > 127) }
+         m[4].each_byte.detect {|b| (b == 0 || b > 127) }
         name = [m[4]].pack('m').strip
         string = "#{m[1]}#{m[2]}=#{m[3]}#{name}#{m[5]}#{m[6]}"
       end
@@ -623,7 +624,7 @@ module Mail
   class ContentLocationElement # :nodoc:
     def initialize_with_jpmobile(string)
       if (m = string.match(/\A(.*?)(name|filename)=("|')(.+)("|')(.*?)\z/)) &&
-         m[4].each_byte.detect { |b| (b == 0 || b > 127) }
+         m[4].each_byte.detect {|b| (b == 0 || b > 127) }
         name = [m[4]].pack('m').strip
         string = "#{m[1]}#{m[2]}=#{m[3]}#{name}#{m[5]}#{m[6]}"
       end

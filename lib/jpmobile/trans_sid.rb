@@ -30,6 +30,7 @@ module Jpmobile
       result = super || {}.with_indifferent_access
       return result unless request # for test process
       return result unless apply_trans_sid?
+
       result.merge({ session_key.to_sym => jpmobile_session_id })
     end
 
@@ -58,6 +59,7 @@ module Jpmobile
       return unless request # for test process
       return unless apply_trans_sid?
       return unless jpmobile_session_id
+
       response.body = response.body.gsub(%r{(</form>)}i, sid_hidden_field_tag + '\1')
     end
   end

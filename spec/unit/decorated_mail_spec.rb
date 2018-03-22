@@ -14,7 +14,7 @@ describe 'decorated mails' do
     @mail.from      = 'ちはやふる <info@jpmobile-rails.org>'
     @mail.to        = 'むすめふさほせ <info+to@jpmobile-rails.org>'
 
-    @photo = open(File.join(__dir__, 'email-fixtures/photo.jpg')).read
+    @photo = File.open(File.join(__dir__, 'email-fixtures/photo.jpg')).read
     @mail.attachments.inline['photo.jpg'] = @photo
     @inline_url = @mail.attachments['photo.jpg'].url
   end

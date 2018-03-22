@@ -2,7 +2,7 @@ require 'nokogiri'
 require 'scanf'
 require 'pp'
 
-xml = Nokogiri::XML(open(File.join(File.dirname(__FILE__), 'emoji4unicode.xml')).read)
+xml = Nokogiri::XML(File.open(File.join(File.dirname(__FILE__), 'emoji4unicode.xml')).read)
 
 google_docomo    = []
 google_kddi      = []
@@ -74,7 +74,7 @@ xml.xpath('//e').each do |emoji|
   end
 end
 
-google_emoji_rb  = open(File.join(File.dirname(__FILE__), '/../lib/jpmobile/emoticon/google.rb'), 'w') do |f|
+google_emoji_rb  = File.open(File.join(File.dirname(__FILE__), '/../lib/jpmobile/emoticon/google.rb'), 'w') do |f|
   # docomo
   f.puts 'Jpmobile::Emoticon::GOOGLE_TO_DOCOMO_UNICODE = {'
   google_docomo.each do |google, docomo|
@@ -97,7 +97,7 @@ google_emoji_rb  = open(File.join(File.dirname(__FILE__), '/../lib/jpmobile/emot
   f.puts '}'
 end
 
-unicode_emoji_rb = open(File.join(File.dirname(__FILE__), '/../lib/jpmobile/emoticon/unicode.rb'), 'w') do |f|
+unicode_emoji_rb = File.open(File.join(File.dirname(__FILE__), '/../lib/jpmobile/emoticon/unicode.rb'), 'w') do |f|
   # docomo
   f.puts 'Jpmobile::Emoticon::UNICODE_TO_DOCOMO_UNICODE = {'
   unicode_docomo.each do |unicode, docomo|

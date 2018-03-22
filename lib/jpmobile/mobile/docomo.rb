@@ -24,15 +24,19 @@ module Jpmobile::Mobile
     # 位置情報があれば Position のインスタンスを返す。無ければ +nil+ を返す。
     def position
       return @__position if defined? @__position
+
       lat = params['lat'] || params['LAT']
       lon = params['lon'] || params['LON']
       geo = params['geo'] || params['GEO']
       return @__position = nil if lat.nil? || lat == '' || lon.nil? || lon == ''
       raise 'Unsuppoted datum' unless geo.casecmp('wgs84')
+
       pos = Jpmobile::Position.new
       raise 'Unsuppoted' unless lat =~ /^([+-]\d+)\.(\d+)\.(\d+\.\d+)/
+
       pos.lat = Jpmobile::Position.dms2deg(Regexp.last_match(1), Regexp.last_match(2), Regexp.last_match(3))
       raise 'Unsuppoted' unless lon =~ /^([+-]\d+)\.(\d+)\.(\d+\.\d+)/
+
       pos.lon = Jpmobile::Position.dms2deg(Regexp.last_match(1), Regexp.last_match(2), Regexp.last_match(3))
       @__position = pos
     end

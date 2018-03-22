@@ -26,7 +26,7 @@ class Table
     else
       raise Exception, "something is wrong"
     end
-    open(path) do |f|
+    File.open(path) do |f|
       f.gets # ヘッダを捨てる
       f.each do |l|
         a = Iconv.conv("utf-8", "cp932", l).chomp.split(/\t/)

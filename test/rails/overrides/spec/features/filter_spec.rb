@@ -18,7 +18,7 @@ describe "jpmobile integration spec", :type => :feature do
     end
     it "は&nbsp;変換されない" do
       visit "/#{controller}/nbsp_char"
-      expect(page.body.encode('UTF-8')).to have_content('ｱﾌﾞﾗ ｶﾀﾞﾌﾞﾗ')
+      expect(page.body.encode('UTF-8')).to have_content("ｱﾌﾞﾗ\xc2\xa0ｶﾀﾞﾌﾞﾗ")
     end
   end
 
@@ -33,7 +33,7 @@ describe "jpmobile integration spec", :type => :feature do
     end
     it "は&nbsp;変換されない" do
       visit "/#{controller}/nbsp_char"
-      expect(page.body.encode('UTF-8')).to have_content('ｱﾌﾞﾗ ｶﾀﾞﾌﾞﾗ')
+      expect(page.body.encode('UTF-8')).to have_content("ｱﾌﾞﾗ\xc2\xa0ｶﾀﾞﾌﾞﾗ")
     end
   end
 

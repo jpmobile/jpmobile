@@ -164,12 +164,28 @@ module Jpmobile
     end
 
     def convert_parameters(params)
-      params.each do |k, v|
-        params[k] = if params[k].respond_to?(:each)
-                      convert_parameters(params[k])
-                    else
-                      to_internal(v)
-                    end
+      if params.respond_to?(:each)
+        case params
+        when Array
+          params.map do |v|
+            if v.respond_to?(:each)
+              convert_parameters(v)
+            else
+              to_internal(v)
+            end
+          end
+        else
+          params.each do |k, v|
+            params[k] =
+              if v.respond_to?(:each)
+                convert_parameters(v)
+              else
+                to_internal(v)
+              end
+          end
+        end
+      else
+        to_internal(params)
       end
     end
   end

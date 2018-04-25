@@ -28,3 +28,9 @@ export MAILTRAP_PASSWORD=YYYYYYYYYYYYYY
 $ bundle exec rake test
 $ bundle exec rubocop
 ```
+
+### railsでのテスト
+
+```
+$ bundle exec rake test:rails
+```

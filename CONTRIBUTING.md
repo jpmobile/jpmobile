@@ -29,7 +29,7 @@ $ bundle exec rake test
 $ bundle exec rubocop
 ```
 
-### railsでのテスト
+### Railsでのテスト
 
 ```
 $ bundle exec rake test:rails

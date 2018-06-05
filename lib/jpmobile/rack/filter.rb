@@ -13,7 +13,7 @@ module Jpmobile
 
       status, env, response = @app.call(env)
 
-      if env['Content-Type'].match?(%r{text/html|application/xhtml\+xml})
+      if env['Content-Type']&.match?(%r{text/html|application/xhtml\+xml})
         if mobile && mobile.apply_filter?
           type, charset = env['Content-Type'].split(/;\s*charset=/)
 

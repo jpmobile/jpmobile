@@ -17,4 +17,10 @@ describe 'PCからのアクセスの場合', type: :request do
 
     expect(request.mobile?).to be_falsey
   end
+
+  context 'routesが存在しない場合' do
+    it 'ActionController::RoutingErrorをraiseする' do
+      expect { get '/not_exist', params: {}, env: @headers }.to raise_error ActionController::RoutingError
+    end
+  end
 end

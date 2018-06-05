@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    jpmobile (5.2.1)
+    jpmobile (5.2.2)
       mail (~> 2.7.0)
 
 GEM

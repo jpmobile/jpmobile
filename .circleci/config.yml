@@ -15,7 +15,7 @@ jobs:
       # Install dependent packages
       - run:
           name: Install dependent packages
-          command: sudo apt-get install -y cmake
+          command: sudo apt-get install -y cmake qt5-default libqt5webkit5-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x
 
       # Which version of bundler?
       - run:

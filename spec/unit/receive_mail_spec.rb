@@ -258,7 +258,7 @@ describe 'Jpmobile::Mail#receive' do
       end
 
       it 'body should be parsed correctly' do
-        expect(@mail.body.to_s).to eq("本文&#xe522;\nFor au\n\n")
+        expect(@mail.body.to_s).to eq("本文&#xe522;\r\nFor au\r\n\r\n")
       end
 
       context 'to_s' do

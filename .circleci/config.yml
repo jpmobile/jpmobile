@@ -1,0 +1,60 @@
+version: 2
+jobs:
+  test-job:
+    working_directory: ~/jpmobile
+    docker:
+      - image: circleci/ruby:2.5-node-browsers
+        environment:
+          BUNDLE_JOBS: 3
+          BUNDLE_RETRY: 3
+          BUNDLE_PATH: vendor/bundle
+          RAILS_ENV: test
+    steps:
+      - checkout
+
+      # Install dependent packages
+      - run:
+          name: Install dependent packages
+          command: sudo apt-get install -y cmake
+
+      # Which version of bundler?
+      - run:
+          name: Which bundler?
+          command: bundle -v
+
+      # Restore bundle cache
+      - restore_cache:
+          keys:
+            - jpmobile-bundle-v1-{{ checksum "Gemfile.lock" }}
+
+      - run:
+          name: Bundle Install
+          command: bundle check || bundle install --path vendor/bundler
+
+      # Store bundle cache
+      - save_cache:
+          key: jpmobile-bundle-v1-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+
+      # rubocop
+      - run:
+          name: rubocop
+          command: |
+            bundle exec rubocop
+          environment:
+            BUNDLE_GEMFILE: ~/jpmobile/Gemfile
+
+      # Run rspec in parallel
+      - run:
+          name: test
+          command: |
+            bundle exec rake test
+
+          environment:
+            BUNDLE_GEMFILE: ~/jpmobile/Gemfile
+workflows:
+  version: 2
+  run-test:
+    jobs:
+      - test-job

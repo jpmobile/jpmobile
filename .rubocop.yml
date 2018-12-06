@@ -9,14 +9,12 @@ inherit_gem:
 AllCops:
   TargetRubyVersion: 2.4
   Exclude:
-    - 'bin/bundle'
-    - 'bin/rails'
-    - 'bin/rake'
+    - 'bin/*'
     - 'db/schema.rb'
     - 'vendor/bundle/**/*'
     - 'tools/**/*'
     - 'test/rails/rails_root/**/*'
-    - 'vendor/jpmobile-*/**/*'
+    - 'vendor/**/*'
 
 Style/StringLiterals:
   EnforcedStyle: single_quotes

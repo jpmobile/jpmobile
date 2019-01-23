@@ -8,7 +8,7 @@
 
 * 携帯電話のキャリア判別
 * 端末位置情報の取得
-    * [GeoKit](http://geokit.rubyforge.org) との連携
+    * [GeoKit](https://github.com/geokit/geokit) との連携
 
 * 端末製造番号、契約者番号等の取得
 * IPアドレスの検証(キャリアが公開しているIPアドレス帯域からのアクセスか判定)
@@ -164,7 +164,7 @@ eがincludeされる。したがって、
 request.mobile.position.distance_to('札幌駅')
 ```
 
-とすることで、端末と「札幌駅」との距離を求めることができる。詳細は http://geokit.rubyforge.org/api/index.html
+とすることで、端末と「札幌駅」との距離を求めることができる。詳細は https://www.rubydoc.info/github/geokit/geokit/master/frames
 参照。
 
 ### 端末情報の取得

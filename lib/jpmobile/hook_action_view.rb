@@ -1,11 +1,15 @@
 #:stopdoc:
 # helperを追加
-ActionView::Base.class_eval { include Jpmobile::Helpers }
+# ActionView で trans_sid を有効にする
+ActionView::Base.class_eval do
+  include Jpmobile::Helpers
+
+  delegate :default_url_options, to: :controller unless respond_to?(:default_url_options)
+end
 #:startdoc:
 
 # :stopdoc:
 # accept-charset に charset を変更できるようにする
-# ActionView で trans_sid を有効にする
 module ActionView
   module Helpers
     module FormTagHelper
@@ -24,10 +28,6 @@ module ActionView
         end
       end
     end
-  end
-
-  class Base
-    delegate :default_url_options, to: :controller unless respond_to?(:default_url_options)
   end
 end
 #:startdoc:

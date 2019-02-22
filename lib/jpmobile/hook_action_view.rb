@@ -10,24 +10,19 @@ end
 
 # :stopdoc:
 # accept-charset に charset を変更できるようにする
-module ActionView
-  module Helpers
-    module FormTagHelper
+module Jpmobile
+  module ActionView
+    module HtmlOptionsWithAcceptCharset
       private
 
       def html_options_for_form(url_for_options, options, *parameters_for_url)
-        accept_charset = (Rails.application.config.jpmobile.form_accept_charset_conversion && request && request.mobile && request.mobile.default_charset) || 'UTF-8'
-
-        options.stringify_keys.tap do |html_options|
-          html_options['enctype'] = 'multipart/form-data' if html_options.delete('multipart')
-          # The following URL is unescaped, this is just a hash of options, and it is the
-          # responsability of the caller to escape all the values.
-          html_options['action']  = url_for(url_for_options, *parameters_for_url)
-          html_options['accept-charset'] = accept_charset
-          html_options['data-remote'] = true if html_options.delete('remote')
+        super.tap do |o|
+          o['accept-charset'] = (Rails.application.config.jpmobile.form_accept_charset_conversion && request && request.mobile && request.mobile.default_charset) || o['accept-charset']
         end
       end
     end
   end
 end
+
+::ActionView::Helpers::FormTagHelper.send :prepend, Jpmobile::ActionView::HtmlOptionsWithAcceptCharset
 #:startdoc:

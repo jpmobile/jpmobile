@@ -10,7 +10,7 @@ ActiveSupport.on_load(:action_controller) do
   ActionController::Base.send :prepend, Jpmobile::TransSidRedirecting
 end
 
-ActiveSupport.on_load(:action_controller) do
+ActiveSupport.on_load(:action_view) do
   require 'jpmobile/hook_action_view'
 end
 

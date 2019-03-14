@@ -111,8 +111,8 @@ namespace :test do
         ENV.update('RBENV_DIR' => nil)
 
         system 'bundle install'
-        system 'bin/rails db:migrate RAILS_ENV=test' unless skip
-        system 'bin/rails spec'
+        system 'bin/rake db:migrate RAILS_ENV=test' unless skip
+        system 'bin/rake spec'
 
         ENV.replace(original_env)
       end

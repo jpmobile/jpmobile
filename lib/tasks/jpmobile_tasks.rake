@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # desc "Explaining what the task does"
 # task :jpmobile do
 #   # Task goes here
@@ -19,30 +18,28 @@ begin
     end
   end
 rescue LoadError
-  warn "RSpec is not installed. Some tasks were skipped. please install rspec"
+  warn 'RSpec is not installed. Some tasks were skipped. please install rspec'
 end
 
 namespace :test do
-  desc "Generate rails app and run jpmobile tests in the app"
-  task :rails, [:skip] do |t, args|
-    rails_root     = "test/rails/rails_root"
-    relative_root  = "../../../"
+  desc 'Generate rails app and run jpmobile tests in the app'
+  task :rails, [:skip] do |_, args|
+    rails_root = 'test/rails/rails_root'
 
-    puts "Running tests in Rails"
-    skip = args.skip == "true"
+    puts 'Running tests in Rails'
+    skip = args.skip == 'true'
 
     unless skip
       # generate rails app
-      FileUtils.rm_rf("Gemfile.lock")
       FileUtils.rm_rf(rails_root)
       FileUtils.mkdir_p(rails_root)
-      `bundle exec rails new #{rails_root} --skip-bundle`
+      `rails new #{rails_root} --skip-bundle`
     end
 
     # setup jpmobile
     plugin_path = File.join(rails_root, 'vendor', 'jpmobile')
     FileUtils.mkdir_p(plugin_path)
-    FileList["*"].exclude("test").exclude("spec").exclude('vendor').each do |file|
+    FileList['*'].exclude('test').exclude('spec').exclude('vendor').each do |file|
       FileUtils.cp_r(file, plugin_path)
     end
 
@@ -50,26 +47,37 @@ namespace :test do
     begin
       plugin_path = File.join(rails_root, 'vendor', 'jpmobile-ipaddresses')
       FileUtils.mkdir_p(plugin_path)
-      FileList["vendor/jpmobile-ipaddresses/*"].exclude("test").each do |file|
+      FileList['vendor/jpmobile-ipaddresses/*'].exclude('test').each do |file|
         FileUtils.cp_r(file, plugin_path)
       end
     rescue LoadError
-      puts "IP Address test requires jpmobile-ipaddresses module"
+      puts 'IP Address test requires jpmobile-ipaddresses module'
     end
 
     # setup jpmobile-terminfo
     begin
       plugin_path = File.join(rails_root, 'vendor', 'jpmobile-terminfo')
       FileUtils.mkdir_p(plugin_path)
-      FileList["vendor/jpmobile-terminfo/*"].exclude("test").each do |file|
+      FileList['vendor/jpmobile-terminfo/*'].exclude('test').each do |file|
         FileUtils.cp_r(file, plugin_path)
       end
     rescue LoadError
-      puts "Terminal display information test requires jpmobile-terminfo module"
+      puts 'Terminal display information test requires jpmobile-terminfo module'
+    end
+
+    # setup activerecord-session_store
+    begin
+      plugin_path = File.join(rails_root, 'vendor', 'activerecord-session_store')
+      FileUtils.mkdir_p(plugin_path)
+      FileList['../activerecord-session_store/*'].exclude('test').each do |file|
+        FileUtils.cp_r(file, plugin_path)
+      end
+    rescue LoadError
+      puts 'Terminal display information test requires jpmobile-terminfo module'
     end
 
     # setup tests
-    FileList["test/rails/overrides/*"].each do |file|
+    FileList['test/rails/overrides/*'].each do |file|
       FileUtils.cp_r(file, rails_root)
     end
 
@@ -77,10 +85,10 @@ namespace :test do
       # for cookie_only option
       config_path = File.join(rails_root, 'config', 'initializers', 'session_store.rb')
       File.open(config_path, 'w') do |file|
-        file.write <<-END
-Rails.application.config.session_store :active_record_store, :key => '_session_id'
-Rails.application.config.session_options = {:cookie_only => false}
-END
+        file.write <<-SESSION_CONFIG
+        Rails.application.config.session_store :active_record_store, :key => '_session_id'
+        Rails.application.config.session_options = { :cookie_only => false }
+        SESSION_CONFIG
       end
     end
 
@@ -88,20 +96,29 @@ END
       # add gems for jpmobile spec
       config_path = File.join(rails_root, 'Gemfile')
       File.open(config_path, 'a+') do |file|
-        file.write <<-END
-instance_eval File.read(File.expand_path(__FILE__) + '.jpmobile')
-END
+        file.write <<-GEMFILE
+        instance_eval File.read(File.expand_path(__FILE__) + '.jpmobile')
+        GEMFILE
       end
     end
 
     # run tests in rails
-    cd rails_root
-    ruby "-S bundle install"
-    ruby "-S rake db:migrate RAILS_ENV=test" unless skip
-    ruby "-S rake spec"
-    # ruby "-S rspec -b --color spec/requests/filter_spec.rb -e 'jpmobile integration spec HankakuInputFilterController SoftBank 910T からのアクセス it should behave like hankaku_filter :input => true のとき はtextareaの中では半角に変換されないこと'"
+    Dir.chdir(rails_root) do
+      Bundler.with_clean_env do
+        original_env = ENV.to_hash
+
+        ENV.update('RBENV_VERSION' => nil)
+        ENV.update('RBENV_DIR' => nil)
+
+        system 'bundle install'
+        system 'bin/rails db:migrate RAILS_ENV=test' unless skip
+        system 'bin/rails spec'
+
+        ENV.replace(original_env)
+      end
+    end
   end
-  desc "Run sinatra on jpmobile tests"
+  desc 'Run sinatra on jpmobile tests'
   Rake::TestTask.new(:sinatra) do |t|
     t.libs << 'lib'
     t.libs << 'test/sinatra'

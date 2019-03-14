@@ -26,4 +26,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'hpricot'
   gem.add_development_dependency 'git'
   gem.add_development_dependency 'pry'
+  gem.add_development_dependency 'mail', '2.5.5'
 end

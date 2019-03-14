@@ -6,6 +6,8 @@ gem 'jpmobile-ipaddresses', path: './vendor/jpmobile-ipaddresses'
 
 gem 'activerecord-session_store'
 
+gem 'mail', '2.5.5'
+
 # Bundle gems for certain environments:
 group :development, :test do
   gem "rspec"

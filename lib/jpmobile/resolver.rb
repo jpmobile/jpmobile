@@ -1,5 +1,5 @@
 module Jpmobile
-  class Resolver < ActionView::FileSystemResolver
+  class Resolver < ::ActionView::FileSystemResolver
     EXTENSIONS = [:locale, :formats, :handlers, :mobile].freeze
     DEFAULT_PATTERN = ':prefix/:action{_:mobile,}{.:locale,}{.:formats,}{+:variants,}{.:handlers,}'.freeze
 
@@ -32,7 +32,7 @@ module Jpmobile
                          path.virtual
                        end
 
-        ActionView::Template.new(
+        ::ActionView::Template.new(
           contents,
           File.expand_path(template),
           handler,

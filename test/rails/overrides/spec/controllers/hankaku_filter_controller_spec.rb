@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Jpmobile::HankakuFilterController, type: :controller do
+describe HankakuFilterController, type: :controller do
   describe '#index' do
     let(:params) { { prefecture_ids: ['1', '2'] } }
 

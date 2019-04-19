@@ -12,6 +12,8 @@ end
 
 ActiveSupport.on_load(:action_view) do
   require 'jpmobile/hook_action_view'
+
+  self.prepend Jpmobile::HtmlOptionsWithAcceptCharset
 end
 
 ActiveSupport.on_load(:after_initialize) do

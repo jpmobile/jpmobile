@@ -94,8 +94,8 @@ namespace :test do
 
     unless skip
       # add gems for jpmobile spec
-      config_path = File.join(rails_root, 'Gemfile')
-      File.open(config_path, 'a+') do |file|
+      gemfile_path = File.join(rails_root, 'Gemfile')
+      File.open(gemfile_path, 'a+') do |file|
         file.write <<-GEMFILE
         instance_eval File.read(File.expand_path(__FILE__) + '.jpmobile')
         GEMFILE

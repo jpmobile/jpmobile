@@ -5,7 +5,8 @@ module Jpmobile
 
     def initialize(path, pattern = nil)
       raise ArgumentError, 'path already is a Resolver class' if path.is_a?(Resolver)
-      super(path, DEFAULT_PATTERN)
+      super
+      @pattern = DEFAULT_PATTERN
       @path = File.expand_path(path)
     end
   end

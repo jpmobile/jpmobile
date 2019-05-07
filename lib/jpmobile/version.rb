@@ -1,3 +1,3 @@
 module Jpmobile
-  VERSION = '5.2.4'.freeze
+  VERSION = '6.0.0.beta'.freeze
 end

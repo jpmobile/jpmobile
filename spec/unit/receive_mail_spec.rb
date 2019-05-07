@@ -84,7 +84,7 @@ describe 'Jpmobile::Mail#receive' do
     describe 'Docomo' do
       context 'with sjis decomail' do
         before(:each) do
-          @mail = Mail.new(File.open(File.join(__dir__, '../../test/rails/overrides/spec/fixtures/mobile_mailer/docomo-gmail-sjis.eml')).read)
+          @mail = Mail.new(File.open(File.join(__dir__, '../../test/rails/overrides/spec/fixtures/files/mobile_mailer/docomo-gmail-sjis.eml')).read)
         end
 
         it 'subject should be parsed correctly' do
@@ -129,7 +129,7 @@ describe 'Jpmobile::Mail#receive' do
 
     describe 'Au' do
       before(:each) do
-        @mail = Mail.new(File.open(File.join(__dir__, '../../test/rails/overrides/spec/fixtures/mobile_mailer/au-decomail.eml')).read)
+        @mail = Mail.new(File.open(File.join(__dir__, '../../test/rails/overrides/spec/fixtures/files/mobile_mailer/au-decomail.eml')).read)
       end
 
       it 'subject should be parsed correctly' do
@@ -151,7 +151,7 @@ describe 'Jpmobile::Mail#receive' do
     describe 'Softbank' do
       context 'Shift_JIS' do
         before(:each) do
-          @mail = Mail.new(File.open(File.join(__dir__, '../../test/rails/overrides/spec/fixtures/mobile_mailer/softbank-gmail-sjis.eml')).read)
+          @mail = Mail.new(File.open(File.join(__dir__, '../../test/rails/overrides/spec/fixtures/files/mobile_mailer/softbank-gmail-sjis.eml')).read)
         end
 
         it 'subject should be parsed correctly' do
@@ -170,7 +170,7 @@ describe 'Jpmobile::Mail#receive' do
 
       context 'UTF-8' do
         before(:each) do
-          @mail = Mail.new(File.open(File.join(__dir__, '../../test/rails/overrides/spec/fixtures/mobile_mailer/softbank-gmail-utf8.eml')).read)
+          @mail = Mail.new(File.open(File.join(__dir__, '../../test/rails/overrides/spec/fixtures/files/mobile_mailer/softbank-gmail-utf8.eml')).read)
         end
 
         it 'subject should be parsed correctly' do
@@ -435,7 +435,7 @@ describe 'Jpmobile::Mail#receive' do
   describe 'bounced mail' do
     context 'has jp address' do
       before(:each) do
-        @mail = Mail.new(File.open(File.join(__dir__, '../../test/rails/overrides/spec/fixtures/mobile_mailer/bounced-jp.eml')).read)
+        @mail = Mail.new(File.open(File.join(__dir__, '../../test/rails/overrides/spec/fixtures/files/mobile_mailer/bounced-jp.eml')).read)
       end
 
       it 'mobile should abstract mobile' do
@@ -447,7 +447,7 @@ describe 'Jpmobile::Mail#receive' do
   describe 'non-Japanese mail' do
     context 'us-ascii' do
       before(:each) do
-        @mail = Mail.new(File.open(File.join(__dir__, '../../test/rails/overrides/spec/fixtures/mobile_mailer/non-jp.eml')).read)
+        @mail = Mail.new(File.open(File.join(__dir__, '../../test/rails/overrides/spec/fixtures/files/mobile_mailer/non-jp.eml')).read)
       end
 
       it 'mobile should be nil' do
@@ -458,7 +458,7 @@ describe 'Jpmobile::Mail#receive' do
 
     context 'no From header' do
       before(:each) do
-        @mail = Mail.new(File.open(File.join(__dir__, '../../test/rails/overrides/spec/fixtures/mobile_mailer/no-from.eml')).read)
+        @mail = Mail.new(File.open(File.join(__dir__, '../../test/rails/overrides/spec/fixtures/files/mobile_mailer/no-from.eml')).read)
       end
 
       it 'mobile should be nil' do

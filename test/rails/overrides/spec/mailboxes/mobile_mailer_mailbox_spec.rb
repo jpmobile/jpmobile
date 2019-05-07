@@ -154,8 +154,8 @@ describe MobileMailerMailbox, type: :mailbox, focus: true do
       context 'iPhone' do
         it 'should parse correctly' do
           expect {
-            @mail = MobileMailer.receive(File.open(File.join(Rails.root, '../../../spec/unit/email-fixtures/iphone-message.eml')).read)
-            @mail.encoded
+            inbound_email = receive_inbound_email_from_fixture('mobile_mailer/iphone-message.eml')
+            inbound_email.mail.encoded
           }.not_to raise_error
         end
       end

@@ -304,13 +304,13 @@ describe 'Jpmobile::Mail#receive' do
 
     context 'From au iPhone' do
       it 'charset should be UTF-8' do
-        @mail = Mail.new(File.open(File.join(__dir__, 'email-fixtures/iphone-message.eml')).read)
+        @mail = Mail.new(File.open(File.join(__dir__, '../../test/rails/overrides/spec/fixtures/files/mobile_mailer/iphone-message.eml')).read)
         expect(@mail.mobile).to be_a(Jpmobile::Mobile::Au)
         expect(@mail.charset).to match(/utf-8/i)
       end
 
       it 'should be encoded correctly' do
-        @mail = Mail.new(File.open(File.join(__dir__, 'email-fixtures/iphone-message.eml')).read)
+        @mail = Mail.new(File.open(File.join(__dir__, '../../test/rails/overrides/spec/fixtures/files/mobile_mailer/iphone-message.eml')).read)
         expect(@mail.encoded).to match(Regexp.escape("%[\e$B1`;yL>\e(B]%\e$B$N\e(B%[\e$BJ]8n<TL>\e(B]%"))
       end
 

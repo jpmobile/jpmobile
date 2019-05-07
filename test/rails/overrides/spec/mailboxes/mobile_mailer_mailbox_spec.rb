@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'action_mailbox/test_helper'
 
-describe MobileMailerMailbox, type: :mailbox, focus: true do
+describe MobileMailerMailbox, type: :mailbox do
   include ActionMailbox::TestHelper
 
   describe 'blank mail' do

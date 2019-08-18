@@ -1,0 +1,423 @@
+# 自動生成されるものはチェック対象から除外する
+AllCops:
+  Exclude:
+    - "node_modules/**/*" # rubocop config/default.yml
+    - "vendor/**/*"       # rubocop config/default.yml
+    - "db/schema.rb"
+
+#################### Layout ################################
+
+# メソッドをグループ分けして書き順を揃えておくと読みやすくなる。
+# 多少のツラミはあるかもしれない。
+# TODO: Categories を調整することで
+# https://github.com/pocke/rubocop-rails-order_model_declarative_methods
+# を再現できそう。
+Layout/ClassStructure:
+  Enabled: true
+
+# メソッドチェーンの改行は末尾に . を入れる
+# * REPL に貼り付けた際の暴発を防ぐため
+# * 途中にコメントをはさむことができて実用上圧倒的に便利
+Layout/DotPosition:
+  EnforcedStyle: trailing
+
+# 桁揃えが綺麗にならないことが多いので migration は除外
+Layout/ExtraSpacing:
+  Exclude:
+    - "db/migrate/*.rb"
+
+# special_inside_parentheses (default) と比べて
+# * 横に長くなりづらい
+# * メソッド名の長さが変わったときに diff が少ない
+Layout/IndentFirstArrayElement:
+  EnforcedStyle: consistent
+
+# ({ と hash を開始した場合に ( の位置にインデントさせる
+# そもそも {} が必要ない可能性が高いが Style/BracesAroundHashParameters はチェックしないことにしたので
+Layout/IndentFirstHashElement:
+  EnforcedStyle: consistent
+
+# private/protected は一段深くインデントする
+Layout/IndentationConsistency:
+  EnforcedStyle: indented_internal_methods
+
+# メソッドチェーン感がより感じられるインデントにする
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented_relative_to_receiver
+
+# {} は 1 行で書くときに主に使われるので、スペースよりも
+# 横に長くならない方が嬉しさが多い。
+# そもそも {| のスタイルの方が一般的だったと認識している。
+Layout/SpaceInsideBlockBraces:
+  SpaceBeforeBlockParameters: false
+
+#################### Lint ##################################
+
+# spec 内では
+# expect { subject }.to change { foo }
+# という書き方をよく行うので () を省略したい。
+# { foo } は明らかに change に紐付く。
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - "spec/**/*_spec.rb"
+
+# Style/EmptyCaseCondition と同じく網羅の表現力が empty when を認めた方が高いし、
+# 頻出する対象を最初の when で撥ねるのはパフォーマンス向上で頻出する。
+# また、
+#   case foo
+#   when 42
+#     # nop
+#   when 1..100
+#     ...
+#   end
+# と、下の when がキャッチしてしまう場合等に対応していない。
+# See. http://tech.sideci.com/entry/2016/11/01/105900
+Lint/EmptyWhen:
+  Enabled: false
+
+# RuntimeError は「特定の Error を定義できない場合」なので、
+# 定義できるエラーは RuntimeError ではなく StandardError を継承する。
+Lint/InheritException:
+  EnforcedStyle: standard_error
+
+# * 同名のメソッドがある場合にローカル変数に `_` を付ける
+# * 一時変数として `_` を付ける
+# というテクニックは頻出する
+Lint/UnderscorePrefixedVariableName:
+  Enabled: false
+
+# 子クラスで実装させるつもりで中身が
+#   raise NotImplementedError
+# のみのメソッドが引っかかるので。
+# (raise せずに中身が空だと IgnoreEmptyMethods でセーフ)
+Lint/UnusedMethodArgument:
+  Enabled: false
+
+# select 以外では引っかからないと思うので
+# mutating_methods のチェックを有効に。
+# TODO: select は引数が無い (ブロックのみ) の場合にだけチェックする
+# ようにすると誤検知がほぼ無くなる？
+Lint/Void:
+  CheckForMethodsWithNoSideEffects: true
+
+#################### Metrics ###############################
+
+# 30 まではギリギリ許せる範囲だったけど
+# リリースごとに 3 ずつぐらい下げていきます。20 まで下げたい。
+Metrics/AbcSize:
+  Max: 24
+
+# Gemfile, Guardfile は DSL 的で基本的に複雑にはならないので除外
+# rake, rspec, environments, routes は巨大な block 不可避なので除外
+# TODO: ExcludedMethods の精査
+Metrics/BlockLength:
+  Exclude:
+    - "Rakefile"
+    - "**/*.rake"
+    - "spec/**/*.rb"
+    - "Gemfile"
+    - "Guardfile"
+    - "config/environments/*.rb"
+    - "config/routes.rb"
+    - "config/routes/**/*.rb"
+    - "*.gemspec"
+
+# 6 は強すぎるので緩める
+Metrics/CyclomaticComplexity:
+  Max: 10
+
+# * 警告 120文字
+# * 禁止 160文字
+# のイメージ
+Metrics/LineLength:
+  Max: 160
+  Exclude:
+    - "db/migrate/*.rb"
+
+# 20 行超えるのは migration ファイル以外滅多に無い
+Metrics/MethodLength:
+  Max: 20
+  Exclude:
+    - "db/migrate/*.rb"
+
+# 分岐の数。ガード句を多用しているとデフォルト 7 だと厳しい
+Metrics/PerceivedComplexity:
+  Max: 8
+
+
+#################### Naming ################################
+
+# has_ から始まるメソッドは許可する
+Naming/PredicateName:
+  NamePrefixBlacklist:
+    - "is_"
+    - "have_"
+  NamePrefix:
+    - "is_"
+    - "have_"
+
+# 3 文字未満だと指摘されるが、未使用を示す _ や e(rror), b(lock),
+# n(umber) といった 1 文字変数は頻出するし、前置詞(by, to, ...)や
+# よく知られた省略語 (op: operator とか pk: primary key とか) も妥当。
+# 変数 s にどんな文字列かを形容したい場合と、不要な場合とがある＝無効
+Naming/UncommunicativeMethodParamName:
+  Enabled: false
+
+#################### Performance ###########################
+
+# downcase or upcase しての比較はイディオムの域なので、多少の
+# パフォーマンスの違いがあろうが casecmp に変える意義を感じない
+Performance/Casecmp:
+  Enabled: false
+
+
+#################### Security ##############################
+
+# 毎回 YAML.safe_load(yaml_str, [Date, Time]) するのは面倒で。。
+Security/YAMLLoad:
+  Enabled: false
+
+
+#################### Style #################################
+
+# レキシカルスコープの扱いが alias_method の方が自然。
+# https://ernie.io/2014/10/23/in-defense-of-alias/ のように
+# 問題になる場合は自分で緩める。
+Style/Alias:
+  EnforcedStyle: prefer_alias_method
+
+# redirect_to xxx and return のイディオムを維持したい
+Style/AndOr:
+  EnforcedStyle: conditionals
+
+# 日本語のコメントを許可する
+Style/AsciiComments:
+  Enabled: false
+
+# do .. end から更にメソッドチェーンすると見づらいので
+# auto-correct せず、自分で修正する
+# spec 内は見た目が綺麗になるので許可
+Style/BlockDelimiters:
+  AutoCorrect: false
+  Exclude:
+    - "spec/**/*_spec.rb"
+
+# option 等、明示的にハッシュにした方が分かりやすい場合もある
+Style/BracesAroundHashParameters:
+  Enabled: false
+
+# scope が違うとか親 module の存在確認が必要とかデメリットはあるが、
+# namespace 付きのクラスはかなり頻繁に作るので簡単に書きたい。
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+# Style/CollectionMethods 自体は無効になっているのだが、
+#   https://github.com/bbatsov/rubocop/issues/1084
+#   https://github.com/bbatsov/rubocop/issues/1334
+# Performance/Detect がこの設定値を見るので PreferredMethods だけ変更しておく。
+#
+# デフォルト値から変えたのは
+#   find -> detect
+#     ActiveRecord の find と間違えやすいため
+#   reduce -> inject
+#     detect, reject, select と並べたときに韻を踏んでいるため。
+#     collect -> map を維持しているのは文字数が圧倒的に少ないため。
+Style/CollectionMethods:
+  PreferredMethods:
+    detect: "detect"
+    find: "detect"
+    inject: "inject"
+    reduce: "inject"
+
+# ドキュメントの無い public class を許可する
+Style/Documentation:
+  Enabled: false
+
+# !! のイディオムは積極的に使う
+Style/DoubleNegation:
+  Enabled: false
+
+# case
+# when ios?
+# when android?
+# end
+# のようなものは case の方が網羅の表現力が高い
+Style/EmptyCaseCondition:
+  Enabled: false
+
+# 明示的に else で nil を返すのは分かりやすいので許可する
+Style/EmptyElse:
+  EnforcedStyle: empty
+
+# 空メソッドの場合だけ1行で書かなければいけない理由が無い
+# 「セミコロンは使わない」に寄せた方がルールがシンプル
+Style/EmptyMethod:
+  EnforcedStyle: expanded
+
+# いずれかに揃えるのならば `sprintf` や `format` より String#% が好きです
+Style/FormatString:
+  EnforcedStyle: percent
+
+# まだ対応するには早い
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+# if 文の中に 3 行程度のブロックを書くぐらいは許容した方が現実的
+# NOTE: https://github.com/bbatsov/rubocop/commit/29945958034db13af9e8ff385ec58cb9eb464596
+#       の影響で、if 文の中身が 1 行の場合に警告されるようになっている。
+#       Style/IfUnlessModifier の設定見てくれないかなぁ？ (v0.36.0)
+Style/GuardClause:
+  MinBodyLength: 5
+
+# rake タスクの順序の hash は rocket を許可する
+Style/HashSyntax:
+  Exclude:
+    - "**/*.rake"
+    - "Rakefile"
+
+# 平たくしてしまうと条件のグルーピングが脳内モデルとズレやすい
+Style/IfInsideElse:
+  Enabled: false
+
+# 条件式の方を意識させたい場合には後置の if/unless を使わない方が分かりやすい
+Style/IfUnlessModifier:
+  Enabled: false
+
+# scope 等は複数行でも lambda ではなく ->{} で揃えた方が見た目が綺麗
+Style/Lambda:
+  EnforcedStyle: literal
+
+# end.some_method とチェインするのはダサい
+# Style/BlockDelimiters と相性が悪いけど、頑張ってコードを修正してください
+Style/MethodCalledOnDoEndBlock:
+  Enabled: true
+
+# この 2 つは単発で動かすのが分かっているので Object を汚染しても問題ない。
+# spec/dummy は Rails Engine を開発するときに絶対に引っかかるので入れておく。
+Style/MixinUsage:
+  Exclude:
+    - "bin/setup"
+    - "bin/update"
+    - "spec/dummy/bin/setup"
+    - "spec/dummy/bin/update"
+
+# 1_000_000 と区切り文字が 2 個以上必要になる場合のみ _ 区切りを必須にする
+# 10_000_00 は許可しない。(これは例えば 10000 ドルをセント単位にする時に便利だが
+# 頻出しないので foolproof に振る
+Style/NumericLiterals:
+  MinDigits: 7
+  Strict: true
+
+# foo.positive? は foo > 0 に比べて意味が曖昧になる
+# foo.zero? は許可したいけどメソッドごとに指定できないので一括で disable に
+Style/NumericPredicate:
+  Enabled: false
+
+# falsy な場合という条件式の方を意識させたい場合がある。
+# Style/IfUnlessModifier と同じ雰囲気。
+Style/OrAssignment:
+  Enabled: false
+
+# 正規表現にマッチさせた時の特殊変数の置き換えは Regex.last_match ではなく
+# 名前付きキャプチャを使って参照したいので auto-correct しない
+Style/PerlBackrefs:
+  AutoCorrect: false
+
+# Hash#has_key? の方が key? よりも意味が通る
+Style/PreferredHashMethods:
+  EnforcedStyle: verbose
+
+# 受け取り側で multiple assignment しろというのを明示
+Style/RedundantReturn:
+  AllowMultipleReturnValues: true
+
+# 特に model 内において、ローカル変数とメソッド呼び出しの区別をつけた方が分かりやすい場合が多い
+Style/RedundantSelf:
+  Enabled: false
+
+# 無指定だと StandardError を rescue するのは常識の範疇なので。
+Style/RescueStandardError:
+  EnforcedStyle: implicit
+
+# user&.admin? が、[nil, true, false] の 3 値を返すことに一瞬で気づけず
+# boolean を返すっぽく見えてしまうので無効に。
+# user && user.admin? なら短絡評価で nil が返ってくるのが一目で分かるので。
+# (boolean を返すメソッド以外なら積極的に使いたいんだけどねぇ
+#
+# 他に auto-correct してはいけないパターンとして
+#   if hoge && hoge.count > 1
+# がある。
+Style/SafeNavigation:
+  Enabled: false
+
+# spec 内は見た目が綺麗になるので許可
+Style/Semicolon:
+  Exclude:
+    - "spec/**/*_spec.rb"
+
+# * 式展開したい場合に書き換えるのが面倒
+# * 文章ではダブルクォートよりもシングルクォートの方が頻出する
+# ことから EnforcedStyle: double_quotes 推奨
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+# 式展開中でもダブルクォートを使う
+# 普段の文字列リテラルがダブルクォートなので使い分けるのが面倒
+Style/StringLiteralsInInterpolation:
+  EnforcedStyle: double_quotes
+
+# String#intern は ruby の内部表現すぎるので String#to_sym を使う
+Style/StringMethods:
+  Enabled: true
+
+# %w() と %i() が見分けづらいので Style/WordArray と合わせて無効に。
+# 書き手に委ねるという意味で、Enabled: false にしています。使っても良い。
+Style/SymbolArray:
+  Enabled: false
+
+# 三項演算子は分かりやすく使いたい。
+# () を外さない方が条件式が何なのか読み取りやすいと感じる。
+Style/TernaryParentheses:
+  EnforcedStyle: require_parentheses_when_complex
+
+# 複数行の場合はケツカンマを入れる(引数)
+# Ruby は関数の引数もカンマを許容しているので
+# * 単行は常にケツカンマ無し
+# * 複数行は常にケツカンマ有り
+# に統一したい。
+# 見た目がアレだが、ES2017 でも関数引数のケツカンマが許容されるので
+# 世界はそちらに向かっている。
+Style/TrailingCommaInArguments:
+  EnforcedStyleForMultiline: comma
+
+# 複数行の場合はケツカンマを入れる(Arrayリテラル)
+# JSON がケツカンマを許していないという反対意見もあるが、
+# 古い JScript の仕様に縛られる必要は無い。
+# IE9 以降はリテラルでケツカンマ OK なので正しい差分行の検出に寄せる。
+# 2 insertions(+), 1 deletion(-) ではなく、1 insertions
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: comma
+
+# 複数行の場合はケツカンマを入れる(Hashリテラル)
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: comma
+
+# %w() と %i() が見分けづらいので Style/SymbolArray と合わせて無効に。
+# 書き手に委ねるという意味で、Enabled: false にしています。使っても良い。
+Style/WordArray:
+  Enabled: false
+
+# 0 <= foo && foo < 5 のように数直線上に並べるのは
+# コードを読みやすくするテクニックなので equality_operators_only に。
+# Style/YodaCondition:
+#   # TODO: rubocop 0.63.0以降はforbid_for_equality_operators_onlyなので依存を引き上げれば有効にできる
+#   EnforcedStyle: forbid_for_equality_operators_only
+
+# 条件式で arr.size > 0 が使われた時に
+#   if !arr.empty?
+#   else
+#   end
+# に修正されるのが嫌。
+# 中身を入れ替えて否定外しても良いんだけど、どちらが例外的な処理なのかが分かりづらくなる。
+Style/ZeroLengthPredicate:
+  Enabled: false

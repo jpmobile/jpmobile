@@ -37,6 +37,11 @@ module Jpmobile
       }
     end
 
+    ALLOWED_CONTENT_TYPE_REGEXP = Regexp.union(
+      Regexp.escape('text/html'),
+      Regexp.escape('application/xhtml+xm')
+    )
+
     class << self
       def hankaku_format(str)
         replace_chars(str, zen_to_han_table)
@@ -90,8 +95,8 @@ module Jpmobile
     end
 
     def apply_outgoing?
-      @controller.request.mobile? and
-        [nil, 'text/html', 'application/xhtml+xml'].include?(@controller.response.content_type)
+      @controller.request.mobile? &&
+        @controller.response.content_type&.match?(ALLOWED_CONTENT_TYPE_REGEXP)
     end
 
     def to_internal(str)

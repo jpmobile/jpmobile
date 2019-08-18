@@ -22,7 +22,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'git'
   gem.add_development_dependency 'hpricot'
   gem.add_development_dependency 'pry'
-  gem.add_development_dependency 'rails', '~> 6.0.0.rc1'
+  gem.add_development_dependency 'rails', '~> 6.0.0'
   gem.add_development_dependency 'rspec'
   gem.add_development_dependency 'rspec-its'
   gem.add_development_dependency 'rspec-rails'

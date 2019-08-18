@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe TemplatePathController, type: :controller do
+  render_views
+
   before do
     request.user_agent = user_agent
   end

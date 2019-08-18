@@ -312,9 +312,9 @@ module Jpmobile
     def decode(str, encoding, charset)
       _str = case encoding
              when /quoted-printable/i
-               str.unpack('M').first.strip
+               str.unpack1('M').strip
              when /base64/i
-               str.unpack('m').first.strip
+               str.unpack1('m').strip
              else
                str
              end

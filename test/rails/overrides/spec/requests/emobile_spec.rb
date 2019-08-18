@@ -3,8 +3,8 @@ require 'rails_helper'
 describe 'H11T モバイルブラウザからのアクセス' do
   before do
     @headers = {
-      'HTTP_USER_AGENT'  => 'emobile/1.0.0 (H11T; like Gecko; Wireless) NetFront/3.4',
-      'HTTP_X_EM_UID'    => 'u00000000000000000',
+      'HTTP_USER_AGENT' => 'emobile/1.0.0 (H11T; like Gecko; Wireless) NetFront/3.4',
+      'HTTP_X_EM_UID' => 'u00000000000000000',
       'REMOTE_ADDR' => '117.55.1.232',
     }
   end

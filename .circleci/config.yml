@@ -37,13 +37,13 @@ jobs:
           paths:
             - vendor/bundle
 
-      # # rubocop
-      # - run:
-      #     name: rubocop
-      #     command: |
-      #       bundle exec rubocop
-      #     environment:
-      #       BUNDLE_GEMFILE: ~/jpmobile/Gemfile
+      # rubocop
+      - run:
+          name: rubocop
+          command: |
+            bundle exec rubocop
+          environment:
+            BUNDLE_GEMFILE: ~/jpmobile/Gemfile
 
       # Run rspec in parallel
       - run:

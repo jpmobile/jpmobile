@@ -197,10 +197,10 @@ describe Jpmobile::Util do
       hash = invert_table(
         {
           [0x1F1E8, 0x1F1F3] => 0x3013,
-          0x1F1FF            => 0x3013,
-          0x1F526            => 0xE6FB,
-          [0x0023, 0x20E3]   => 0xE6E0,
-          0x1F354            => 0xE673,
+          0x1F1FF => 0x3013,
+          0x1F526 => 0xE6FB,
+          [0x0023, 0x20E3] => 0xE6E0,
+          0x1F354 => 0xE673,
         },
       )
       expect(hash[0x3013]).to eq([0x1F1E8, 0x1F1F3])

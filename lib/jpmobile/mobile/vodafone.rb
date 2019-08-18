@@ -4,9 +4,9 @@ module Jpmobile::Mobile
   # スーパクラスはSoftbank。
   class Vodafone < Softbank
     # 対応するUser-Agentの正規表現
-    USER_AGENT_REGEXP = /^(Vodafone|Vemulator)/
+    USER_AGENT_REGEXP = /^(Vodafone|Vemulator)/.freeze
     # 対応するメールアドレスの正規表現
-    MAIL_ADDRESS_REGEXP = /.+@[dhtcrknsq]\.vodafone\.ne\.jp/
+    MAIL_ADDRESS_REGEXP = /.+@[dhtcrknsq]\.vodafone\.ne\.jp/.freeze
 
     # cookieに対応しているか？
     def supports_cookie?

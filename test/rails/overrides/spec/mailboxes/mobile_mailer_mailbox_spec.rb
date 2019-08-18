@@ -32,7 +32,7 @@ describe MobileMailerMailbox, type: :mailbox do
 
     describe 'jis コードの場合に' do
       it '適切に変換できること' do
-      inbound_email = receive_inbound_email_from_fixture('mobile_mailer/docomo-jis.eml')
+        inbound_email = receive_inbound_email_from_fixture('mobile_mailer/docomo-jis.eml')
 
         expect(inbound_email.mail.subject).to match(/テスト/)
         expect(inbound_email.mail.body).to match(/テスト本文/)

@@ -41,7 +41,7 @@ module Jpmobile
     # +str+ のなかでDoCoMo絵文字をUnicode数値文字参照に置換した文字列を返す。
     def self.external_to_unicodecr_docomo(str)
       str.gsub(DOCOMO_SJIS_REGEXP) do |match|
-        sjis = match.unpack('n').first
+        sjis = match.unpack1('n')
         unicode = DOCOMO_SJIS_TO_UNICODE[sjis]
         unicode ? ('&#x%04x;' % unicode) : match
       end
@@ -50,7 +50,7 @@ module Jpmobile
     # +str+ のなかでau絵文字をUnicode数値文字参照に置換した文字列を返す。
     def self.external_to_unicodecr_au(str)
       str.gsub(AU_SJIS_REGEXP) do |match|
-        sjis = match.unpack('n').first
+        sjis = match.unpack1('n')
         unicode = AU_SJIS_TO_UNICODE[sjis]
         unicode ? ('&#x%04x;' % unicode) : match
       end
@@ -61,7 +61,7 @@ module Jpmobile
       str = Jpmobile::Util.ascii_8bit(in_str)
       str.gsub(Jpmobile::Util.jis_string_regexp) do |jis_string|
         jis_string.gsub(/[\x21-\x7e]{2}/) do |match|
-          jis = match.unpack('n').first
+          jis = match.unpack1('n')
           unicode = AU_EMAILJIS_TO_UNICODE[jis]
           unicode ? Jpmobile::Util.ascii_8bit("\x1b\x28\x42&#x%04x;\x1b\x24\x42" % unicode) : match
         end
@@ -72,7 +72,7 @@ module Jpmobile
     def self.external_to_unicodecr_softbank(str)
       # SoftBank Unicode
       str.gsub(SOFTBANK_UNICODE_REGEXP) do |match|
-        unicode = match.unpack('U').first
+        unicode = match.unpack1('U')
         '&#x%04x;' % (unicode + 0x1000)
       end
     end
@@ -80,7 +80,7 @@ module Jpmobile
     def self.external_to_unicodecr_softbank_sjis(str)
       # SoftBank Shift_JIS
       str.gsub(SOFTBANK_SJIS_REGEXP) do |match|
-        sjis = match.unpack('n').first
+        sjis = match.unpack1('n')
         unicode = SOFTBANK_SJIS_TO_UNICODE[sjis]
         '&#x%04x;' % (unicode + 0x1000)
       end
@@ -209,7 +209,7 @@ module Jpmobile
     # +str+ のなかでUTF-8で表記された絵文字をUnicode数値文字参照に置換する。
     def self.utf8_to_unicodecr(str)
       str.gsub(UTF8_REGEXP) do |match|
-        '&#x%04x;' % match.unpack('U').first
+        '&#x%04x;' % match.unpack1('U')
       end
     end
 

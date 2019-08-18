@@ -173,7 +173,7 @@ module Mail
       text_body_part = find_part_by_content_type('text/plain').first
       html_body_part = find_part_by_content_type('text/html').first
       html_body_part.transport_encoding = 'quoted-printable' if html_body_part
-      inline_images  = []
+      inline_images = []
       attached_files = []
       attachments.each do |p|
         if p.content_type.match(%r{^image/}) && p.content_disposition.match(/^inline/)
@@ -579,8 +579,8 @@ module Mail
 
     def get_display_name_with_jpmobile
       get_display_name_without_jpmobile
-    rescue NoMethodError => ex
-      raise ex unless ex.message.match?(/undefined method `gsub' for nil:NilClass/)
+    rescue NoMethodError => e
+      raise e unless e.message.match?(/undefined method `gsub' for nil:NilClass/)
 
       name = unquote(tree.display_name.text_value.strip.to_s)
       strip_all_comments(name.to_s)

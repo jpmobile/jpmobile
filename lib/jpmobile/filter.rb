@@ -39,7 +39,7 @@ module Jpmobile
 
     ALLOWED_CONTENT_TYPE_REGEXP = Regexp.union(
       Regexp.escape('text/html'),
-      Regexp.escape('application/xhtml+xm')
+      Regexp.escape('application/xhtml+xm'),
     )
 
     class << self

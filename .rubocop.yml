@@ -1,10 +1,6 @@
-inherit_gem:
-  onkcop:
-    - "config/rubocop.yml"
-    # uncomment if use rails cops
-    # - "config/rails.yml"
-    # uncomment if use rspec cops
-    # - "config/rspec.yml"
+require: rubocop-performance
+
+inherit_from: './.onkcop-config.yml'
 
 AllCops:
   TargetRubyVersion: 2.4

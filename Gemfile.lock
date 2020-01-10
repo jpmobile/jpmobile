@@ -3,6 +3,7 @@ PATH
   specs:
     jpmobile (6.0.0)
       mail (~> 2.7.0)
+      scanf
 
 GEM
   remote: https://rubygems.org/
@@ -179,6 +180,7 @@ GEM
     rubocop-performance (1.4.1)
       rubocop (>= 0.71.0)
     ruby-progressbar (1.10.1)
+    scanf (1.0.0)
     sprockets (4.0.0)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)

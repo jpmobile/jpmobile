@@ -82,7 +82,7 @@ Metrics/PerceivedComplexity:
     - 'lib/jpmobile/mobile/docomo.rb'
     - 'lib/jpmobile/trans_sid.rb'
 
-Metrics/LineLength:
+Layout/LineLength:
   Exclude:
     - '**/*_spec.rb'
     - 'lib/jpmobile/emoticon/z_combine.rb'
@@ -121,7 +121,7 @@ Metrics/MethodLength:
     - 'lib/jpmobile/mail.rb'
     - 'lib/jpmobile/resolver.rb'
 
-Lint/HandleExceptions:
+Lint/SuppressedException:
   Exclude:
     - 'lib/jpmobile/emoticon.rb'
     - 'lib/jpmobile/fallback_view_selector.rb'

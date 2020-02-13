@@ -29,12 +29,12 @@ Layout/ExtraSpacing:
 # special_inside_parentheses (default) と比べて
 # * 横に長くなりづらい
 # * メソッド名の長さが変わったときに diff が少ない
-Layout/IndentFirstArrayElement:
+Layout/FirstArrayElementIndentation:
   EnforcedStyle: consistent
 
 # ({ と hash を開始した場合に ( の位置にインデントさせる
 # そもそも {} が必要ない可能性が高いが Style/BracesAroundHashParameters はチェックしないことにしたので
-Layout/IndentFirstHashElement:
+Layout/FirstHashElementIndentation:
   EnforcedStyle: consistent
 
 # private/protected は一段深くインデントする
@@ -129,7 +129,7 @@ Metrics/CyclomaticComplexity:
 # * 警告 120文字
 # * 禁止 160文字
 # のイメージ
-Metrics/LineLength:
+Layout/LineLength:
   Max: 160
   Exclude:
     - "db/migrate/*.rb"
@@ -149,7 +149,7 @@ Metrics/PerceivedComplexity:
 
 # has_ から始まるメソッドは許可する
 Naming/PredicateName:
-  NamePrefixBlacklist:
+  ForbiddenPrefixes:
     - "is_"
     - "have_"
   NamePrefix:
@@ -160,7 +160,7 @@ Naming/PredicateName:
 # n(umber) といった 1 文字変数は頻出するし、前置詞(by, to, ...)や
 # よく知られた省略語 (op: operator とか pk: primary key とか) も妥当。
 # 変数 s にどんな文字列かを形容したい場合と、不要な場合とがある＝無効
-Naming/UncommunicativeMethodParamName:
+Naming/MethodParameterName:
   Enabled: false
 
 #################### Performance ###########################

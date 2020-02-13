@@ -4,10 +4,10 @@ ActiveSupport.on_load(:action_controller) do
   require 'jpmobile/helpers'
   require 'jpmobile/trans_sid'
   require 'jpmobile/hook_test_request'
-  ActionDispatch::Request.send :prepend, Jpmobile::Encoding
-  ActionDispatch::Request.send :include, Jpmobile::RequestWithMobile
-  ActionController::Base.send :prepend, Jpmobile::FallbackViewSelector
-  ActionController::Base.send :prepend, Jpmobile::TransSidRedirecting
+  ActionDispatch::Request.prepend Jpmobile::Encoding
+  ActionDispatch::Request.include Jpmobile::RequestWithMobile
+  ActionController::Base.prepend Jpmobile::FallbackViewSelector
+  ActionController::Base.prepend Jpmobile::TransSidRedirecting
 end
 
 ActiveSupport.on_load(:action_view) do
@@ -20,10 +20,10 @@ ActiveSupport.on_load(:after_initialize) do
   case Rails.application.config.session_store.to_s
   when 'ActionDispatch::Session::MemCacheStore'
     require 'jpmobile/session/mem_cache_store'
-    ActionDispatch::Session::MemCacheStore.send :prepend, Jpmobile::ParamsOverCookie
+    ActionDispatch::Session::MemCacheStore.prepend Jpmobile::ParamsOverCookie
   when 'ActionDispatch::Session::ActiveRecordStore'
     require 'jpmobile/session/active_record_store'
-    ActionDispatch::Session::AbstractStore.send :prepend, Jpmobile::ParamsOverCookie
+    ActionDispatch::Session::AbstractStore.prepend Jpmobile::ParamsOverCookie
   else
     Rails.application.config.jpmobile.mount_session_store
   end

@@ -104,7 +104,7 @@ namespace :test do
 
     # run tests in rails
     Dir.chdir(rails_root) do
-      Bundler.with_clean_env do
+      Bundler.with_unbundled_env do
         original_env = ENV.to_hash
 
         ENV.update('RBENV_VERSION' => nil)

@@ -28,23 +28,23 @@ describe '絵文字が' do
     end
 
     it 'docomo 絵文字が変換されないこと' do
-      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@docomo_cr))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@docomo_cr))).call(@res)
       expect(response_body(response)).to eq(@docomo_cr)
-      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@docomo_utf8))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@docomo_utf8))).call(@res)
       expect(response_body(response)).to eq(@docomo_utf8)
     end
 
     it 'au 絵文字が変換されないこと' do
-      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@au_cr))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@au_cr))).call(@res)
       expect(response_body(response)).to eq(@au_cr)
-      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@au_utf8))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@au_utf8))).call(@res)
       expect(response_body(response)).to eq(@au_utf8)
     end
 
     it 'softbank 絵文字が変換されないこと' do
-      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_cr))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_cr))).call(@res)
       expect(response_body(response)).to eq(@softbank_cr)
-      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)
       expect(response_body(response)).to eq(@softbank_utf8)
     end
   end
@@ -72,38 +72,38 @@ describe '絵文字が' do
     end
 
     it 'docomo 絵文字が画像に変換されること' do
-      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@docomo_cr))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@docomo_cr))).call(@res)
       expect(response_body(response)).to eq("<img src=\"#{@path}/sun.gif\" alt=\"sun\" />")
     end
 
     it 'docomo 絵文字コードが画像に変換されること' do
-      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@docomo_utf8))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@docomo_utf8))).call(@res)
       expect(response_body(response)).to eq("<img src=\"#{@path}/sun.gif\" alt=\"sun\" />")
     end
 
     it 'au 絵文字が画像に変換されること' do
-      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@au_cr))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@au_cr))).call(@res)
       expect(response_body(response)).to eq("<img src=\"#{@path}/sun.gif\" alt=\"sun\" />")
     end
 
     it 'au 絵文字コードが画像に変換されること' do
-      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@au_utf8))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@au_utf8))).call(@res)
       expect(response_body(response)).to eq("<img src=\"#{@path}/sun.gif\" alt=\"sun\" />")
     end
 
     it 'softbank 絵文字が画像に変換されること' do
-      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_cr))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_cr))).call(@res)
       expect(response_body(response)).to eq("<img src=\"#{@path}/sun.gif\" alt=\"sun\" />")
     end
 
     it 'softbank 絵文字コードが画像に変換されること' do
-      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)
       expect(response_body(response)).to eq("<img src=\"#{@path}/sun.gif\" alt=\"sun\" />")
     end
 
     it 'Content-Type が変換できないものである場合には変換しないこと' do
       @res = Rack::MockRequest.env_for('/', 'Content-Type' => 'image/jpeg')
-      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)
       expect(response_body(response)).to eq(@softbank_utf8)
     end
   end
@@ -118,26 +118,26 @@ describe '絵文字が' do
     end
 
     it 'docomo 絵文字が変換されること' do
-      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@docomo_cr))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@docomo_cr))).call(@res)
       expect(response_body(response)).to eq(sjis("\xf8\x9f"))
-      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@docomo_utf8))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@docomo_utf8))).call(@res)
       expect(response_body(response)).to eq(sjis("\xf8\x9f"))
 
-      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@docomo_docomopoint))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@docomo_docomopoint))).call(@res)
       expect(response_body(response)).to eq(sjis("\xf9\x79"))
     end
 
     it 'au 絵文字が変換されること' do
-      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@au_cr))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@au_cr))).call(@res)
       expect(response_body(response)).to eq(sjis("\xf8\x9f"))
-      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@au_utf8))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@au_utf8))).call(@res)
       expect(response_body(response)).to eq(sjis("\xf8\x9f"))
     end
 
     it 'softbank 絵文字が変換されること' do
-      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_cr))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_cr))).call(@res)
       expect(response_body(response)).to eq(sjis("\xf8\x9f"))
-      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)
       expect(response_body(response)).to eq(sjis("\xf8\x9f"))
     end
 
@@ -167,26 +167,26 @@ describe '絵文字が' do
     end
 
     it 'docomo 絵文字が変換されること' do
-      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@docomo_cr))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@docomo_cr))).call(@res)
       expect(response_body(response)).to eq(sjis("\xf6\x60"))
-      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@docomo_utf8))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@docomo_utf8))).call(@res)
       expect(response_body(response)).to eq(sjis("\xf6\x60"))
 
-      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@docomo_docomopoint))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@docomo_docomopoint))).call(@res)
       expect(response_body(response)).to eq(utf8_to_sjis('［ドコモポイント］'))
     end
 
     it 'au 絵文字が変換されること' do
-      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@au_cr))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@au_cr))).call(@res)
       expect(response_body(response)).to eq(sjis("\xf6\x60"))
-      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@au_utf8))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@au_utf8))).call(@res)
       expect(response_body(response)).to eq(sjis("\xf6\x60"))
     end
 
     it 'softbank 絵文字が変換されること' do
-      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_cr))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_cr))).call(@res)
       expect(response_body(response)).to eq(sjis("\xf6\x60"))
-      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)
       expect(response_body(response)).to eq(sjis("\xf6\x60"))
     end
 
@@ -216,26 +216,26 @@ describe '絵文字が' do
     end
 
     it 'docomo 絵文字が変換されること' do
-      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@docomo_cr))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@docomo_cr))).call(@res)
       expect(response_body(response)).to eq([0xe04a].pack('U'))
-      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@docomo_utf8))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@docomo_utf8))).call(@res)
       expect(response_body(response)).to eq([0xe04a].pack('U'))
 
-      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@docomo_docomopoint))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@docomo_docomopoint))).call(@res)
       expect(response_body(response)).to eq('［ドコモポイント］')
     end
 
     it 'au 絵文字が変換されること' do
-      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@au_cr))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@au_cr))).call(@res)
       expect(response_body(response)).to eq([0xe04a].pack('U'))
-      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@au_utf8))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@au_utf8))).call(@res)
       expect(response_body(response)).to eq([0xe04a].pack('U'))
     end
 
     it 'softbank 絵文字が変換されること' do
-      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_cr))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_cr))).call(@res)
       expect(response_body(response)).to eq([0xe04a].pack('U'))
-      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)
       expect(response_body(response)).to eq([0xe04a].pack('U'))
     end
 
@@ -265,9 +265,9 @@ describe '絵文字が' do
     end
 
     it 'softbank 絵文字が変換されること' do
-      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_cr))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_cr))).call(@res)
       expect(response_body(response)).to eq([0xe04a].pack('U'))
-      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)[2]
+      response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)
       expect(response_body(response)).to eq([0xe04a].pack('U'))
     end
 
@@ -298,9 +298,9 @@ describe '絵文字が' do
       end
 
       it 'should convert Softbank emoticon' do
-        response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_cr))).call(@res)[2]
+        response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_cr))).call(@res)
         expect(response_body(response)).to eq([0xe04a].pack('U'))
-        response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)[2]
+        response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@softbank_utf8))).call(@res)
         expect(response_body(response)).to eq([0xe04a].pack('U'))
       end
 
@@ -320,7 +320,7 @@ describe '絵文字が' do
       end
 
       it 'should not convert 〓' do
-        response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new('〓'))).call(@res)[2]
+        response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new('〓'))).call(@res)
         expect(response_body(response)).to eq('〓')
       end
     end
@@ -337,9 +337,9 @@ describe '絵文字が' do
       end
 
       it 'should convert Unicode emoticon' do
-        response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@unicode_single))).call(@res)[2]
+        response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@unicode_single))).call(@res)
         expect(response_body(response)).to eq([0x2600].pack('U*'))
-        response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@unicode_multi))).call(@res)[2]
+        response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@unicode_multi))).call(@res)
         expect(response_body(response)).to eq([0x26C5].pack('U*'))
       end
 
@@ -359,7 +359,7 @@ describe '絵文字が' do
       end
 
       it 'should not convert 〓' do
-        response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new('〓'))).call(@res)[2]
+        response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new('〓'))).call(@res)
         expect(response_body(response)).to eq('〓')
       end
     end
@@ -381,9 +381,9 @@ describe '絵文字が' do
       end
 
       it 'should convert Google emoticon' do
-        response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@google_single))).call(@res)[2]
+        response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@google_single))).call(@res)
         expect(response_body(response)).to eq([0xFE000].pack('U*'))
-        response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@google_multi))).call(@res)[2]
+        response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@google_multi))).call(@res)
         expect(response_body(response)).to eq([0xFE00F].pack('U*'))
       end
 
@@ -403,7 +403,7 @@ describe '絵文字が' do
       end
 
       it 'should not convert 〓' do
-        response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new('〓'))).call(@res)[2]
+        response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new('〓'))).call(@res)
         expect(response_body(response)).to eq('〓')
       end
     end
@@ -418,9 +418,9 @@ describe '絵文字が' do
       end
 
       it 'should convert Google emoticon' do
-        response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@google_single))).call(@res)[2]
+        response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@google_single))).call(@res)
         expect(response_body(response)).to eq([0xFE000].pack('U*'))
-        response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@google_multi))).call(@res)[2]
+        response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(@google_multi))).call(@res)
         expect(response_body(response)).to eq([0xFE00F].pack('U*'))
       end
 
@@ -440,7 +440,7 @@ describe '絵文字が' do
       end
 
       it 'should not convert 〓' do
-        response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new('〓'))).call(@res)[2]
+        response = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new('〓'))).call(@res)
         expect(response_body(response)).to eq('〓')
       end
 

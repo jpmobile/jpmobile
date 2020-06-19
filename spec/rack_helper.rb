@@ -74,7 +74,7 @@ module Jpmobile::RackHelper
   def response_body(res)
     body = case res
            when Array
-             res[2].body
+             res[2]
            when String
              res.body
            else

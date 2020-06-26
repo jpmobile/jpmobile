@@ -316,7 +316,7 @@ end
 
 ```ruby
 <%= get_position_link_to("位置情報を取得する", :action=>:gps) %>
-```ruby
+```
 
 ### セッションIDの付与(Trans SID)
 #### Cookie非対応携帯だけに付与する
@@ -353,7 +353,7 @@ Rails.application.config.session_options = {:cookie_only => false}
 
 ```ruby
 link_to "hoge", "/controller/action/id"
-```ruby
+```
 
 のようにリンク先を直接指定するとセッションIDは付加されません。
 

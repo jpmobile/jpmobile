@@ -33,7 +33,7 @@ namespace :test do
       # generate rails app
       FileUtils.rm_rf(rails_root)
       FileUtils.mkdir_p(rails_root)
-      `rails new #{rails_root} --skip-bundle --skip-bootsnap --skip-webpack-install`
+      `rails new #{rails_root} --skip-bundle --skip-bootsnap --skip-webpack-install --skip-git --skip-spring`
     end
 
     # setup jpmobile

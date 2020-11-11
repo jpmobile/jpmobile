@@ -3,7 +3,7 @@ module Jpmobile
     EXTENSIONS = [:locale, :formats, :handlers, :mobile].freeze
     DEFAULT_PATTERN = ':prefix/:action{_:mobile,}{.:locale,}{.:formats,}{+:variants,}{.:handlers,}'.freeze
 
-    def initialize(path, pattern = nil)
+    def initialize(path)
       raise ArgumentError, 'path already is a Resolver class' if path.is_a?(Resolver)
 
       super

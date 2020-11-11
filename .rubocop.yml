@@ -120,6 +120,7 @@ Metrics/MethodLength:
     - 'lib/jpmobile/helpers.rb'
     - 'lib/jpmobile/mail.rb'
     - 'lib/jpmobile/resolver.rb'
+    - 'test/rails/overrides/db/migrate/*'
 
 Lint/SuppressedException:
   Exclude:

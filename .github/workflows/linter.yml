@@ -1,0 +1,36 @@
+---
+# PR only
+on:
+  push:
+    branches-ignore:
+      - 'master'
+
+jobs:
+  build:
+    name: Stack linter
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Super-Linter
+        uses: github/super-linter@v2.0.0
+        env:
+          VALIDATE_ALL_CODEBASE: false
+          VALIDATE_YAML: false
+          VALIDATE_JSON: false
+          VALIDATE_XML: false
+          VALIDATE_MD: true
+          VALIDATE_BASH: false
+          VALIDATE_PERL: false
+          VALIDATE_PYTHON: false
+          VALIDATE_RUBY: true
+          VALIDATE_COFFEE: false
+          VALIDATE_ANSIBLE: false
+          VALIDATE_JAVASCRIPT_ES: false
+          VALIDATE_JAVASCRIPT_STANDARD: false
+          VALIDATE_TYPESCRIPT_ES: false
+          VALIDATE_TYPESCRIPT_STANDARD: false
+          VALIDATE_DOCKER: false
+          VALIDATE_GO: false
+          VALIDATE_TERRAFORM: false

@@ -297,7 +297,7 @@ module Jpmobile
 
     def invert_table(hash)
       result = {}
-      hash.keys.each do |key|
+      hash.each_key do |key|
         if result[hash[key]]
           if !key.is_a?(Array) && !result[hash[key]].is_a?(Array) && result[hash[key]] > key
             result[hash[key]] = key

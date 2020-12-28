@@ -20,7 +20,7 @@ module Jpmobile
         Mobile.carriers.each do |const|
           c = Mobile.const_get(const)
           if c::MAIL_ADDRESS_REGEXP &&
-             header.match(/(\S+@[A-Za-z0-9\-\.\_]+)/) &&
+             header.match(/(\S+@[A-Za-z0-9\-._]+)/) &&
              Regexp.last_match(1).match(/^#{c::MAIL_ADDRESS_REGEXP}$/)
             return c
           end

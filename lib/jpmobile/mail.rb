@@ -456,10 +456,10 @@ module Mail
 
     def decoded_with_jpmobile
       if @mobile
-        return value unless value =~ /\=\?[^?]+\?([QB])\?[^?]*?\?\=/mi
+        return value unless value =~ /=\?[^?]+\?([QB])\?[^?]*?\?=/mi
 
         Encodings.collapse_adjacent_encodings(value).each {|line|
-          line.gsub!(/\=\?[^?]+\?([QB])\?[^?]*?\?\=/mi) do |string|
+          line.gsub!(/=\?[^?]+\?([QB])\?[^?]*?\?=/mi) do |string|
             case Regexp.last_match(1)
             when 'B', 'b' then decode_b_value_for_mobile(string)
             when 'Q', 'q' then Encodings.q_value_decode(string)
@@ -479,7 +479,7 @@ module Mail
     alias_method :decoded, :decoded_with_jpmobile
 
     def decode_b_value_for_mobile(str)
-      match = str.match(/\=\?(.+)?\?[Bb]\?(.*)\?\=/m)
+      match = str.match(/=\?(.+)?\?[Bb]\?(.*)\?=/m)
       if match
         charset = match[1]
         str = Ruby19.decode_base64(match[2])

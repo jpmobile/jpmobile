@@ -177,7 +177,7 @@ module Jpmobile::Mobile
     end
 
     def to_mail_subject_encoded?(str)
-      str.match(/\=\?#{mail_charset}\?B.+\?\=/i)
+      str.match(/=\?#{mail_charset}\?B.+\?=/i)
     end
 
     def to_mail_body_encoded?(str)

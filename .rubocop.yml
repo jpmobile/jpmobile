@@ -64,16 +64,20 @@ Metrics/AbcSize:
     - 'lib/jpmobile/fallback_view_selector.rb'
     - 'lib/jpmobile/resolver.rb'
     - 'lib/jpmobile/rack/filter.rb'
+    - 'lib/jpmobile/trans_sid.rb'
 
 Metrics/CyclomaticComplexity:
+  Max: 10
   Exclude:
     - 'lib/jpmobile/emoticon.rb'
     - 'lib/jpmobile/helpers.rb'
     - 'lib/jpmobile/mail.rb'
     - 'lib/jpmobile/mobile/au.rb'
     - 'lib/jpmobile/mobile/docomo.rb'
+    - 'lib/jpmobile/mobile/abstract_mobile.rb'
 
 Metrics/PerceivedComplexity:
+  Max: 8
   Exclude:
     - 'lib/jpmobile/emoticon.rb'
     - 'lib/jpmobile/helpers.rb'
@@ -81,8 +85,12 @@ Metrics/PerceivedComplexity:
     - 'lib/jpmobile/mobile/au.rb'
     - 'lib/jpmobile/mobile/docomo.rb'
     - 'lib/jpmobile/trans_sid.rb'
+    - 'lib/jpmobile/filter.rb'
+    - 'lib/jpmobile/rack/filter.rb'
+    - 'lib/jpmobile/mobile/abstract_mobile.rb'
 
 Layout/LineLength:
+  Max: 160
   Exclude:
     - '**/*_spec.rb'
     - 'lib/jpmobile/emoticon/z_combine.rb'
@@ -115,6 +123,7 @@ Metrics/ClassLength:
     - 'lib/jpmobile/mobile/docomo.rb'
 
 Metrics/MethodLength:
+  Max: 20
   Exclude:
     - 'lib/jpmobile/emoticon.rb'
     - 'lib/jpmobile/helpers.rb'
@@ -164,6 +173,8 @@ Style/CollectionCompact: # (new in 1.2)
   Enabled: true
 Style/DocumentDynamicEvalDefinition: # (new in 1.1)
   Enabled: true
+  Exclude:
+    - 'lib/jpmobile/path_set.rb'
 Style/HashExcept: # (new in 1.7)
   Enabled: true
 Style/NegatedIfElseCondition: # (new in 1.2)
@@ -174,3 +185,12 @@ Style/RedundantArgument: # (new in 1.4)
   Enabled: true
 Style/SwapValues: # (new in 1.1)
   Enabled: true
+
+Style/OptionalBooleanParameter:
+  Exclude:
+    - 'lib/jpmobile/emoticon.rb'
+    - 'lib/jpmobile/path_set.rb'
+
+Metrics/ParameterLists:
+  Exclude:
+    - 'lib/jpmobile/path_set.rb'

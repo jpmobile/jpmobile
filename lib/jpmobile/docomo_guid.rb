@@ -30,8 +30,8 @@ module Jpmobile::DocomoGuid #:nodoc:
     return false unless request.mobile.is_a?(Jpmobile::Mobile::Docomo)
     return false if not_apply_guid_user_agent?
 
-    if docomo_guid_mode == :valid_ip
-      return false unless request.mobile.valid_ip?
+    if docomo_guid_mode == :valid_ip && !request.mobile.valid_ip?
+      return false
     end
 
     true

@@ -2,9 +2,7 @@ module Jpmobile
   class Configuration
     include Singleton
 
-    attr_accessor :form_accept_charset_conversion
-    attr_accessor :smart_phone_emoticon_compatibility
-    attr_accessor :fallback_view_selector
+    attr_accessor :form_accept_charset_conversion, :smart_phone_emoticon_compatibility, :fallback_view_selector
 
     def initialize
       @form_accept_charset_conversion     = false

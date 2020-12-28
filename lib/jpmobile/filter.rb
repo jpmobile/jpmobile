@@ -54,8 +54,8 @@ module Jpmobile
       private
 
       def replace_chars(str, table)
-        @regexp_cache ||= {}
-        str.gsub(@regexp_cache[table.object_id] ||= Regexp.union(table.keys), table)
+        @regexp_cache ||= {}.compare_by_identity
+        str.gsub(@regexp_cache[table] ||= Regexp.union(table.keys), table)
       end
 
       def han_to_zen_table

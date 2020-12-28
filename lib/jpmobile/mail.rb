@@ -466,7 +466,7 @@ module Mail
             else line
             end
           end
-        }.join('')
+        }.join
       else
         decoded_without_jpmobile
       end

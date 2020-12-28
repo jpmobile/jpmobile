@@ -131,8 +131,16 @@ Lint/SuppressedException:
 Lint/Void:
   Exclude:
     - 'lib/jpmobile/filter.rb'
+
+Style/StringConcatenation:
+  Exclude:
+    - '**/*_spec.rb'
+
 Layout/SpaceBeforeBrackets: # (new in 1.7)
   Enabled: true
+  Exclude:
+    - '**/*_controller.rb'
+    - '**/*_spec.rb'
 Lint/AmbiguousAssignment: # (new in 1.7)
   Enabled: true
 Lint/DuplicateBranch: # (new in 1.3)

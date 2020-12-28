@@ -27,12 +27,12 @@ describe 'trans_sid functional', type: :request do
     it 'で link_to の自動書き換えが行われない' do
       res = get_with_session(@controller, 'link', @user_agent)
 
-      expect(res.response.body).to match(%r{<a href=\"/.+?/link\">linkto</a>})
+      expect(res.response.body).to match(%r{<a href="/.+?/link">linkto</a>})
     end
     it 'で form の自動書き換えが行われない' do
       res = get_with_session(@controller, 'form', @user_agent)
 
-      expect(res.response.body).to match(%r{<form.*action=\"/.+?/form\".*accept-charset="#{@charset}"})
+      expect(res.response.body).to match(%r{<form.*action="/.+?/form".*accept-charset="#{@charset}"})
     end
     it 'で redirect の自動書き換えが行われない' do
       res = get_with_session(@controller, 'redirect', @user_agent)
@@ -45,16 +45,16 @@ describe 'trans_sid functional', type: :request do
     it 'で link_to の自動書き換えが行われる' do
       res = get_with_session(@controller, 'link', @user_agent)
 
-      expect(res.response.body).to match(%r{<a href=\"/.+?/link\?_session_id=[a-zA-Z0-9]{32}\">linkto</a>})
+      expect(res.response.body).to match(%r{<a href="/.+?/link\?_session_id=[a-zA-Z0-9]{32}">linkto</a>})
     end
     it 'で form内にhiddenが差し込まれる' do
       res = get_with_session(@controller, 'form', @user_agent)
-      expect(res.response.body).to match(/<input type=\"hidden\" name=\".+\" value=\"[a-zA-Z0-9]{32}\"/)
+      expect(res.response.body).to match(/<input type="hidden" name=".+" value="[a-zA-Z0-9]{32}"/)
     end
     it 'で form の自動書き換えが行われる' do
       res = get_with_session(@controller, 'form', @user_agent)
 
-      expect(res.response.body).to match(%r{<form.*action=\"/.+?/form\?_session_id=[a-zA-Z0-9]{32}\".*accept-charset="#{@charset}"})
+      expect(res.response.body).to match(%r{<form.*action="/.+?/form\?_session_id=[a-zA-Z0-9]{32}".*accept-charset="#{@charset}"})
     end
     it 'で redirect の自動書き換えが行われる' do
       res = get_with_session(@controller, 'redirect', @user_agent)
@@ -66,12 +66,12 @@ describe 'trans_sid functional', type: :request do
     it 'で @user の link_to の自動書き換えが行われる' do
       res = get_with_session(@controller, 'link_path', @user_agent)
 
-      expect(res.response.body).to match(%r{<a href=\"/users/1\?_session_id=[a-zA-Z0-9]{32}\">linkto</a>})
+      expect(res.response.body).to match(%r{<a href="/users/1\?_session_id=[a-zA-Z0-9]{32}">linkto</a>})
     end
     it 'で @user の form の自動書き換えが行われる' do
       res = get_with_session(@controller, 'form_path', @user_agent)
 
-      expect(res.response.body).to match(%r{<form.*action=\"/users/1\?_session_id=[a-zA-Z0-9]{32}\".*accept-charset="#{@charset}"})
+      expect(res.response.body).to match(%r{<form.*action="/users/1\?_session_id=[a-zA-Z0-9]{32}".*accept-charset="#{@charset}"})
     end
     it 'で @path の redirect の自動書き換えが行われる' do
       res = get_with_session(@controller, 'redirect_path', @user_agent)
@@ -83,12 +83,12 @@ describe 'trans_sid functional', type: :request do
     it 'で [:admin, @user] の link_to の自動書き換えが行われる' do
       res = get_with_session(@controller, 'link_path_admin', @user_agent)
 
-      expect(res.response.body).to match(%r{<a href=\"/admin/users/1\?_session_id=[a-zA-Z0-9]{32}\">linkto</a>})
+      expect(res.response.body).to match(%r{<a href="/admin/users/1\?_session_id=[a-zA-Z0-9]{32}">linkto</a>})
     end
     it 'で [:admin, @user] の form の自動書き換えが行われる' do
       res = get_with_session(@controller, 'form_path_admin', @user_agent)
 
-      expect(res.response.body).to match(%r{<form.*action=\"/admin/users/1\?_session_id=[a-zA-Z0-9]{32}\".* accept-charset="#{@charset}"})
+      expect(res.response.body).to match(%r{<form.*action="/admin/users/1\?_session_id=[a-zA-Z0-9]{32}".* accept-charset="#{@charset}"})
     end
     it 'で [:admin, @path] の redirect の自動書き換えが行われる' do
       res = get_with_session(@controller, 'redirect_path_admin', @user_agent)

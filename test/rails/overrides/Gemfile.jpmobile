@@ -4,7 +4,7 @@ gem 'jpmobile',             path: './vendor/jpmobile'
 gem 'jpmobile-terminfo',    path: './vendor/jpmobile-terminfo'
 gem 'jpmobile-ipaddresses', path: './vendor/jpmobile-ipaddresses'
 
-gem 'activerecord-session_store', '~> 1.1.1'
+gem 'activerecord-session_store', git: 'https://github.com/rails/activerecord-session_store.git', ref: 'f188efbc49a522123cc8acc805143824176d01c1'
 
 gem 'pry'
 gem 'pry-byebug'

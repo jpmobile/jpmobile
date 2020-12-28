@@ -96,20 +96,15 @@ module Jpmobile
         unicodes = match.unpack('U*')
         unicodes = unicodes.first if unicodes.size == 1
 
-        if (emoticon = UNICODE_EMOTICON_TO_CARRIER_EMOTICON[unicodes]) == GETA_CODE
+        emoticon = UNICODE_EMOTICON_TO_CARRIER_EMOTICON[unicodes]
+        case emoticon
+        when GETA_CODE, nil
+          # 〓が指定されているか変換できなければ〓に
           GETA
-        elsif emoticon
-          case emoticon
-          when GETA_CODE
-            GETA
-          when Integer
-            '&#x%04x;' % emoticon
-          when String
-            emoticon
-          end
-        else
-          # 変換できなければ〓に
-          GETA
+        when Integer
+          '&#x%04x;' % emoticon
+        when String
+          emoticon
         end
       end
     end
@@ -122,15 +117,13 @@ module Jpmobile
 
         emoticon = GOOGLE_EMOTICON_TO_CARRIER_EMOTICON[unicodes]
         case emoticon
-        when GETA_CODE
+        when GETA_CODE, nil
+          # 〓が指定されているか変換できなければ〓に
           GETA
         when Integer
           '&#x%04x;' % emoticon
         when String
           emoticon
-        else
-          # 変換できなければ〓に
-          GETA
         end
       end
     end

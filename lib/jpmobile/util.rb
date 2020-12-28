@@ -255,9 +255,8 @@ module Jpmobile
         SJIS
       when ::Encoding::UTF_8
         UTF8
-      when ::Encoding::ASCII_8BIT
-        BINARY
       else
+        # 上記以外はすべて BINARY 扱い
         BINARY
       end
     end

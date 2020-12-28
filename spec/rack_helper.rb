@@ -75,8 +75,6 @@ module Jpmobile::RackHelper
     body = case res
            when Array
              res[2]
-           when String
-             res.body
            else
              res.body
            end
@@ -84,8 +82,6 @@ module Jpmobile::RackHelper
     case body
     when Array
       body.first
-    when String
-      body
     else
       body
     end

@@ -44,9 +44,8 @@ module Jpmobile::Mobile
     # 端末製造番号があれば返す。無ければ +nil+ を返す。
     def serial_number
       case @env['HTTP_USER_AGENT']
-      when /ser([0-9a-zA-Z]{11})$/ # mova
-        Regexp.last_match(1)
-      when /ser([0-9a-zA-Z]{15});/ # FOMA
+      when /ser([0-9a-zA-Z]{11})$/, # mova
+           /ser([0-9a-zA-Z]{15});/ # FOMA
         Regexp.last_match(1)
       else
         nil
@@ -160,9 +159,8 @@ module Jpmobile::Mobile
     # モデル名を返す。
     def model_name
       case @env['HTTP_USER_AGENT']
-      when %r{^DoCoMo/2.0 (.+)\(}
-        Regexp.last_match(1)
-      when %r{^DoCoMo/1.0/(.+?)/}
+      when %r{^DoCoMo/2.0 (.+)\(},
+           %r{^DoCoMo/1.0/(.+?)/}
         Regexp.last_match(1)
       else
         nil

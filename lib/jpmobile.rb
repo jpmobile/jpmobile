@@ -63,6 +63,7 @@ module Jpmobile
   autoload :Mailer,   'jpmobile/mailer'
   autoload :Resolver, 'jpmobile/resolver'
 
+  autoload :ViewSelector,         'jpmobile/view_selector'
   autoload :FallbackViewSelector, 'jpmobile/fallback_view_selector'
 
   autoload :ParamsOverCookie,    'jpmobile/trans_sid'

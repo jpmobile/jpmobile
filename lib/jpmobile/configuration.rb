@@ -21,5 +21,11 @@ module Jpmobile
     def mount_session_store
       @session_store && @session_store.call
     end
+
+    module RailsConfiguration
+      def jpmobile
+        @jpmobile ||= ::Jpmobile.config
+      end
+    end
   end
 end

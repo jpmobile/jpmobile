@@ -17,8 +17,8 @@ Gem::Specification.new do |gem|
   gem.require_paths = ['lib']
 
   gem.add_dependency 'mail', '~> 2.7.0'
-  gem.add_dependency 'scanf'
   gem.add_dependency 'rexml'
+  gem.add_dependency 'scanf'
   gem.add_development_dependency 'capybara-webkit'
   gem.add_development_dependency 'geokit'
   gem.add_development_dependency 'git'

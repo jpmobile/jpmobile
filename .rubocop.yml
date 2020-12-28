@@ -133,8 +133,7 @@ Lint/Void:
     - 'lib/jpmobile/filter.rb'
 
 Style/StringConcatenation:
-  Exclude:
-    - '**/*_spec.rb'
+  Enabled: false
 
 Layout/SpaceBeforeBrackets: # (new in 1.7)
   Enabled: true

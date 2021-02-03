@@ -6,6 +6,6 @@ module Jpmobile::Mobile
     include Jpmobile::Mobile::GoogleEmoticon
 
     # 対応するUser-Agentの正規表現
-    USER_AGENT_REGEXP = Regexp.union(/(?!Android.+Mobile)Android/, /Android.+SC-01C/)
+    USER_AGENT_REGEXP = Regexp.union(/^(?!.+Mobile).+(?=Android).+$/, /Android.+SC-01C/)
   end
 end

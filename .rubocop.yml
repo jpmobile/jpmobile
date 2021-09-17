@@ -3,7 +3,7 @@ require: rubocop-performance
 inherit_from: './.onkcop-config.yml'
 
 AllCops:
-  TargetRubyVersion: 2.5
+  TargetRubyVersion: 3.0
   Exclude:
     - 'tmp/**/*'
     - 'bin/*'

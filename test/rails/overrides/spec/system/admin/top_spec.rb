@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'system_helper'
 
 describe Admin::TopController, type: :feature do
   describe "GET 'full_path'" do

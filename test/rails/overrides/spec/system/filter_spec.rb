@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'system_helper'
 
 describe 'jpmobile integration spec', type: :feature do
   include Jpmobile::Util

@@ -13,7 +13,7 @@ Gem::Specification.new do |gem|
   gem.license       = 'MIT'
 
   gem.files         = `git ls-files`.split($INPUT_RECORD_SEPARATOR)
-  gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
+  gem.test_files    = gem.files.grep(%r{^(test|spec|system)/})
   gem.require_paths = ['lib']
 
   gem.required_ruby_version = '>= 2.5.0'
@@ -21,7 +21,6 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'mail', '~> 2.7.0'
   gem.add_dependency 'rexml'
   gem.add_dependency 'scanf'
-  gem.add_development_dependency 'capybara-webkit'
   gem.add_development_dependency 'geokit'
   gem.add_development_dependency 'git'
   gem.add_development_dependency 'hpricot'

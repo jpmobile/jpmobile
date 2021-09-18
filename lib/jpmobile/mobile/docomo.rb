@@ -4,9 +4,9 @@ module Jpmobile::Mobile
   # ==DoCoMo携帯電話
   class Docomo < AbstractMobile
     # 対応するUser-Agentの正規表現
-    USER_AGENT_REGEXP = /^DoCoMo/.freeze
+    USER_AGENT_REGEXP = /^DoCoMo/
     # 対応するメールアドレスの正規表現
-    MAIL_ADDRESS_REGEXP = /.+@docomo\.ne\.jp/.freeze
+    MAIL_ADDRESS_REGEXP = /.+@docomo\.ne\.jp/
     # メールのデフォルトのcharset
     MAIL_CHARSET = 'Shift_JIS'.freeze
     # テキスト部分の content-transfer-encoding

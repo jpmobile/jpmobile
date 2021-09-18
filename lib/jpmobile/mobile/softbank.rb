@@ -5,9 +5,9 @@ module Jpmobile::Mobile
   # Vodafoneのスーパクラス。
   class Softbank < AbstractMobile
     # 対応するuser-agentの正規表現
-    USER_AGENT_REGEXP = /^(?:SoftBank|Semulator)/.freeze
+    USER_AGENT_REGEXP = /^(?:SoftBank|Semulator)/
     # 対応するメールアドレスの正規表現　ディズニーモバイル対応
-    MAIL_ADDRESS_REGEXP = /.+@(?:softbank\.ne\.jp|disney\.ne\.jp)/.freeze
+    MAIL_ADDRESS_REGEXP = /.+@(?:softbank\.ne\.jp|disney\.ne\.jp)/
     # メールのデフォルトのcharset
     MAIL_CHARSET = 'Shift_JIS'.freeze
     # テキスト部分の content-transfer-encoding

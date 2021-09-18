@@ -1,25 +1,26 @@
-version: 2
+version: 2.1
+orbs:
+  browser-tools: circleci/browser-tools@1.1
 jobs:
   test-job:
     working_directory: ~/jpmobile
     docker:
-      - image: cimg/ruby:2.7-browsers
+      - image: cimg/ruby:3.0-browsers
         environment:
           BUNDLE_JOBS: 3
           BUNDLE_RETRY: 3
           BUNDLE_PATH: vendor/bundle
           RAILS_ENV: test
     steps:
+      - browser-tools/install-browser-tools
       - checkout
 
       # Install dependent packages
       - run:
           name: Install dependent packages
           command: |
-            sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
-            sudo wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
             sudo apt update
-            sudo apt install -y cmake libsqlite3-dev google-chrome-stable
+            sudo apt install -y cmake libsqlite3-dev
 
       # Which version of bundler?
       - run:

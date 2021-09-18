@@ -1,4 +1,4 @@
-require "capybara/cuprite"
+require 'capybara/cuprite'
 
 Capybara.register_driver(:cuprite) do |app|
   Capybara::Cuprite::Driver.new(
@@ -6,8 +6,8 @@ Capybara.register_driver(:cuprite) do |app|
     **{
       window_size: [1200, 800],
       browser_options: {},
-      inspector: true
-    }
+      inspector: true,
+    },
   )
 end
 

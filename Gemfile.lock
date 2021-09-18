@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    jpmobile (6.1.1)
+    jpmobile (6.1.2)
       mail (~> 2.7.0)
       rexml
       scanf
@@ -68,21 +68,8 @@ GEM
       minitest (>= 5.1)
       tzinfo (~> 2.0)
       zeitwerk (~> 2.3)
-    addressable (2.7.0)
-      public_suffix (>= 2.0.2, < 5.0)
     ast (2.4.1)
     builder (3.2.4)
-    capybara (3.34.0)
-      addressable
-      mini_mime (>= 0.1.3)
-      nokogiri (~> 1.8)
-      rack (>= 1.6.0)
-      rack-test (>= 0.6.3)
-      regexp_parser (~> 1.5)
-      xpath (~> 3.2)
-    capybara-webkit (1.15.1)
-      capybara (>= 2.3, < 4.0)
-      json
     coderay (1.1.3)
     concurrent-ruby (1.1.7)
     crass (1.0.6)
@@ -96,7 +83,6 @@ GEM
     hpricot (0.8.6)
     i18n (1.8.5)
       concurrent-ruby (~> 1.0)
-    json (2.3.1)
     loofah (2.8.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -120,7 +106,6 @@ GEM
     pry (0.13.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
-    public_suffix (4.0.6)
     rack (2.2.3)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
@@ -211,8 +196,6 @@ GEM
     websocket-driver (0.7.3)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    xpath (3.2.0)
-      nokogiri (~> 1.8)
     zeitwerk (2.4.2)
 
 PLATFORMS
@@ -220,7 +203,6 @@ PLATFORMS
   x86_64-darwin-19
 
 DEPENDENCIES
-  capybara-webkit
   geokit
   git
   hpricot

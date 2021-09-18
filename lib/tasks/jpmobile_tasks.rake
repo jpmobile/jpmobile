@@ -112,12 +112,13 @@ namespace :test do
 
         system 'bundle install'
         system 'bin/rails db:migrate RAILS_ENV=test' unless skip
-        system 'bin/rails spec'
+        system 'bin/rails spec', exception: true
 
         ENV.replace(original_env)
       end
     end
   end
+
   desc 'Run sinatra on jpmobile tests'
   Rake::TestTask.new(:sinatra) do |t|
     t.libs << 'lib'

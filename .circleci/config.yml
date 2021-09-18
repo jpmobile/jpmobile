@@ -3,7 +3,7 @@ jobs:
   test-job:
     working_directory: ~/jpmobile
     docker:
-      - image: circleci/ruby:2.7-node-browsers
+      - image: cimg/ruby:2.7-browsers
         environment:
           BUNDLE_JOBS: 3
           BUNDLE_RETRY: 3
@@ -15,7 +15,11 @@ jobs:
       # Install dependent packages
       - run:
           name: Install dependent packages
-          command: sudo apt-get install -y cmake qt5-default libqt5webkit5-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x
+          command: |
+            sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+            sudo wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+            sudo apt update
+            sudo apt install -y cmake libsqlite3-dev google-chrome-stable
 
       # Which version of bundler?
       - run:

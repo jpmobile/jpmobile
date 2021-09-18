@@ -1,9 +1,9 @@
-require 'rails_helper'
+require 'system_helper'
 
 describe Admin::TopController, type: :feature do
   describe "GET 'full_path'" do
     before do
-      page.driver.header('user_agent', user_agent)
+      page.driver.headers = { 'User-Agent' => user_agent }
     end
 
     context 'PCからのアクセスの場合' do

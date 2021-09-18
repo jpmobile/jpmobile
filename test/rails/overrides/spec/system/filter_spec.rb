@@ -1,10 +1,10 @@
-require 'rails_helper'
+require 'system_helper'
 
 describe 'jpmobile integration spec', type: :feature do
   include Jpmobile::Util
 
   before do
-    page.driver.header('User-Agent', user_agent)
+    page.driver.headers = { 'User-Agent' => user_agent }
   end
 
   shared_examples_for 'hankaku_filter input: true のとき' do
@@ -38,11 +38,6 @@ describe 'jpmobile integration spec', type: :feature do
   end
 
   shared_examples_for '文字コードフィルタが動作しているとき' do
-    it 'はhtml以外は変換しないこと' do
-      visit "/#{controller}/rawdata"
-      expect(page.body.encode('UTF-8')).to have_content('アブラカダブラ')
-      expect(page.response_headers['Content-Type']).not_to match(/charset/i)
-    end
     it 'response.bodyが空のときは文字コードを変更しないこと' do
       visit "/#{controller}/empty"
       expect(page.response_headers['Content-Type']).to match(/utf-8/i)

@@ -117,7 +117,10 @@ namespace :test do
         ENV.replace(original_env)
       end
     end
+
+    exit $?.success?
   end
+
   desc 'Run sinatra on jpmobile tests'
   Rake::TestTask.new(:sinatra) do |t|
     t.libs << 'lib'

@@ -118,7 +118,7 @@ namespace :test do
       end
     end
 
-    exit $?.success?
+    exit $CHILD_STATUS.success?
   end
 
   desc 'Run sinatra on jpmobile tests'

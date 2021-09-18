@@ -15,7 +15,9 @@ jobs:
       # Install dependent packages
       - run:
           name: Install dependent packages
-          command: sudo apt update && sudo apt install -y cmake libsqlite3-dev
+          command: |
+            sudo apt update
+            sudo apt install -y cmake libsqlite3-dev
 
       # Which version of bundler?
       - run:

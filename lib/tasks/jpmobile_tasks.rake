@@ -112,13 +112,11 @@ namespace :test do
 
         system 'bundle install'
         system 'bin/rails db:migrate RAILS_ENV=test' unless skip
-        system 'bin/rails spec'
+        system 'bin/rails spec', exception: true
 
         ENV.replace(original_env)
       end
     end
-
-    exit $CHILD_STATUS.success?
   end
 
   desc 'Run sinatra on jpmobile tests'

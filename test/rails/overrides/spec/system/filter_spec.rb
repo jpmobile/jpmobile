@@ -4,7 +4,7 @@ describe 'jpmobile integration spec', type: :feature do
   include Jpmobile::Util
 
   before do
-    page.driver.header('User-Agent', user_agent)
+    page.driver.headers = { 'User-Agent' => user_agent }
   end
 
   shared_examples_for 'hankaku_filter input: true のとき' do

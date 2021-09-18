@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe TemplatePathController, 'integrated_views', type: :request do
   before do
-    page.driver.header('User-Agent', user_agent)
+    page.driver.headers = { 'User-Agent' => user_agent }
   end
 
   describe 'index' do

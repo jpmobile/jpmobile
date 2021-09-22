@@ -1,10 +1,10 @@
-[![CircleCI](https://circleci.com/gh/jpmobile/jpmobile/tree/master.svg?style=svg)](https://circleci.com/gh/jpmobile/jpmobile/tree/master)
+[![CircleCI](https://circleci.com/gh/jpmobile/jpmobile/tree/main.svg?style=svg)](https://circleci.com/gh/jpmobile/jpmobile/tree/main)
 [![Code Climate](https://codeclimate.com/github/jpmobile/jpmobile/badges/gpa.svg)](https://codeclimate.com/github/jpmobile/jpmobile)
 
 # jpmobile: A Rails plugin for Japanese mobile-phones
 
 ## jpmobileとは
-携帯電話特有の機能を Rails 5.0 や Rack middleware で利用するためのプラグイン。 以下の機能を備える。
+携帯電話特有の機能を Rails や Rack middleware で利用するためのプラグイン。 以下の機能を備える。
 
 * 携帯電話のキャリア判別
 * 端末位置情報の取得
@@ -38,21 +38,6 @@ Rails](https://github.com/jpmobile/jpmobile/wiki/Version-:-Jpmobile-vs-Rails)
 を参照。
 
 ## インストール
-### Rails pluginとしてインストールする場合
-```shell
-% rails plugin install git://github.com/jpmobile/jpmobile.git
-```
-
-#### IPアドレス検証が必要な場合
-```shell
-% rails plugin install git://github.com/jpmobile/jpmobile-ipaddresses.git
-```
-
-#### ディスプレイ情報を取得する必要がある場合
-```shell
-% rails plugin install git://github.com/jpmobile/jpmobile-terminfo.git
-```
-
 ### gemでインストールする場合
 ```shell
 % gem install jpmobile
@@ -396,7 +381,7 @@ end
 ## jpmobileの開発方法
 
 jpmobileの開発に関しては
-[こちら](https://github.com/jpmobile/jpmobile/blob/master/CONTRIBUTING.md) へ
+[こちら](https://github.com/jpmobile/jpmobile/blob/main/CONTRIBUTING.md) へ
 
 ## リンク
 

@@ -20,7 +20,7 @@ module Jpmobile
         requested.locale_idx[@locale],
         requested.variants_idx[@variant],
         requested.handlers_idx[@handler],
-        requested.mobile_idx[@mobile]
+        requested.mobile_idx[@mobile],
       ]
     end
 
@@ -31,7 +31,7 @@ module Jpmobile
         super(locale: locale, handlers: handlers, formats: formats, variants: variants)
 
         @mobile = mobile.map(&:to_sym)
-        @mobile_idx  = build_idx_hash(mobile)
+        @mobile_idx = build_idx_hash(mobile)
       end
     end
   end

@@ -6,7 +6,7 @@ module Jpmobile
       super(locale: locale, handlers: handlers, formats: formats, variants: variants)
 
       @mobile = mobile.map(&:to_sym)
-      @mobile_idx  = build_idx_hash(@mobile)
+      @mobile_idx = build_idx_hash(@mobile)
     end
   end
 end

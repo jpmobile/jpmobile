@@ -1,4 +1,4 @@
-#:stopdoc:
+# :stopdoc:
 # helperを追加
 # ActionView で trans_sid を有効にする
 ActionView::Base.class_eval do
@@ -6,7 +6,7 @@ ActionView::Base.class_eval do
 
   delegate :default_url_options, to: :controller unless respond_to?(:default_url_options)
 end
-#:startdoc:
+# :startdoc:
 
 # :stopdoc:
 # accept-charset に charset を変更できるようにする
@@ -19,4 +19,4 @@ module Jpmobile
     end
   end
 end
-#:startdoc:
+# :startdoc:

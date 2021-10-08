@@ -14,11 +14,11 @@ module Jpmobile
 
     class PathParser < ::ActionView::Resolver::PathParser
       def build_path_regex
-        handlers = ::ActionView::Template::Handlers.extensions.map { |x| Regexp.escape(x) }.join("|")
-        formats = ::ActionView::Template::Types.symbols.map { |x| Regexp.escape(x) }.join("|")
-        locales = "[a-z]{2}(?:-[A-Z]{2})?"
-        variants = "[^.]*"
-        mobile = Jpmobile::Mobile.all_variants.map { |x| Regexp.escape(x) }.join("|")
+        handlers = ::ActionView::Template::Handlers.extensions.map {|x| Regexp.escape(x) }.join('|')
+        formats = ::ActionView::Template::Types.symbols.map {|x| Regexp.escape(x) }.join('|')
+        locales = '[a-z]{2}(?:-[A-Z]{2})?'
+        variants = '[^.]*'
+        mobile = Jpmobile::Mobile.all_variants.map {|x| Regexp.escape(x) }.join('|')
 
         %r{
           \A
@@ -37,7 +37,7 @@ module Jpmobile
       def parse(path)
         @regex ||= build_path_regex
         match = @regex.match(path)
-        path = ActionView::TemplatePath.build(match[:action], match[:prefix] || "", !!match[:partial])
+        path = ActionView::TemplatePath.build(match[:action], match[:prefix] || '', !!match[:partial])
         details = Jpmobile::TemplateDetails.new(
           match[:locale]&.to_sym,
           match[:handler]&.to_sym,

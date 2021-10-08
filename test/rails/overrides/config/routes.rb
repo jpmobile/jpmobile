@@ -61,7 +61,7 @@ RailsRoot::Application.routes.draw do
   %w[
     index
     file_render
-    no_mobile
+    mobile_not_exist
   ].each do |a|
     get "mobile_spec/#{a}", to: "mobile_spec##{a}"
   end

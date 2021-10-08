@@ -10,6 +10,9 @@ class TemplatePathController < ApplicationController
   def show
   end
 
+  def partial
+  end
+
   def optioned_index
     render action: 'index'
   end

@@ -91,7 +91,7 @@ module Jpmobile
 end
 
 module ActionController
-  class Metal #:nodoc:
+  class Metal # :nodoc:
     class_attribute :trans_sid_mode
 
     class << self

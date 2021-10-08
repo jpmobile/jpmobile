@@ -1,5 +1,5 @@
 # DoCoMoの時guid=onの付与
-class ActionController::Base #:nodoc:
+class ActionController::Base # :nodoc:
   class_attribute :docomo_guid_mode
 
   class << self
@@ -10,7 +10,7 @@ class ActionController::Base #:nodoc:
   end
 end
 
-module Jpmobile::DocomoGuid #:nodoc:
+module Jpmobile::DocomoGuid # :nodoc:
   protected
 
   def default_url_options

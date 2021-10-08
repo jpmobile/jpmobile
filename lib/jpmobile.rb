@@ -48,7 +48,17 @@ module Jpmobile
     end
 
     def self.carriers=(ary)
+      @all_variants = nil
+
       @carriers = ary
+    end
+
+    def self.all_variants
+      return @all_variants if @all_variants
+
+      @all_variants = carriers.map {|carrier|
+        Jpmobile::Mobile.const_get(carrier).new({}, {}).variants
+      }.flatten.uniq
     end
 
     require 'jpmobile/mobile/abstract_mobile'
@@ -62,6 +72,9 @@ module Jpmobile
 
   autoload :Mailer,   'jpmobile/mailer'
   autoload :Resolver, 'jpmobile/resolver'
+
+  autoload :PathSet,         'jpmobile/path_set'
+  autoload :TemplateDetails, 'jpmobile/template_details'
 
   autoload :ViewSelector,         'jpmobile/view_selector'
   autoload :FallbackViewSelector, 'jpmobile/fallback_view_selector'

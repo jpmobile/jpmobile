@@ -1,12 +1,11 @@
 module Jpmobile
   module ViewSelector
-    def self.included(base)
-      base.class_eval do
-        before_action :register_mobile
+    extend ActiveSupport::Concern
 
-        self._view_paths = self._view_paths.dup
-        self.view_paths.unshift(*self.view_paths.map {|resolver| Jpmobile::Resolver.new(resolver.to_path) })
-      end
+    included do
+      before_action :register_mobile
+
+      self.view_paths = Jpmobile::PathSet.new(self.view_paths.paths.map(&:path))
     end
 
     def register_mobile

@@ -8,6 +8,6 @@ class MobileSpecController < ApplicationController
     render file: File.join(Rails.public_path, '422.html')
   end
 
-  def no_mobile
+  def mobile_not_exist
   end
 end

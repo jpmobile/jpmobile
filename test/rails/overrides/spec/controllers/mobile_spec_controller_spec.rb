@@ -52,7 +52,7 @@ describe MobileSpecController, type: :controller do
     end
   end
 
-  describe "GET 'no_mobile'" do
+  describe "GET 'mobile_not_exist'" do
     around do |example|
       orig_value = Jpmobile.config.fallback_view_selector
       Jpmobile.config.fallback_view_selector = true
@@ -65,7 +65,7 @@ describe MobileSpecController, type: :controller do
     context 'PC access' do
       it 'should be successful' do
         request.user_agent = 'Mozilla'
-        get 'no_mobile'
+        get 'mobile_not_exist'
 
         expect(response).to be_successful
         expect(response.body).not_to match('RailsRoot PC mobile')
@@ -75,7 +75,7 @@ describe MobileSpecController, type: :controller do
     context 'mobile access' do
       it 'should be successful' do
         request.user_agent = 'DoCoMo/2.0 SH902i(c100;TB;W24H12)'
-        get 'no_mobile'
+        get 'mobile_not_exist'
 
         expect(response).to be_successful
         expect(response.body).not_to match('RailsRoot mobile')

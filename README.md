@@ -142,8 +142,7 @@ Rack::Request#mobile.position に位置情報が格納されます。
 
 #### [GeoKit](http://geokit.rubyforge.org) との連携
 
-vendor/plugins/geokit以下にGeoKitがインストールされていると、Jpmobile::PositionにGeoKit::Mappabl
-eがincludeされる。したがって、
+vendor/plugins/geokit以下にGeoKitがインストールされていると、Jpmobile::PositionにGeoKit::Mappableがincludeされる。したがって、
 
 ```ruby
 request.mobile.position.distance_to('札幌駅')

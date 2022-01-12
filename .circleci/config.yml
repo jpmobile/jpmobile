@@ -34,7 +34,7 @@ jobs:
 
       - run:
           name: Bundle Install
-          command: bundle check || bundle install --path vendor/bundler
+          command: bundle check || bundle install --deployment --path vendor/bundler
 
       # Store bundle cache
       - save_cache:

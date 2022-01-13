@@ -10,7 +10,7 @@ module Jpmobile
       def detect(email)
         Mobile.carriers.each do |const|
           c = Mobile.const_get(const)
-          return c if c::MAIL_ADDRESS_REGEXP && email.match(/^#{c::MAIL_ADDRESS_REGEXP}$/)
+          return c if c::MAIL_ADDRESS_REGEXP && email.match(/^#{c::MAIL_ADDRESS_REGEXP}$/) # rubocop:disable Performance/ConstantRegexp
         end
         nil
       end
@@ -21,7 +21,7 @@ module Jpmobile
           c = Mobile.const_get(const)
           if c::MAIL_ADDRESS_REGEXP &&
              header.match(/(\S+@[A-Za-z0-9\-._]+)/) &&
-             Regexp.last_match(1).match(/^#{c::MAIL_ADDRESS_REGEXP}$/)
+             Regexp.last_match(1).match(/^#{c::MAIL_ADDRESS_REGEXP}$/) # rubocop:disable Performance/ConstantRegexp
             return c
           end
         end

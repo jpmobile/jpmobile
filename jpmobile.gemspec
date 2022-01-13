@@ -16,7 +16,7 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|system)/})
   gem.require_paths = ['lib']
 
-  gem.required_ruby_version = '>= 3.0.0'
+  gem.required_ruby_version = '>= 2.7.0'
 
   gem.add_dependency 'mail', '~> 2.7.0'
   gem.add_dependency 'rexml'

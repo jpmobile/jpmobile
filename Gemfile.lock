@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    jpmobile (6.1.2)
+    jpmobile (7.0.0)
       mail (~> 2.7.0)
       rexml
       scanf

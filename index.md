@@ -16,4 +16,4 @@ You can download this project in either
 
 You can also clone the project with [Git](http://git-scm.com) by running:
 
-    $ git clone git://github.com/jpmobile/jpmobile
+    $ git clone https://github.com/jpmobile/jpmobile

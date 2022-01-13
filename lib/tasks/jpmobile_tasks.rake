@@ -87,7 +87,7 @@ namespace :test do
       File.write(config_path, <<-SESSION_CONFIG)
         Rails.application.config.session_store :active_record_store, :key => '_session_id'
         Rails.application.config.session_options = { :cookie_only => false }
-        SESSION_CONFIG
+      SESSION_CONFIG
     end
 
     unless skip

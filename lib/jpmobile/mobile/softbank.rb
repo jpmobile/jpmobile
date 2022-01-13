@@ -13,6 +13,8 @@ module Jpmobile::Mobile
     # テキスト部分の content-transfer-encoding
     MAIL_CONTENT_TRANSFER_ENCODING = '8bit'.freeze
 
+    TARGET_PARAMS = ['pos', 'geo', 'x-acr'].freeze
+
     # 製造番号を返す。無ければ +nil+ を返す。
     def serial_number
       @request.env['HTTP_USER_AGENT'] =~ /SN(.+?) /
@@ -36,7 +38,7 @@ module Jpmobile::Mobile
       l = Jpmobile::Position.new
       l.lat = ((Regexp.last_match(1) == 'N') ? 1 : -1) * Jpmobile::Position.dms2deg(Regexp.last_match(2), Regexp.last_match(3), Regexp.last_match(4))
       l.lon = ((Regexp.last_match(5) == 'E') ? 1 : -1) * Jpmobile::Position.dms2deg(Regexp.last_match(6), Regexp.last_match(7), Regexp.last_match(8))
-      l.options = params.select {|x, _| ['pos', 'geo', 'x-acr'].include?(x) }
+      l.options = params.select {|x, _| TARGET_PARAMS.include?(x) }
 
       @__position = l
     end

@@ -42,6 +42,8 @@ module Jpmobile
       Regexp.escape('application/xhtml+xm'),
     )
 
+    CONVERT_TARGET_ELEMENTS = %w[submit reset button].freeze
+
     class << self
       def hankaku_format(str)
         replace_chars(str, zen_to_han_table)
@@ -149,7 +151,7 @@ module Jpmobile
             # textarea 以外のテキストなら content を変換
             element.content = filter(:hankaku, element.content)
           end
-        elsif (element.node_name == 'input') && %w[submit reset button].include?(element['type'])
+        elsif (element.node_name == 'input') && CONVERT_TARGET_ELEMENTS.include?(element['type'])
           # テキスト以外でもボタンの value は変換
           element['value'] = filter(:hankaku, element['value'])
         elsif element.children.any?

@@ -1,3 +1,4 @@
+# rubocop:disable Performance/CollectionLiteralInLoop
 RailsRoot::Application.routes.draw do
   resources :users
   namespace :admin do
@@ -102,3 +103,4 @@ RailsRoot::Application.routes.draw do
     end
   end
 end
+# rubocop:enable Performance/CollectionLiteralInLoop

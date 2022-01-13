@@ -85,11 +85,7 @@ module Jpmobile::Mobile
           'none'
         end
 
-      if protocol.start_with?('https')
-        false
-      else
-        true
-      end
+      !protocol.start_with?('https')
     end
 
     # 文字コード変換

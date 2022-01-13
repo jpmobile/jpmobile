@@ -6,14 +6,16 @@ module Jpmobile::Mobile
   class Au < AbstractMobile
     # 対応するUser-Agentの正規表現
     # User-Agent文字列中に "UP.Browser" を含むVodafoneの端末があるので注意が必要
-    USER_AGENT_REGEXP = %r{^(?:KDDI|UP.Browser/.+?)-(.+?) }
+    USER_AGENT_REGEXP = %r{^(?:KDDI|UP.Browser/.+?)-(.+?) }.freeze
     # 対応するメールアドレスの正規表現
-    MAIL_ADDRESS_REGEXP = /.+@ezweb\.ne\.jp/
+    MAIL_ADDRESS_REGEXP = /.+@ezweb\.ne\.jp/.freeze
     # 簡易位置情報取得に対応していないデバイスID
     # http://www.au.kddi.com/ezfactory/tec/spec/eznavi.html
     LOCATION_UNSUPPORTED_DEVICE_ID = %w[PT21 TS25 KCTE TST9 KCU1 SYT5 KCTD TST8 TST7 KCTC SYT4 KCTB KCTA TST6 KCT9 TST5 TST4 KCT8 SYT3 KCT7 MIT1 MAT3 KCT6 TST3 KCT5 KCT4 SYT2 MAT1 MAT2 TST2 KCT3 KCT2 KCT1 TST1 SYT1].freeze
     # GPS取得に対応していないデバイスID
     GPS_UNSUPPORTED_DEVICE_ID = %w[PT21 KC26 SN28 SN26 KC23 SA28 TS25 SA25 SA24 SN23 ST14 KC15 SN22 KC14 ST13 SN17 SY15 CA14 HI14 TS14 KC13 SN15 SN16 SY14 ST12 TS13 CA13 MA13 HI13 SN13 SY13 SN12 SN14 ST11 DN11 SY12 KCTE TST9 KCU1 SYT5 KCTD TST8 TST7 KCTC SYT4 KCTB KCTA TST6 KCT9 TST5 TST4 KCT8 SYT3 KCT7 MIT1 MAT3 KCT6 TST3 KCT5 KCT4 SYT2 MAT1 MAT2 TST2 KCT3 KCT2 KCT1 TST1 SYT1].freeze
+
+    TARGET_PARAMS = %w[ver datum unit lat lon alt time smaj smin vert majaa fm].freeze
 
     # EZ番号(サブスクライバID)があれば返す。無ければ +nil+ を返す。
     def subno
@@ -27,7 +29,7 @@ module Jpmobile::Mobile
       return @__posotion = nil if params['lat'].nil? || params['lat'] == '' || params['lon'].nil? || params['lon'] == ''
 
       l = Jpmobile::Position.new
-      l.options = params.select {|x, _| %w[ver datum unit lat lon alt time smaj smin vert majaa fm].include?(x) }
+      l.options = params.select {|x, _| TARGET_PARAMS.include?(x) }
       case params['unit']
       when '1'
         l.lat = params['lat'].to_f
@@ -83,11 +85,7 @@ module Jpmobile::Mobile
           'none'
         end
 
-      if protocol.start_with?('https')
-        false
-      else
-        true
-      end
+      !protocol.start_with?('https')
     end
 
     # 文字コード変換

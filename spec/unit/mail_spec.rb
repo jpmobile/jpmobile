@@ -285,7 +285,7 @@ describe 'Jpmobile::Mail' do
       @mobile = Jpmobile::Mobile::AbstractMobile.new(nil, nil)
       @mail.mobile = @mobile
       @mail.to = 'むすめふさほせ <info+to@jpmobile-rails.org>'
-      @photo = File.open(File.join(__dir__, 'email-fixtures/photo.jpg')).read
+      @photo = File.read(File.join(__dir__, 'email-fixtures/photo.jpg'))
     end
 
     it 'should encodes itself successfully' do
@@ -318,7 +318,7 @@ describe 'Jpmobile::Mail' do
       @mobile = Jpmobile::Mobile::AbstractMobile.new(nil, nil)
       @mail.mobile = @mobile
       @mail.to = 'むすめふさほせ <info+to@jpmobile-rails.org>'
-      @photo = File.open(File.join(__dir__, 'email-fixtures/photo.jpg')).read
+      @photo = File.read(File.join(__dir__, 'email-fixtures/photo.jpg'))
     end
 
     it 'wave dash converting correctly' do

@@ -5,13 +5,15 @@ module Jpmobile::Mobile
   # Vodafoneのスーパクラス。
   class Softbank < AbstractMobile
     # 対応するuser-agentの正規表現
-    USER_AGENT_REGEXP = /^(?:SoftBank|Semulator)/
+    USER_AGENT_REGEXP = /^(?:SoftBank|Semulator)/.freeze
     # 対応するメールアドレスの正規表現　ディズニーモバイル対応
-    MAIL_ADDRESS_REGEXP = /.+@(?:softbank\.ne\.jp|disney\.ne\.jp)/
+    MAIL_ADDRESS_REGEXP = /.+@(?:softbank\.ne\.jp|disney\.ne\.jp)/.freeze
     # メールのデフォルトのcharset
     MAIL_CHARSET = 'Shift_JIS'.freeze
     # テキスト部分の content-transfer-encoding
     MAIL_CONTENT_TRANSFER_ENCODING = '8bit'.freeze
+
+    TARGET_PARAMS = ['pos', 'geo', 'x-acr'].freeze
 
     # 製造番号を返す。無ければ +nil+ を返す。
     def serial_number
@@ -36,7 +38,7 @@ module Jpmobile::Mobile
       l = Jpmobile::Position.new
       l.lat = ((Regexp.last_match(1) == 'N') ? 1 : -1) * Jpmobile::Position.dms2deg(Regexp.last_match(2), Regexp.last_match(3), Regexp.last_match(4))
       l.lon = ((Regexp.last_match(5) == 'E') ? 1 : -1) * Jpmobile::Position.dms2deg(Regexp.last_match(6), Regexp.last_match(7), Regexp.last_match(8))
-      l.options = params.select {|x, _| ['pos', 'geo', 'x-acr'].include?(x) }
+      l.options = params.select {|x, _| TARGET_PARAMS.include?(x) }
 
       @__position = l
     end

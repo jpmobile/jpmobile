@@ -11,7 +11,7 @@ module Jpmobile
 
       def mail(headers = {}, &block)
         tos = headers[:to] || self.default_params[:to]
-        tos = tos.split(/,/)
+        tos = tos.split(',')
 
         @mobile = if tos.size == 1
                     # for mobile

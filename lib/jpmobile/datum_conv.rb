@@ -19,11 +19,11 @@ module DatumConv
     l = l_deg * Deg2Rad
 
     e2 = f * (2 - f)
-    n = a / Math.sqrt(1 - e2 * Math.sin(b)**2)
+    n = a / Math.sqrt(1 - (e2 * (Math.sin(b)**2)))
 
     x = (n + he) * Math.cos(b) * Math.cos(l)
     y = (n + he) * Math.cos(b) * Math.sin(l)
-    z = (n * (1 - e2) + he) * Math.sin(b)
+    z = ((n * (1 - e2)) + he) * Math.sin(b)
     return x, y, z
   end
 
@@ -34,12 +34,12 @@ module DatumConv
     e2 = f * (2 - f)
     l = Math.atan2(y, x)
 
-    p = Math.sqrt(x**2 + y**2)
-    r = Math.sqrt(p**2 + z**2)
-    u = Math.atan2(z * ((1 - f) + e2 * a / r), p)
-    b = Math.atan2(z * (1 - f) + e2 * a * Math.sin(u)**3, (1 - f) * (p - e2 * a * Math.cos(u)**3))
+    p = Math.sqrt((x**2) + (y**2))
+    r = Math.sqrt((p**2) + (z**2))
+    u = Math.atan2(z * ((1 - f) + (e2 * a / r)), p)
+    b = Math.atan2((z * (1 - f)) + (e2 * a * (Math.sin(u)**3)), (1 - f) * (p - (e2 * a * (Math.cos(u)**3))))
 
-    he = p * Math.cos(b) + z * Math.sin(b) - a * Math.sqrt(1 - e2 * Math.sin(b)**2)
+    he = (p * Math.cos(b)) + (z * Math.sin(b)) - (a * Math.sqrt(1 - (e2 * (Math.sin(b)**2))))
 
     b_deg = b / Deg2Rad
     l_deg = l / Deg2Rad

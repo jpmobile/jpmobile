@@ -10,7 +10,7 @@ end
 module Jpmobile
   # 位置情報
   class Position
-    if Object.const_defined?('GeoKit')
+    if Object.const_defined?(:GeoKit)
       # GeoKitが読み込まれている場合はMappableにする
       include ::GeoKit::Mappable
       def self.acts_as_mappable
@@ -35,7 +35,7 @@ module Jpmobile
 
     # 度分秒を度に変換する。
     def self.dms2deg(d, m, s)
-      d.to_i + m.to_i.to_f / 60 + s.to_f / 3600
+      d.to_i + (m.to_i.to_f / 60) + (s.to_f / 3600)
     end
 
     # 日本測地系から世界測地系に変換する。

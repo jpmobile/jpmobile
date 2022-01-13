@@ -12,7 +12,7 @@ describe 'Jpmobile::Mail#receive' do
 
   describe 'PC mail' do
     before(:each) do
-      @mail = Mail.new(File.open(File.join(__dir__, 'email-fixtures/pc-mail-single.eml')).read)
+      @mail = Mail.new(File.read(File.join(__dir__, 'email-fixtures/pc-mail-single.eml')))
     end
 
     it 'subject should be parsed correctly' do
@@ -49,7 +49,7 @@ describe 'Jpmobile::Mail#receive' do
   describe 'multipart' do
     describe 'PC mail' do
       before(:each) do
-        @mail = Mail.new(File.open(File.join(__dir__, 'email-fixtures/pc-mail-multi.eml')).read)
+        @mail = Mail.new(File.read(File.join(__dir__, 'email-fixtures/pc-mail-multi.eml')))
       end
 
       it 'subject should be parsed correctly' do
@@ -68,7 +68,7 @@ describe 'Jpmobile::Mail#receive' do
 
     describe 'PC mail without subject' do
       before(:each) do
-        @mail = Mail.new(File.open(File.join(__dir__, 'email-fixtures/pc-mail-attached-without-subject.eml')).read)
+        @mail = Mail.new(File.read(File.join(__dir__, 'email-fixtures/pc-mail-attached-without-subject.eml')))
       end
 
       it 'body should be parsed correctly' do
@@ -84,7 +84,7 @@ describe 'Jpmobile::Mail#receive' do
     describe 'Docomo' do
       context 'with sjis decomail' do
         before(:each) do
-          @mail = Mail.new(File.open(File.join(__dir__, '../../test/rails/overrides/spec/fixtures/files/mobile_mailer/docomo-gmail-sjis.eml')).read)
+          @mail = Mail.new(File.read(File.join(__dir__, '../../test/rails/overrides/spec/fixtures/files/mobile_mailer/docomo-gmail-sjis.eml')))
         end
 
         it 'subject should be parsed correctly' do
@@ -111,7 +111,7 @@ describe 'Jpmobile::Mail#receive' do
 
       context 'with jis decomail' do
         before(:each) do
-          @mail = Mail.new(File.open(File.join(__dir__, 'email-fixtures/docomo-decomail.eml')).read)
+          @mail = Mail.new(File.read(File.join(__dir__, 'email-fixtures/docomo-decomail.eml')))
         end
 
         it 'does not contain charset within multipart Content-Type' do
@@ -129,7 +129,7 @@ describe 'Jpmobile::Mail#receive' do
 
     describe 'Au' do
       before(:each) do
-        @mail = Mail.new(File.open(File.join(__dir__, '../../test/rails/overrides/spec/fixtures/files/mobile_mailer/au-decomail.eml')).read)
+        @mail = Mail.new(File.read(File.join(__dir__, '../../test/rails/overrides/spec/fixtures/files/mobile_mailer/au-decomail.eml')))
       end
 
       it 'subject should be parsed correctly' do
@@ -151,7 +151,7 @@ describe 'Jpmobile::Mail#receive' do
     describe 'Softbank' do
       context 'Shift_JIS' do
         before(:each) do
-          @mail = Mail.new(File.open(File.join(__dir__, '../../test/rails/overrides/spec/fixtures/files/mobile_mailer/softbank-gmail-sjis.eml')).read)
+          @mail = Mail.new(File.read(File.join(__dir__, '../../test/rails/overrides/spec/fixtures/files/mobile_mailer/softbank-gmail-sjis.eml')))
         end
 
         it 'subject should be parsed correctly' do
@@ -170,7 +170,7 @@ describe 'Jpmobile::Mail#receive' do
 
       context 'UTF-8' do
         before(:each) do
-          @mail = Mail.new(File.open(File.join(__dir__, '../../test/rails/overrides/spec/fixtures/files/mobile_mailer/softbank-gmail-utf8.eml')).read)
+          @mail = Mail.new(File.read(File.join(__dir__, '../../test/rails/overrides/spec/fixtures/files/mobile_mailer/softbank-gmail-utf8.eml')))
         end
 
         it 'subject should be parsed correctly' do
@@ -190,7 +190,7 @@ describe 'Jpmobile::Mail#receive' do
 
     context 'bounced mail' do
       it 'should parse sub-part charset correctly' do
-        @mail = Mail.new(File.open(File.join(__dir__, 'email-fixtures/bounce_with_utf8_part.eml')).read)
+        @mail = Mail.new(File.read(File.join(__dir__, 'email-fixtures/bounce_with_utf8_part.eml')))
         expect(@mail.parts.first.charset).to match(/iso-2022-jp/i)
         expect(@mail.parts.last.charset).to  match(/utf-8/i)
       end
@@ -199,7 +199,7 @@ describe 'Jpmobile::Mail#receive' do
 
   describe 'Docomo' do
     before(:each) do
-      @mail = Mail.new(File.open(File.join(__dir__, 'email-fixtures/docomo-emoji.eml')).read)
+      @mail = Mail.new(File.read(File.join(__dir__, 'email-fixtures/docomo-emoji.eml')))
     end
 
     it 'subject should be parsed correctly' do
@@ -234,7 +234,7 @@ describe 'Jpmobile::Mail#receive' do
 
     context 'JIS mail' do
       before(:each) do
-        @mail = Mail.new(File.open(File.join(__dir__, 'email-fixtures/docomo-jis.eml')).read)
+        @mail = Mail.new(File.read(File.join(__dir__, 'email-fixtures/docomo-jis.eml')))
       end
 
       it 'subject should be parsed correctly' do
@@ -250,7 +250,7 @@ describe 'Jpmobile::Mail#receive' do
   describe 'Au' do
     context 'au-emoji.eml' do
       before(:each) do
-        @mail = Mail.new(File.open(File.join(__dir__, 'email-fixtures/au-emoji.eml')).read)
+        @mail = Mail.new(File.read(File.join(__dir__, 'email-fixtures/au-emoji.eml')))
       end
 
       it 'subject should be parsed correctly' do
@@ -286,36 +286,36 @@ describe 'Jpmobile::Mail#receive' do
 
     it 'should not be raised when parsing incoming email #41' do
       expect {
-        @mail = Mail.new(File.open(File.join(__dir__, 'email-fixtures/au-email.eml')).read)
+        @mail = Mail.new(File.read(File.join(__dir__, 'email-fixtures/au-email.eml')))
       }.not_to raise_error
     end
 
     it 'should not be raised when parsing incoming email #45' do
       expect {
-        @mail = Mail.new(File.open(File.join(__dir__, 'email-fixtures/au-decomail2.eml')).read)
+        @mail = Mail.new(File.read(File.join(__dir__, 'email-fixtures/au-decomail2.eml')))
       }.not_to raise_error
     end
 
     it 'should not be raised when parsing incoming email - include kigou' do
       expect {
-        @mail = Mail.new(File.open(File.join(__dir__, 'email-fixtures/au-kigou.eml')).read)
+        @mail = Mail.new(File.read(File.join(__dir__, 'email-fixtures/au-kigou.eml')))
       }.not_to raise_error
     end
 
     context 'From au iPhone' do
       it 'charset should be UTF-8' do
-        @mail = Mail.new(File.open(File.join(__dir__, '../../test/rails/overrides/spec/fixtures/files/mobile_mailer/iphone-message.eml')).read)
+        @mail = Mail.new(File.read(File.join(__dir__, '../../test/rails/overrides/spec/fixtures/files/mobile_mailer/iphone-message.eml')))
         expect(@mail.mobile).to be_a(Jpmobile::Mobile::Au)
         expect(@mail.charset).to match(/utf-8/i)
       end
 
       it 'should be encoded correctly' do
-        @mail = Mail.new(File.open(File.join(__dir__, '../../test/rails/overrides/spec/fixtures/files/mobile_mailer/iphone-message.eml')).read)
+        @mail = Mail.new(File.read(File.join(__dir__, '../../test/rails/overrides/spec/fixtures/files/mobile_mailer/iphone-message.eml')))
         expect(@mail.encoded).to match(Regexp.escape("%[\e$B1`;yL>\e(B]%\e$B$N\e(B%[\e$BJ]8n<TL>\e(B]%"))
       end
 
       it 'should decode cp932-encoded mail correctly' do
-        @mail = Mail.new(File.open(File.join(__dir__, 'email-fixtures/iphone-cp932.eml')).read)
+        @mail = Mail.new(File.read(File.join(__dir__, 'email-fixtures/iphone-cp932.eml')))
         expect(@mail.subject).to eq 'Re: 【NKSC】test'
         expect(@mail.body.to_s).to eq 'テストです。㈱'
       end
@@ -323,20 +323,20 @@ describe 'Jpmobile::Mail#receive' do
 
     context 'From iPad' do
       it 'charset should be UTF-8' do
-        @mail = Mail.new(File.open(File.join(__dir__, 'email-fixtures/iphone-mail3.eml')).read)
+        @mail = Mail.new(File.read(File.join(__dir__, 'email-fixtures/iphone-mail3.eml')))
         expect(@mail.mobile).to be_a(Jpmobile::Mobile::AbstractMobile)
         expect(@mail.charset).to match(/utf-8/i)
       end
 
       it 'should be encoded correctly' do
-        @mail = Mail.new(File.open(File.join(__dir__, 'email-fixtures/iphone-mail3.eml')).read)
+        @mail = Mail.new(File.read(File.join(__dir__, 'email-fixtures/iphone-mail3.eml')))
         expect(@mail.encoded).to match(/BK\\J82~9T\$J\$7!2#5#1#2J8;z!2/)
       end
     end
 
     it 'should not raise when parsing attached email' do
       expect {
-        @mail = Mail.new(File.open(File.join(__dir__, 'email-fixtures/au-attached.eml')).read)
+        @mail = Mail.new(File.read(File.join(__dir__, 'email-fixtures/au-attached.eml')))
         expect(@mail.encoded).to match('/9j/4AAQSkZJRgABAgAAZABkAAD/7AARRHVja3kAAQAEAAAAPQAA')
       }.not_to raise_error
     end
@@ -344,7 +344,7 @@ describe 'Jpmobile::Mail#receive' do
 
   describe 'Softbank' do
     before(:each) do
-      @mail = Mail.new(File.open(File.join(__dir__, 'email-fixtures/softbank-emoji.eml')).read)
+      @mail = Mail.new(File.read(File.join(__dir__, 'email-fixtures/softbank-emoji.eml')))
     end
 
     it 'subject should be parsed correctly' do
@@ -379,7 +379,7 @@ describe 'Jpmobile::Mail#receive' do
 
     describe 'blank-mail' do
       before(:each) do
-        @mail = Mail.new(File.open(File.join(__dir__, 'email-fixtures/softbank-blank.eml')).read)
+        @mail = Mail.new(File.read(File.join(__dir__, 'email-fixtures/softbank-blank.eml')))
       end
 
       it 'subject should be parsed correctly' do
@@ -395,7 +395,7 @@ describe 'Jpmobile::Mail#receive' do
   describe 'iPhone' do
     context 'JIS mail' do
       before(:each) do
-        @mail = Mail.new(File.open(File.join(__dir__, 'email-fixtures/iphone-jis.eml')).read)
+        @mail = Mail.new(File.read(File.join(__dir__, 'email-fixtures/iphone-jis.eml')))
       end
 
       it 'body should be parsed correctly' do
@@ -405,7 +405,7 @@ describe 'Jpmobile::Mail#receive' do
 
     context 'when the mail contains UTF-8 emojis' do
       before(:each) do
-        @mail = Mail.new(File.open(File.join(__dir__, 'email-fixtures/iphone-unicode-emoji.eml')).read)
+        @mail = Mail.new(File.read(File.join(__dir__, 'email-fixtures/iphone-unicode-emoji.eml')))
       end
 
       it 'subject should be parsed correctly' do
@@ -419,7 +419,7 @@ describe 'Jpmobile::Mail#receive' do
 
     context 'when the mail contains circled-numbers' do
       before(:each) do
-        @mail = Mail.new(File.open(File.join(__dir__, 'email-fixtures/iphone-circled-numbers-in-jis.eml')).read)
+        @mail = Mail.new(File.read(File.join(__dir__, 'email-fixtures/iphone-circled-numbers-in-jis.eml')))
       end
 
       it 'subject should be parsed correctly' do
@@ -435,7 +435,7 @@ describe 'Jpmobile::Mail#receive' do
   describe 'bounced mail' do
     context 'has jp address' do
       before(:each) do
-        @mail = Mail.new(File.open(File.join(__dir__, '../../test/rails/overrides/spec/fixtures/files/mobile_mailer/bounced-jp.eml')).read)
+        @mail = Mail.new(File.read(File.join(__dir__, '../../test/rails/overrides/spec/fixtures/files/mobile_mailer/bounced-jp.eml')))
       end
 
       it 'mobile should abstract mobile' do
@@ -447,7 +447,7 @@ describe 'Jpmobile::Mail#receive' do
   describe 'non-Japanese mail' do
     context 'us-ascii' do
       before(:each) do
-        @mail = Mail.new(File.open(File.join(__dir__, '../../test/rails/overrides/spec/fixtures/files/mobile_mailer/non-jp.eml')).read)
+        @mail = Mail.new(File.read(File.join(__dir__, '../../test/rails/overrides/spec/fixtures/files/mobile_mailer/non-jp.eml')))
       end
 
       it 'mobile should be nil' do
@@ -458,7 +458,7 @@ describe 'Jpmobile::Mail#receive' do
 
     context 'no From header' do
       before(:each) do
-        @mail = Mail.new(File.open(File.join(__dir__, '../../test/rails/overrides/spec/fixtures/files/mobile_mailer/no-from.eml')).read)
+        @mail = Mail.new(File.read(File.join(__dir__, '../../test/rails/overrides/spec/fixtures/files/mobile_mailer/no-from.eml')))
       end
 
       it 'mobile should be nil' do

@@ -6,6 +6,6 @@ module Jpmobile::Mobile
     include Jpmobile::Mobile::UnicodeEmoticon
 
     # 対応するUser-Agentの正規表現
-    USER_AGENT_REGEXP = /iPhone/
+    USER_AGENT_REGEXP = /iPhone/.freeze
   end
 end

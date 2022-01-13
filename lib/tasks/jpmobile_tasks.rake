@@ -84,12 +84,10 @@ namespace :test do
     unless skip
       # for cookie_only option
       config_path = File.join(rails_root, 'config', 'initializers', 'session_store.rb')
-      File.open(config_path, 'w') do |file|
-        file.write <<-SESSION_CONFIG
+      File.write(config_path, <<-SESSION_CONFIG)
         Rails.application.config.session_store :active_record_store, :key => '_session_id'
         Rails.application.config.session_options = { :cookie_only => false }
         SESSION_CONFIG
-      end
     end
 
     unless skip

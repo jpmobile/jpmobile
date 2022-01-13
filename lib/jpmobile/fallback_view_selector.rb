@@ -8,10 +8,10 @@ module Jpmobile
         begin
           expected_view_file = lookup_context.find_template(options[:template], options[:prefixes])
 
-          _candidates = lookup_context.mobile.map {|variant|
+          _candidates = lookup_context.mobile.filter_map {|variant|
             target_template = options[:template] + '_' + variant
             expected_view_file.virtual_path.match(target_template)
-          }.compact
+          }
 
           if _candidates.empty?
             lookup_context.mobile = []

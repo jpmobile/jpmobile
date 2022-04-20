@@ -140,7 +140,7 @@ Rack::Request#mobile.position に位置情報が格納されます。
 @longuitude = request.mobile.position.lon
 ```
 
-#### [GeoKit](http://geokit.rubyforge.org) との連携
+#### [GeoKit](https://github.com/geokit/geokit) との連携
 
 vendor/plugins/geokit以下にGeoKitがインストールされていると、Jpmobile::PositionにGeoKit::Mappableがincludeされる。したがって、
 

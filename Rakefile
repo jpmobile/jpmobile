@@ -21,7 +21,7 @@ namespace :test do
       'jpmobile-ipaddresses',
       'jpmobile-terminfo',
     ]
-    github_prefix = 'git://github.com/jpmobile'
+    github_prefix = 'https://github.com/jpmobile'
     vendor_path = Pathname.new(Dir.pwd).join('vendor')
     FileUtils.mkdir_p(vendor_path)
 

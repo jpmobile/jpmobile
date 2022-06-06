@@ -19,8 +19,8 @@ module Jpmobile
         requested.formats_idx[@format],
         requested.locale_idx[@locale],
         requested.variants_idx[@variant],
-        requested.handlers_idx[@handler],
         requested.mobile_idx[@mobile],
+        requested.handlers_idx[@handler],
       ]
     end
 

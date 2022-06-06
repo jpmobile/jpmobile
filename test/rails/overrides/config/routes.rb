@@ -102,5 +102,7 @@ RailsRoot::Application.routes.draw do
       get "#{c}/#{a}", to: "#{c}##{a}"
     end
   end
+
+  get 'implicit_render', to: 'implicit_render#index'
 end
 # rubocop:enable Performance/CollectionLiteralInLoop

@@ -2,11 +2,13 @@ ActiveSupport.on_load(:action_controller) do
   require 'jpmobile/docomo_guid'
   require 'jpmobile/filter'
   require 'jpmobile/helpers'
+  require 'jpmobile/implicit_render'
   require 'jpmobile/trans_sid'
   require 'jpmobile/hook_test_request'
   ActionDispatch::Request.prepend Jpmobile::Encoding
   ActionDispatch::Request.include Jpmobile::RequestWithMobile
   ActionController::Base.prepend Jpmobile::FallbackViewSelector
+  ActionController::Base.prepend Jpmobile::ImplicitRender
   ActionController::Base.prepend Jpmobile::TransSidRedirecting
 end
 

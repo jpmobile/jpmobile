@@ -8,7 +8,6 @@ ActiveSupport.on_load(:action_controller) do
   ActionDispatch::Request.prepend Jpmobile::Encoding
   ActionDispatch::Request.include Jpmobile::RequestWithMobile
   ActionController::Base.prepend Jpmobile::FallbackViewSelector
-  ActionController::Base.prepend Jpmobile::ImplicitRender
   ActionController::Base.prepend Jpmobile::TransSidRedirecting
 end
 

@@ -312,7 +312,7 @@ end
 
 ```ruby
 class ApplicationController < ActionController::Base
-  include Jpmobile::ImplicitRender
+  include Jpmobile::MethodLessActionSupport
 end
 ```
 

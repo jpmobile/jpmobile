@@ -103,6 +103,6 @@ RailsRoot::Application.routes.draw do
     end
   end
 
-  get 'implicit_render', to: 'implicit_render#index'
+  get 'method_less_action_support', to: 'method_less_action_support#index'
 end
 # rubocop:enable Performance/CollectionLiteralInLoop

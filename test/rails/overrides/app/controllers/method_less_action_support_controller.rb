@@ -1,0 +1,2 @@
+class MethodLessActionSupportController < ApplicationController
+end

@@ -3,5 +3,5 @@
 
 class ApplicationController < ActionController::Base
   include Jpmobile::ViewSelector
-  include Jpmobile::ImplicitRender
+  include Jpmobile::MethodLessActionSupport
 end

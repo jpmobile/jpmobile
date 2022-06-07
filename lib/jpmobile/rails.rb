@@ -2,7 +2,7 @@ ActiveSupport.on_load(:action_controller) do
   require 'jpmobile/docomo_guid'
   require 'jpmobile/filter'
   require 'jpmobile/helpers'
-  require 'jpmobile/implicit_render'
+  require 'jpmobile/method_less_action_support'
   require 'jpmobile/trans_sid'
   require 'jpmobile/hook_test_request'
   ActionDispatch::Request.prepend Jpmobile::Encoding

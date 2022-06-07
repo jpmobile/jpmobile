@@ -1,5 +1,5 @@
 module Jpmobile
-  module ImplicitRender
+  module MethodLessActionSupport
     def template_exists?(*args, **kwargs, &block)
       super(
         *args,

@@ -311,7 +311,7 @@ end
 次のように設定を加えると、これを省略できるようになる。
 
 ```ruby
-class ApplicationController < ActionController::Base
+class MyController < ApplicationController
   include Jpmobile::MethodLessActionSupport
 end
 ```

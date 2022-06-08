@@ -294,6 +294,28 @@ def index
 end
 ```
 
+### アクション定義の省略
+
+Railsでは、アクション名に対応するテンプレートが存在する場合、アクション用のメソッド定義を省略できる。
+
+しかし、端末向けテンプレートしか存在しないアクションの場合、jpmobileではメソッド定義を省略することを許していない。
+
+```ruby
+class MyController < ApplicationController
+  # app/views/my/index_smart_phone.html.erb がある場合でも、次のメソッド定義は必須。
+  def index
+  end
+end
+```
+
+次のように設定を加えると、これを省略できるようになる。
+
+```ruby
+class MyController < ApplicationController
+  include Jpmobile::MethodLessActionSupport
+end
+```
+
 ### 位置情報の取得用リンクの生成
 
 以下のようなコードで、端末に位置情報を要求するリンクを出力する。

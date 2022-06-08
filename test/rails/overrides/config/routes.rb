@@ -102,5 +102,7 @@ RailsRoot::Application.routes.draw do
       get "#{c}/#{a}", to: "#{c}##{a}"
     end
   end
+
+  get 'method_less_action_support', to: 'method_less_action_support#index'
 end
 # rubocop:enable Performance/CollectionLiteralInLoop

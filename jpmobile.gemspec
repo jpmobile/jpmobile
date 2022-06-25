@@ -9,7 +9,7 @@ Gem::Specification.new do |gem|
   gem.email         = ['rust.stnard@gmail.com']
   gem.description   = 'A Rails plugin for mobile devices in Japan'
   gem.summary       = 'Rails plugin for mobile devices in Japan'
-  gem.homepage      = 'http://jpmobile-rails.org'
+  gem.homepage      = 'https://jpmobile-rails.org'
   gem.license       = 'MIT'
 
   gem.files         = `git ls-files`.split($INPUT_RECORD_SEPARATOR)

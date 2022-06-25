@@ -12,6 +12,8 @@ Gem::Specification.new do |gem|
   gem.homepage      = 'https://jpmobile-rails.org'
   gem.license       = 'MIT'
 
+  gem.metadata['source_code_uri'] = 'https://github.com/jpmobile/jpmobile'
+
   gem.files         = `git ls-files`.split($INPUT_RECORD_SEPARATOR)
   gem.test_files    = gem.files.grep(%r{^(test|spec|system)/})
   gem.require_paths = ['lib']

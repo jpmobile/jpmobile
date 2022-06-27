@@ -13,6 +13,7 @@ Gem::Specification.new do |gem|
   gem.license       = 'MIT'
 
   gem.metadata['source_code_uri'] = 'https://github.com/jpmobile/jpmobile'
+  gem.metadata['documentation_uri'] = gem.metadata['source_code_uri']
 
   gem.files         = `git ls-files`.split($INPUT_RECORD_SEPARATOR)
   gem.test_files    = gem.files.grep(%r{^(test|spec|system)/})

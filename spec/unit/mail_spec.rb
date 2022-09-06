@@ -345,8 +345,8 @@ describe 'Jpmobile::Mail' do
       @mail.delivery_method :smtp,
                             {
                               enable_starttls_auto: false,
-                              user_name: ENV['MAILTRAP_USERNAME'],
-                              password: ENV['MAILTRAP_PASSWORD'],
+                              user_name: ENV.fetch('MAILTRAP_USERNAME', nil),
+                              password: ENV.fetch('MAILTRAP_PASSWORD', nil),
                               address: 'smtp.mailtrap.io',
                               domain: 'smtp.mailtrap.io',
                               port: '2525',

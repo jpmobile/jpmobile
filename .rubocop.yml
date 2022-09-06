@@ -107,6 +107,7 @@ Metrics/ModuleLength:
 Metrics/BlockLength:
   Exclude:
     - '**/*_spec.rb'
+    - 'jpmobile.gemspec'
     - 'lib/jpmobile/emoticon.rb'
     - 'lib/tasks/jpmobile_tasks.rake'
     - 'test/rails/overrides/config/routes.rb'

@@ -88,7 +88,7 @@ GEM
     git (1.13.0)
       addressable (~> 2.8)
       rchardet (~> 1.8)
-    globalid (1.0.0)
+    globalid (1.0.1)
       activesupport (>= 5.0)
     hpricot (0.8.6)
     i18n (1.12.0)
@@ -102,7 +102,7 @@ GEM
     marcel (1.0.2)
     method_source (1.0.0)
     mini_mime (1.1.2)
-    minitest (5.16.3)
+    minitest (5.17.0)
     net-imap (0.2.3)
       digest
       net-protocol

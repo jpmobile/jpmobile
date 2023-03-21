@@ -7,7 +7,7 @@ describe 'Jpmobile::Mail#receive' do
 
   before(:each) do
     @to = 'info@jpmobile-rails.org'
-    Jpmobile::Email.japanese_mail_address_regexp = Regexp.new(/\.jp[^a-zA-Z.\-]/)
+    Jpmobile::Email.japanese_mail_address_regexp = Regexp.new(/\.jp[^a-zA-Z.-]/)
   end
 
   describe 'PC mail' do

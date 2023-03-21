@@ -3,7 +3,6 @@ require 'sinatra'
 require File.join(File.dirname(__FILE__), '../../lib/jpmobile')
 require 'jpmobile/rack'
 require 'singleton'
-require 'pp'
 
 require 'jpmobile/sinatra'
 

@@ -27,15 +27,15 @@ module Jpmobile
         :lng
       end
     end
+    # 度分秒を度に変換する。
+    def self.dms2deg(d, m, s)
+      d.to_i + (m.to_i.to_f / 60) + (s.to_f / 3600)
+    end
+
     def initialize
       @lat = nil
       @lon = nil
       @options = {}
-    end
-
-    # 度分秒を度に変換する。
-    def self.dms2deg(d, m, s)
-      d.to_i + (m.to_i.to_f / 60) + (s.to_f / 3600)
     end
 
     # 日本測地系から世界測地系に変換する。

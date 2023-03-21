@@ -141,6 +141,7 @@ Lint/SuppressedException:
 Lint/Void:
   Exclude:
     - 'lib/jpmobile/filter.rb'
+    - 'lib/jpmobile/util.rb'
 
 Style/StringConcatenation:
   Enabled: false
@@ -328,4 +329,41 @@ Style/NestedFileDirname: # new in 1.26
 Style/ObjectThen: # new in 1.28
   Enabled: true
 Style/RedundantInitialize: # new in 1.27
+  Enabled: true
+
+Gemspec/DevelopmentDependencies: # new in 1.44
+  Enabled: true
+Lint/DuplicateMagicComment: # new in 1.37
+  Enabled: true
+Lint/UselessRescue: # new in 1.43
+  Enabled: true
+Metrics/CollectionLiteralLength: # new in 1.47
+  Enabled: true
+  Exclude:
+    - 'lib/jpmobile/emoticon/*.rb'
+Style/ArrayIntersect: # new in 1.40
+  Enabled: true
+Style/ComparableClamp: # new in 1.44
+  Enabled: true
+Style/ConcatArrayLiterals: # new in 1.41
+  Enabled: true
+Style/RedundantDoubleSplatHashBraces: # new in 1.41
+  Enabled: true
+Style/RedundantEach: # new in 1.38
+  Enabled: true
+Style/RedundantHeredocDelimiterQuotes: # new in 1.45
+  Enabled: true
+Style/RedundantStringEscape: # new in 1.37
+  Enabled: true
+Style/DirEmpty: # new in 1.48
+  Enabled: true
+Style/FileEmpty: # new in 1.48
+  Enabled: true
+Style/MapToSet: # new in 1.42
+  Enabled: true
+Style/MinMaxComparison: # new in 1.42
+  Enabled: true
+Style/OperatorMethodCall: # new in 1.37
+  Enabled: true
+Style/RedundantConstantBase: # new in 1.40
   Enabled: true

@@ -86,7 +86,7 @@ describe Jpmobile::Util do
     end
 
     it 'does not enter infinite loop on retry' do
-      expect { force_encode("\e\x28\x49\x9a\x43\x3D\x44\e\x28\x42".force_encoding('ISO-2022-JP'), 'iso-2022-jp', 'UTF-8') }.to raise_error ::Encoding::InvalidByteSequenceError
+      expect { force_encode("\e\x28\x49\x9a\x43\x3D\x44\e\x28\x42".force_encoding('ISO-2022-JP'), 'iso-2022-jp', 'UTF-8') }.to raise_error Encoding::InvalidByteSequenceError
     end
 
     it 'frozenでも通過すること' do

@@ -240,7 +240,7 @@ DEPENDENCIES
   hpricot
   jpmobile!
   pry
-  rails (~> 7.0.0.alpha2)
+  rails (~> 7.0.0)
   rspec
   rspec-its
   rspec-rails

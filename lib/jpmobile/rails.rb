@@ -4,11 +4,14 @@ ActiveSupport.on_load(:action_controller) do
   require 'jpmobile/helpers'
   require 'jpmobile/method_less_action_support'
   require 'jpmobile/trans_sid'
-  require 'jpmobile/hook_test_request'
   ActionDispatch::Request.prepend Jpmobile::Encoding
   ActionDispatch::Request.include Jpmobile::RequestWithMobile
   ActionController::Base.prepend Jpmobile::FallbackViewSelector
   ActionController::Base.prepend Jpmobile::TransSidRedirecting
+
+  if Rails.env.test?
+    require 'jpmobile/hook_test_request'
+  end
 end
 
 ActiveSupport.on_load(:action_view) do

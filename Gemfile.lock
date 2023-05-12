@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    jpmobile (7.0.3)
+    jpmobile (7.0.4)
       mail (~> 2.7.0)
       rexml
       scanf
@@ -118,8 +118,8 @@ GEM
       racc (~> 1.4)
     nokogiri (1.14.2-x86_64-linux)
       racc (~> 1.4)
-    parallel (1.22.1)
-    parser (3.2.2.0)
+    parallel (1.23.0)
+    parser (3.2.2.1)
       ast (~> 2.4.1)
     pry (0.14.2)
       coderay (~> 1.1)
@@ -158,7 +158,7 @@ GEM
     rainbow (3.1.1)
     rake (13.0.6)
     rchardet (1.8.0)
-    regexp_parser (2.7.0)
+    regexp_parser (2.8.0)
     rexml (3.2.5)
     rspec (3.12.0)
       rspec-core (~> 3.12.0)
@@ -194,11 +194,11 @@ GEM
       rubocop-ast (>= 1.28.0, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 2.4.0, < 3.0)
-    rubocop-ast (1.28.0)
+    rubocop-ast (1.28.1)
       parser (>= 3.2.1.0)
     rubocop-capybara (2.17.1)
       rubocop (~> 1.41)
-    rubocop-performance (1.16.0)
+    rubocop-performance (1.17.1)
       rubocop (>= 1.7.0, < 2.0)
       rubocop-ast (>= 0.4.0)
     rubocop-rails (2.18.0)

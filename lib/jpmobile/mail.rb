@@ -202,7 +202,7 @@ module Mail
       end
 
       unless self.header['Content-Type'].sub_type == 'mixed'
-        self.header['Content-Type'] = self.content_type.gsub(/#{self.header['Content-Type'].sub_type}/, 'mixed')
+        self.header['Content-Type'] = self.content_type.gsub(/#{self.header["Content-Type"].sub_type}/, 'mixed')
       end
       self.parts.clear
       self.body = nil

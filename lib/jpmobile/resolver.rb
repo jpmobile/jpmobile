@@ -19,7 +19,7 @@ module Jpmobile
         available_locales = I18n.available_locales.map(&:to_s)
         regular_locales = [/[a-z]{2}(?:[-_][A-Z]{2})?/]
         locales = Regexp.union(available_locales + regular_locales)
-        variants = "[^.]*"
+        variants = '[^.]*'
 
         mobile = Jpmobile::Mobile.all_variants.map {|x| Regexp.escape(x) }.join('|')
 

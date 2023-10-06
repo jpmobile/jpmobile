@@ -19,8 +19,9 @@ describe 'PCからのアクセスの場合', type: :request do
   end
 
   context 'routesが存在しない場合' do
-    it 'ActionController::RoutingErrorをraiseする' do
-      expect { get '/not_exist', params: {}, env: @headers }.to raise_error ActionController::RoutingError
+    it '404を返す' do
+      get '/not_exist', params: {}, env: @headers
+      expect(response).to have_http_status(404)
     end
   end
 end

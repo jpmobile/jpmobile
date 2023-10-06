@@ -6,8 +6,7 @@ Jpmobile::Email.japanese_mail_address_regexp = Regexp.new(/\.jp(?:[^a-zA-Z.-]|$)
 module Jpmobile
   module Mailer
     class Base < ActionMailer::Base
-      self._view_paths = self._view_paths.dup
-      self.view_paths.unshift(Jpmobile::Resolver.new(File.join(::Rails.root, 'app/views')))
+      self.prepend_view_path(Jpmobile::Resolver.new(File.join(::Rails.root, 'app/views')))
 
       def mail(headers = {}, &block)
         tos = headers[:to] || self.default_params[:to]

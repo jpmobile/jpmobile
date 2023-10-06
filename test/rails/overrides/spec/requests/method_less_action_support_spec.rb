@@ -21,8 +21,9 @@ describe 'Method-less mobile template only action', type: :request do
   end
 
   context 'when accessed with non-mobile User-Agent' do
-    it 'raises AbstractController::ActionNotFound' do
-      expect { subject }.to raise_error(AbstractController::ActionNotFound)
+    it 'retuens 404 status' do
+      subject
+      expect(response).to have_http_status(404)
     end
   end
 end

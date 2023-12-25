@@ -596,7 +596,7 @@ module Mail
   class ContentTypeElement # :nodoc:
     def initialize_with_jpmobile(string)
       if (m = string.match(/\A(.*?)(name|filename)=("|')(.+)("|')(.*?)\z/)) &&
-         m[4].each_byte.detect {|b| (b == 0 || b > 127) }
+         m[4].each_byte.detect {|b| b == 0 || b > 127 }
         name = [m[4]].pack('m').strip
         string = "#{m[1]}#{m[2]}=#{m[3]}#{name}#{m[5]}#{m[6]}"
       end
@@ -610,7 +610,7 @@ module Mail
   class ContentDispositionElement # :nodoc:
     def initialize_with_jpmobile(string)
       if (m = string.match(/\A(.*?)(name|filename)=("|')(.+)("|')(.*?)\z/)) &&
-         m[4].each_byte.detect {|b| (b == 0 || b > 127) }
+         m[4].each_byte.detect {|b| b == 0 || b > 127 }
         name = [m[4]].pack('m').strip
         string = "#{m[1]}#{m[2]}=#{m[3]}#{name}#{m[5]}#{m[6]}"
       end
@@ -624,7 +624,7 @@ module Mail
   class ContentLocationElement # :nodoc:
     def initialize_with_jpmobile(string)
       if (m = string.match(/\A(.*?)(name|filename)=("|')(.+)("|')(.*?)\z/)) &&
-         m[4].each_byte.detect {|b| (b == 0 || b > 127) }
+         m[4].each_byte.detect {|b| b == 0 || b > 127 }
         name = [m[4]].pack('m').strip
         string = "#{m[1]}#{m[2]}=#{m[3]}#{name}#{m[5]}#{m[6]}"
       end

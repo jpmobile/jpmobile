@@ -47,7 +47,9 @@ module Mail
 
     def parse_message_with_jpmobile
       _crlf_raw_source = raw_source.encode(raw_source.encoding, universal_newline: true).encode!(raw_source.encoding, crlf_newline: true)
-      header_part, body_part = _crlf_raw_source.lstrip.split(/#{Constants::CRLF}#{Constants::CRLF}|#{Constants::CRLF}#{Constants::WSP}*#{Constants::CRLF}(?!#{Constants::WSP})/mo, 2)
+      header_part, body_part = _crlf_raw_source.lstrip.split(
+        /#{Constants::CRLF}#{Constants::CRLF}|#{Constants::CRLF}#{Constants::WSP}*#{Constants::CRLF}(?!#{Constants::WSP})/mo, 2
+      )
       # header_part, body_part = raw_source.lstrip.split(HEADER_SEPARATOR, 2)
 
       self.header = header_part

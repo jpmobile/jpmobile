@@ -253,7 +253,7 @@ module Jpmobile::Mobile
       carrier_class = Jpmobile::Mobile.const_get(carrier)
       next if carrier_class == self
 
-      define_method "#{carrier.downcase}?" do
+      define_method :"#{carrier.downcase}?" do
         self.is_a?(carrier_class)
       end
     end

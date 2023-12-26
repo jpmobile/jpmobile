@@ -23,7 +23,7 @@ class Guestbook < Jpmobile::Sinatra::Base
   end
 
   def assigns(sym)
-    instance_variable_get("@#{sym}")
+    instance_variable_get(:"@#{sym}")
   end
 
   get '/' do

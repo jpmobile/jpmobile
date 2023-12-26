@@ -133,7 +133,7 @@ module Jpmobile
       before_encoding = str.encoding
       str.force_encoding('UTF-8')
 
-      str = self.class.send("#{method}_format", str)
+      str = self.class.send(:"#{method}_format", str)
 
       # 元に戻す
       if before_encoding

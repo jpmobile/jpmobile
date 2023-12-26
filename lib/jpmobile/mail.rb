@@ -2,14 +2,6 @@ require 'mail'
 
 module Mail
   # encoding patch
-  Ruby19.class_eval do
-    # change encoding
-    def self.b_value_encode(str, encoding = nil)
-      str = Jpmobile::Util.encode(str, encoding.to_s)
-      [Ruby19.encode_base64(str), encoding]
-    end
-  end
-
   class Message
     attr_reader :mobile
 
@@ -482,7 +474,7 @@ module Mail
       match = str.match(/=\?(.+)?\?[Bb]\?(.*)\?=/m)
       if match
         charset = match[1]
-        str = Ruby19.decode_base64(match[2])
+        str = decode_base64(match[2])
         @mobile.decode_transfer_encoding(str, charset)
       else
         str

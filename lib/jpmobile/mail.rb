@@ -2,14 +2,6 @@ require 'mail'
 
 module Mail
   # encoding patch
-  Ruby19.class_eval do
-    # change encoding
-    def self.b_value_encode(str, encoding = nil)
-      str = Jpmobile::Util.encode(str, encoding.to_s)
-      [Ruby19.encode_base64(str), encoding]
-    end
-  end
-
   class Message
     attr_reader :mobile
 
@@ -55,7 +47,9 @@ module Mail
 
     def parse_message_with_jpmobile
       _crlf_raw_source = raw_source.encode(raw_source.encoding, universal_newline: true).encode!(raw_source.encoding, crlf_newline: true)
-      header_part, body_part = _crlf_raw_source.lstrip.split(/#{CRLF}#{CRLF}|#{CRLF}#{WSP}*#{CRLF}(?!#{WSP})/mo, 2)
+      header_part, body_part = _crlf_raw_source.lstrip.split(
+        /#{Constants::CRLF}#{Constants::CRLF}|#{Constants::CRLF}#{Constants::WSP}*#{Constants::CRLF}(?!#{Constants::WSP})/mo, 2
+      )
       # header_part, body_part = raw_source.lstrip.split(HEADER_SEPARATOR, 2)
 
       self.header = header_part
@@ -277,9 +271,9 @@ module Mail
     end
 
     def parse_message_with_jpmobile
-      header_part, body_part = raw_source.split(/#{CRLF}#{WSP}*#{CRLF}/mo, 2)
+      header_part, body_part = raw_source.split(/#{Constants::CRLF}#{Constants::WSP}*#{Constants::CRLF}/mo, 2)
 
-      self.header = if header_part && header_part.match(HEADER_LINE)
+      self.header = if header_part && header_part.match(Constants::HEADER_LINE)
                       header_part
                     else
                       "Content-Type: text/plain\r\n"
@@ -429,6 +423,10 @@ module Mail
     end
   end
 
+  class NamedUnstructuredField
+    attr_accessor :mobile
+  end
+
   class UnstructuredField
     attr_accessor :mobile
   end
@@ -440,7 +438,7 @@ module Mail
   end
 
   # for subject
-  class SubjectField < UnstructuredField
+  class SubjectField < NamedUnstructuredField
     def encoded_with_jpmobile
       if @mobile
         if @mobile.to_mail_subject_encoded?(value)
@@ -482,7 +480,7 @@ module Mail
       match = str.match(/=\?(.+)?\?[Bb]\?(.*)\?=/m)
       if match
         charset = match[1]
-        str = Ruby19.decode_base64(match[2])
+        str = Utilities.decode_base64(match[2])
         @mobile.decode_transfer_encoding(str, charset)
       else
         str
@@ -494,7 +492,7 @@ module Mail
     attr_accessor :mobile
   end
 
-  class FromField < StructuredField
+  class FromField < CommonAddressField
     def initialize_with_jpmobile(value = nil, charset = 'utf-8')
       @jpmobile_raw_text = value
       initialize_without_jpmobile(value, charset)
@@ -516,14 +514,14 @@ module Mail
       if @mobile
         self.charset = @mobile.mail_charset
 
-        _value = address_list.addresses.map {|_a|
+        _value = element.addresses.map {|_a|
           if Utilities.blank?(_a.display_name) || _a.display_name.ascii_only?
             _a.to_s
           else
             "#{@mobile.to_mail_subject(_a.display_name)} <#{_a.address}>"
           end
         }.join(', ')
-        @address_list = AddressList.new(_value)
+        @element = AddressList.new(_value)
       end
 
       encoded_without_jpmobile
@@ -533,7 +531,7 @@ module Mail
     alias_method :encoded, :encoded_with_jpmobile
   end
 
-  class ToField < StructuredField
+  class ToField < CommonAddressField
     def initialize_with_jpmobile(value = nil, charset = 'utf-8')
       @jpmobile_raw_text = value
       initialize_without_jpmobile(value, charset)
@@ -555,14 +553,14 @@ module Mail
       if @mobile
         self.charset = @mobile.mail_charset
 
-        _value = address_list.addresses.map {|_a|
+        _value = element.addresses.map {|_a|
           if Utilities.blank?(_a.display_name) || _a.display_name.ascii_only?
             _a.to_s
           else
             "#{@mobile.to_mail_subject(_a.display_name)} <#{_a.address}>"
           end
         }.join(', ')
-        @address_list = AddressList.new(_value)
+        @element = AddressList.new(_value)
       end
 
       encoded_without_jpmobile

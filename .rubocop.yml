@@ -1,4 +1,5 @@
-require: rubocop-performance
+require:
+  - rubocop-performance
 
 inherit_from: './.onkcop-config.yml'
 
@@ -12,6 +13,7 @@ AllCops:
     - 'tools/**/*'
     - 'test/rails/rails_root/**/*'
     - 'vendor/**/*'
+  NewCops: enable
 
 Style/StringLiterals:
   EnforcedStyle: single_quotes

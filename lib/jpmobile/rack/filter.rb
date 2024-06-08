@@ -43,9 +43,13 @@ module Jpmobile
       if response.respond_to?(:to_str)
         response.to_str
       elsif response.respond_to?(:each)
-        response.map {|part|
-          response_to_body(part)
-        }.join("\n")
+        # rubocop:disable Style/MapIntoArray
+        body = []
+        response.each do |part|
+          body << response_to_body(part)
+        end
+        body.join("\n")
+        # rubocop:enable Style/MapIntoArray
       else
         body
       end

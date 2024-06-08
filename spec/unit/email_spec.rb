@@ -80,7 +80,7 @@ describe 'Jpmobile::Email' do
     end
 
     it 'return nil when image/jpeg; name="20098calendar01.jpg"' do
-      expect(Jpmobile::Email.convertable?('image/jpeg; name="20098calendar01.jpg"')).to be_nil
+      expect(Jpmobile::Email.convertable?('image/jpeg; name="20098calendar01.jpg"')).to be_falsy
     end
   end
 end

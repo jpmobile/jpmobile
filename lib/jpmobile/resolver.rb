@@ -1,7 +1,7 @@
 module Jpmobile
   class Resolver < ::ActionView::FileSystemResolver
     def initialize(path)
-      super(path)
+      super
 
       @path_parser = Jpmobile::Resolver::PathParser.new
     end

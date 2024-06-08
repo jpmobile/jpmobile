@@ -85,7 +85,7 @@ module Jpmobile
         end
       end
 
-      super(options, response_status)
+      super
     end
   end
 end

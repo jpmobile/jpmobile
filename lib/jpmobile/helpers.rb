@@ -139,7 +139,7 @@ module Jpmobile
         options[:only_path] = false
         url = url_for(options)
       end
-      url.sub!(/\?/, '&')
+      url.sub!('?', '&')
       "location:#{mode}?url=#{url}"
     end
 

@@ -9,7 +9,7 @@ describe LinksController, type: :controller do
   def get_href_and_texts(str)
     results = []
     (Nokogiri::HTML.parse(str) / 'a').each do |link|
-      path, query = link['href'].split(/\?/, 2)
+      path, query = link['href'].split('?', 2)
       params = query.nil? ? nil : Rack::Utils.parse_query(query)
       results << [link.inner_html, link.attributes, path, params]
     end

@@ -1,14 +1,14 @@
 require 'jpmobile/mail'
 require 'jpmobile/lookup_context'
 
-Jpmobile::Email.japanese_mail_address_regexp = Regexp.new(/\.jp(?:[^a-zA-Z.-]|$)/)
+Jpmobile::Email.japanese_mail_address_regexp = /\.jp(?:[^a-zA-Z.-]|$)/
 
 module Jpmobile
   module Mailer
     class Base < ActionMailer::Base
       self.prepend_view_path(Jpmobile::Resolver.new(File.join(::Rails.root, 'app/views')))
 
-      def mail(headers = {}, &block)
+      def mail(headers = {}, &)
         tos = headers[:to] || self.default_params[:to]
         tos = tos.split(',')
 
@@ -23,7 +23,7 @@ module Jpmobile
 
         @mobile.decorated = headers.delete(:decorated)
 
-        m = super(headers, &block)
+        m = super
 
         m.mobile = @mobile
 
@@ -39,7 +39,7 @@ module Jpmobile
         def set_payload_for_mail(payload, mail) # :nodoc:
           super
 
-          payload[:mail] = Jpmobile::Util.ascii_8bit(mail.encoded).gsub(/\r\n/, "\n")
+          payload[:mail] = Jpmobile::Util.ascii_8bit(mail.encoded).gsub("\r\n", "\n")
         end
       end
     end

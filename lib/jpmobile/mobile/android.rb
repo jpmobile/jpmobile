@@ -6,6 +6,6 @@ module Jpmobile::Mobile
     include Jpmobile::Mobile::GoogleEmoticon
 
     # 対応するUser-Agentの正規表現
-    USER_AGENT_REGEXP = /Android/.freeze
+    USER_AGENT_REGEXP = /Android/
   end
 end

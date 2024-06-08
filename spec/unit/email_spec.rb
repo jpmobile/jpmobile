@@ -56,7 +56,7 @@ describe 'Jpmobile::Email' do
 
   describe 'japanese_mail_address_regexp' do
     before do
-      Jpmobile::Email.japanese_mail_address_regexp = Regexp.new(/\.jp(?:[^a-zA-Z.-]|$)/)
+      Jpmobile::Email.japanese_mail_address_regexp = /\.jp(?:[^a-zA-Z.-]|$)/
     end
 
     it '#detect_from_mail_header should return Jpmobile::Mobile::AbstractMobile when the header contains .jp address' do

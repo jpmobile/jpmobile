@@ -315,7 +315,7 @@ module Mail
                         end
           Jpmobile::Util.set_encoding(_raw_source, @mobile.mail_charset(@charset))
         when /quoted-printable/
-          Jpmobile::Util.set_encoding([@mobile.to_mail_body(@raw_source)].pack('M').gsub(/\n/, "\r\n"), @mobile.mail_charset(@charset))
+          Jpmobile::Util.set_encoding([@mobile.to_mail_body(@raw_source)].pack('M').gsub("\n", "\r\n"), @mobile.mail_charset(@charset))
         else
           @mobile.to_mail_body(Jpmobile::Util.force_encode(@raw_source, nil, Jpmobile::Util::UTF8))
         end
@@ -645,7 +645,7 @@ module Mail
       end
 
       IO.popen("#{path} #{arguments} #{destinations}", 'w+') do |io|
-        io.puts encoded_mail.gsub(/\r\r\n/, "\n").to_lf
+        io.puts encoded_mail.gsub("\r\r\n", "\n").to_lf
         io.flush
       end
     end

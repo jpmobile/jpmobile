@@ -1,5 +1,4 @@
 require 'scanf'
-require 'nkf'
 
 module Jpmobile
   # 絵文字関連処理

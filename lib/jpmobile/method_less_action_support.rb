@@ -1,10 +1,10 @@
 module Jpmobile
   module MethodLessActionSupport
-    def template_exists?(*args, **kwargs, &block)
+    def template_exists?(*, **kwargs, &)
       super(
-        *args,
+        *,
         **kwargs.reverse_merge(mobile: request.mobile&.variants || []),
-        &block
+        &
       )
     end
   end

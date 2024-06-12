@@ -50,7 +50,7 @@ module Jpmobile
           end
         end
 
-        nil
+        false
       end
     end
   end

@@ -6,7 +6,7 @@ describe HankakuFilterController, type: :controller do
 
     it 'should be successful' do
       request.user_agent = 'DoCoMo/2.0 P05C(c500;TB;W24H16)'
-      get 'index', params: params
+      get('index', params:)
       expect(response).to be_successful
       expect(request.mobile?).to be_truthy
     end

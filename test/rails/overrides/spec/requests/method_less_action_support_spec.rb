@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'Method-less mobile template only action', type: :request do
   subject do
-    get '/method_less_action_support', headers: headers
+    get '/method_less_action_support', headers:
   end
 
   let(:headers) do

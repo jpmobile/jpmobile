@@ -3,7 +3,6 @@ require 'rubygems'
 require 'rack/test'
 require 'rspec'
 require 'jpmobile'
-require 'nkf'
 
 begin
   require File.dirname(__FILE__) + '/../vendor/jpmobile-ipaddresses/lib/jpmobile-ipaddresses'

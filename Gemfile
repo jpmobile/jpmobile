@@ -5,7 +5,6 @@ gemspec
 
 gem 'geokit'
 gem 'git'
-gem 'hpricot'
 gem 'pry'
 gem 'rails', '~> 7.2.0.beta2'
 gem 'rspec'

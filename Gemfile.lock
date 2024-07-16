@@ -100,7 +100,6 @@ GEM
       rchardet (~> 1.8)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    hpricot (0.8.6)
     i18n (1.14.5)
       concurrent-ruby (~> 1.0)
     io-console (0.6.0)
@@ -258,12 +257,12 @@ GEM
 PLATFORMS
   arm64-darwin-20
   arm64-darwin-21
+  arm64-darwin-23
   x86_64-linux
 
 DEPENDENCIES
   geokit
   git
-  hpricot
   jpmobile!
   pry
   rails (~> 7.2.0.beta2)

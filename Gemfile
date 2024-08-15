@@ -6,7 +6,7 @@ gemspec
 gem 'geokit'
 gem 'git'
 gem 'pry'
-gem 'rails', '~> 7.2.0.beta2'
+gem 'rails', '~> 7.2.0'
 gem 'rspec'
 gem 'rspec-its'
 gem 'rspec-rails'

@@ -34,7 +34,7 @@ module Jpmobile
       mobile and !mobile.smart_phone?
     end
 
-    # viewの切り替えをするかどうか
+    # スマートフォンであれば +true+を、そうでなければ +false+ を返す。
     def smart_phone?
       mobile and mobile.smart_phone?
     end

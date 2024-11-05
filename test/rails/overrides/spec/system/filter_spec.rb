@@ -40,7 +40,7 @@ describe 'jpmobile integration spec', type: :feature do
   shared_examples_for '文字コードフィルタが動作しているとき' do
     it 'response.bodyが空のときは文字コードを変更しないこと' do
       visit "/#{controller}/empty"
-      expect(page.response_headers['Content-Type']).to match(/utf-8/i)
+      expect(extract_response_header(page, 'Content-Type')).to match(/utf-8/i)
     end
   end
 
@@ -48,13 +48,13 @@ describe 'jpmobile integration spec', type: :feature do
     it 'はShift_JISで携帯に送出されること' do
       visit "/#{controller}/abracadabra_utf8"
       expect(page.body.encode('UTF-8')).to have_content('アブラカダブラ')
-      expect(page.response_headers['Content-Type']).to match(/Shift_JIS/i)
+      expect(extract_response_header(page, 'Content-Type')).to match(/Shift_JIS/i)
     end
     it 'はxhtmlでもShift_JISで携帯に送出されること' do
       visit "/#{controller}/abracadabra_xhtml_utf8"
 
       expect(page.body.encode('UTF-8')).to have_content('アブラカダブラ')
-      expect(page.response_headers['Content-Type']).to match(/Shift_JIS/i)
+      expect(extract_response_header(page, 'Content-Type')).to match(/Shift_JIS/i)
     end
     it 'はShift_JISで渡されたパラメタがparamsにUTF-8に変換されて格納されること' do
       visit "/#{controller}/index_zenkaku?q=#{CGI.escape(utf8_to_sjis("アブラカダブラ"))}"
@@ -72,12 +72,12 @@ describe 'jpmobile integration spec', type: :feature do
     it 'はUTF-8で携帯に送出されること' do
       visit "/#{controller}/abracadabra_utf8"
       expect(page.body.encode('UTF-8')).to have_content('アブラカダブラ')
-      expect(page.response_headers['Content-Type']).to match(/utf-8/i)
+      expect(extract_response_header(page, 'Content-Type')).to match(/utf-8/i)
     end
     it 'はxhtmlでもUTF-8で携帯に送出されること' do
       visit "/#{controller}/abracadabra_xhtml_utf8"
       expect(page.body.encode('UTF-8')).to have_content('アブラカダブラ')
-      expect(page.response_headers['Content-Type']).to match(/utf-8/i)
+      expect(extract_response_header(page, 'Content-Type')).to match(/utf-8/i)
     end
     it 'はparamsにUTF-8のまま格納されること' do
       visit "/#{controller}/index_zenkaku?q=#{CGI.escape("アブラカダブラ")}"
@@ -94,7 +94,7 @@ describe 'jpmobile integration spec', type: :feature do
     it 'は半角に変換されShift_JISで携帯に送出されること' do
       visit "/#{controller}/abracadabra_utf8"
       expect(page.body.encode('UTF-8')).to have_content('ｱﾌﾞﾗｶﾀﾞﾌﾞﾗ') # アブラカダブラ半角,SJIS
-      expect(page.response_headers['Content-Type']).to match(/Shift_JIS/)
+      expect(extract_response_header(page, 'Content-Type')).to match(/Shift_JIS/)
     end
     it 'はShift_JISで渡されたパラメタがparamsにUTF-8に変換されて格納されること' do
       visit "/#{controller}/index_zenkaku?q=#{CGI.escape(utf8_to_sjis("アブラカダブラ"))}"
@@ -112,7 +112,7 @@ describe 'jpmobile integration spec', type: :feature do
     it 'はUTF-8半角で携帯に送出されること' do
       visit "/#{controller}/abracadabra_utf8"
       expect(page.body.encode('UTF-8')).to have_content('ｱﾌﾞﾗｶﾀﾞﾌﾞﾗ')
-      expect(page.response_headers['Content-Type']).to match(/utf-8/i)
+      expect(extract_response_header(page, 'Content-Type')).to match(/utf-8/i)
     end
     it 'はparamsにUTF-8のまま格納されること' do
       visit "/#{controller}/index_zenkaku?q=#{CGI.escape("アブラカダブラ")}"
@@ -223,7 +223,7 @@ describe 'jpmobile integration spec', type: :feature do
 
       it 'Content-Type が UTF-8 であること' do
         visit "/#{controller}/with_charset"
-        expect(page.response_headers['Content-Type']).to match(/UTF-8/i)
+        expect(extract_response_header(page, 'Content-Type')).to match(/UTF-8/i)
       end
     end
   end

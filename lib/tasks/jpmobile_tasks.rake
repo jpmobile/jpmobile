@@ -27,13 +27,13 @@ namespace :test do
     rails_root = 'test/rails/rails_root'
 
     puts 'Running tests in Rails'
-    skip = args.skip == 'true'
+    skip = !args.skip.nil?
 
     unless skip
       # generate rails app
       FileUtils.rm_rf(rails_root)
       FileUtils.mkdir_p(rails_root)
-      `rails new #{rails_root} --skip-bundle --skip-bootsnap --skip-webpack-install --skip-git --skip-spring`
+      `bundle exec rails new #{rails_root} --skip-bundle --skip-bootsnap --skip-webpack-install --skip-git --skip-spring`
     end
 
     # setup jpmobile

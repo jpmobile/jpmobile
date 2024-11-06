@@ -2,7 +2,7 @@ require 'jpmobile/lookup_context'
 
 module Jpmobile
   module FallbackViewSelector
-    def render_to_body(options)
+    def _render_template(options)
       if Jpmobile.config.fallback_view_selector &&
          lookup_context.mobile.present? && !lookup_context.mobile.empty?
         begin

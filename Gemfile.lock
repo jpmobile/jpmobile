@@ -121,7 +121,7 @@ GEM
       net-pop
       net-smtp
     marcel (1.0.4)
-    method_source (1.0.0)
+    method_source (1.1.0)
     mini_mime (1.1.5)
     mini_portile2 (2.8.7)
     minitest (5.25.1)
@@ -144,7 +144,7 @@ GEM
       ast (~> 2.4.1)
       racc
     process_executer (1.1.2)
-    pry (0.14.2)
+    pry (0.15.0)
       coderay (~> 1.1)
       method_source (~> 1.0)
     psych (5.2.0)

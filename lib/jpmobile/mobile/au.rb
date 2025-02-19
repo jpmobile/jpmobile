@@ -29,7 +29,7 @@ module Jpmobile::Mobile
       return @__posotion = nil if params['lat'].nil? || params['lat'] == '' || params['lon'].nil? || params['lon'] == ''
 
       l = Jpmobile::Position.new
-      l.options = params.select {|x, _| TARGET_PARAMS.include?(x) }
+      l.options = params.slice(*TARGET_PARAMS)
       case params['unit']
       when '1'
         l.lat = params['lat'].to_f

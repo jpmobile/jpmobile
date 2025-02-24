@@ -58,7 +58,7 @@ module Jpmobile
 
       @all_variants = carriers.map {|carrier|
         Jpmobile::Mobile.const_get(carrier).new({}, {}).variants
-      }.flatten.uniq
+      }.flatten!.uniq
     end
 
     require 'jpmobile/mobile/abstract_mobile'

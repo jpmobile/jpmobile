@@ -20,7 +20,7 @@ module Jpmobile
     UTF8_REGEXP = Regexp.union(*EMOTICON_UNICODES.map {|x| [x].pack('U') }).freeze
 
     # for PC conversion "GETA"
-    CONVERSION_TABLE_TO_PC_EMAIL = Hash[*(CONVERSION_TABLE_TO_SOFTBANK.keys | CONVERSION_TABLE_TO_DOCOMO.keys | CONVERSION_TABLE_TO_AU.keys).map {|k| [k, GETA] }.flatten]
+    CONVERSION_TABLE_TO_PC_EMAIL = Hash[*(CONVERSION_TABLE_TO_SOFTBANK.keys | CONVERSION_TABLE_TO_DOCOMO.keys | CONVERSION_TABLE_TO_AU.keys).map {|k| [k, GETA] }.flatten!]
 
     SOFTBANK_SJIS_REGEXP = Regexp.union(*SOFTBANK_SJIS_TO_UNICODE.keys.map {|s| Jpmobile::Util.sjis_regexp(s) }).freeze
     AU_EMAILJIS_REGEXP = Regexp.union(*AU_EMAILJIS_TO_UNICODE.keys.map {|s| Jpmobile::Util.jis_regexp(s) })

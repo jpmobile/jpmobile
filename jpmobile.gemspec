@@ -21,7 +21,6 @@ Gem::Specification.new do |gem|
   gem.required_ruby_version = '>= 3.2.0'
 
   gem.add_dependency 'mail', '~> 2.8.0'
-  gem.add_dependency 'rexml'
   gem.add_dependency 'scanf'
   gem.metadata['rubygems_mfa_required'] = 'true'
 end

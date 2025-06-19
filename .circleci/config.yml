@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  browser-tools: circleci/browser-tools@1.5.3
+  browser-tools: circleci/browser-tools@2.1.2
 jobs:
   test-job:
     working_directory: ~/jpmobile
@@ -12,7 +12,7 @@ jobs:
           BUNDLE_PATH: vendor/bundle
           RAILS_ENV: test
     steps:
-      - browser-tools/install-browser-tools
+      - browser-tools/install_browser_tools
       - checkout
 
       # Install dependent packages

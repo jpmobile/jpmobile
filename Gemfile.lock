@@ -124,7 +124,6 @@ GEM
     marcel (1.0.4)
     method_source (1.1.0)
     mini_mime (1.1.5)
-    mini_portile2 (2.8.7)
     minitest (5.25.5)
     net-imap (0.5.8)
       date
@@ -247,10 +246,6 @@ GEM
     ruby-progressbar (1.13.0)
     scanf (1.0.0)
     securerandom (0.4.1)
-    sqlite3 (1.6.1)
-      mini_portile2 (~> 2.8.0)
-    sqlite3-ruby (1.3.3)
-      sqlite3 (>= 1.3.3)
     stringio (3.1.7)
     thor (1.3.2)
     timeout (0.4.3)
@@ -285,7 +280,6 @@ DEPENDENCIES
   rspec-rails
   rubocop
   rubocop-performance
-  sqlite3-ruby
 
 BUNDLED WITH
    2.6.2

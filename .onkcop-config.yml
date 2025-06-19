@@ -125,7 +125,7 @@ Metrics/BlockLength:
 #################### Naming ################################
 
 # has_ から始まるメソッドは許可する
-Naming/PredicateName:
+Naming/PredicatePrefix:
   ForbiddenPrefixes:
     - "is_"
     - "have_"

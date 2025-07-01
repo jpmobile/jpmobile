@@ -58,7 +58,7 @@ module Jpmobile
       # Sec-CH-UA format: "Google Chrome";v="91", "Chromium";v="91", " Not;A Brand";v="99"
       brands = []
       header_value.scan(/"([^"]+)";v="([^"]+)"/) do |brand, version|
-        brands << { brand: brand.strip, version: version.strip }
+        brands << { brand: brand, version: version.strip }
       end
       brands
     end
@@ -109,6 +109,11 @@ module Jpmobile
       else
         # デスクトップデバイスでもタブレット判定を行う
         if hints[:platform]&.match(/ios/i) && hints[:model]&.match(/ipad/i)
+          return Jpmobile::Mobile::Ipad.new(env, request)
+        end
+
+        # iPadOS の場合（mobile=false でも iPad として判定）
+        if hints[:platform]&.match(/ipados/i)
           return Jpmobile::Mobile::Ipad.new(env, request)
         end
 

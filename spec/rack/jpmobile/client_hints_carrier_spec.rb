@@ -231,7 +231,7 @@ describe Jpmobile::ClientHintsCarrier do
     let(:middleware) { Jpmobile::ClientHintsCarrier.new(UnitApplication.new) }
 
     it 'Android タブレットのモデル名を正しく判定できること' do
-      tablet_method = middleware.method(:is_android_tablet?)
+      tablet_method = middleware.method(:android_tablet?)
 
       expect(tablet_method.call({ model: 'Galaxy Tab S7' })).to be_truthy
       expect(tablet_method.call({ model: 'iPad Pro' })).to be_truthy

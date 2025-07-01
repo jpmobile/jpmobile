@@ -1,6 +1,43 @@
 # User-Agent Client Hints から生成すべき class 名を判定する
 module Jpmobile
+  module ClientHintsParser
+    def parse_client_hints(sec_ch_ua, sec_ch_ua_mobile, sec_ch_ua_platform, sec_ch_ua_model, sec_ch_ua_full_version_list)
+      {
+        brands: parse_sec_ch_ua(sec_ch_ua),
+        mobile: parse_boolean_hint(sec_ch_ua_mobile),
+        platform: parse_string_hint(sec_ch_ua_platform),
+        model: parse_string_hint(sec_ch_ua_model),
+        full_version_list: parse_sec_ch_ua(sec_ch_ua_full_version_list),
+      }
+    end
+
+    def parse_sec_ch_ua(header_value)
+      return [] unless header_value
+
+      # Sec-CH-UA format: "Google Chrome";v="91", "Chromium";v="91", " Not;A Brand";v="99"
+      brands = []
+      header_value.scan(/"([^"]+)";v="([^"]+)"/) do |brand, version|
+        brands << { brand: brand, version: version.strip }
+      end
+      brands
+    end
+
+    def parse_boolean_hint(header_value)
+      return nil unless header_value
+
+      header_value.strip == '?1'
+    end
+
+    def parse_string_hint(header_value)
+      return nil unless header_value
+
+      # Remove quotes if present
+      header_value.gsub(/^"|"$/, '').strip
+    end
+  end
+
   class ClientHintsCarrier
+    include ClientHintsParser
     def initialize(app)
       @app = app
     end
@@ -42,93 +79,69 @@ module Jpmobile
       determine_carrier_from_hints(env, client_hints_info)
     end
 
-    def parse_client_hints(sec_ch_ua, sec_ch_ua_mobile, sec_ch_ua_platform, sec_ch_ua_model, sec_ch_ua_full_version_list)
-      {
-        brands: parse_sec_ch_ua(sec_ch_ua),
-        mobile: parse_boolean_hint(sec_ch_ua_mobile),
-        platform: parse_string_hint(sec_ch_ua_platform),
-        model: parse_string_hint(sec_ch_ua_model),
-        full_version_list: parse_sec_ch_ua(sec_ch_ua_full_version_list),
-      }
-    end
-
-    def parse_sec_ch_ua(header_value)
-      return [] unless header_value
-
-      # Sec-CH-UA format: "Google Chrome";v="91", "Chromium";v="91", " Not;A Brand";v="99"
-      brands = []
-      header_value.scan(/"([^"]+)";v="([^"]+)"/) do |brand, version|
-        brands << { brand: brand, version: version.strip }
-      end
-      brands
-    end
-
-    def parse_boolean_hint(header_value)
-      return nil unless header_value
-
-      header_value.strip == '?1'
-    end
-
-    def parse_string_hint(header_value)
-      return nil unless header_value
-
-      # Remove quotes if present
-      header_value.gsub(/^"|"$/, '').strip
-    end
-
     def determine_carrier_from_hints(env, hints)
       request = ::Rack::Request.new(env)
 
-      # モバイルデバイスかどうかを判定
       if hints[:mobile]
-        # Android デバイスの場合
-        if hints[:platform]&.match(/android/i)
-          # タブレットかスマートフォンかを判定
-          return Jpmobile::Mobile::AndroidTablet.new(env, request) if is_android_tablet?(hints)
-
-          return Jpmobile::Mobile::Android.new(env, request)
-
-        end
-
-        # iOS デバイスの場合
-        if hints[:platform]&.match(/ios/i)
-          # iPad かiPhoneかを判定
-          return Jpmobile::Mobile::Ipad.new(env, request) if hints[:model]&.match(/ipad/i) || hints[:platform]&.match(/ipados/i)
-
-          return Jpmobile::Mobile::Iphone.new(env, request)
-
-        end
-
-        # その他のモバイルプラットフォーム
-        case hints[:platform]&.downcase
-        when /windows/
-          return Jpmobile::Mobile::WindowsPhone.new(env, request)
-        when /blackberry/
-          return Jpmobile::Mobile::BlackBerry.new(env, request)
-        end
+        determine_mobile_carrier(env, request, hints)
       else
-        # デスクトップデバイスでもタブレット判定を行う
-        if hints[:platform]&.match(/ios/i) && hints[:model]&.match(/ipad/i)
-          return Jpmobile::Mobile::Ipad.new(env, request)
-        end
-
-        # iPadOS の場合（mobile=false でも iPad として判定）
-        if hints[:platform]&.match(/ipados/i)
-          return Jpmobile::Mobile::Ipad.new(env, request)
-        end
-
-        # Android タブレット（mobile=false の場合）
-        if hints[:platform]&.match(/android/i)
-          return Jpmobile::Mobile::AndroidTablet.new(env, request)
-        end
+        determine_desktop_carrier(env, request, hints)
       end
+    end
 
-      # 従来の日本のキャリア（DoCoMo、au、SoftBank等）は
-      # Client Hints では判定困難なため、User-Agent にフォールバック
+    def determine_mobile_carrier(env, request, hints)
+      return determine_android_mobile_carrier(env, request, hints) if android_platform?(hints)
+      return determine_ios_mobile_carrier(env, request, hints) if ios_platform?(hints)
+
+      determine_other_mobile_carrier(env, request, hints)
+    end
+
+    def determine_desktop_carrier(env, request, hints)
+      return Jpmobile::Mobile::Ipad.new(env, request) if ipad_device?(hints)
+      return Jpmobile::Mobile::Ipad.new(env, request) if ipados_platform?(hints)
+      return Jpmobile::Mobile::AndroidTablet.new(env, request) if android_platform?(hints)
+
       nil
     end
 
-    def is_android_tablet?(hints)
+    def determine_android_mobile_carrier(env, request, hints)
+      return Jpmobile::Mobile::AndroidTablet.new(env, request) if android_tablet?(hints)
+
+      Jpmobile::Mobile::Android.new(env, request)
+    end
+
+    def determine_ios_mobile_carrier(env, request, hints)
+      return Jpmobile::Mobile::Ipad.new(env, request) if ipad_device?(hints) || ipados_platform?(hints)
+
+      Jpmobile::Mobile::Iphone.new(env, request)
+    end
+
+    def determine_other_mobile_carrier(env, request, hints)
+      case hints[:platform]&.downcase
+      when /windows/
+        Jpmobile::Mobile::WindowsPhone.new(env, request)
+      when /blackberry/
+        Jpmobile::Mobile::BlackBerry.new(env, request)
+      end
+    end
+
+    def android_platform?(hints)
+      hints[:platform]&.match(/android/i)
+    end
+
+    def ios_platform?(hints)
+      hints[:platform]&.match(/ios/i)
+    end
+
+    def ipados_platform?(hints)
+      hints[:platform]&.match(/ipados/i)
+    end
+
+    def ipad_device?(hints)
+      hints[:model]&.match(/ipad/i)
+    end
+
+    def android_tablet?(hints)
       # Android でモバイル=trueでもタブレットの可能性がある
       # モデル名やその他の情報から判定
       model = hints[:model]&.downcase

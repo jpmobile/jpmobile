@@ -11,7 +11,7 @@ describe Jpmobile::ClientHintsCarrier do
           'HTTP_SEC_CH_UA' => '"Google Chrome";v="91", "Chromium";v="91", " Not;A Brand";v="99"',
           'HTTP_SEC_CH_UA_MOBILE' => '?1',
           'HTTP_SEC_CH_UA_PLATFORM' => '"Android"',
-          'HTTP_SEC_CH_UA_MODEL' => '"Pixel 5"'
+          'HTTP_SEC_CH_UA_MODEL' => '"Pixel 5"',
         )
         env = Jpmobile::ClientHintsCarrier.new(UnitApplication.new).call(res)[1]
 
@@ -28,7 +28,7 @@ describe Jpmobile::ClientHintsCarrier do
           'HTTP_SEC_CH_UA' => '"Google Chrome";v="91", "Chromium";v="91", " Not;A Brand";v="99"',
           'HTTP_SEC_CH_UA_MOBILE' => '?0',
           'HTTP_SEC_CH_UA_PLATFORM' => '"Android"',
-          'HTTP_SEC_CH_UA_MODEL' => '"Galaxy Tab S7"'
+          'HTTP_SEC_CH_UA_MODEL' => '"Galaxy Tab S7"',
         )
         env = Jpmobile::ClientHintsCarrier.new(UnitApplication.new).call(res)[1]
 
@@ -43,7 +43,7 @@ describe Jpmobile::ClientHintsCarrier do
           'HTTP_SEC_CH_UA' => '"Google Chrome";v="91", "Chromium";v="91", " Not;A Brand";v="99"',
           'HTTP_SEC_CH_UA_MOBILE' => '?1',
           'HTTP_SEC_CH_UA_PLATFORM' => '"Android"',
-          'HTTP_SEC_CH_UA_MODEL' => '"Samsung Galaxy Tab A"'
+          'HTTP_SEC_CH_UA_MODEL' => '"Samsung Galaxy Tab A"',
         )
         env = Jpmobile::ClientHintsCarrier.new(UnitApplication.new).call(res)[1]
 
@@ -59,7 +59,7 @@ describe Jpmobile::ClientHintsCarrier do
           'HTTP_SEC_CH_UA' => '"Google Chrome";v="91", "Chromium";v="91", " Not;A Brand";v="99"',
           'HTTP_SEC_CH_UA_MOBILE' => '?1',
           'HTTP_SEC_CH_UA_PLATFORM' => '"iOS"',
-          'HTTP_SEC_CH_UA_MODEL' => '"iPhone"'
+          'HTTP_SEC_CH_UA_MODEL' => '"iPhone"',
         )
         env = Jpmobile::ClientHintsCarrier.new(UnitApplication.new).call(res)[1]
 
@@ -76,7 +76,7 @@ describe Jpmobile::ClientHintsCarrier do
           'HTTP_SEC_CH_UA' => '"Google Chrome";v="91", "Chromium";v="91", " Not;A Brand";v="99"',
           'HTTP_SEC_CH_UA_MOBILE' => '?0',
           'HTTP_SEC_CH_UA_PLATFORM' => '"iOS"',
-          'HTTP_SEC_CH_UA_MODEL' => '"iPad"'
+          'HTTP_SEC_CH_UA_MODEL' => '"iPad"',
         )
         env = Jpmobile::ClientHintsCarrier.new(UnitApplication.new).call(res)[1]
 
@@ -91,7 +91,7 @@ describe Jpmobile::ClientHintsCarrier do
           'HTTP_SEC_CH_UA' => '"Google Chrome";v="91", "Chromium";v="91", " Not;A Brand";v="99"',
           'HTTP_SEC_CH_UA_MOBILE' => '?0',
           'HTTP_SEC_CH_UA_PLATFORM' => '"iPadOS"',
-          'HTTP_SEC_CH_UA_MODEL' => '"iPad Pro"'
+          'HTTP_SEC_CH_UA_MODEL' => '"iPad Pro"',
         )
         env = Jpmobile::ClientHintsCarrier.new(UnitApplication.new).call(res)[1]
 
@@ -107,7 +107,7 @@ describe Jpmobile::ClientHintsCarrier do
           'HTTP_SEC_CH_UA' => '"Microsoft Edge";v="91", "Chromium";v="91", " Not;A Brand";v="99"',
           'HTTP_SEC_CH_UA_MOBILE' => '?1',
           'HTTP_SEC_CH_UA_PLATFORM' => '"Windows"',
-          'HTTP_SEC_CH_UA_MODEL' => '"Lumia 950"'
+          'HTTP_SEC_CH_UA_MODEL' => '"Lumia 950"',
         )
         env = Jpmobile::ClientHintsCarrier.new(UnitApplication.new).call(res)[1]
 
@@ -123,7 +123,7 @@ describe Jpmobile::ClientHintsCarrier do
           'HTTP_SEC_CH_UA' => '"BlackBerry";v="10", "WebKit";v="537", " Not;A Brand";v="99"',
           'HTTP_SEC_CH_UA_MOBILE' => '?1',
           'HTTP_SEC_CH_UA_PLATFORM' => '"BlackBerry"',
-          'HTTP_SEC_CH_UA_MODEL' => '"BlackBerry KEY2"'
+          'HTTP_SEC_CH_UA_MODEL' => '"BlackBerry KEY2"',
         )
         env = Jpmobile::ClientHintsCarrier.new(UnitApplication.new).call(res)[1]
 
@@ -143,13 +143,13 @@ describe Jpmobile::ClientHintsCarrier do
         '?1',
         '"Android"',
         '"Pixel 5"',
-        nil
+        nil,
       )
 
       expect(result[:brands]).to eq([
         { brand: 'Google Chrome', version: '91' },
         { brand: 'Chromium', version: '91' },
-        { brand: ' Not;A Brand', version: '99' }
+        { brand: ' Not;A Brand', version: '99' },
       ])
       expect(result[:mobile]).to be_truthy
       expect(result[:platform]).to eq('Android')
@@ -158,7 +158,7 @@ describe Jpmobile::ClientHintsCarrier do
 
     it 'boolean hint を正しく解析できること' do
       parser_method = middleware.method(:parse_boolean_hint)
-      
+
       expect(parser_method.call('?1')).to be_truthy
       expect(parser_method.call('?0')).to be_falsey
       expect(parser_method.call(nil)).to be_nil
@@ -166,7 +166,7 @@ describe Jpmobile::ClientHintsCarrier do
 
     it 'string hint を正しく解析できること' do
       parser_method = middleware.method(:parse_string_hint)
-      
+
       expect(parser_method.call('"Android"')).to eq('Android')
       expect(parser_method.call('Android')).to eq('Android')
       expect(parser_method.call(nil)).to be_nil
@@ -177,7 +177,7 @@ describe Jpmobile::ClientHintsCarrier do
     it 'Client Hints がない場合に User-Agent で判別すること' do
       res = Rack::MockRequest.env_for(
         'http://jpmobile-rails.org/',
-        'HTTP_USER_AGENT' => 'Mozilla/5.0 (Linux; U; Android 1.6; ja-jp; SonyEriccsonSO-01B Build/R1EA018) AppleWebKit/528.5+ (KHTML, like Gecko) Version/3.1.2 Mobile Safari/525.20.1'
+        'HTTP_USER_AGENT' => 'Mozilla/5.0 (Linux; U; Android 1.6; ja-jp; SonyEriccsonSO-01B Build/R1EA018) AppleWebKit/528.5+ (KHTML, like Gecko) Version/3.1.2 Mobile Safari/525.20.1',
       )
       env = Jpmobile::ClientHintsCarrier.new(UnitApplication.new).call(res)[1]
 
@@ -189,7 +189,7 @@ describe Jpmobile::ClientHintsCarrier do
       res = Rack::MockRequest.env_for(
         'http://jpmobile-rails.org/',
         'HTTP_SEC_CH_UA' => '"Google Chrome";v="91"',
-        'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH902i(c100;TB;W24H12)'
+        'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH902i(c100;TB;W24H12)',
       )
       env = Jpmobile::ClientHintsCarrier.new(UnitApplication.new).call(res)[1]
 
@@ -204,7 +204,7 @@ describe Jpmobile::ClientHintsCarrier do
         'HTTP_SEC_CH_UA' => '"Google Chrome";v="91", "Chromium";v="91", " Not;A Brand";v="99"',
         'HTTP_SEC_CH_UA_MOBILE' => '?0',
         'HTTP_SEC_CH_UA_PLATFORM' => '"Windows"',
-        'HTTP_SEC_CH_UA_MODEL' => '""'
+        'HTTP_SEC_CH_UA_MODEL' => '""',
       )
       env = Jpmobile::ClientHintsCarrier.new(UnitApplication.new).call(res)[1]
 
@@ -218,11 +218,11 @@ describe Jpmobile::ClientHintsCarrier do
         'http://jpmobile-rails.org/',
         'HTTP_SEC_CH_UA' => 'invalid header format',
         'HTTP_SEC_CH_UA_MOBILE' => 'invalid',
-        'HTTP_SEC_CH_UA_PLATFORM' => nil
+        'HTTP_SEC_CH_UA_PLATFORM' => nil,
       )
-      
+
       expect {
-        env = Jpmobile::ClientHintsCarrier.new(UnitApplication.new).call(res)[1]
+        Jpmobile::ClientHintsCarrier.new(UnitApplication.new).call(res)[1]
       }.not_to raise_error
     end
   end
@@ -232,7 +232,7 @@ describe Jpmobile::ClientHintsCarrier do
 
     it 'Android タブレットのモデル名を正しく判定できること' do
       tablet_method = middleware.method(:is_android_tablet?)
-      
+
       expect(tablet_method.call({ model: 'Galaxy Tab S7' })).to be_truthy
       expect(tablet_method.call({ model: 'iPad Pro' })).to be_truthy
       expect(tablet_method.call({ model: 'Nexus 7' })).to be_truthy

@@ -8,10 +8,10 @@ module Jpmobile
     def call(env)
       # Client Hints から mobile carrier を判定
       mobile_carrier = detect_carrier_from_client_hints(env)
-      
+
       # Client Hints で判定できない場合は従来のUser-Agentベースの判定にフォールバック
       mobile_carrier ||= Jpmobile::Mobile::AbstractMobile.carrier(env)
-      
+
       env['rack.jpmobile'] = mobile_carrier
 
       @app.call(env)
@@ -35,7 +35,7 @@ module Jpmobile
         sec_ch_ua_mobile,
         sec_ch_ua_platform,
         sec_ch_ua_model,
-        sec_ch_ua_full_version_list
+        sec_ch_ua_full_version_list,
       )
 
       # Client Hints 情報から適切なキャリアクラスを判定
@@ -48,7 +48,7 @@ module Jpmobile
         mobile: parse_boolean_hint(sec_ch_ua_mobile),
         platform: parse_string_hint(sec_ch_ua_platform),
         model: parse_string_hint(sec_ch_ua_model),
-        full_version_list: parse_sec_ch_ua(sec_ch_ua_full_version_list)
+        full_version_list: parse_sec_ch_ua(sec_ch_ua_full_version_list),
       }
     end
 
@@ -65,11 +65,13 @@ module Jpmobile
 
     def parse_boolean_hint(header_value)
       return nil unless header_value
+
       header_value.strip == '?1'
     end
 
     def parse_string_hint(header_value)
       return nil unless header_value
+
       # Remove quotes if present
       header_value.gsub(/^"|"$/, '').strip
     end
@@ -82,21 +84,19 @@ module Jpmobile
         # Android デバイスの場合
         if hints[:platform]&.match(/android/i)
           # タブレットかスマートフォンかを判定
-          if is_android_tablet?(hints)
-            return Jpmobile::Mobile::AndroidTablet.new(env, request)
-          else
-            return Jpmobile::Mobile::Android.new(env, request)
-          end
+          return Jpmobile::Mobile::AndroidTablet.new(env, request) if is_android_tablet?(hints)
+
+          return Jpmobile::Mobile::Android.new(env, request)
+
         end
 
         # iOS デバイスの場合
         if hints[:platform]&.match(/ios/i)
           # iPad かiPhoneかを判定
-          if hints[:model]&.match(/ipad/i) || hints[:platform]&.match(/ipados/i)
-            return Jpmobile::Mobile::Ipad.new(env, request)
-          else
-            return Jpmobile::Mobile::Iphone.new(env, request)
-          end
+          return Jpmobile::Mobile::Ipad.new(env, request) if hints[:model]&.match(/ipad/i) || hints[:platform]&.match(/ipados/i)
+
+          return Jpmobile::Mobile::Iphone.new(env, request)
+
         end
 
         # その他のモバイルプラットフォーム
@@ -140,7 +140,7 @@ module Jpmobile
         /galaxy\s*tab/, /xoom/, /transformer/, /kindle/
       ]
 
-      tablet_patterns.any? { |pattern| model.match?(pattern) }
+      tablet_patterns.any? {|pattern| model.match?(pattern) }
     end
   end
 end

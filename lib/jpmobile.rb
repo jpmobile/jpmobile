@@ -66,7 +66,7 @@ module Jpmobile
 
   autoload :Configuration, 'jpmobile/configuration'
 
-  autoload :MobileCarrier,     'jpmobile/rack/mobile_carrier'
+  autoload :MobileCarrier, 'jpmobile/rack/mobile_carrier'
   autoload :ClientHintsCarrier, 'jpmobile/rack/client_hints_carrier'
   autoload :ParamsFilter,      'jpmobile/rack/params_filter'
   autoload :Filter,            'jpmobile/rack/filter'

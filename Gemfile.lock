@@ -95,7 +95,7 @@ GEM
     drb (2.2.3)
     erubi (1.13.1)
     geokit (1.14.0)
-    git (4.0.2)
+    git (4.0.4)
       activesupport (>= 5.0)
       addressable (~> 2.8)
       process_executer (~> 4.0)

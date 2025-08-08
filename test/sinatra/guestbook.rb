@@ -8,6 +8,7 @@ require 'jpmobile/sinatra'
 
 class SinatraTestHelper
   include Singleton
+
   attr_accessor :last_app
 end
 

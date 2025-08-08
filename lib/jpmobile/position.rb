@@ -13,6 +13,7 @@ module Jpmobile
     if Object.const_defined?(:GeoKit)
       # GeoKitが読み込まれている場合はMappableにする
       include ::GeoKit::Mappable
+
       def self.acts_as_mappable
       end
 

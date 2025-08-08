@@ -5,6 +5,7 @@ class ActionController::Base # :nodoc:
   class << self
     def docomo_guid(mode = :docomo)
       include Jpmobile::DocomoGuid
+
       self.docomo_guid_mode = mode
     end
   end

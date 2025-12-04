@@ -1,6 +1,4 @@
-lib = File.expand_path('lib', __dir__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'jpmobile/version'
+require_relative 'lib/jpmobile/version'
 
 Gem::Specification.new do |gem|
   gem.name          = 'jpmobile'
@@ -18,7 +16,7 @@ Gem::Specification.new do |gem|
   gem.files         = `git ls-files`.split($INPUT_RECORD_SEPARATOR)
   gem.require_paths = ['lib']
 
-  gem.required_ruby_version = '>= 3.2.0'
+  gem.required_ruby_version = '>= 3.3.0'
 
   gem.add_dependency 'mail', '~> 2.8.0'
   gem.add_dependency 'scanf'

@@ -6,9 +6,6 @@ gem 'jpmobile-ipaddresses', path: './vendor/jpmobile-ipaddresses'
 
 gem 'activerecord-session_store'
 
-gem 'pry'
-gem 'pry-byebug'
-
 # Bundle gems for certain environments:
 group :development, :test do
   gem "rspec-rails"

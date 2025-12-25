@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    jpmobile (8.0.0)
+    jpmobile (8.1.0)
       mail (~> 2.8.0)
       scanf
 

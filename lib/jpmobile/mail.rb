@@ -106,7 +106,7 @@ module Mail
       end
     end
 
-    # In jpmobile, value is already transfered correctly encodings.
+    # In jpmobile, value is already transferred correctly encodings.
     def raw_source=(value)
       @raw_source = ::Mail::Utilities.to_crlf(value)
     end

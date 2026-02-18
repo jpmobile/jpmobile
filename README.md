@@ -12,12 +12,12 @@
 * 端末製造番号、契約者番号等の取得
 * IPアドレスの検証(キャリアが公開しているIPアドレス帯域からのアクセスか判定)
     * IPアドレスの検証には
-        [jpmobile-ipaddresses](http://github.com/jpmobile/jpmobile-ipaddresses
-        ) が必要です。
+        [jpmobile-ipaddresses](https://github.com/jpmobile/jpmobile-ipaddresses)
+        が必要です。
 
 * ディスプレイ情報(画面サイズ、ブラウザ画面サイズ、カラー・白黒、色数)の取得
     * ディスプレイ情報の取得には
-        [jpmobile-terminfo](http://github.com/jpmobile/jpmobile-terminfo)
+        [jpmobile-terminfo](https://github.com/jpmobile/jpmobile-terminfo)
         が必要です。
 
 * 文字コード変換機能／絵文字のキャリア間相互変換
@@ -27,7 +27,7 @@
 * メールの受信(experimental)
     * 絵文字と漢字コードの変換
 
-また Rails 5.0 に以下の機能を追加する
+また Rails に以下の機能を追加する
 * ビューへの自動振分け
 * 位置情報取得などのリンクヘルパーの追加
 * セッションIDをフォーム／リンクに付与(Trans SID)
@@ -136,12 +136,12 @@ Rack::Request#mobile.position に位置情報が格納されます。
 
 ```ruby
 @latitude   = request.mobile.position.lat
-@longuitude = request.mobile.position.lon
+@longitude = request.mobile.position.lon
 ```
 
 #### [GeoKit](https://github.com/geokit/geokit) との連携
 
-vendor/plugins/geokit以下にGeoKitがインストールされていると、Jpmobile::PositionにGeoKit::Mappableがincludeされる。したがって、
+GeoKitがgemとしてインストールされていると、Jpmobile::PositionにGeoKit::Mappableがincludeされる。したがって、
 
 ```ruby
 request.mobile.position.distance_to('札幌駅')
@@ -170,7 +170,7 @@ request.mobile.position.distance_to('札幌駅')
 request.mobile.valid_ip?
 ```
 
-ただし [jpmobile-ipaddresses](http://github.com/jpmobile/jpmobile-ipaddresses)
+ただし [jpmobile-ipaddresses](https://github.com/jpmobile/jpmobile-ipaddresses)
 がインストールされていないか、スマートフォンの場合は必ずfalseとなる。
 
 ### 端末の画面サイズ
@@ -181,14 +181,14 @@ request.mobile.display で Jpmobile::Display クラスのインスタンスが�
 画面高さ <%= request.mobile.display.height %>
 ```
 
-ただし [jpmobile-terminfo](http://github.com/jpmobile/jpmobile-terminfo)
+ただし [jpmobile-terminfo](https://github.com/jpmobile/jpmobile-terminfo)
 がインストールされていない場合はエラーとなるので注意が必要。
 
 ### 文字コード変換機能／絵文字のキャリア間相互変換
 
 jpmobileを読み込むとDoCoMo、Au、SoftBankの絵文字を透過的に扱うことができる。
 
-* Rails の場合は vendor/plugins に配置し、下記の設定を追加することで有効になる。
+* Rails の場合は、下記の設定を追加することで有効になる。
     ```ruby
     # Rack middleware を追加するメソッド
     Rails.application.config.jpmobile.mobile_filter
@@ -218,13 +218,11 @@ jpmobileを読み込むとDoCoMo、Au、SoftBankの絵文字を透過的に扱�
 
 * Sinatra の場合は下記のように指定する。
     ```ruby
-    $LOAD_PATH << './lib/jpmobile/lib'
     require 'jpmobile'
-    require 'jpmobile/rack'
 
-    use Jpmobile::Rack::MobileCarrier
-    use Jpmobile::Rack::ParamsFilter
-    use Jpmobile::Rack::Filter
+    use Jpmobile::MobileCarrier
+    use Jpmobile::ParamsFilter
+    use Jpmobile::Filter
 
     get '/' do
       erb :index
@@ -341,7 +339,7 @@ end
 ```
 
 trans_sid 機能を使う場合には、cookie session store を使用することができず、
-active_record_storeのgemパッケージが必要です。 また Rails 5.0 では Cookie
+active_record_storeのgemパッケージが必要です。 また Rails では Cookie
 が使える場合にはそちらが優先されてしまうため、:always を指定した場合に問題になる場合があります。 trans_sid を使用する際には、例えば
 config/initializers/session_store.rb で
 

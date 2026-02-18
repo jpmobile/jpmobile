@@ -6,6 +6,9 @@
 携帯電話特有の機能を Rails や Rack middleware で利用するためのプラグイン。 以下の機能を備える。
 
 * 携帯電話のキャリア判別
+    * User-Agent による判別に加え、HTTP Client Hints (`Sec-CH-UA-Mobile`,
+      `Sec-CH-UA-Platform`) による判別に対応。Client Hints が送信されている場合は
+      User-Agent より優先して判定する。
 * 端末位置情報の取得
     * [GeoKit](https://github.com/geokit/geokit) との連携
 
@@ -130,6 +133,28 @@ end
 class MobileController < ApplicationController
 end
 ```
+
+#### Client Hints による識別
+
+モダンブラウザは `Sec-CH-UA-Mobile` / `Sec-CH-UA-Platform` ヘッダー(HTTP Client
+Hints)を送信することができる。jpmobile はこれらが存在する場合、User-Agent よりも優先して
+端末判別に使用する。
+
+| `Sec-CH-UA-Platform` | `Sec-CH-UA-Mobile` | 判定結果 |
+|---|---|---|
+| `"iOS"` | `?1` | `Jpmobile::Mobile::Iphone` |
+| `"iOS"` | `?0` | `Jpmobile::Mobile::Ipad` |
+| `"Android"` | `?1` | `Jpmobile::Mobile::Android` |
+| `"Android"` | `?0` | `Jpmobile::Mobile::AndroidTablet` |
+
+`Jpmobile::MobileCarrier` ミドルウェアはレスポンスに自動的に以下のヘッダーを付与し、
+ブラウザに Client Hints の送信を要求する。
+
+```
+Accept-CH: Sec-CH-UA-Mobile, Sec-CH-UA-Platform
+```
+
+初回リクエストでは Client Hints がまだ送信されないため、User-Agent による判別にフォールバックする。
 
 ### 位置情報の取得
 Rack::Request#mobile.position に位置情報が格納されます。

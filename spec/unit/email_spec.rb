@@ -70,17 +70,17 @@ describe 'Jpmobile::Email' do
     end
   end
 
-  describe 'convertable?' do
+  describe 'convertible?' do
     it 'return true when text/plain; charset=iso-2022-jp' do
-      expect(Jpmobile::Email.convertable?('text/plain; charset=iso-2022-jp')).to be_truthy
+      expect(Jpmobile::Email.convertible?('text/plain; charset=iso-2022-jp')).to be_truthy
     end
 
     it 'return true when text/html; charset=shift_jis' do
-      expect(Jpmobile::Email.convertable?('text/html; charset=shift_jis')).to be_truthy
+      expect(Jpmobile::Email.convertible?('text/html; charset=shift_jis')).to be_truthy
     end
 
     it 'return nil when image/jpeg; name="20098calendar01.jpg"' do
-      expect(Jpmobile::Email.convertable?('image/jpeg; name="20098calendar01.jpg"')).to be_falsy
+      expect(Jpmobile::Email.convertible?('image/jpeg; name="20098calendar01.jpg"')).to be_falsy
     end
   end
 end

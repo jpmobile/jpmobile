@@ -21,6 +21,6 @@ module Jpmobile
 
     def self.converting_content_type: () -> untyped
 
-    def self.convertable?: (untyped content_type) -> (true | false)
+    def self.convertible?: (untyped content_type) -> (true | false)
   end
 end

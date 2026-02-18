@@ -25,8 +25,8 @@ module Jpmobile::Mobile
 
     # 位置情報があれば Position のインスタンスを返す。無ければ +nil+ を返す。
     def position
-      return @__posotion if defined? @__posotion
-      return @__posotion = nil if params['lat'].nil? || params['lat'] == '' || params['lon'].nil? || params['lon'] == ''
+      return @__position if defined? @__position
+      return @__position = nil if params['lat'].nil? || params['lat'] == '' || params['lon'].nil? || params['lon'] == ''
 
       l = Jpmobile::Position.new
       l.options = params.slice(*TARGET_PARAMS)
@@ -42,7 +42,7 @@ module Jpmobile::Mobile
 
         l.lon = Jpmobile::Position.dms2deg(Regexp.last_match(1), Regexp.last_match(2), Regexp.last_match(3))
       else
-        return @__posotion = nil
+        return @__position = nil
       end
       if params['datum'] == '1'
         # ただし、params["datum"]=="tokyo"のとき(簡易位置情報)のときは、
@@ -50,7 +50,7 @@ module Jpmobile::Mobile
         # http://www.au.kddi.com/ezfactory/tec/spec/eznavi.html
         l.tokyo2wgs84!
       end
-      @__posotion = l
+      @__position = l
     end
 
     # デバイスIDを返す

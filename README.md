@@ -205,7 +205,7 @@ jpmobileを読み込むとDoCoMo、Au、SoftBankの絵文字を透過的に扱�
         Jpmobile.config.form_accept_charset_conversion = true
         ```
 
-    * Andriod/iPhone では Google 絵文字や Unicode 6.0
+    * Android/iPhone では Google 絵文字や Unicode 6.0
         絵文字が使われています。下記の設定を追加すると、互換性をもたせるために3キャリアの絵文字に変換することができます。また表示の変換も可能です。
 
         ```ruby

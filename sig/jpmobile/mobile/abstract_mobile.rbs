@@ -17,7 +17,7 @@ module Jpmobile::Mobile
 
     @__valid_ip: (bool | nil)
 
-    @__displlay: untyped
+    @__display: untyped
 
     # メールのデフォルトのcharset
     MAIL_CHARSET: "ISO-2022-JP"

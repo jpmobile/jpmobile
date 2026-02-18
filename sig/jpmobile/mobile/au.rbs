@@ -2,7 +2,7 @@ module Jpmobile::Mobile
   # ==au携帯電話
   # CDMA 1X, CDMA 1X WINを含む。
   class Au < AbstractMobile
-    @__posotion: Jpmobile::Position?
+    @__position: Jpmobile::Position?
 
     # 対応するUser-Agentの正規表現
     # User-Agent文字列中に "UP.Browser" を含むVodafoneの端末があるので注意が必要

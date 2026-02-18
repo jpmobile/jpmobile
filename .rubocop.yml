@@ -113,6 +113,7 @@ Metrics/BlockLength:
     - 'lib/jpmobile/emoticon.rb'
     - 'lib/tasks/jpmobile_tasks.rake'
     - 'test/rails/overrides/config/routes.rb'
+    - 'Steepfile'
 
 Metrics/BlockNesting:
   Exclude:

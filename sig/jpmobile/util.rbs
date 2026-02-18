@@ -11,21 +11,21 @@ module Jpmobile
 
     BINARY: "ASCII-8BIT"
 
-    WAVE_DASH: untyped
+    WAVE_DASH: String
 
-    FULLWIDTH_TILDE: untyped
+    FULLWIDTH_TILDE: String
 
-    OVERLINE: untyped
+    OVERLINE: String
 
-    FULLWIDTH_MACRON: untyped
+    FULLWIDTH_MACRON: String
 
-    EM_DASH: untyped
+    EM_DASH: String
 
-    HORIZONTAL_BAR: untyped
+    HORIZONTAL_BAR: String
 
-    MINUS_SIGN: untyped
+    MINUS_SIGN: String
 
-    FULLWIDTH_HYPHEN_MINUS: untyped
+    FULLWIDTH_HYPHEN_MINUS: String
 
     def self?.deep_convert: (untyped obj) { (untyped) -> untyped } -> untyped
 

@@ -4,6 +4,6 @@ module Jpmobile::Mobile
     include Jpmobile::Mobile::GoogleEmoticon
 
     # 対応するUser-Agentの正規表現
-    USER_AGENT_REGEXP: untyped
+    USER_AGENT_REGEXP: ::Regexp
   end
 end

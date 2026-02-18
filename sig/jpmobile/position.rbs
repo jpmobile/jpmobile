@@ -5,7 +5,7 @@ module Jpmobile
 
     @lon: Float?
 
-    @options: Hash[String, untyped]
+    @options: Hash[String | Symbol, untyped]
 
     # GeoKitが読み込まれている場合はMappableにする
     # Note: GeoKit::Mappable is conditionally included at runtime
@@ -49,6 +49,6 @@ module Jpmobile
     def ==: (Position other) -> bool
 
     # その他の情報
-    attr_accessor options: Hash[String, untyped]
+    attr_accessor options: Hash[String | Symbol, untyped]
   end
 end

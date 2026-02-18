@@ -1,0 +1,54 @@
+module Jpmobile
+  class HankakuFilter
+    self.@regexp_cache: untyped
+
+    self.@han_to_zen_table: untyped
+
+    @options: untyped
+
+    @controller: untyped
+
+    ALLOWED_CONTENT_TYPE_REGEXP: untyped
+
+    CONVERT_TARGET_ELEMENTS: ::Array["submit" | "reset" | "button"]
+
+    def self.hankaku_format: (untyped str) -> untyped
+
+    def self.zenkaku_format: (untyped str) -> untyped
+
+    private
+
+    def self.replace_chars: (untyped str, untyped table) -> untyped
+
+    def self.han_to_zen_table: () -> untyped
+
+    public
+
+    def initialize: (?::Hash[untyped, untyped] options) -> void
+
+    def before: (untyped controller) -> untyped
+
+    # 内部コードから外部コードに変換
+    def after: (untyped controller) -> untyped
+
+    private
+
+    # 入出力フィルタの適用条件
+    def apply_incoming?: () -> untyped
+
+    def apply_outgoing?: () -> untyped
+
+    def to_internal: (untyped str) -> untyped
+
+    def to_external: (untyped str) -> untyped
+
+    def filter: (untyped method, untyped str) -> untyped
+
+    # 再帰的に探す
+    def convert_text_content: (untyped document) -> untyped
+
+    def default_charset: () -> (untyped | nil)
+
+    def convert_parameters: (untyped params) -> untyped
+  end
+end

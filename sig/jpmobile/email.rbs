@@ -1,0 +1,26 @@
+# =メールアドレスモジュール
+#
+module Jpmobile
+  # email関連の処理
+  class Email
+    self.@converting_content_type: untyped
+
+    # メールアドレスよりキャリア情報を取得する
+    # _param1_:: email メールアドレス
+    # return  :: Jpmobile::Mobileで定義されている携帯キャリアクラス
+    def self.detect: (untyped email) -> (untyped | nil)
+
+    # 含まれているメールアドレスからキャリア情報を取得する
+    def self.detect_from_mail_header: (untyped header) -> (untyped | nil)
+
+    attr_writer self.japanese_mail_address_regexp: untyped
+
+    attr_writer self.converting_content_type: untyped
+
+    def self.japanese_mail?: (untyped header) -> untyped
+
+    def self.converting_content_type: () -> untyped
+
+    def self.convertable?: (untyped content_type) -> (true | false)
+  end
+end

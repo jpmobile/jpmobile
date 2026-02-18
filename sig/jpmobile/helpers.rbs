@@ -1,0 +1,57 @@
+# =位置情報等を要求するヘルパー
+module Jpmobile
+  # 携帯電話端末に位置情報を要求するための、特殊なリンクを出力するヘルパー群。
+  # 多くのキャリアでは特殊なFORMでも位置情報を要求できる。
+  module Helpers
+    # 位置情報(緯度経度がとれるもの。オープンiエリアをのぞく)要求するリンクを作成する。
+    # 位置情報を受け取るページを +url_for+ に渡す引数の形式で +options+ に指定する。
+    # :show_all => +true+ とするとキャリア判別を行わず全てキャリアのリンクを返す。
+    # 第1引数に文字列を与えるとその文字列をアンカーテキストにする。
+    # 第1引数がHashの場合はデフォルトのアンカーテキストを出力する。
+    def get_position_link_to: (?untyped? str, ?::Hash[untyped, untyped] options) -> untyped
+
+    # DoCoMo FOMAでGPS位置情報を取得するためのリンクを返す。
+    def docomo_foma_gps_link_to: (untyped str, ?::Hash[untyped, untyped] options) -> untyped
+
+    # DoCoMoでオープンiエリアを取得するためのURLを返す。
+    def docomo_openiarea_url_for: (?::Hash[untyped, untyped] options) -> ::String
+
+    # DoCoMoでオープンiエリアを取得するためのリンクを返す。
+    def docomo_openiarea_link_to: (untyped str, ?::Hash[untyped, untyped] options) -> untyped
+
+    # DoCoMoで端末製造番号等を取得するためのリンクを返す。
+    def docomo_utn_link_to: (untyped str, ?::Hash[untyped, untyped] options) -> untyped
+
+    # DoCoMoでiモードIDを取得するためのリンクを返す。
+    def docomo_guid_link_to: (untyped str, ?::Hash[untyped, untyped] options) -> untyped
+
+    # au GPS位置情報を取得するためのURLを返す。
+    def au_gps_url_for: (?::Hash[untyped, untyped] options) -> ::String
+
+    # au GPS位置情報を取得するためのリンクを返す。
+    def au_gps_link_to: (untyped str, ?::Hash[untyped, untyped] options) -> untyped
+
+    # au 簡易位置情報を取得するためのURLを返す。
+    def au_location_url_for: (?::Hash[untyped, untyped] options) -> ::String
+
+    # au 簡易位置情報を取得するためのリンクを返す。
+    def au_location_link_to: (untyped str, ?::Hash[untyped, untyped] options) -> untyped
+
+    # Softbank(含むVodafone 3G)で位置情報を取得するためのURLを返す。
+    def softbank_location_url_for: (?::Hash[untyped, untyped] options) -> ::String
+
+    # Softbank(含むVodafone 3G)で位置情報を取得するためのリンクを返す。
+    def softbank_location_link_to: (untyped str, ?::Hash[untyped, untyped] options) -> untyped
+
+    # Willcom 基地局位置情報を取得するためのURLを返す。
+    def willcom_location_url_for: (?::Hash[untyped, untyped] options) -> ::String
+
+    # Willcom 基地局位置情報を取得するためのリンクを返す。
+    def willcom_location_link_to: (untyped str, ?::Hash[untyped, untyped] options) -> untyped
+
+    private
+
+    # 外部へのリンク
+    def link_to_url: (untyped str, untyped url) -> untyped
+  end
+end

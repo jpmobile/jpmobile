@@ -1,0 +1,20 @@
+module Jpmobile
+  # autoload mobile classes
+  module Mobile
+    self.@carriers: Array[String]?
+
+    self.@all_variants: Array[String]?
+
+    DEFAULT_CARRIERS: ::Array[String]
+
+    def self.carriers: () -> Array[String]
+
+    def self.carriers=: (Array[String] ary) -> Array[String]
+
+    def self.all_variants: () -> Array[String]
+  end
+
+  def self.config: () -> Jpmobile::Configuration
+
+  def self.mount_middlewares: () -> void
+end

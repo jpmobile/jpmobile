@@ -1,0 +1,7 @@
+# :stopdoc:
+# accept-charset に charset を変更できるようにする
+module Jpmobile
+  module HtmlOptionsWithAcceptCharset
+    def html_options_for_form: (untyped url_for_options, untyped options) -> untyped
+  end
+end

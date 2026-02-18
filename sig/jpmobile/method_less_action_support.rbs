@@ -1,0 +1,5 @@
+module Jpmobile
+  module MethodLessActionSupport
+    def template_exists?: (*untyped, **untyped kwargs) ?{ (?) -> untyped } -> untyped
+  end
+end

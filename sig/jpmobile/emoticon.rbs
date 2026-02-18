@@ -1,0 +1,67 @@
+module Jpmobile
+  # 絵文字関連処理
+  module Emoticon
+    self.@pc_emoticon_image_path: untyped
+
+    self.@pc_emoticon_yaml: untyped
+
+    self.@pc_emoticon_hash: untyped
+
+    # +str+ のなかでDoCoMo絵文字をUnicode数値文字参照に置換した文字列を返す。
+    def self.external_to_unicodecr_docomo: (untyped str) -> untyped
+
+    # +str+ のなかでau絵文字をUnicode数値文字参照に置換した文字列を返す。
+    def self.external_to_unicodecr_au: (untyped str) -> untyped
+
+    # +str+ のなかでau絵文字をUnicode数値文字参照に置換した文字列を返す。(メール専用)
+    def self.external_to_unicodecr_au_mail: (untyped in_str) -> untyped
+
+    # +str+のなかでUTF8のSoftBank絵文字を(+0x1000だけシフトして)Unicode数値文字参照に変換した文字列を返す。
+    def self.external_to_unicodecr_softbank: (untyped str) -> untyped
+
+    def self.external_to_unicodecr_softbank_sjis: (untyped str) -> untyped
+
+    def self.external_to_unicodecr_vodafone: (untyped str) -> untyped
+
+    # Unicode 6.0絵文字の変換
+    def self.external_to_unicodecr_unicode60: (untyped str) -> untyped
+
+    # Google絵文字の変換
+    def self.external_to_unicodecr_google: (untyped str) -> untyped
+
+    # +str+ のなかでUnicode数値文字参照で表記された絵文字を携帯側エンコーディングに置換する。
+    #
+    # キャリア間の変換に +conversion_table+ を使う。+conversion_table+ に+nil+を与えると、
+    # キャリア間の変換は行わない。
+    #
+    # 携帯側エンコーディングがShift_JIS場合は +to_sjis+ に +true+ を指定する。
+    # +true+ を指定すると変換テーブルに文字列が指定されている場合にShift_JISで出力される。
+    def self.unicodecr_to_external: (untyped str, ?untyped? conversion_table, ?bool to_sjis) -> untyped
+
+    # +str+ のなかでUnicode数値文字参照で表記された絵文字をUTF-8に置換する。
+    def self.unicodecr_to_utf8: (untyped str) -> untyped
+
+    # +str+ のなかでUTF-8で表記された絵文字をUnicode数値文字参照に置換する。
+    def self.utf8_to_unicodecr: (untyped str) -> untyped
+
+    # +str+ のなかでUnicode数値文字参照で表記された絵文字をメール送信用JISコードに変換する
+    # au 専用
+    def self.unicodecr_to_au_email: (untyped in_str) -> untyped
+
+    # +str+ のなかでUnicode数値文字参照で表記された絵文字をメール送信用JISコードに変換する
+    # softbank 専用
+    def self.unicodecr_to_softbank_email: (untyped str) -> untyped
+
+    def self.pc_emoticon_image_path: () -> untyped
+
+    def self.pc_emoticon_image_path=: (untyped path) -> untyped
+
+    def self.pc_emoticon_yaml=: (untyped file) -> untyped
+
+    def self.pc_emoticon_yaml: () -> untyped
+
+    def self.pc_emoticon?: () -> (true | false)
+
+    def self.emoticons_to_image: (untyped str) -> untyped
+  end
+end

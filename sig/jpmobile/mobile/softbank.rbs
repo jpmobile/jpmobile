@@ -1,0 +1,59 @@
+# =SoftBank携帯電話
+# Vodafoneを含む
+module Jpmobile::Mobile
+  # ==Softbank携帯電話
+  # Vodafoneのスーパクラス。
+  class Softbank < AbstractMobile
+    @__position: Jpmobile::Position?
+
+    # 対応するuser-agentの正規表現
+    USER_AGENT_REGEXP: ::Regexp
+
+    # 対応するメールアドレスの正規表現　ディズニーモバイル対応
+    MAIL_ADDRESS_REGEXP: ::Regexp
+
+    # メールのデフォルトのcharset
+    MAIL_CHARSET: "Shift_JIS"
+
+    # テキスト部分の content-transfer-encoding
+    MAIL_CONTENT_TRANSFER_ENCODING: "8bit"
+
+    TARGET_PARAMS: ::Array[String]
+
+    # 製造番号を返す。無ければ +nil+ を返す。
+    def serial_number: () -> String?
+
+    alias ident_device serial_number
+
+    # UIDを返す。
+    def x_jphone_uid: () -> String?
+
+    alias ident_subscriber x_jphone_uid
+
+    # 位置情報があれば Position のインスタンスを返す。無ければ +nil+ を返す。
+    def position: () -> Jpmobile::Position?
+
+    # cookieに対応しているか？
+    def supports_cookie?: () -> true
+
+    # 文字コード変換
+    def to_internal: (String str) -> String
+
+    def to_external: (String str, String? content_type, String? charset) -> [String, String?]
+
+    # メール送信用
+    def to_mail_body: (String str) -> String
+
+    def to_mail_internal: (String str, String? charset) -> String
+
+    def to_mail_body_encoded?: (String str) -> bool
+
+    def decoratable?: () -> true
+
+    def require_related_part?: () -> true
+
+    private
+
+    def to_mail_encoding: (String str) -> String
+  end
+end

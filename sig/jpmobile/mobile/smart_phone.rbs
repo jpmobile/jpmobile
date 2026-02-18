@@ -1,0 +1,18 @@
+module Jpmobile::Mobile
+  class SmartPhone < AbstractMobile
+    # 無効化
+    def valid_ip?: () -> false
+
+    # cookie は有効と見なす
+    def supports_cookie?: () -> true
+
+    # smartphone なので true
+    def smart_phone?: () -> true
+
+    # Jpmobile::Filter は適用しない
+    def apply_filter?: () -> false
+
+    # Jpmobile::ParamsFilter は適用しない
+    def apply_params_filter?: () -> false
+  end
+end

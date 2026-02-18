@@ -1,0 +1,276 @@
+module Mail
+  # encoding patch
+  class Message
+    @mobile: untyped
+
+    @charset: untyped
+
+    @body_part_jpmobile: untyped
+
+    @separate_parts: untyped
+
+    @raw_source: untyped
+
+    @mobile_main_type: untyped
+
+    attr_reader mobile: untyped
+
+    def mobile=: (untyped m) -> untyped
+
+    def encoded_with_jpmobile: () -> untyped
+
+    def parse_message_with_jpmobile: () -> untyped
+
+    def init_with_hash_with_jpmobile: (untyped hash) -> untyped
+
+    alias init_with_hash_without_jpmobile init_with_hash
+
+    alias init_with_hash init_with_hash_with_jpmobile
+
+    def init_with_string: (untyped string) -> untyped
+
+    def process_body_raw_with_jpmobile: () -> (nil | untyped)
+
+    # In jpmobile, value is already transfered correctly encodings.
+    def raw_source=: (untyped value) -> untyped
+
+    def separate_parts_with_jpmobile: () -> untyped
+
+    def add_charset_with_jpmobile: () -> (untyped | nil)
+
+    alias encoded_without_jpmobile encoded
+
+    alias encoded encoded_with_jpmobile
+
+    alias parse_message_without_jpmobile parse_message
+
+    alias parse_message parse_message_with_jpmobile
+
+    alias process_body_raw_without_jpmobile process_body_raw
+
+    alias process_body_raw process_body_raw_with_jpmobile
+
+    alias separate_parts_without_jpmobile separate_parts
+
+    alias separate_parts separate_parts_with_jpmobile
+
+    alias add_charset_without_jpmobile add_charset
+
+    alias add_charset add_charset_with_jpmobile
+
+    def rearrange!: () -> (nil | untyped)
+
+    def find_part_by_content_type: (untyped content_type) -> untyped
+
+    private
+
+    def convert_encoding_jpmobile: () -> (nil | untyped)
+
+    def ascii_compatible!: (untyped str) -> untyped
+  end
+
+  class Part
+    @separate_parts: untyped
+
+    @body_part_jpmobile: untyped
+
+    def init_with_string: (untyped string) -> untyped
+
+    def parse_message_with_jpmobile: () -> untyped
+
+    alias parse_message_without_jpmobile parse_message
+
+    alias parse_message parse_message_with_jpmobile
+
+    private
+
+    def ascii_compatible!: (untyped str) -> untyped
+  end
+
+  class Body
+    @charset: untyped
+
+    @mobile: untyped
+
+    @raw_source: untyped
+
+    attr_reader mobile: untyped
+
+    attr_accessor content_type_with_jpmobile: untyped
+
+    def raw_source_with_jpmobile: () -> untyped
+
+    # convert encoding
+    def encoded_with_jpmobile: (?::String transfer_encoding) -> untyped
+
+    def decoded_with_jpmobile: () -> untyped
+
+    # fix charset
+    def set_charset_with_jpmobile: () -> untyped
+
+    def mobile=: (untyped m) -> untyped
+
+    def decode_transfer_encoding: () -> untyped
+
+    def preamble_with_jpmobile: () -> untyped
+
+    def epilogue_with_jpmobile: () -> untyped
+
+    def crlf_boundary_with_jpmobile: () -> untyped
+
+    def end_boundary_with_jpmobile: () -> untyped
+
+    alias raw_source_without_jpmobile raw_source
+
+    alias raw_source raw_source_with_jpmobile
+
+    alias encoded_without_jpmobile encoded
+
+    alias encoded encoded_with_jpmobile
+
+    alias decoded_without_jpmobile decoded
+
+    alias decoded decoded_with_jpmobile
+
+    alias set_charset_without_jpmobile set_charset
+
+    alias set_charset set_charset_with_jpmobile
+
+    alias preamble_without_jpmobile preamble
+
+    alias preamble preamble_with_jpmobile
+
+    alias crlf_boundary_without_jpmobile crlf_boundary
+
+    alias crlf_boundary crlf_boundary_with_jpmobile
+
+    alias end_boundary_without_jpmobile end_boundary
+
+    alias end_boundary end_boundary_with_jpmobile
+
+    alias epilogue_without_jpmobile epilogue
+
+    alias epilogue epilogue_with_jpmobile
+
+    def split!: (untyped boundary) -> self
+  end
+
+  class NamedUnstructuredField
+    attr_accessor mobile: untyped
+  end
+
+  class UnstructuredField
+    attr_accessor mobile: untyped
+  end
+
+  class OptionalField
+    def charset: () -> ("UTF-8" | untyped)
+  end
+
+  # for subject
+  class SubjectField < NamedUnstructuredField
+    def encoded_with_jpmobile: () -> (::String | untyped | untyped)
+
+    def decoded_with_jpmobile: () -> untyped
+
+    alias encoded_without_jpmobile encoded
+
+    alias encoded encoded_with_jpmobile
+
+    alias decoded_without_jpmobile decoded
+
+    alias decoded decoded_with_jpmobile
+
+    def decode_b_value_for_mobile: (untyped str) -> untyped
+  end
+
+  class StructuredField
+    attr_accessor mobile: untyped
+  end
+
+  class FromField < CommonAddressField
+    @jpmobile_raw_text: untyped
+
+    @mobile: untyped
+
+    @element: untyped
+
+    def initialize_with_jpmobile: (?untyped? value, ?::String charset) -> untyped
+
+    alias initialize_without_jpmobile initialize
+
+    alias initialize initialize_with_jpmobile
+
+    def mobile=: (untyped m) -> untyped
+
+    def encoded_with_jpmobile: () -> untyped
+
+    alias encoded_without_jpmobile encoded
+
+    alias encoded encoded_with_jpmobile
+  end
+
+  class ToField < CommonAddressField
+    @jpmobile_raw_text: untyped
+
+    @mobile: untyped
+
+    @element: untyped
+
+    def initialize_with_jpmobile: (?untyped? value, ?::String charset) -> untyped
+
+    alias initialize_without_jpmobile initialize
+
+    alias initialize initialize_with_jpmobile
+
+    def mobile=: (untyped m) -> untyped
+
+    def encoded_with_jpmobile: () -> untyped
+
+    alias encoded_without_jpmobile encoded
+
+    alias encoded encoded_with_jpmobile
+  end
+
+  class Address
+    def encoded_with_jpmobile: () -> untyped
+
+    def get_display_name_with_jpmobile: () -> untyped
+
+    alias encoded_without_jpmobile encoded
+
+    alias encoded encoded_with_jpmobile
+
+    alias get_display_name_without_jpmobile get_display_name
+
+    alias get_display_name get_display_name_with_jpmobile
+  end
+
+  class ContentTypeElement
+    def initialize_with_jpmobile: (untyped string) -> untyped
+
+    alias initialize_without_jpmobile initialize
+
+    alias initialize initialize_with_jpmobile
+  end
+
+  class ContentDispositionElement
+    def initialize_with_jpmobile: (untyped string) -> untyped
+
+    alias initialize_without_jpmobile initialize
+
+    alias initialize initialize_with_jpmobile
+  end
+
+  class ContentLocationElement
+    def initialize_with_jpmobile: (untyped string) -> untyped
+
+    alias initialize_without_jpmobile initialize
+
+    alias initialize initialize_with_jpmobile
+  end
+
+  class Sendmail
+    def self.call: (untyped path, untyped arguments, untyped destinations, untyped mail) -> untyped
+  end
+end

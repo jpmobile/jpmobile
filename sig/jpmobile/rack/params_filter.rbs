@@ -1,0 +1,16 @@
+# リクエストパラメータの変換
+module Jpmobile
+  class ParamsFilter
+    @app: untyped
+
+    def initialize: (untyped app) -> void
+
+    def call: (untyped env) -> ::Array[untyped]
+
+    private
+
+    def to_internal: (untyped str, untyped mobile) -> untyped
+
+    def parse_query: (untyped str, untyped mobile) -> (nil | untyped)
+  end
+end

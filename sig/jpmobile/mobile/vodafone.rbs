@@ -1,0 +1,15 @@
+# Vodafone
+module Jpmobile::Mobile
+  # ==Vodafone 3G携帯電話(SoftBank含まず)
+  # スーパクラスはSoftbank。
+  class Vodafone < Softbank
+    # 対応するUser-Agentの正規表現
+    USER_AGENT_REGEXP: ::Regexp
+
+    # 対応するメールアドレスの正規表現
+    MAIL_ADDRESS_REGEXP: ::Regexp
+
+    # cookieに対応しているか？
+    def supports_cookie?: () -> true
+  end
+end

@@ -20,7 +20,7 @@ module Jpmobile
 
     def mobile_filter: () -> void
 
-    def session_store: () { () -> void } -> Proc
+    def session_store: () { () -> void } -> Proc?
 
     def mount_session_store: () -> void
 

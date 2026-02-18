@@ -31,7 +31,7 @@ module Jpmobile
   end
 
   module TransSidRedirecting
-    def redirect_to: (?::Hash[untyped, untyped] options, ?::Hash[untyped, untyped] response_status) -> untyped
+    def redirect_to: (?(String | ::Hash[untyped, untyped]) options, ?::Hash[untyped, untyped] response_status) -> untyped
   end
 end
 
@@ -39,7 +39,7 @@ module ActionController
   class Metal
     def self.trans_sid: (?::Symbol mode) -> untyped
 
-    extend Jpmobile::TransSid
+    include Jpmobile::TransSid
 
     private
 

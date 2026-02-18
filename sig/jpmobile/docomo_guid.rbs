@@ -2,7 +2,7 @@
 class ActionController::Base
   def self.docomo_guid: (?::Symbol mode) -> untyped
 
-  extend Jpmobile::DocomoGuid
+  include Jpmobile::DocomoGuid
 end
 
 module Jpmobile::DocomoGuid

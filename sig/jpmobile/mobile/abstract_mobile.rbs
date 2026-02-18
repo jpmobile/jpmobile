@@ -1,0 +1,146 @@
+module Jpmobile::Mobile
+  # 携帯電話の抽象クラス。
+  class AbstractMobile
+    self.@ip_list: untyped
+
+    self.@_user_agent_regexp: Regexp?
+
+    @env: Hash[String, untyped]
+
+    @request: untyped
+
+    @_variants: Array[String]?
+
+    @_mail_variants: Array[String]?
+
+    @decorated: bool?
+
+    @__valid_ip: (bool | nil)
+
+    @__displlay: untyped
+
+    # メールのデフォルトのcharset
+    MAIL_CHARSET: "ISO-2022-JP"
+
+    # 対応するuser-agentの正規表現
+    USER_AGENT_REGEXP: nil
+
+    # 対応するメールアドレスの正規表現
+    MAIL_ADDRESS_REGEXP: nil
+
+    # テキスト部分の content-transfer-encoding
+    MAIL_CONTENT_TRANSFER_ENCODING: "7bit"
+
+    def initialize: (Hash[String, untyped] env, untyped request) -> void
+
+    # 緯度経度があれば Position のインスタンスを返す。
+    def position: () -> Jpmobile::Position?
+
+    # 契約者又は端末を識別する文字列があれば返す。
+    def ident: () -> String?
+
+    # 契約者を識別する文字列があれば返す。
+    def ident_subscriber: () -> String?
+
+    # 端末を識別する文字列があれば返す。
+    def ident_device: () -> String?
+
+    def valid_ip?: () -> (bool | nil)
+
+    # 画面情報を +Display+ クラスのインスタンスで返す。
+    # Note: Requires jpmobile-terminfo plugin
+    def display: () -> untyped
+
+    # クッキーをサポートしているか。
+    def supports_cookie?: () -> bool
+
+    # smartphone かどうか
+    def smart_phone?: () -> bool
+
+    # tablet かどうか
+    def tablet?: () -> bool
+
+    # Jpmobile::Filter を適用するかどうか
+    def apply_filter?: () -> bool
+
+    # Jpmobile::ParamsFilter を適用するかどうか
+    def apply_params_filter?: () -> bool
+
+    # エンコーディング変換用
+    def to_internal: (String str) -> String
+
+    def to_external: (String str, String? content_type, String? charset) -> [String, String?]
+
+    def default_charset: () -> String
+
+    # for view selector
+    def variants: () -> (Array[String] | nil)
+
+    def mail_variants: () -> (Array[String] | nil)
+
+    # メール送信用
+    def to_mail_subject: (String str) -> String
+
+    def to_mail_body: (String str) -> String
+
+    def mail_charset: (?String? charset) -> String
+
+    def content_transfer_encoding: (Hash[String, untyped] headers) -> String?
+
+    def to_mail_encoding: (String str) -> String
+
+    def utf8_to_mail_encode: (String str) -> String
+
+    def to_mail_internal: (String str, String? charset) -> String
+
+    def to_mail_subject_encoded?: (String str) -> MatchData?
+
+    def to_mail_body_encoded?: (String str) -> bool
+
+    def decode_transfer_encoding: (String body, String charset) -> String
+
+    def decoratable?: () -> bool
+
+    def require_related_part?: () -> bool
+
+    attr_writer decorated: bool?
+
+    def decorated?: () -> bool?
+
+    # 当該キャリアのIPアドレス帯域からのアクセスであれば +true+ を返す。
+    # そうでなければ +false+ を返す。
+    # IP空間が定義されていない場合は +nil+ を返す。
+    def self.valid_ip?: (String remote_addr) -> bool?
+
+    # リクエストがこのクラスに属するか調べる
+    def self.check_carrier: (Hash[String, untyped] env) -> MatchData?
+
+    def self.user_agent_regexp: () -> Regexp?
+
+    def self.add_user_agent_regexp: (Regexp regexp) -> Regexp
+
+    def self.carrier: (Hash[String, untyped] env) -> AbstractMobile?
+
+    def self.ip_address_class: () -> untyped
+
+    # Dynamically defined carrier check methods (docomo?, au?, softbank?, etc.)
+    def docomo?: () -> bool
+    def au?: () -> bool
+    def softbank?: () -> bool
+    def vodafone?: () -> bool
+    def emobile?: () -> bool
+    def willcom?: () -> bool
+    def ddipocket?: () -> bool
+    def iphone?: () -> bool
+    def android?: () -> bool
+    def windowsphone?: () -> bool
+    def blackberry?: () -> bool
+    def ipad?: () -> bool
+    def androidtablet?: () -> bool
+
+    private
+
+    # リクエストのパラメータ。
+    def params: () -> Hash[String | Symbol, untyped]
+  end
+end

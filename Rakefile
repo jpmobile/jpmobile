@@ -14,6 +14,21 @@ task :update do
   end
 end
 
+namespace :rbs do
+  desc 'Validate RBS type definitions'
+  task :validate do
+    sh 'bundle exec rbs validate'
+  end
+
+  desc 'Run Steep type checker'
+  task :check do
+    sh 'bundle exec steep check'
+  end
+
+  desc 'Run all type checks (RBS validation + Steep)'
+  task :all => [:validate, :check]
+end
+
 namespace :test do
   desc 'Preparation of external modules'
   task :prepare do

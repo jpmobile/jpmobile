@@ -1,0 +1,11 @@
+module Jpmobile
+  module ViewSelector
+    extend ActiveSupport::Concern
+
+    private
+
+    def register_mobile: () -> (untyped | nil)
+
+    def disable_mobile_view!: () -> untyped
+  end
+end

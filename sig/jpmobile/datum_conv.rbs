@@ -1,0 +1,26 @@
+module DatumConv
+  GRS80: ::Array[6378137 | ::Float]
+
+  Bessel: ::Array[::Float]
+
+  Tokyo97toITRF94: ::Array[::Float]
+
+  ITRF94toTokyo97: ::Array[::Float]
+
+  Deg2Rad: untyped
+
+  # 緯度(度),経度(度),高度(m)を三次元直交座標(m)に変換する。
+  def self.blh2xyz: (untyped b_deg, untyped l_deg, untyped he, untyped datum) -> (::Array[untyped] | untyped)
+
+  # 三次元直交座標(m)を緯度(度),経度(度),高度(m)に変換する。
+  def self.xyz2blh: (untyped x, untyped y, untyped z, untyped datum) -> (::Array[untyped] | untyped)
+
+  # 三次元直交座標でシフトする。
+  def self.xyz2xyz: (untyped x, untyped y, untyped z, untyped d) -> untyped
+
+  # 日本測地系から世界測地系に変換する。
+  def self.tky2jgd: (untyped b, untyped l, ?::Integer he) -> (::Array[untyped] | untyped)
+
+  # 世界測地系から日本測地系に変換する。
+  def self.jgd2tky: (untyped b, untyped l, ?::Integer he) -> (::Array[untyped] | untyped)
+end

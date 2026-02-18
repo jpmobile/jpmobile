@@ -1,0 +1,54 @@
+module Jpmobile
+  # 位置情報
+  class Position
+    @lat: Float?
+
+    @lon: Float?
+
+    @options: Hash[String | Symbol, untyped]
+
+    # GeoKitが読み込まれている場合はMappableにする
+    # Note: GeoKit::Mappable is conditionally included at runtime
+    # include ::GeoKit::Mappable
+
+    def self.acts_as_mappable: () -> nil
+
+    def self.distance_column_name: () -> nil
+
+    def self.lat_column_name: () -> :lat
+
+    def self.lng_column_name: () -> :lng
+
+    # 度分秒を度に変換する。
+    def self.dms2deg: (Integer | String d, Integer | String m, String | Float s) -> Float
+
+    def initialize: () -> void
+
+    # 日本測地系から世界測地系に変換する。
+    def tokyo2wgs84!: () -> [Float?, Float?]
+
+    # 文字列で緯度経度を返す。
+    def to_s: () -> String
+
+    # 緯度経度をカンマ区切りで返す
+    def ll: () -> String
+
+    # 緯度
+    attr_accessor lat: Float?
+
+    # 経度
+    attr_accessor lon: Float?
+
+    # 経度
+    def lng: () -> Float?
+
+    # 経度を設定
+    def lng=: (Float? l) -> Float?
+
+    # 緯度と経度が一致している場合に +true+
+    def ==: (Position other) -> bool
+
+    # その他の情報
+    attr_accessor options: Hash[String | Symbol, untyped]
+  end
+end

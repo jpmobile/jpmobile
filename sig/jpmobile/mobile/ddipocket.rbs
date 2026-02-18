@@ -1,0 +1,11 @@
+# =DDI-POCKET
+module Jpmobile::Mobile
+  # ==DDI-POCKET
+  # スーパクラスはWillcom。
+  class Ddipocket < Willcom
+    # 対応するUser-Agentの正規表現
+    USER_AGENT_REGEXP: ::Regexp
+
+    MAIL_ADDRESS_REGEXP: nil
+  end
+end

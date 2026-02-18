@@ -1,0 +1,68 @@
+module Jpmobile::Mobile
+  # ==DoCoMo携帯電話
+  class Docomo < AbstractMobile
+    @__position: Jpmobile::Position?
+
+    # 対応するUser-Agentの正規表現
+    USER_AGENT_REGEXP: ::Regexp
+
+    # 対応するメールアドレスの正規表現
+    MAIL_ADDRESS_REGEXP: ::Regexp
+
+    # メールのデフォルトのcharset
+    MAIL_CHARSET: "Shift_JIS"
+
+    # テキスト部分の content-transfer-encoding
+    MAIL_CONTENT_TRANSFER_ENCODING: "8bit"
+
+    # オープンiエリアがあればエリアコードを +String+ で返す。無ければ +nil+ を返す。
+    def areacode: () -> String?
+
+    # 位置情報があれば Position のインスタンスを返す。無ければ +nil+ を返す。
+    def position: () -> Jpmobile::Position?
+
+    # 端末製造番号があれば返す。無ければ +nil+ を返す。
+    def serial_number: () -> String?
+
+    alias ident_device serial_number
+
+    # FOMAカード製造番号があれば返す。無ければ +nil+ を返す。
+    def icc: () -> String?
+
+    # iモードIDを返す。
+    def guid: () -> String?
+
+    # iモードID, FOMAカード製造番号の順で調べ、あるものを返す。なければ +nil+ を返す。
+    def ident_subscriber: () -> String?
+
+    # cookieに対応しているか？
+    def supports_cookie?: () -> bool
+
+    # 文字コード変換
+    def to_internal: (String str) -> String
+
+    def to_external: (String str, String? content_type, String? charset) -> [String, String?]
+
+    def default_charset: () -> "Shift_JIS"
+
+    # メール送信用
+    def to_mail_body: (String str) -> String
+
+    def to_mail_encoding: (String str) -> String
+
+    def to_mail_internal: (String str, String? charset) -> String
+
+    def to_mail_body_encoded?: (String str) -> bool
+
+    def decoratable?: () -> true
+
+    def require_related_part?: () -> true
+
+    # i-mode ブラウザのバージョンを返す。
+    # http://labs.unoh.net/2009/07/i_20.html
+    def imode_browser_version: () -> String
+
+    # モデル名を返す。
+    def model_name: () -> String?
+  end
+end

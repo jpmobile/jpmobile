@@ -1,0 +1,9 @@
+module Jpmobile
+  module Sinatra
+    class Base < ::Sinatra::Base
+      # Calls the given block for every possible template file in views,
+      # named name.ext, where ext is registered on engine.
+      def find_template: (untyped views, untyped name, untyped engine) { (untyped) -> untyped } -> untyped
+    end
+  end
+end

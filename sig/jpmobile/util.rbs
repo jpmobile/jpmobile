@@ -1,0 +1,104 @@
+module Jpmobile
+  module Util
+    # SJIS   = "Shift_JIS"
+    SJIS: "Windows-31J"
+
+    UTF8: "UTF-8"
+
+    JIS: "ISO-2022-JP"
+
+    JIS_WIN: "CP50220"
+
+    BINARY: "ASCII-8BIT"
+
+    WAVE_DASH: String
+
+    FULLWIDTH_TILDE: String
+
+    OVERLINE: String
+
+    FULLWIDTH_MACRON: String
+
+    EM_DASH: String
+
+    HORIZONTAL_BAR: String
+
+    MINUS_SIGN: String
+
+    FULLWIDTH_HYPHEN_MINUS: String
+
+    def self?.deep_convert: (untyped obj) { (untyped) -> untyped } -> untyped
+
+    def self?.sjis: (untyped str) -> untyped
+
+    def self?.utf8: (untyped str) -> untyped
+
+    def self?.jis: (untyped str) -> untyped
+
+    def self?.jis_win: (untyped str) -> untyped
+
+    def self?.ascii_8bit: (untyped str) -> untyped
+
+    def self?.ascii_compatible!: (untyped str) -> untyped
+
+    def self?.utf8_to_sjis: (untyped utf8_str) -> untyped
+
+    def self?.sjis_to_utf8: (untyped sjis_str) -> untyped
+
+    def self?.utf8_to_jis: (untyped utf8_str) -> untyped
+
+    def self?.jis_to_utf8: (untyped jis_str) -> untyped
+
+    def self?.regexp_utf8_to_sjis: (untyped utf8_str) -> untyped
+
+    def self?.regexp_to_sjis: (untyped sjis_str) -> untyped
+
+    def self?.hash_to_utf8: (untyped hash) -> untyped
+
+    def self?.sjis_regexp: (untyped sjis) -> untyped
+
+    def self?.jis_regexp: (untyped jis) -> untyped
+
+    def self?.jis_string_regexp: () -> untyped
+
+    def self?.encode: (untyped str, untyped charset) -> untyped
+
+    def self?.wavedash_to_fullwidth_tilde: (untyped utf8_str) -> untyped
+
+    def self?.fullwidth_tilde_to_wavedash: (untyped utf8_str) -> untyped
+
+    def self?.overline_to_fullwidth_macron: (untyped utf8_str) -> untyped
+
+    def self?.fullwidth_macron_to_overline: (untyped utf8_str) -> untyped
+
+    def self?.emdash_to_horizontal_bar: (untyped utf8_str) -> untyped
+
+    def self?.minus_sign_to_fullwidth_hyphen_minus: (untyped utf8_str) -> untyped
+
+    def self?.fullwidth_hyphen_minus_to_minus_sign: (untyped utf8_str) -> untyped
+
+    def self?.force_encode: (untyped str, untyped from, untyped to) -> untyped
+
+    def self?.set_encoding: (untyped str, untyped encoding) -> untyped
+
+    def self?.extract_charset: (untyped str) -> untyped
+
+    def self?.detect_encoding: (untyped str) -> untyped
+
+    def self?.ascii_8bit?: (untyped str) -> untyped
+
+    def self?.utf8?: (untyped str) -> untyped
+
+    def self?.shift_jis?: (untyped str) -> untyped
+
+    def self?.jis?: (untyped str) -> untyped
+
+    def self?.fold_text: (untyped str, ?::Integer size) -> untyped
+
+    def self?.split_text: (untyped str, ?::Integer size) -> (nil | ::Array[untyped])
+
+    def self?.invert_table: (untyped hash) -> untyped
+
+    def self?.decode: (untyped str, untyped encoding, untyped charset) -> untyped
+  end
+end

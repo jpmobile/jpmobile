@@ -1,0 +1,33 @@
+module Jpmobile
+  class Configuration
+    @form_accept_charset_conversion: bool
+
+    @smart_phone_emoticon_compatibility: bool
+
+    @fallback_view_selector: bool
+
+    @session_store: Proc?
+
+    include Singleton
+
+    attr_accessor form_accept_charset_conversion: bool
+
+    attr_accessor smart_phone_emoticon_compatibility: bool
+
+    attr_accessor fallback_view_selector: bool
+
+    def initialize: () -> void
+
+    def mobile_filter: () -> void
+
+    def session_store: () { () -> void } -> Proc?
+
+    def mount_session_store: () -> void
+
+    module RailsConfiguration
+      @jpmobile: Jpmobile::Configuration?
+
+      def jpmobile: () -> Jpmobile::Configuration
+    end
+  end
+end

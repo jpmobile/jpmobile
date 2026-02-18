@@ -1,0 +1,17 @@
+module Jpmobile
+  class Resolver < ::ActionView::FileSystemResolver
+    @path_parser: untyped
+
+    def initialize: (untyped path) -> void
+
+    def clear_cache: () -> untyped
+
+    class PathParser < ::ActionView::Resolver::PathParser
+      @regex: untyped
+
+      def build_path_regex: () -> ::Regexp
+
+      def parse: (untyped path) -> untyped
+    end
+  end
+end

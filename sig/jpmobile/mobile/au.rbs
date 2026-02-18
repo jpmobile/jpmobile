@@ -1,0 +1,61 @@
+module Jpmobile::Mobile
+  # ==au携帯電話
+  # CDMA 1X, CDMA 1X WINを含む。
+  class Au < AbstractMobile
+    @__posotion: Jpmobile::Position?
+
+    # 対応するUser-Agentの正規表現
+    # User-Agent文字列中に "UP.Browser" を含むVodafoneの端末があるので注意が必要
+    USER_AGENT_REGEXP: ::Regexp
+
+    # 対応するメールアドレスの正規表現
+    MAIL_ADDRESS_REGEXP: ::Regexp
+
+    # 簡易位置情報取得に対応していないデバイスID
+    # http://www.au.kddi.com/ezfactory/tec/spec/eznavi.html
+    LOCATION_UNSUPPORTED_DEVICE_ID: ::Array[String]
+
+    # GPS取得に対応していないデバイスID
+    GPS_UNSUPPORTED_DEVICE_ID: ::Array[String]
+
+    TARGET_PARAMS: ::Array[String]
+
+    # EZ番号(サブスクライバID)があれば返す。無ければ +nil+ を返す。
+    def subno: () -> String?
+
+    alias ident_subscriber subno
+
+    # 位置情報があれば Position のインスタンスを返す。無ければ +nil+ を返す。
+    def position: () -> Jpmobile::Position?
+
+    # デバイスIDを返す
+    def device_id: () -> String?
+
+    # 簡易位置情報取得に対応している場合は +true+ を返す。
+    def supports_location?: () -> bool
+
+    # GPS位置情報取得に対応している場合は +true+ を返す。
+    def supports_gps?: () -> bool
+
+    # cookieに対応しているか？
+    def supports_cookie?: () -> bool
+
+    # 文字コード変換
+    def to_internal: (String str) -> String
+
+    def to_external: (String str, String? content_type, String? charset) -> [String, String?]
+
+    def default_charset: () -> "Shift_JIS"
+
+    # メール送信用
+    def to_mail_body: (String str) -> String
+
+    def to_mail_internal: (String str, String? charset) -> String
+
+    def decoratable?: () -> true
+
+    private
+
+    def to_mail_encoding: (String str) -> String
+  end
+end

@@ -1,0 +1,16 @@
+module Jpmobile::Mobile
+  module UnicodeEmoticon
+    # Jpmobile::Filter を適用する
+    def apply_filter?: () -> untyped
+
+    # Jpmobile::ParamsFilter を適用する
+    def apply_params_filter?: () -> untyped
+
+    # 文字コード変換
+    def to_internal: (untyped str) -> untyped
+
+    def to_external: (untyped str, untyped content_type, untyped charset) -> ::Array[untyped]
+
+    def unicode_emoticon?: () -> untyped
+  end
+end

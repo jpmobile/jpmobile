@@ -1,0 +1,15 @@
+# DoCoMoの時guid=onの付与
+class ActionController::Base
+  def self.docomo_guid: (?::Symbol mode) -> untyped
+
+  include Jpmobile::DocomoGuid
+end
+
+module Jpmobile::DocomoGuid
+  def default_url_options: () -> untyped
+
+  # guid=ONを付与すべきか否かを返す
+  def apply_add_guid?: () -> (true | false)
+
+  def not_apply_guid_user_agent?: () -> untyped
+end

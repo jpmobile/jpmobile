@@ -1,0 +1,49 @@
+module Jpmobile
+  module SessionID
+    extend ActionDispatch::Session::Compatibility
+  end
+
+  module ParamsOverCookie
+    def extract_session_id: (untyped req) -> untyped
+  end
+
+  module TransSid
+    def self.included: (untyped controller) -> untyped
+
+    # URLにsession_idを追加する。
+    def default_url_options: () -> untyped
+
+    private
+
+    # session_keyを返す。
+    def session_key: () -> untyped
+
+    # session_idを返す
+    # rack 1.4 (rails3) request.session_options[:id]
+    # rack 1.5 (rails4) request.session.id
+    def jpmobile_session_id: () -> untyped
+
+    # session_idを埋め込むためのhidden fieldを出力する。
+    def sid_hidden_field_tag: () -> ::String
+
+    # formにsession_idを追加する。
+    def append_session_id_parameter: () -> (nil | untyped)
+  end
+
+  module TransSidRedirecting
+    def redirect_to: (?(String | ::Hash[untyped, untyped]) options, ?::Hash[untyped, untyped] response_status) -> untyped
+  end
+end
+
+module ActionController
+  class Metal
+    def self.trans_sid: (?::Symbol mode) -> untyped
+
+    include Jpmobile::TransSid
+
+    private
+
+    # trans_sidを適用すべきかを返す。
+    def apply_trans_sid?: () -> (false | true)
+  end
+end

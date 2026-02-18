@@ -1,0 +1,7 @@
+module Jpmobile
+  class PathSet < ActionView::PathSet
+    private
+
+    def typecast: (untyped paths) -> untyped
+  end
+end

@@ -1,0 +1,11 @@
+# params を UTF-8 にする拡張
+module Jpmobile
+  module Encoding
+    # load params
+    @parameters: untyped
+
+    @jpmobile_params_converted: untyped
+
+    def parameters: () -> untyped
+  end
+end

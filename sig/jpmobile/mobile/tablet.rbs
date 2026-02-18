@@ -1,0 +1,9 @@
+module Jpmobile::Mobile
+  class Tablet < SmartPhone
+    # smartphone なので true
+    def smart_phone?: () -> true
+
+    # tablet なので true
+    def tablet?: () -> true
+  end
+end

@@ -200,6 +200,11 @@ GEM
       zeitwerk (~> 2.6)
     rainbow (3.1.1)
     rake (13.3.0)
+    rbs (3.10.2)
+      logger
+    rbs_rails (0.12.1)
+      parser
+      rbs (>= 1)
     rchardet (1.9.0)
     rdoc (6.15.0)
       erb
@@ -284,6 +289,8 @@ DEPENDENCIES
   jpmobile!
   pry
   rails (~> 8.1.0)
+  rbs
+  rbs_rails
   rspec
   rspec-its
   rspec-rails

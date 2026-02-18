@@ -1,0 +1,13 @@
+module Jpmobile
+  module HookTemplateDetailsRequested
+    @mobile: untyped
+
+    @mobile_idx: untyped
+
+    attr_reader mobile: untyped
+
+    attr_reader mobile_idx: untyped
+
+    def initialize: (locale: untyped, handlers: untyped, formats: untyped, variants: untyped, mobile: untyped) -> void
+  end
+end

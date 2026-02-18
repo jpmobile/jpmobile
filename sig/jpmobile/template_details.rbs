@@ -1,0 +1,23 @@
+module Jpmobile
+  class TemplateDetails < ActionView::TemplateDetails
+    @mobile: untyped
+
+    def initialize: (untyped locale, untyped handler, untyped format, untyped variant, untyped mobile) -> void
+
+    def matches?: (untyped requested) -> untyped
+
+    def sort_key_for: (untyped requested) -> ::Array[untyped]
+
+    class Requested < ActionView::TemplateDetails::Requested
+      @mobile: untyped
+
+      @mobile_idx: untyped
+
+      attr_reader mobile: untyped
+
+      attr_reader mobile_idx: untyped
+
+      def initialize: (locale: untyped, handlers: untyped, formats: untyped, variants: untyped, mobile: untyped) -> void
+    end
+  end
+end

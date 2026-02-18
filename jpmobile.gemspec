@@ -14,6 +14,7 @@ Gem::Specification.new do |gem|
   gem.metadata['documentation_uri'] = gem.metadata['source_code_uri']
 
   gem.files         = `git ls-files`.split($INPUT_RECORD_SEPARATOR)
+  gem.files        += Dir['sig/**/*.rbs']
   gem.require_paths = ['lib']
 
   gem.required_ruby_version = '>= 3.3.0'

@@ -1,0 +1,11 @@
+module Jpmobile
+  module Mailer
+    class Base < ActionMailer::Base
+      @mobile: untyped
+
+      def mail: (?::Hash[untyped, untyped] headers) { (?) -> untyped } -> untyped
+
+      def self.set_payload_for_mail: (untyped payload, untyped mail) -> untyped
+    end
+  end
+end

@@ -1,0 +1,14 @@
+module Jpmobile::Mobile
+  # ==EMOBILE携帯電話
+  class Emobile < AbstractMobile
+    USER_AGENT_REGEXP: ::Regexp
+
+    # 対応するメールアドレスの正規表現
+    MAIL_ADDRESS_REGEXP: ::Regexp
+
+    # EMnet対応端末から通知されるユニークなユーザIDを取得する。
+    def em_uid: () -> untyped
+
+    alias ident_subscriber em_uid
+  end
+end

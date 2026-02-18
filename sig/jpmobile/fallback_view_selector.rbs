@@ -1,0 +1,5 @@
+module Jpmobile
+  module FallbackViewSelector
+    def _render_template: (untyped options) -> untyped
+  end
+end

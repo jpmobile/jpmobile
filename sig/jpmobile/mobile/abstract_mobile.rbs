@@ -7,7 +7,7 @@ module Jpmobile::Mobile
 
     @env: Hash[String, untyped]
 
-    @request: Rack::Request
+    @request: untyped
 
     @_variants: Array[String]?
 
@@ -15,7 +15,7 @@ module Jpmobile::Mobile
 
     @decorated: bool?
 
-    @__valid_ip: bool?
+    @__valid_ip: (bool | nil)
 
     @__displlay: untyped
 
@@ -31,7 +31,7 @@ module Jpmobile::Mobile
     # テキスト部分の content-transfer-encoding
     MAIL_CONTENT_TRANSFER_ENCODING: "7bit"
 
-    def initialize: (Hash[String, untyped] env, Rack::Request request) -> void
+    def initialize: (Hash[String, untyped] env, untyped request) -> void
 
     # 緯度経度があれば Position のインスタンスを返す。
     def position: () -> Jpmobile::Position?
@@ -45,7 +45,7 @@ module Jpmobile::Mobile
     # 端末を識別する文字列があれば返す。
     def ident_device: () -> String?
 
-    def valid_ip?: () -> bool
+    def valid_ip?: () -> (bool | nil)
 
     # 画面情報を +Display+ クラスのインスタンスで返す。
     # Note: Requires jpmobile-terminfo plugin
@@ -74,9 +74,9 @@ module Jpmobile::Mobile
     def default_charset: () -> String
 
     # for view selector
-    def variants: () -> Array[String]
+    def variants: () -> (Array[String] | nil)
 
-    def mail_variants: () -> Array[String]
+    def mail_variants: () -> (Array[String] | nil)
 
     # メール送信用
     def to_mail_subject: (String str) -> String

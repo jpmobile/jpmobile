@@ -13,6 +13,8 @@ jobs:
       RAILS_ENV: test
       BUNDLE_JOBS: 3
       BUNDLE_RETRY: 3
+      MAILTRAP_USERNAME: ${{ secrets.MAILTRAP_USERNAME }}
+      MAILTRAP_PASSWORD: ${{ secrets.MAILTRAP_PASSWORD }}
 
     steps:
       - uses: actions/checkout@v4

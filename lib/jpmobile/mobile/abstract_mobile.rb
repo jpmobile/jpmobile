@@ -229,7 +229,23 @@ module Jpmobile::Mobile
         @_user_agent_regexp = Regexp.union(user_agent_regexp, regexp)
       end
 
+      # Client Hints でリクエストがこのクラスに属するか調べる
+      def check_client_hints(env)
+        nil
+      end
+
       def carrier(env)
+        # Client Hints が送信されている場合は優先して判定する
+        if env['HTTP_SEC_CH_UA_MOBILE'] || env['HTTP_SEC_CH_UA_PLATFORM']
+          ::Jpmobile::Mobile.carriers.each do |const|
+            c = ::Jpmobile::Mobile.const_get(const)
+            if c.check_client_hints(env)
+              res = ::Rack::Request.new(env)
+              return c.new(env, res)
+            end
+          end
+        end
+
         ::Jpmobile::Mobile.carriers.each do |const|
           c = ::Jpmobile::Mobile.const_get(const)
           if c.check_carrier(env)

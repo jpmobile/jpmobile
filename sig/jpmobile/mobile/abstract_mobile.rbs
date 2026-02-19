@@ -74,9 +74,9 @@ module Jpmobile::Mobile
     def default_charset: () -> String
 
     # for view selector
-    def variants: () -> Array[String]
+    def variants: () -> Array[String]?
 
-    def mail_variants: () -> Array[String]
+    def mail_variants: () -> Array[String]?
 
     # メール送信用
     def to_mail_subject: (String str) -> String

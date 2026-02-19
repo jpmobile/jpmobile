@@ -342,16 +342,25 @@ describe 'Jpmobile::Mail' do
     end
 
     it 'delivers through SMTP' do
-      @mail.delivery_method :smtp,
-                            {
-                              enable_starttls_auto: false,
-                              user_name: ENV.fetch('MAILTRAP_USERNAME', nil),
-                              password: ENV.fetch('MAILTRAP_PASSWORD', nil),
-                              address: 'smtp.mailtrap.io',
-                              domain: 'smtp.mailtrap.io',
-                              port: '2525',
-                              authentication: :cram_md5,
-                            }
+      if ENV['MAILTRAP_USERNAME'] && ENV['MAILTRAP_PASSWORD']
+        @mail.delivery_method :smtp,
+                              {
+                                enable_starttls_auto: false,
+                                user_name: ENV.fetch('MAILTRAP_USERNAME', nil),
+                                password: ENV.fetch('MAILTRAP_PASSWORD', nil),
+                                address: 'smtp.mailtrap.io',
+                                domain: 'smtp.mailtrap.io',
+                                port: '2525',
+                                authentication: :cram_md5,
+                              }
+      else
+        @mail.delivery_method :smtp,
+                              {
+                                enable_starttls_auto: false,
+                                address: ENV.fetch('TEST_SMTP_HOST', 'localhost'),
+                                port: ENV.fetch('TEST_SMTP_PORT', '1025').to_i,
+                              }
+      end
 
       expect {
         @mail.deliver

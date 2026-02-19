@@ -3,24 +3,25 @@ name: CI
 on:
   push:
     branches: [main]
-  pull_request_target:
+  pull_request:
 
 jobs:
   test:
     runs-on: ubuntu-latest
-    environment: ${{ (github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.full_name != github.repository) && 'ci' || '' }}
+
+    services:
+      mailhog:
+        image: mailhog/mailhog
+        ports:
+          - 1025:1025
 
     env:
       RAILS_ENV: test
       BUNDLE_JOBS: 3
       BUNDLE_RETRY: 3
-      MAILTRAP_USERNAME: ${{ secrets.MAILTRAP_USERNAME }}
-      MAILTRAP_PASSWORD: ${{ secrets.MAILTRAP_PASSWORD }}
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Install system dependencies
         run: |

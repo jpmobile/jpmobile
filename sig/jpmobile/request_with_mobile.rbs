@@ -1,29 +1,29 @@
 module Jpmobile
   module RequestWithMobile
     # 環境変数 HTTP_USER_AGENT を返す。
-    def user_agent: () -> untyped
+    def user_agent: () -> String?
 
     # for reverse proxy.
-    def remote_addr: () -> untyped
+    def remote_addr: () -> String?
 
     # 環境変数 HTTP_USER_AGENT を設定する。
-    def user_agent=: (untyped str) -> untyped
+    def user_agent=: (String str) -> String
 
     # 携帯電話からであれば +true+を、そうでなければ +false+ を返す。
-    def mobile?: () -> untyped
+    def mobile?: () -> bool
 
     # スマートフォンであれば +true+を、そうでなければ +false+ を返す。
-    def smart_phone?: () -> untyped
+    def smart_phone?: () -> bool
 
     # タブレットからであれば +true+を、そうでなければ +false+ を返す
-    def tablet?: () -> untyped
+    def tablet?: () -> bool
 
     # 携帯電話の機種に応じて Mobile::xxx を返す。
     # 携帯電話でない場合はnilを返す。
-    def mobile: () -> untyped
+    def mobile: () -> Jpmobile::Mobile::AbstractMobile?
   end
 
   module RequestWithMobileTesting
-    def mobile: () -> untyped
+    def mobile: () -> Jpmobile::Mobile::AbstractMobile?
   end
 end

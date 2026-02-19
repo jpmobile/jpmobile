@@ -1,14 +1,14 @@
 module Jpmobile::Mobile
   module GoogleEmoticon
     # Jpmobile::Filter を適用する
-    def apply_filter?: () -> untyped
+    def apply_filter?: () -> bool
 
     # Jpmobile::ParamsFilter を適用する
-    def apply_params_filter?: () -> untyped
+    def apply_params_filter?: () -> bool
 
     # 文字コード変換
-    def to_internal: (untyped str) -> untyped
+    def to_internal: (String str) -> String
 
-    def to_external: (untyped str, untyped content_type, untyped charset) -> ::Array[untyped]
+    def to_external: (String str, String content_type, String charset) -> [String, String]
   end
 end

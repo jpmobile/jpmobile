@@ -5,12 +5,12 @@ module Jpmobile
 
     def initialize: (untyped app) -> void
 
-    def call: (untyped env) -> ::Array[untyped]
+    def call: (Hash[String, untyped] env) -> [Integer, Hash[String, untyped], untyped]
 
     private
 
-    def to_internal: (untyped str, untyped mobile) -> untyped
+    def to_internal: (String str, Jpmobile::Mobile::AbstractMobile mobile) -> String
 
-    def parse_query: (untyped str, untyped mobile) -> (nil | untyped)
+    def parse_query: (String str, Jpmobile::Mobile::AbstractMobile mobile) -> String?
   end
 end

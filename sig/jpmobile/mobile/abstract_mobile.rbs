@@ -74,9 +74,9 @@ module Jpmobile::Mobile
     def default_charset: () -> String
 
     # for view selector
-    def variants: () -> (Array[String] | nil)
+    def variants: () -> Array[String]
 
-    def mail_variants: () -> (Array[String] | nil)
+    def mail_variants: () -> Array[String]
 
     # メール送信用
     def to_mail_subject: (String str) -> String
@@ -118,6 +118,9 @@ module Jpmobile::Mobile
     def self.user_agent_regexp: () -> Regexp?
 
     def self.add_user_agent_regexp: (Regexp regexp) -> Regexp
+
+    # Client Hints でリクエストがこのクラスに属するか調べる
+    def self.check_client_hints: (Hash[String, untyped] env) -> String?
 
     def self.carrier: (Hash[String, untyped] env) -> AbstractMobile?
 

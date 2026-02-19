@@ -5,5 +5,8 @@ module Jpmobile::Mobile
 
     # 対応するUser-Agentの正規表現
     USER_AGENT_REGEXP: ::Regexp
+
+    # Client Hints でリクエストがこのクラスに属するか調べる
+    def self.check_client_hints: (Hash[String, untyped] env) -> String?
   end
 end

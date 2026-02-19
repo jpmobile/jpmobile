@@ -3,7 +3,7 @@ module Jpmobile::Mobile
   # ==Willcom携帯電話
   # Ddipocketのスーパクラス。
   class Willcom < AbstractMobile
-    @__position: untyped
+    @__position: Jpmobile::Position?
 
     # 対応するUser-Agentの正規表現
     USER_AGENT_REGEXP: ::Regexp
@@ -12,7 +12,7 @@ module Jpmobile::Mobile
     MAIL_ADDRESS_REGEXP: ::Regexp
 
     # 位置情報があれば Position のインスタンスを返す。無ければ +nil+ を返す。
-    def position: () -> untyped
+    def position: () -> Jpmobile::Position?
 
     # cookieに対応しているか？
     def supports_cookie?: () -> true

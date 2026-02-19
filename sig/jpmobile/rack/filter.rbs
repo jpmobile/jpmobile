@@ -4,10 +4,10 @@ module Jpmobile
 
     def initialize: (untyped app) -> void
 
-    def call: (untyped env) -> untyped
+    def call: (Hash[String, untyped] env) -> [Integer, Hash[String, untyped], untyped]
 
     private
 
-    def response_to_body: (untyped response) -> untyped
+    def response_to_body: (untyped response) -> String
   end
 end

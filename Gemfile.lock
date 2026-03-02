@@ -152,7 +152,7 @@ GEM
     nokogiri (1.18.10-x86_64-linux-gnu)
       racc (~> 1.4)
     parallel (1.27.0)
-    parser (3.3.10.0)
+    parser (3.3.10.2)
       ast (~> 2.4.1)
       racc
     pp (0.6.3)
@@ -215,8 +215,9 @@ GEM
     rbs (3.10.3)
       logger
       tsort
-    rbs_rails (0.12.1)
+    rbs_rails (0.13.0)
       parser
+      prism
       rbs (>= 1)
     rchardet (1.9.0)
     rdoc (6.15.1)

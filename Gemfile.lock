@@ -82,8 +82,8 @@ GEM
       securerandom (>= 0.3)
       tzinfo (~> 2.0, >= 2.0.5)
       uri (>= 0.13.1)
-    addressable (2.8.7)
-      public_suffix (>= 2.0.2, < 7.0)
+    addressable (2.8.9)
+      public_suffix (>= 2.0.2, < 8.0)
     ast (2.4.3)
     base64 (0.3.0)
     bigdecimal (3.3.1)
@@ -102,7 +102,7 @@ GEM
     ffi (1.17.3-x86_64-linux-gnu)
     fileutils (1.8.0)
     geokit (1.14.0)
-    git (4.0.5)
+    git (4.3.1)
       activesupport (>= 5.0)
       addressable (~> 2.8)
       process_executer (~> 4.0)
@@ -140,7 +140,7 @@ GEM
       json-schema (>= 4.1)
     method_source (1.1.0)
     mini_mime (1.1.5)
-    minitest (5.26.2)
+    minitest (5.27.0)
     mutex_m (0.3.0)
     net-imap (0.5.13)
       date
@@ -164,7 +164,7 @@ GEM
       prettyprint
     prettyprint (0.2.0)
     prism (1.9.0)
-    process_executer (4.0.0)
+    process_executer (4.0.2)
       track_open_instances (~> 0.1)
     pry (0.16.0)
       coderay (~> 1.1)
@@ -224,7 +224,7 @@ GEM
     rbs_rails (0.12.1)
       parser
       rbs (>= 1)
-    rchardet (1.9.0)
+    rchardet (1.10.0)
     rdoc (6.15.1)
       erb
       psych (>= 4.0.0)
@@ -308,7 +308,7 @@ GEM
     unicode-display_width (3.2.0)
       unicode-emoji (~> 4.1)
     unicode-emoji (4.2.0)
-    uri (1.0.4)
+    uri (1.1.1)
     useragent (0.16.11)
     websocket-driver (0.8.0)
       base64

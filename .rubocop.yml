@@ -387,6 +387,8 @@ Style/ExactRegexpMatch: # new in 1.51
   Enabled: true
 Style/MapIntoArray: # new in 1.63
   Enabled: true
+Style/OneClassPerFile: # new in 1.85
+  Enabled: false
 Style/RedundantArrayConstructor: # new in 1.52
   Enabled: true
 Style/RedundantCurrentDirectoryInPath: # new in 1.53

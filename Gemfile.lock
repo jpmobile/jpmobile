@@ -221,8 +221,9 @@ GEM
     rbs (3.10.3)
       logger
       tsort
-    rbs_rails (0.12.1)
+    rbs_rails (0.13.0)
       parser
+      prism
       rbs (>= 1)
     rchardet (1.10.0)
     rdoc (6.15.1)

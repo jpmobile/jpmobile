@@ -216,7 +216,7 @@ GEM
     rbs (3.10.4)
       logger
       tsort
-    rbs_rails (0.13.0)
+    rbs_rails (0.13.1)
       parser
       prism
       rbs (>= 1)

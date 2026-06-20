@@ -30,4 +30,15 @@ describe Jpmobile::Mobile::Iphone do
       expect(mobile.unicode_emoticon?).to be_truthy
     end
   end
+
+  describe '#to_internal' do
+    it 'iOS5+ では Unicode 6.0 絵文字として SoftBank 絵文字へ変換すること' do
+      request = double('request')
+      allow(request).to receive(:user_agent) { 'Mozilla/5.0 (iPhone; CPU iPhone OS 5_1_1 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9B206 Safari/7534.48.3' }
+
+      mobile = Jpmobile::Mobile::Iphone.new({}, request)
+      # U+2600(晴れ) は SoftBank 絵文字 U+F04A に変換される
+      expect(mobile.to_internal([0x2600].pack('U'))).to eq([0xf04a].pack('U'))
+    end
+  end
 end

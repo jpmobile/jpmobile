@@ -91,6 +91,15 @@ describe Jpmobile::Util do
     it 'frozenでも通過すること' do
       expect { force_encode('漢字'.encode('ISO-2022-JP').freeze, 'iso-2022-jp', 'UTF-8') }.not_to raise_error
     end
+
+    it 'to に shift_jis を指定すると Windows-31J へ変換すること' do
+      expect(force_encode('あ', 'UTF-8', 'shift_jis').encoding).to eq(Encoding::Windows_31J)
+    end
+
+    it 'すでに変換先エンコーディングの文字列はそのまま（同一オブジェクトで）返すこと' do
+      str = 'a'.force_encoding('CP932')
+      expect(force_encode(str, nil, 'CP932')).to equal(str)
+    end
   end
 
   describe '#fold_text' do
@@ -158,6 +167,11 @@ describe Jpmobile::Util do
     it 'frozenでも通過すること' do
       expect { jis_win('漢字'.freeze) }.not_to raise_error
     end
+
+    it 'すでにJISエンコードの文字列は再エンコードせずそのまま返すこと' do
+      jis_str = '漢字'.encode('ISO-2022-JP')
+      expect(jis_win(jis_str)).to equal(jis_str)
+    end
   end
 
   describe '#ascii_8bit' do
@@ -204,6 +218,38 @@ describe Jpmobile::Util do
       )
       expect(hash[0x3013]).to eq([0x1F1E8, 0x1F1F3])
       expect(hash[0xE6FB]).to eq(0x1F526)
+    end
+  end
+
+  describe '#deep_convert' do
+    it 'Symbolを変換し再びSymbolで返すこと' do
+      expect(deep_convert(:foo, &:upcase)).to eq(:FOO)
+    end
+
+    it 'to_paramを持たないStringはそのままyieldされること' do
+      expect('foo'.respond_to?(:to_param)).to be_falsey
+      expect(deep_convert('foo', &:upcase)).to eq('FOO')
+    end
+
+    it 'Hash/Array/Symbol/String以外（Integer等）はyieldせずそのまま返すこと' do
+      expect(deep_convert(42) {|_| raise 'should not be called' }).to eq(42)
+    end
+  end
+
+  describe '#encode' do
+    it 'charsetがutf-8のときはそのまま返すこと' do
+      str = 'あ'
+      expect(encode(str, 'utf-8')).to eq(str)
+    end
+
+    it '対応しない文字コードを指定するとnilになること（iso-2022-jp/shift_jis/utf-8のみ対応）' do
+      expect(encode('あ', 'euc-jp')).to be_nil
+    end
+  end
+
+  describe '#decode' do
+    it 'quoted-printable/base64以外のencodingは本文をそのまま扱うこと' do
+      expect(decode('plain text', '7bit', 'UTF-8')).to eq('plain text')
     end
   end
 end

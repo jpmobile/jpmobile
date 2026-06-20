@@ -1,6 +1,10 @@
 require 'rubygems'
 require 'rspec'
 require 'rspec/its'
+if ENV['COVERAGE']
+  require_relative '../support/coverage'
+  JpmobileCoverage.start('unit')
+end
 $LOAD_PATH.unshift(File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'lib')))
 require 'jpmobile'
 begin

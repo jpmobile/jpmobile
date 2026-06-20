@@ -2,6 +2,10 @@
 require 'rubygems'
 require 'rack/test'
 require 'rspec'
+if ENV['COVERAGE']
+  require_relative 'support/coverage'
+  JpmobileCoverage.start('rack')
+end
 require 'jpmobile'
 
 begin

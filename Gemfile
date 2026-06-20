@@ -18,3 +18,9 @@ group :development do
   gem 'rbs_rails', require: false
   gem 'steep', require: false
 end
+
+group :test do
+  gem 'simplecov', require: false
+  gem 'simplecov_json_formatter', require: false
+  gem 'simplecov-lcov', require: false
+end

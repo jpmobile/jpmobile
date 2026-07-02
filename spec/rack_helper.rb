@@ -8,17 +8,6 @@ if ENV['COVERAGE']
 end
 require 'jpmobile'
 
-begin
-  require File.dirname(__FILE__) + '/../vendor/jpmobile-ipaddresses/lib/jpmobile-ipaddresses'
-rescue LoadError
-  puts 'IP Address test requires jpmobile-ipaddresses module'
-end
-begin
-  require File.dirname(__FILE__) + '/../vendor/jpmobile-terminfo/lib/jpmobile-terminfo'
-rescue LoadError
-  puts 'Terminal display information test requires jpmobile-terminfo module'
-end
-
 RSpec.configure do |config|
   config.filter_run focus: true
   config.run_all_when_everything_filtered = true
@@ -27,7 +16,7 @@ end
 
 class UnitApplication
   def initialize(body = nil)
-    @body = Jpmobile::Util.utf8(body || 'Body')
+    @body = body || 'Body'
   end
 
   def call(env)
@@ -53,7 +42,7 @@ end
 class RenderParamApp
   def call(env)
     request = Rack::Request.new(env)
-    q = Jpmobile::Util.utf8(request.params['q'])
+    q = request.params['q']
 
     [200, env, q]
   end
@@ -72,7 +61,6 @@ module Jpmobile::RackHelper
     @request.host = 'www.example.jp'
     @request.session.session_id = 'mysessionid'
   end
-  include Jpmobile::Util
 
   def response_body(res)
     body = case res

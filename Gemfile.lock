@@ -2,8 +2,6 @@ PATH
   remote: .
   specs:
     jpmobile (8.1.0)
-      mail (~> 2.8.0)
-      scanf
 
 GEM
   remote: https://rubygems.org/
@@ -82,8 +80,6 @@ GEM
       securerandom (>= 0.3)
       tzinfo (~> 2.0, >= 2.0.5)
       uri (>= 0.13.1)
-    addressable (2.9.0)
-      public_suffix (>= 2.0.2, < 8.0)
     ast (2.4.3)
     base64 (0.3.0)
     bigdecimal (4.1.2)
@@ -102,12 +98,6 @@ GEM
     ffi (1.17.4-arm64-darwin)
     ffi (1.17.4-x86_64-linux-gnu)
     fileutils (1.8.0)
-    geokit (1.14.0)
-    git (4.3.2)
-      activesupport (>= 5.0)
-      addressable (~> 2.8)
-      process_executer (~> 4.0)
-      rchardet (~> 1.9)
     globalid (1.3.0)
       activesupport (>= 6.1)
     i18n (1.15.2)
@@ -162,8 +152,6 @@ GEM
       prettyprint
     prettyprint (0.2.0)
     prism (1.9.0)
-    process_executer (4.0.4)
-      track_open_instances (~> 0.1)
     pry (0.16.0)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -171,7 +159,6 @@ GEM
     psych (5.4.0)
       date
       stringio
-    public_suffix (7.0.5)
     racc (1.8.1)
     rack (3.2.6)
     rack-session (2.1.2)
@@ -224,7 +211,6 @@ GEM
       parser
       prism
       rbs (>= 1)
-    rchardet (1.10.2)
     rdoc (7.2.0)
       erb
       psych (>= 4.0.0)
@@ -275,7 +261,6 @@ GEM
       rubocop (>= 1.75.0, < 2.0)
       rubocop-ast (>= 1.47.1, < 2.0)
     ruby-progressbar (1.13.0)
-    scanf (1.0.0)
     securerandom (0.4.1)
     simplecov (0.22.0)
       docile (~> 1.1)
@@ -306,7 +291,6 @@ GEM
       unicode-display_width (>= 1.1.1, < 4)
     thor (1.5.0)
     timeout (0.6.1)
-    track_open_instances (0.1.15)
     tsort (0.2.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
@@ -329,8 +313,6 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  geokit
-  git
   jpmobile!
   pry
   rails (~> 8.1.0)

@@ -130,6 +130,7 @@ GEM
     minitest (6.0.6)
       drb (~> 2.0)
       prism (~> 1.5)
+    mustermann (3.1.1)
     net-imap (0.6.4.1)
       date
       net-protocol
@@ -148,6 +149,7 @@ GEM
     parser (3.3.11.1)
       ast (~> 2.4.1)
       racc
+    power_assert (3.0.1)
     pp (0.6.3)
       prettyprint
     prettyprint (0.2.0)
@@ -161,6 +163,10 @@ GEM
       stringio
     racc (1.8.1)
     rack (3.2.6)
+    rack-protection (4.2.1)
+      base64 (>= 0.1.0)
+      logger (>= 1.6.0)
+      rack (>= 3.0.0, < 4)
     rack-session (2.1.2)
       base64 (>= 0.1.0)
       rack (>= 3.0.0)
@@ -269,6 +275,13 @@ GEM
     simplecov-html (0.13.2)
     simplecov-lcov (0.9.0)
     simplecov_json_formatter (0.1.4)
+    sinatra (4.2.1)
+      logger (>= 1.6.0)
+      mustermann (~> 3.0)
+      rack (>= 3.0.0, < 4)
+      rack-protection (= 4.2.1)
+      rack-session (>= 2.0.0, < 3)
+      tilt (~> 2.0)
     steep (2.0.0)
       concurrent-ruby (>= 1.1.10)
       csv (>= 3.0.9)
@@ -289,7 +302,10 @@ GEM
     strscan (3.1.8)
     terminal-table (4.0.0)
       unicode-display_width (>= 1.1.1, < 4)
+    test-unit (3.7.8)
+      power_assert
     thor (1.5.0)
+    tilt (2.8.0)
     timeout (0.6.1)
     tsort (0.2.0)
     tzinfo (2.0.6)
@@ -315,6 +331,7 @@ PLATFORMS
 DEPENDENCIES
   jpmobile!
   pry
+  rack-test
   rails (~> 8.1.0)
   rbs
   rbs_rails
@@ -326,7 +343,9 @@ DEPENDENCIES
   simplecov
   simplecov-lcov
   simplecov_json_formatter
+  sinatra
   steep
+  test-unit
 
 BUNDLED WITH
   4.0.14

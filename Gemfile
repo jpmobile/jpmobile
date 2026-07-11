@@ -18,7 +18,10 @@ group :development do
 end
 
 group :test do
+  gem 'rack-test'
   gem 'simplecov', require: false
   gem 'simplecov_json_formatter', require: false
   gem 'simplecov-lcov', require: false
+  gem 'sinatra'
+  gem 'test-unit'
 end

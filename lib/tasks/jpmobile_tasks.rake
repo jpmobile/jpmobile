@@ -83,7 +83,6 @@ namespace :test do
     t.libs << 'lib'
     t.libs << 'test/sinatra'
     t.pattern = 'test/sinatra/test/*_test.rb'
-    t.verbose = true
   end
 end
 

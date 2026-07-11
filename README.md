@@ -20,6 +20,17 @@ Rails](https://github.com/jpmobile/jpmobile/wiki/Version-:-Jpmobile-vs-Rails)
 なお、フィーチャーフォン(ガラケー)関連の機能(キャリア判別、絵文字・文字コード変換、
 位置情報・端末情報の取得、Trans SID、キャリアメール送受信など)は削除されました。
 
+### 旧バージョンからのアップグレード
+
+フィーチャーフォン関連機能の削除に伴い、以下の設定メソッドも削除されました。
+`config/initializers/jpmobile.rb` などでこれらを呼び出していると `NoMethodError`
+が発生するため、アップグレード時に該当する設定を削除してください。
+
+* `config.jpmobile.mobile_filter`
+* `config.jpmobile.form_accept_charset_conversion`
+* `config.jpmobile.smart_phone_emoticon_compatibility`
+* `config.jpmobile.session_store`
+
 ## インストール
 ### gemでインストールする場合
 ```shell

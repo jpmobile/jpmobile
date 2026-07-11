@@ -28,5 +28,5 @@ namespace :rbs do
   task :all => [:validate, :check]
 end
 
-task :test => ['spec:unit', 'spec:rack', 'test:rails']
+task :test => ['spec:unit', 'spec:rack', 'test:sinatra', 'test:rails']
 load 'lib/tasks/jpmobile_tasks.rake'

@@ -3,8 +3,6 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in jpmobile.gemspec
 gemspec
 
-gem 'geokit'
-gem 'git'
 gem 'pry'
 gem 'rails', '~> 8.1.0'
 gem 'rspec'
@@ -20,7 +18,10 @@ group :development do
 end
 
 group :test do
+  gem 'rack-test'
   gem 'simplecov', require: false
   gem 'simplecov_json_formatter', require: false
   gem 'simplecov-lcov', require: false
+  gem 'sinatra'
+  gem 'test-unit'
 end

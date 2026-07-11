@@ -3,6 +3,10 @@ require 'rails_helper'
 describe MobileSpecController, type: :controller do
   render_views
 
+  let(:iphone_user_agent) do
+    'Mozilla/5.0 (iPhone; U; CPU iPhone OS 3_0 like Mac OS X; ja-jp) AppleWebKit/528.18 (KHTML, like Gecko) Version/4.0 Mobile/7A341 Safari/528.16'
+  end
+
   describe "GET 'index'" do
     context 'PC access' do
       it 'should be successful' do
@@ -10,19 +14,19 @@ describe MobileSpecController, type: :controller do
         get 'index'
 
         expect(response).to be_successful
-        expect(response.body).to match(/RailsRoot PC/)
-        expect(request.mobile?).to be_falsey
+        expect(response.body).to match(/PC page/)
+        expect(request.smart_phone?).to be_falsey
       end
     end
 
-    context 'mobile access' do
+    context 'smart phone access' do
       it 'should be successful' do
-        request.user_agent = 'DoCoMo/2.0 SH902i(c100;TB;W24H12)'
+        request.user_agent = iphone_user_agent
         get 'index'
         expect(response).to be_successful
-        expect(response.body).to match(/RailsRoot mobile/)
-        expect(request.mobile?).to be_truthy
-        expect(request.mobile).to be_a(Jpmobile::Mobile::Docomo)
+        expect(response.body).to match(/smart phone page/)
+        expect(request.smart_phone?).to be_truthy
+        expect(request.mobile).to be_a(Jpmobile::Mobile::Iphone)
       end
     end
   end
@@ -35,19 +39,19 @@ describe MobileSpecController, type: :controller do
 
         expect(response).to be_successful
         expect(response.body).to match('The change you wanted was rejected')
-        expect(request.mobile?).to be_falsey
+        expect(request.smart_phone?).to be_falsey
       end
     end
 
-    context 'mobile access' do
+    context 'smart phone access' do
       it 'should be successful' do
-        request.user_agent = 'DoCoMo/2.0 SH902i(c100;TB;W24H12)'
+        request.user_agent = iphone_user_agent
         get 'file_render'
 
         expect(response).to be_successful
         expect(response.body).to match('The change you wanted was rejected')
-        expect(request.mobile?).to be_truthy
-        expect(request.mobile).to be_a(Jpmobile::Mobile::Docomo)
+        expect(request.smart_phone?).to be_truthy
+        expect(request.mobile).to be_a(Jpmobile::Mobile::Iphone)
       end
     end
   end
@@ -68,17 +72,17 @@ describe MobileSpecController, type: :controller do
         get 'mobile_not_exist'
 
         expect(response).to be_successful
-        expect(response.body).not_to match('RailsRoot PC mobile')
+        expect(response.body).to match('PC mobile_not_exist')
       end
     end
 
-    context 'mobile access' do
+    context 'smart phone access' do
       it 'should be successful' do
-        request.user_agent = 'DoCoMo/2.0 SH902i(c100;TB;W24H12)'
+        request.user_agent = iphone_user_agent
         get 'mobile_not_exist'
 
         expect(response).to be_successful
-        expect(response.body).not_to match('RailsRoot mobile')
+        expect(response.body).to match('PC mobile_not_exist')
       end
     end
   end

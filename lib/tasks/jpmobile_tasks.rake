@@ -43,51 +43,9 @@ namespace :test do
       FileUtils.cp_r(file, plugin_path)
     end
 
-    # setup jpmobile-ipaddresses
-    begin
-      plugin_path = File.join(rails_root, 'vendor', 'jpmobile-ipaddresses')
-      FileUtils.mkdir_p(plugin_path)
-      FileList['vendor/jpmobile-ipaddresses/*'].exclude('test').each do |file|
-        FileUtils.cp_r(file, plugin_path)
-      end
-    rescue LoadError
-      puts 'IP Address test requires jpmobile-ipaddresses module'
-    end
-
-    # setup jpmobile-terminfo
-    begin
-      plugin_path = File.join(rails_root, 'vendor', 'jpmobile-terminfo')
-      FileUtils.mkdir_p(plugin_path)
-      FileList['vendor/jpmobile-terminfo/*'].exclude('test').each do |file|
-        FileUtils.cp_r(file, plugin_path)
-      end
-    rescue LoadError
-      puts 'Terminal display information test requires jpmobile-terminfo module'
-    end
-
-    # setup activerecord-session_store
-    begin
-      plugin_path = File.join(rails_root, 'vendor', 'activerecord-session_store')
-      FileUtils.mkdir_p(plugin_path)
-      FileList['../activerecord-session_store/*'].exclude('test').each do |file|
-        FileUtils.cp_r(file, plugin_path)
-      end
-    rescue LoadError
-      puts 'Terminal display information test requires jpmobile-terminfo module'
-    end
-
     # setup tests
     FileList['test/rails/overrides/*'].each do |file|
       FileUtils.cp_r(file, rails_root)
-    end
-
-    unless skip
-      # for cookie_only option
-      config_path = File.join(rails_root, 'config', 'initializers', 'session_store.rb')
-      File.write(config_path, <<-SESSION_CONFIG)
-        Rails.application.config.session_store :active_record_store, :key => '_session_id'
-        Rails.application.config.session_options = { :cookie_only => false }
-      SESSION_CONFIG
     end
 
     unless skip
@@ -125,7 +83,6 @@ namespace :test do
     t.libs << 'lib'
     t.libs << 'test/sinatra'
     t.pattern = 'test/sinatra/test/*_test.rb'
-    t.verbose = true
   end
 end
 

@@ -276,7 +276,7 @@ GEM
     ruby-progressbar (1.13.0)
     scanf (1.0.0)
     securerandom (0.4.1)
-    simplecov (1.0.3)
+    simplecov (1.1.1)
     simplecov-lcov (0.9.0)
     simplecov_json_formatter (0.1.4)
     steep (2.0.0)

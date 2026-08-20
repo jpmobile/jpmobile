@@ -6,6 +6,7 @@ if ENV['COVERAGE'] && ENV['JPMOBILE_GEM_ROOT']
   SimpleCov.start do
     command_name 'rails'
     track_files 'lib/**/*.rb'
+    # Host-app files cannot be merged with the in-process jpmobile runs.
     add_filter {|src| !src.filename.include?('/vendor/jpmobile/lib/') }
     enable_coverage :branch
     use_merging true

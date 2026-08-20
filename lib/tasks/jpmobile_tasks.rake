@@ -112,8 +112,8 @@ namespace :test do
         system 'bin/rails db:migrate RAILS_ENV=test' unless skip
 
         if ENV['COVERAGE']
-          coverage = File.expand_path('coverage.rb')
-          rubyopt = [ENV.fetch('RUBYOPT', nil), "-r#{coverage}"].compact.join(' ')
+          # bin/rails loads jpmobile before RSpec can require spec_helper, and Coverage cannot recover earlier loads.
+          rubyopt = [ENV.fetch('RUBYOPT', nil), '-r./coverage.rb'].compact.join(' ')
           system(
             { 'JPMOBILE_GEM_ROOT' => gem_root, 'RUBYOPT' => rubyopt },
             'bin/rails spec',
@@ -140,8 +140,16 @@ end
 desc 'Run the full test suite with coverage and emit a merged report'
 task :coverage do
   ENV['COVERAGE'] = '1'
-  Rake::Task['test'].invoke
+
+  test_error = nil
+  begin
+    Rake::Task['test'].invoke
+  rescue => e
+    test_error = e
+  end
+
   Rake::Task['coverage:report'].invoke
+  raise test_error if test_error
 end
 
 namespace :coverage do

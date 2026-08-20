@@ -47,6 +47,7 @@ jobs:
         run: bundle exec rake coverage
 
       - name: Upload coverage
+        if: ${{ always() }}
         uses: actions/upload-artifact@v7
         with:
           name: coverage

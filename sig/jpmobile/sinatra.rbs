@@ -1,6 +1,8 @@
 module Jpmobile
   module Sinatra
     class Base < ::Sinatra::Base
+      def render: (untyped engine, untyped data, ?Hash[untyped, untyped] options, ?Hash[untyped, untyped] locals) ?{ (*untyped) -> untyped } -> untyped
+
       # Calls the given block for every possible template file in views,
       # named name.ext, where ext is registered on engine.
       def find_template: (untyped views, untyped name, untyped engine) { (untyped) -> untyped } -> untyped

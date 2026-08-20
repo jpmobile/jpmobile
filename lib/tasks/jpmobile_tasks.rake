@@ -144,12 +144,20 @@ task :coverage do
   test_error = nil
   begin
     Rake::Task['test'].invoke
-  rescue => e
+  rescue SystemExit, StandardError => e
     test_error = e
   end
 
-  Rake::Task['coverage:report'].invoke
+  report_error = nil
+  begin
+    Rake::Task['coverage:report'].invoke
+  rescue SystemExit, StandardError => e
+    report_error = e
+  end
+
+  warn "Coverage report failed: #{report_error.message}" if test_error && report_error
   raise test_error if test_error
+  raise report_error if report_error
 end
 
 namespace :coverage do

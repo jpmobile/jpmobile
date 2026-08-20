@@ -1,6 +1,8 @@
 if ENV['COVERAGE'] && ENV['JPMOBILE_GEM_ROOT']
-  # Do not preload this bootstrap in Rails child processes.
-  ENV['RUBYOPT'] = ENV.fetch('RUBYOPT', '').delete_suffix('-r./coverage.rb').rstrip
+  # Descendants would overwrite the Rails resultset with nearly empty coverage under the same command name.
+  require 'shellwords'
+  rubyopt = Shellwords.split(ENV.fetch('RUBYOPT', '')).reject {|option| option == '-r./coverage.rb' }
+  ENV['RUBYOPT'] = Shellwords.join(rubyopt)
   ENV.delete('RUBYOPT') if ENV['RUBYOPT'].empty?
 
   require 'simplecov'

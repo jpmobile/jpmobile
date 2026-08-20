@@ -44,4 +44,12 @@ jobs:
         run: bundle exec steep check
 
       - name: Run tests
-        run: bundle exec rake test
+        run: bundle exec rake coverage
+
+      - name: Upload coverage
+        uses: actions/upload-artifact@v7
+        with:
+          name: coverage
+          path: |
+            coverage/lcov.info
+            coverage/coverage.json

@@ -108,12 +108,20 @@ namespace :test do
 
         ENV.update('RBENV_VERSION' => nil)
         ENV.update('RBENV_DIR' => nil)
-        # Let the app's SimpleCov write results back into the gem's coverage dir.
-        ENV.update('JPMOBILE_GEM_ROOT' => gem_root) if ENV['COVERAGE']
-
         system 'bundle install'
         system 'bin/rails db:migrate RAILS_ENV=test' unless skip
-        system 'bin/rails spec', exception: true
+
+        if ENV['COVERAGE']
+          coverage = File.expand_path('coverage.rb')
+          rubyopt = [ENV.fetch('RUBYOPT', nil), "-r#{coverage}"].compact.join(' ')
+          system(
+            { 'JPMOBILE_GEM_ROOT' => gem_root, 'RUBYOPT' => rubyopt },
+            'bin/rails spec',
+            exception: true,
+          )
+        else
+          system 'bin/rails spec', exception: true
+        end
 
         ENV.replace(original_env)
       end

@@ -41,13 +41,19 @@ class SinatraOnJpmobile < Test::Unit::TestCase
     assert_equal last_response.body, utf8_to_sjis('けーたい')
   end
 
-  def test_view_selector_pc
+  def test_view_selector_pc_then_mobile
     get '/top', {}, { 'HTTP_USER_AGENT' => 'Mozilla' }
     assert_equal 'PC', last_response.body.strip
-  end
 
-  def test_view_selector_mobile
     get '/top', {}, { 'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH902i(c100;TB;W24H12)' }
     assert_equal 'MOBILE', last_response.body.strip
+  end
+
+  def test_view_selector_mobile_then_pc
+    get '/top', {}, { 'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH902i(c100;TB;W24H12)' }
+    assert_equal 'MOBILE', last_response.body.strip
+
+    get '/top', {}, { 'HTTP_USER_AGENT' => 'Mozilla' }
+    assert_equal 'PC', last_response.body.strip
   end
 end

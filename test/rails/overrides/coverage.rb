@@ -1,4 +1,8 @@
 if ENV['COVERAGE'] && ENV['JPMOBILE_GEM_ROOT']
+  # Do not preload this bootstrap in Rails child processes.
+  ENV['RUBYOPT'] = ENV.fetch('RUBYOPT', '').delete_suffix('-r./coverage.rb').rstrip
+  ENV.delete('RUBYOPT') if ENV['RUBYOPT'].empty?
+
   require 'simplecov'
 
   SimpleCov.root(File.expand_path('vendor/jpmobile', __dir__))

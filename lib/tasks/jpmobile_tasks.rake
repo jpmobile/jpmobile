@@ -108,12 +108,20 @@ namespace :test do
 
         ENV.update('RBENV_VERSION' => nil)
         ENV.update('RBENV_DIR' => nil)
-        # Let the app's SimpleCov write results back into the gem's coverage dir.
-        ENV.update('JPMOBILE_GEM_ROOT' => gem_root) if ENV['COVERAGE']
-
         system 'bundle install'
         system 'bin/rails db:migrate RAILS_ENV=test' unless skip
-        system 'bin/rails spec', exception: true
+
+        if ENV['COVERAGE']
+          # bin/rails loads jpmobile before RSpec can require spec_helper, and Coverage cannot recover earlier loads.
+          rubyopt = [ENV.fetch('RUBYOPT', nil), '-r./coverage.rb'].compact.join(' ')
+          system(
+            { 'JPMOBILE_GEM_ROOT' => gem_root, 'RUBYOPT' => rubyopt },
+            'bin/rails spec',
+            exception: true,
+          )
+        else
+          system 'bin/rails spec', exception: true
+        end
 
         ENV.replace(original_env)
       end
@@ -132,8 +140,24 @@ end
 desc 'Run the full test suite with coverage and emit a merged report'
 task :coverage do
   ENV['COVERAGE'] = '1'
-  Rake::Task['test'].invoke
-  Rake::Task['coverage:report'].invoke
+
+  test_error = nil
+  begin
+    Rake::Task['test'].invoke
+  rescue SystemExit, StandardError => e
+    test_error = e
+  end
+
+  report_error = nil
+  begin
+    Rake::Task['coverage:report'].invoke
+  rescue SystemExit, StandardError => e
+    report_error = e
+  end
+
+  warn "Coverage report failed: #{report_error.message}" if test_error && report_error
+  raise test_error if test_error
+  raise report_error if report_error
 end
 
 namespace :coverage do

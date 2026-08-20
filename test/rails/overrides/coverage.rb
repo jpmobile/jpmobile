@@ -1,8 +1,6 @@
 if ENV['COVERAGE'] && ENV['JPMOBILE_GEM_ROOT']
   # Descendants would overwrite the Rails resultset with nearly empty coverage under the same command name.
-  require 'shellwords'
-  rubyopt = Shellwords.split(ENV.fetch('RUBYOPT', '')).reject {|option| option == '-r./coverage.rb' }
-  ENV['RUBYOPT'] = Shellwords.join(rubyopt)
+  ENV['RUBYOPT'] = ENV.fetch('RUBYOPT', '').split.reject {|option| option == '-r./coverage.rb' }.join(' ')
   ENV.delete('RUBYOPT') if ENV['RUBYOPT'].empty?
 
   require 'simplecov'

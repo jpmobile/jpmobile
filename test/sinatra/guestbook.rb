@@ -1,7 +1,6 @@
 require 'rubygems'
 require 'sinatra'
 require File.join(File.dirname(__FILE__), '../../lib/jpmobile')
-require 'jpmobile/rack'
 require 'singleton'
 
 require 'jpmobile/sinatra'
@@ -13,9 +12,11 @@ class SinatraTestHelper
 end
 
 class Guestbook < Jpmobile::Sinatra::Base
-  use Jpmobile::Rack::MobileCarrier
-  use Jpmobile::Rack::ParamsFilter
-  use Jpmobile::Rack::Filter
+  set :environment, :test
+
+  use Jpmobile::MobileCarrier
+  use Jpmobile::ParamsFilter
+  use Jpmobile::Filter
 
   def call(env)
     _dup = dup

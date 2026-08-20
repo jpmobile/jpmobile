@@ -1,3 +1,8 @@
+if ENV['COVERAGE']
+  require_relative '../../../spec/support/coverage'
+  JpmobileCoverage.start('sinatra')
+end
+
 require 'guestbook'
 require 'rack/test'
 require 'test/unit'

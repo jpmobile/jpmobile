@@ -50,5 +50,5 @@ namespace :test do
   end
 end
 
-task :test => ['test:prepare', 'spec:unit', 'spec:rack', 'test:rails']
+task :test => ['test:prepare', 'spec:unit', 'spec:rack', 'test:sinatra', 'test:rails']
 load 'lib/tasks/jpmobile_tasks.rake'

@@ -102,6 +102,7 @@ namespace :test do
 
     # run tests in rails
     gem_root = Dir.pwd
+    coverage = ENV.fetch('COVERAGE', nil)
     Dir.chdir(rails_root) do
       Bundler.with_unbundled_env do
         original_env = ENV.to_hash
@@ -111,11 +112,16 @@ namespace :test do
         system 'bundle install'
         system 'bin/rails db:migrate RAILS_ENV=test' unless skip
 
-        if ENV['COVERAGE']
+        if coverage
           # bin/rails loads jpmobile before RSpec can require spec_helper, and Coverage cannot recover earlier loads.
           rubyopt = [ENV.fetch('RUBYOPT', nil), '-r./coverage.rb'].compact.join(' ')
           system(
-            { 'JPMOBILE_GEM_ROOT' => gem_root, 'RUBYOPT' => rubyopt },
+            {
+              'COVERAGE' => coverage,
+              'JPMOBILE_COVERAGE_LAUNCHER' => '1',
+              'JPMOBILE_GEM_ROOT' => gem_root,
+              'RUBYOPT' => rubyopt,
+            },
             'bin/rails spec',
             exception: true,
           )

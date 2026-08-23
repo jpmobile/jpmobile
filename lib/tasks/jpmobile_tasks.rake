@@ -102,6 +102,7 @@ namespace :test do
 
     # run tests in rails
     gem_root = Dir.pwd
+    coverage = ENV.fetch('COVERAGE', nil)
     Dir.chdir(rails_root) do
       Bundler.with_unbundled_env do
         original_env = ENV.to_hash
@@ -111,11 +112,16 @@ namespace :test do
         system 'bundle install'
         system 'bin/rails db:migrate RAILS_ENV=test' unless skip
 
-        if ENV['COVERAGE']
+        if coverage
           # bin/rails loads jpmobile before RSpec can require spec_helper, and Coverage cannot recover earlier loads.
           rubyopt = [ENV.fetch('RUBYOPT', nil), '-r./coverage.rb'].compact.join(' ')
           system(
-            { 'JPMOBILE_GEM_ROOT' => gem_root, 'RUBYOPT' => rubyopt },
+            {
+              'COVERAGE' => coverage,
+              'JPMOBILE_COVERAGE_LAUNCHER' => '1',
+              'JPMOBILE_GEM_ROOT' => gem_root,
+              'RUBYOPT' => rubyopt,
+            },
             'bin/rails spec',
             exception: true,
           )
@@ -140,12 +146,64 @@ end
 desc 'Run the full test suite with coverage and emit a merged report'
 task :coverage do
   ENV['COVERAGE'] = '1'
+  coverage_started_at = Time.now
 
   test_error = nil
   begin
     Rake::Task['test'].invoke
   rescue SystemExit, StandardError => e
     test_error = e
+  end
+
+  coverage_error = nil
+  unless test_error
+    require 'json'
+
+    rails_result = File.join(Dir.pwd, 'coverage', 'rails', '.resultset.json')
+    rails_mtime = File.mtime(rails_result) if File.exist?(rails_result)
+    problems = []
+    problems << 'result is missing' unless rails_mtime
+    problems << 'result is stale' if rails_mtime && rails_mtime < coverage_started_at
+
+    if rails_mtime
+      begin
+        parsed = JSON.parse(File.read(rails_result))
+        if parsed.is_a?(Hash)
+          rails_data = parsed
+        else
+          problems << "result is #{parsed.class}, expected a JSON object"
+        end
+      rescue JSON::ParserError => e
+        problems << "result is invalid JSON (#{e.message})"
+      rescue SystemCallError => e
+        problems << "result could not be read (#{e.class}: #{e.message})"
+      end
+    end
+
+    rails_commands = rails_data&.keys
+    if rails_data
+      rails_command = rails_data['rails']
+      if !rails_data.has_key?('rails')
+        problems << 'command "rails" is missing'
+      elsif !rails_command.is_a?(Hash)
+        problems << "command \"rails\" is #{rails_command.class}, expected a JSON object"
+      else
+        rails_timestamp = rails_command['timestamp']
+        rails_recorded_at = Time.at(rails_timestamp) if rails_timestamp.is_a?(Numeric)
+        problems << 'command "rails" timestamp is missing' unless rails_recorded_at
+        problems << 'command "rails" is stale' if rails_recorded_at && rails_recorded_at < coverage_started_at
+        problems << 'command "rails" coverage is not a JSON object' unless rails_command['coverage'].is_a?(Hash)
+      end
+    end
+
+    unless problems.empty?
+      coverage_error = RuntimeError.new(
+        "Rails coverage validation failed (#{problems.join(", ")}): " \
+        "path=#{rails_result}, started_at=#{coverage_started_at}, " \
+        "mtime=#{rails_mtime || "missing"}, commands=#{rails_commands || "unavailable"}, " \
+        "rails_recorded_at=#{rails_recorded_at || "missing"}",
+      )
+    end
   end
 
   report_error = nil
@@ -155,8 +213,9 @@ task :coverage do
     report_error = e
   end
 
-  warn "Coverage report failed: #{report_error.message}" if test_error && report_error
-  raise test_error if test_error
+  primary_error = test_error || coverage_error
+  warn "Coverage report failed: #{report_error.message}" if primary_error && report_error
+  raise primary_error if primary_error
   raise report_error if report_error
 end
 

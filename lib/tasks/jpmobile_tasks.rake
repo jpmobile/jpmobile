@@ -155,10 +155,31 @@ task :coverage do
     test_error = e
   end
 
-  if test_error.nil?
+  coverage_error = nil
+  unless test_error
+    require 'json'
+
     rails_result = File.join(Dir.pwd, 'coverage', 'rails', '.resultset.json')
-    unless File.exist?(rails_result) && File.mtime(rails_result) >= coverage_started_at
-      raise 'Rails coverage was not collected by this run; an existing result may be stale'
+    rails_mtime = File.mtime(rails_result) if File.exist?(rails_result)
+    rails_data = JSON.parse(File.read(rails_result)) if rails_mtime
+    rails_commands = rails_data&.keys
+    rails_timestamp = rails_data&.dig('rails', 'timestamp')
+    rails_recorded_at = Time.at(rails_timestamp) if rails_timestamp.is_a?(Numeric)
+
+    problems = []
+    problems << 'result is missing' unless rails_mtime
+    problems << 'result is stale' if rails_mtime && rails_mtime < coverage_started_at
+    problems << 'command "rails" is missing' if rails_commands && !rails_commands.include?('rails')
+    problems << 'command "rails" timestamp is missing' if rails_commands&.include?('rails') && !rails_recorded_at
+    problems << 'command "rails" is stale' if rails_recorded_at && rails_recorded_at < coverage_started_at
+
+    unless problems.empty?
+      coverage_error = RuntimeError.new(
+        "Rails coverage validation failed (#{problems.join(", ")}): " \
+        "path=#{rails_result}, started_at=#{coverage_started_at}, " \
+        "mtime=#{rails_mtime || "missing"}, commands=#{rails_commands || "unavailable"}, " \
+        "rails_recorded_at=#{rails_recorded_at || "missing"}",
+      )
     end
   end
 
@@ -169,8 +190,9 @@ task :coverage do
     report_error = e
   end
 
-  warn "Coverage report failed: #{report_error.message}" if test_error && report_error
-  raise test_error if test_error
+  primary_error = test_error || coverage_error
+  warn "Coverage report failed: #{report_error.message}" if primary_error && report_error
+  raise primary_error if primary_error
   raise report_error if report_error
 end
 

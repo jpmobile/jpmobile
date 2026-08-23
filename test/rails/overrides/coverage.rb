@@ -2,6 +2,7 @@ gem_root = ENV.fetch('JPMOBILE_GEM_ROOT', nil)
 if ENV.fetch('COVERAGE', nil) && gem_root
   launcher = ENV.delete('JPMOBILE_COVERAGE_LAUNCHER')
   unless launcher
+    # RSpec runs in a child Ruby; strip here so that child is covered but its descendants are not.
     ENV['RUBYOPT'] = ENV.fetch('RUBYOPT', '').split.reject {|option| option == '-r./coverage.rb' }.join(' ')
     ENV.delete('RUBYOPT') if ENV['RUBYOPT'].empty?
   end

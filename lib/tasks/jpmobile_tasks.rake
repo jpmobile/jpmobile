@@ -175,6 +175,8 @@ task :coverage do
         end
       rescue JSON::ParserError => e
         problems << "result is invalid JSON (#{e.message})"
+      rescue SystemCallError => e
+        problems << "result could not be read (#{e.class}: #{e.message})"
       end
     end
 

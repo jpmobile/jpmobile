@@ -5,6 +5,7 @@ module Jpmobile
         def initialize: (untyped views, Array[untyped] variants) -> void
         def to_path: () -> String
         alias to_str to_path
+        alias to_s to_path
         def hash: () -> Integer
         def eql?: (untyped other) -> bool
 

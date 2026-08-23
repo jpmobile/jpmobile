@@ -12,6 +12,7 @@ module Jpmobile
         end
 
         alias_method :to_str, :to_path
+        alias_method :to_s, :to_path
 
         def hash
           [path, variants].hash
@@ -31,7 +32,7 @@ module Jpmobile
         variants = env['rack.jpmobile']&.variants
         # Sinatra caches symbol templates without including the path selected by find_template.
         if variants&.any?
-          views = options.fetch(:views) { settings.views || './views' }
+          views = options[:views] || settings.views || './views'
           options = options.merge(views: VariantViews.new(views, variants.dup.freeze))
         end
         super

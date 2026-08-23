@@ -1,6 +1,21 @@
 module Jpmobile
   module Sinatra
     class Base < ::Sinatra::Base
+      class VariantViews
+        def initialize: (untyped views, Array[untyped] variants) -> void
+        def to_path: () -> String
+        alias to_str to_path
+        alias to_s to_path
+        def hash: () -> Integer
+        def eql?: (untyped other) -> bool
+
+        protected
+        attr_reader path: String
+        attr_reader variants: Array[untyped]
+      end
+
+      def render: (untyped engine, untyped data, ?Hash[untyped, untyped] options, ?Hash[untyped, untyped] locals) ?{ (*untyped) -> untyped } -> untyped
+
       # Calls the given block for every possible template file in views,
       # named name.ext, where ext is registered on engine.
       def find_template: (untyped views, untyped name, untyped engine) { (untyped) -> untyped } -> untyped

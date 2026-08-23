@@ -146,12 +146,20 @@ end
 desc 'Run the full test suite with coverage and emit a merged report'
 task :coverage do
   ENV['COVERAGE'] = '1'
+  coverage_started_at = Time.now
 
   test_error = nil
   begin
     Rake::Task['test'].invoke
   rescue SystemExit, StandardError => e
     test_error = e
+  end
+
+  if test_error.nil?
+    rails_result = File.join(Dir.pwd, 'coverage', 'rails', '.resultset.json')
+    unless File.exist?(rails_result) && File.mtime(rails_result) >= coverage_started_at
+      raise 'Rails coverage was not collected by this run; an existing result may be stale'
+    end
   end
 
   report_error = nil

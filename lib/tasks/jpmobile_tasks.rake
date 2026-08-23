@@ -161,17 +161,38 @@ task :coverage do
 
     rails_result = File.join(Dir.pwd, 'coverage', 'rails', '.resultset.json')
     rails_mtime = File.mtime(rails_result) if File.exist?(rails_result)
-    rails_data = JSON.parse(File.read(rails_result)) if rails_mtime
-    rails_commands = rails_data&.keys
-    rails_timestamp = rails_data&.dig('rails', 'timestamp')
-    rails_recorded_at = Time.at(rails_timestamp) if rails_timestamp.is_a?(Numeric)
-
     problems = []
     problems << 'result is missing' unless rails_mtime
     problems << 'result is stale' if rails_mtime && rails_mtime < coverage_started_at
-    problems << 'command "rails" is missing' if rails_commands && !rails_commands.include?('rails')
-    problems << 'command "rails" timestamp is missing' if rails_commands&.include?('rails') && !rails_recorded_at
-    problems << 'command "rails" is stale' if rails_recorded_at && rails_recorded_at < coverage_started_at
+
+    if rails_mtime
+      begin
+        parsed = JSON.parse(File.read(rails_result))
+        if parsed.is_a?(Hash)
+          rails_data = parsed
+        else
+          problems << "result is #{parsed.class}, expected a JSON object"
+        end
+      rescue JSON::ParserError => e
+        problems << "result is invalid JSON (#{e.message})"
+      end
+    end
+
+    rails_commands = rails_data&.keys
+    if rails_data
+      rails_command = rails_data['rails']
+      if !rails_data.has_key?('rails')
+        problems << 'command "rails" is missing'
+      elsif !rails_command.is_a?(Hash)
+        problems << "command \"rails\" is #{rails_command.class}, expected a JSON object"
+      else
+        rails_timestamp = rails_command['timestamp']
+        rails_recorded_at = Time.at(rails_timestamp) if rails_timestamp.is_a?(Numeric)
+        problems << 'command "rails" timestamp is missing' unless rails_recorded_at
+        problems << 'command "rails" is stale' if rails_recorded_at && rails_recorded_at < coverage_started_at
+        problems << 'command "rails" coverage is not a JSON object' unless rails_command['coverage'].is_a?(Hash)
+      end
+    end
 
     unless problems.empty?
       coverage_error = RuntimeError.new(

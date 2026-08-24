@@ -255,3 +255,17 @@ describe TemplatePathController, 'integrated_views', type: :request do
     end
   end
 end
+
+describe Jpmobile::Resolver::PathParser do
+  it 'locale と variant を持ち format と handler を省略したテンプレート名を解釈すること' do
+    parsed_path = described_class.new.parse('template_path/index.en+tablet')
+
+    aggregate_failures do
+      expect(parsed_path.path.to_s).to eq('template_path/index')
+      expect(parsed_path.details.locale).to eq(:en)
+      expect(parsed_path.details.variant).to eq(:tablet)
+      expect(parsed_path.details.format).to be_nil
+      expect(parsed_path.details.handler).to be_nil
+    end
+  end
+end

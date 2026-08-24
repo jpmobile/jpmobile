@@ -24,6 +24,13 @@ describe LinksController, type: :controller do
   end
 
   context 'docomo で' do
+    it '直接指定した callback URL への FOMA GPS リンクだけを生成すること' do
+      request.user_agent = 'DoCoMo/2.0 SH903i(c100;TB;W24H16)'
+      links = get_href_and_texts(controller.view_context.get_position_link_to('現在地を送信', 'https://jpmobile.info/positions'))
+
+      expect(links.map {|text, _, path,| [text, path] }).to eq([['現在地を送信', 'https://jpmobile.info/positions']])
+    end
+
     it 'get_position_link_to が正常に表示されること' do
       request.user_agent = 'DoCoMo/2.0 SH903i(c100;TB;W24H16)'
       get :link
@@ -77,6 +84,12 @@ describe LinksController, type: :controller do
   end
 
   context 'au で' do
+    it 'GPS と簡易位置情報のどちらにも対応しない端末には測位リンクを生成しないこと' do
+      request.user_agent = 'KDDI-PT21 UP.Browser/6.2.0.5 (GUI) MMP/2.0'
+
+      expect(controller.view_context.get_position_link_to('現在地を送信', controller: 'links', action: 'link')).to be_empty
+    end
+
     # get_position_link_to(自動判別), au, location only
     def test_get_position_link_to_au_location_only
       request.user_agent = 'KDDI-SN26 UP.Browser/6.2.0.6.2 (GUI) MMP/2.0'

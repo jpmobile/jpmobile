@@ -32,6 +32,9 @@ RailsRoot::Application.routes.draw do
       redirect_path
       redirect_path_admin
       redirect_action
+      redirect_with_query
+      redirect_with_session
+      redirect_action_with_session
     ].each do |a|
       get "#{c}/#{a}", to: "#{c}##{a}"
     end

@@ -14,6 +14,18 @@ class TransSidBaseController < ApplicationController
     redirect_to('/')
   end
 
+  def redirect_with_query
+    redirect_to('/destination?source=mobile')
+  end
+
+  def redirect_with_session
+    redirect_to('/destination?_session_id=preserved')
+  end
+
+  def redirect_action_with_session
+    redirect_to(action: 'form', _session_id: 'preserved')
+  end
+
   def session_init
     session[:jpmobile] = 'everyleaf'
     @user = User.find_by_id(1)

@@ -140,6 +140,24 @@ describe 'trans_sid functional', type: :request do
       expect(controller.trans_sid_mode).to eq(:always)
     end
     it_should_behave_like 'trans_sid が起動するとき'
+
+    it '既存の query を保ったままセッション ID を redirect URL に追加すること' do
+      res = get_with_session(@controller, 'redirect_with_query', @user_agent)
+
+      expect(res.response.header['Location']).to match(%r{/destination\?source=mobile&_session_id=[a-zA-Z0-9]{32}$})
+    end
+
+    it 'セッション ID を含む redirect URL を上書きしないこと' do
+      res = get_with_session(@controller, 'redirect_with_session', @user_agent)
+
+      expect(res.response.header['Location']).to end_with('/destination?_session_id=preserved')
+    end
+
+    it 'セッション ID を含む redirect options を上書きしないこと' do
+      res = get_with_session(@controller, 'redirect_action_with_session', @user_agent)
+
+      expect(res.response.header['Location']).to end_with('/trans_sid_always/form?_session_id=preserved')
+    end
   end
 
   describe TransSidMetalController, 'という ActionController::Metal のコントローラ' do
@@ -199,5 +217,30 @@ describe 'trans_sid functional', type: :request do
 
   describe_mobile_with_ua 'Vodafone/1.0/V903T/TJ001 Browser/VF-Browser/1.0 Profile/MIDP-2.0 Configuration/CLDC-1.1 Ext-J-Profile/JSCL-1.2.2 Ext-V-Profile/VSCL-2.0.0', 'UTF-8' do
     it_should_behave_like 'trans_sid が起動しないとき'
+  end
+end
+
+describe Jpmobile::ParamsOverCookie do
+  let(:extractor_class) do
+    Class.new do
+      include Jpmobile::ParamsOverCookie
+
+      def initialize(key, cookie_only:)
+        @key = key
+        @cookie_only = cookie_only
+      end
+    end
+  end
+
+  it 'Cookie 専用でなければ URL のセッション ID を Cookie より優先すること' do
+    request = Rack::Request.new(Rack::MockRequest.env_for('/?_session_id=url-session', 'HTTP_COOKIE' => '_session_id=cookie-session'))
+
+    expect(extractor_class.new('_session_id', cookie_only: false).extract_session_id(request)).to eq('url-session')
+  end
+
+  it 'Cookie 専用なら URL のセッション ID を受け入れないこと' do
+    request = Rack::Request.new(Rack::MockRequest.env_for('/?_session_id=url-session', 'HTTP_COOKIE' => '_session_id=cookie-session'))
+
+    expect(extractor_class.new('_session_id', cookie_only: true).extract_session_id(request)).to eq('cookie-session')
   end
 end

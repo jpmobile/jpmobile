@@ -245,6 +245,24 @@ describe 'Jpmobile::Mail#receive' do
         expect(@mail.body.to_s).to eq("テスト本文\n\n")
       end
     end
+
+    it 'decodes a Q-encoded subject and base64 text body from a carrier mail' do
+      encoded_body = [utf8_to_sjis('ほげ')].pack('m0')
+      raw_mail = <<~MAIL.gsub("\n", "\r\n")
+        From: sender@docomo.ne.jp
+        Subject: =?Shift_JIS?Q?test=20subject?=
+        Content-Type: text/plain; charset=Shift_JIS
+        Content-Transfer-Encoding: base64
+
+        #{encoded_body}
+      MAIL
+
+      mail = Mail.new(raw_mail)
+
+      expect(mail.subject).to eq('test subject')
+      expect(mail.body.to_s).to eq('ほげ')
+      expect(mail.content_transfer_encoding).to eq('8bit')
+    end
   end
 
   describe 'Au' do

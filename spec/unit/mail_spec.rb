@@ -1,4 +1,5 @@
 require File.expand_path(File.join(File.dirname(__FILE__), 'spec_helper'))
+require 'base64'
 require 'mail'
 require 'jpmobile/mail'
 
@@ -41,6 +42,23 @@ describe 'Jpmobile::Mail' do
           expect(subject.parts[1].body.to_s).to eq(ascii_8bit('ほげほげ'))
         end
       end
+    end
+
+    it 'keeps the carrier-selected charset when clearing its mobile' do
+      @mail.charset = nil
+      @mail.mobile = Jpmobile::Mobile::Docomo.new(nil, nil)
+      @mail.mobile = nil
+
+      expect(@mail.charset).to eq('Shift_JIS')
+    end
+
+    it 'keeps address fields valid when carrier conversion is disabled' do
+      @mail.to = 'reader@example.com'
+      @mail[:from].mobile = nil
+      @mail[:to].mobile = nil
+
+      expect(@mail.from).to eq(['info@jpmobile-rails.org'])
+      expect(@mail.to).to eq(['reader@example.com'])
     end
   end
 
@@ -104,6 +122,12 @@ describe 'Jpmobile::Mail' do
 
         expect(@mail.to_s).to match(Regexp.escape('=?Shift_JIS?B?lpyXdPif?='))
         expect(@mail.to_s).to match(sjis_regexp("\xF8\x9F"))
+      end
+
+      it 'should not encode an already encoded carrier subject again' do
+        @mail.subject = '=?Shift_JIS?B?lpyXdA==?='
+
+        expect(@mail.encoded.scan('=?Shift_JIS?B?lpyXdA==?=').size).to eq(1)
       end
     end
   end
@@ -311,6 +335,35 @@ describe 'Jpmobile::Mail' do
         @mail.to_s
       }.not_to raise_error
     end
+
+    it 'makes a raw non-ASCII Content-Type name safe for a MIME header' do
+      part = Mail::Part.new
+      part.content_type = 'image/jpeg; name="日本語.jpg"'
+
+      expect(part.header['Content-Type'].parameters['name']).to eq(Base64.strict_encode64('日本語.jpg'))
+    end
+
+    it 'makes a raw non-ASCII Content-Disposition filename safe for a MIME header' do
+      part = Mail::Part.new
+      part.content_disposition = 'attachment; filename="日本語.jpg"'
+
+      expect(part.header['Content-Disposition'].parameters['filename']).to eq(Base64.strict_encode64('日本語.jpg'))
+    end
+
+    it 'preserves an ASCII Content-Location filename' do
+      part = Mail::Part.new
+      part.content_location = 'image.jpg'
+
+      expect(part.content_location).to eq('image.jpg')
+    end
+  end
+
+  context 'header charset' do
+    it 'decodes ISO-2022-JP optional fields into UTF-8' do
+      field = Mail::OptionalField.new('X-Test', 'value', 'ISO-2022-JP')
+
+      expect(field.charset).to eq('UTF-8')
+    end
   end
 
   context 'encoding conversion' do
@@ -331,6 +384,18 @@ describe 'Jpmobile::Mail' do
       @mail.body = "10:00#{[0xff5e].pack("U")}12:00"
 
       expect(ascii_8bit(@mail.to_s)).to match(Regexp.compile(Regexp.escape(ascii_8bit("\x31\x30\x3a\x30\x30\x1b\x24\x42\x21\x41\x1b\x28\x42\x31\x32\x3a\x30\x30"))))
+    end
+
+    it 'decodes a transfer-encoded carrier text body when assigning its mobile' do
+      body = Mail::Body.new([utf8_to_sjis('ほげ')].pack('m0'))
+      body.encoding = 'base64'
+      body.charset = 'Shift_JIS'
+      body.content_type_with_jpmobile = 'text/plain'
+
+      body.mobile = Jpmobile::Mobile::Docomo.new(nil, nil)
+
+      expect(body.to_s).to eq('ほげ')
+      expect(body.encoding).to eq('7bit')
     end
   end
 

@@ -61,6 +61,28 @@ describe Jpmobile::Emoticon do
     it 'should not convert 〓' do
       expect(Jpmobile::Emoticon.unicodecr_to_external('&#x3013;', Jpmobile::Emoticon::CONVERSION_TABLE_TO_GOOGLE_EMOTICON, false)).to eq('〓')
     end
+
+    it 'should preserve a numeric character reference without a carrier mapping' do
+      expect(Jpmobile::Emoticon.unicodecr_to_external('&#x2600;', Jpmobile::Emoticon::CONVERSION_TABLE_TO_DOCOMO)).to eq('&#x2600;')
+    end
+
+    it 'should preserve a numeric character reference that is not a carrier emoticon' do
+      expect(Jpmobile::Emoticon.unicodecr_to_external('&#x3042;')).to eq('&#x3042;')
+    end
+
+    it 'should preserve geta when no conversion table is specified' do
+      expect(Jpmobile::Emoticon.unicodecr_to_external('&#x3013;')).to eq('〓')
+    end
+
+    it 'should return a carrier emoticon as utf8 when Shift_JIS output is disabled' do
+      expect(Jpmobile::Emoticon.unicodecr_to_external('&#xe63e;', nil, false)).to eq([0xe63e].pack('U'))
+    end
+
+    it 'should use a readable substitute when the target carrier has no equivalent emoticon' do
+      converted = Jpmobile::Emoticon.unicodecr_to_external('&#xe6d1;', Jpmobile::Emoticon::CONVERSION_TABLE_TO_AU)
+
+      expect(converted).to eq(sjis("\x81\x6d\x82\x89\x83\x82\x81\x5b\x83\x68\x81\x6e"))
+    end
   end
 
   describe 'unicodecr_to_utf8' do
@@ -71,6 +93,10 @@ describe Jpmobile::Emoticon do
       expect(Jpmobile::Emoticon.unicodecr_to_utf8('&#xe481;')).to eq(utf8("\356\222\201"))
       # softbank codepoint
       expect(Jpmobile::Emoticon.unicodecr_to_utf8('&#xf001;')).to eq(utf8("\xef\x80\x81"))
+    end
+
+    it 'should preserve a numeric character reference that is not a carrier emoticon' do
+      expect(Jpmobile::Emoticon.unicodecr_to_utf8('&#x2600;')).to eq('&#x2600;')
     end
   end
 
@@ -114,6 +140,14 @@ describe Jpmobile::Emoticon do
       it 'should not convert 〓' do
         expect(Jpmobile::Emoticon.external_to_unicodecr_unicode60('〓')).to eq('〓')
       end
+
+      it 'should convert a keycap sequence as one Unicode 6.0 emoticon' do
+        expect(Jpmobile::Emoticon.external_to_unicodecr_unicode60([0x31, 0x20e3].pack('U*'))).to eq('&#xf21c;')
+      end
+
+      it 'should use geta when a Unicode 6.0 emoticon has no carrier equivalent' do
+        expect(Jpmobile::Emoticon.external_to_unicodecr_unicode60([0x1f301].pack('U'))).to eq('〓')
+      end
     end
 
     context 'at Android emoticon' do
@@ -127,6 +161,10 @@ describe Jpmobile::Emoticon do
 
       it 'should not convert 〓' do
         expect(Jpmobile::Emoticon.external_to_unicodecr_google('〓')).to eq('〓')
+      end
+
+      it 'should use geta when a Google emoticon has no carrier equivalent' do
+        expect(Jpmobile::Emoticon.external_to_unicodecr_google([0xfe00b].pack('U'))).to eq('〓')
       end
     end
   end
@@ -147,6 +185,24 @@ describe Jpmobile::Emoticon do
 
       it 'should not include extra JIS escape sequence between Kanji-code and emoticon' do
         expect(Jpmobile::Emoticon.unicodecr_to_au_email(utf8_to_jis('&#xe481;掲示板'))).to eq(Jpmobile::Util.ascii_8bit("\x1b\x24\x42\x75\x3a\x37\x47\x3C\x28\x48\x44\x1b\x28\x42"))
+      end
+
+      it 'should use a readable substitute when au email has no equivalent emoticon' do
+        expect(Jpmobile::Emoticon.unicodecr_to_au_email('&#xe6a0;')).to eq(ascii_8bit("\x1b\x24\x42\x21\x7b\x1b\x28\x42"))
+      end
+
+      it 'should preserve a numeric character reference without an au mapping' do
+        expect(Jpmobile::Emoticon.unicodecr_to_au_email('&#x2600;')).to eq(ascii_8bit('&#x2600;'))
+      end
+    end
+
+    describe 'softbank' do
+      it 'should use a readable substitute when SoftBank email has no equivalent emoticon' do
+        expect(Jpmobile::Emoticon.unicodecr_to_softbank_email('&#xe644;')).to eq(sjis("\x81\x6d\x96\xb6\x81\x6e"))
+      end
+
+      it 'should preserve a numeric character reference without a SoftBank mapping' do
+        expect(Jpmobile::Emoticon.unicodecr_to_softbank_email('&#x2600;')).to eq('&#x2600;')
       end
     end
   end

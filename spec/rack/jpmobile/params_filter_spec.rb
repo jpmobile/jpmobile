@@ -5,6 +5,17 @@ describe Jpmobile::ParamsFilter do
   include Jpmobile::RackHelper
   include Jpmobile::Util
 
+  it '空の区切りを無視し、値のない query parameter を保持すること' do
+    env = Rack::MockRequest.env_for(
+      '/?name=value&&flag',
+      'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)',
+    )
+
+    _, filtered_env, = Jpmobile::MobileCarrier.new(described_class.new(UnitApplication.new)).call(env)
+
+    expect(filtered_env['QUERY_STRING']).to eq('name=value&flag=')
+  end
+
   context '漢字コード変換' do
     before(:each) do
       @query_params = {

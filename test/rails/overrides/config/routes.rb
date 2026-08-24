@@ -44,6 +44,8 @@ RailsRoot::Application.routes.draw do
     docomo_guid_base
     docomo_guid_always
     docomo_guid_docomo
+    docomo_guid_none
+    docomo_guid_valid_ip
   ].each do |c|
     get "#{c}/link", to: "#{c}#link"
   end

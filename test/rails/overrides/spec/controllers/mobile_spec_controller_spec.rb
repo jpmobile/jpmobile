@@ -24,6 +24,18 @@ describe MobileSpecController, type: :controller do
         expect(request.mobile?).to be_truthy
         expect(request.mobile).to be_a(Jpmobile::Mobile::Docomo)
       end
+
+      it 'uses the mobile view when fallback is enabled' do
+        original_value = Jpmobile.config.fallback_view_selector
+        Jpmobile.config.fallback_view_selector = true
+        request.user_agent = 'DoCoMo/2.0 SH902i(c100;TB;W24H12)'
+
+        get 'index'
+
+        expect(response.body).to match(/RailsRoot mobile/)
+      ensure
+        Jpmobile.config.fallback_view_selector = original_value
+      end
     end
   end
 

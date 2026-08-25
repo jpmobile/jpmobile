@@ -13,6 +13,10 @@ class TemplatePathController < ApplicationController
   def partial
   end
 
+  def partial_only
+    render partial: 'template_path/partial'
+  end
+
   def optioned_index
     render action: 'index'
   end

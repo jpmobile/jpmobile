@@ -81,6 +81,7 @@ RailsRoot::Application.routes.draw do
     with_tblt
     with_ipd
     partial
+    partial_only
   ].each do |a|
     get "template_path/#{a}", to: "template_path##{a}"
   end

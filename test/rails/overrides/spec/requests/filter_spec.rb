@@ -1,11 +1,7 @@
-require 'system_helper'
+require 'rails_helper'
 
 describe 'jpmobile integration spec', type: :request do
   include Jpmobile::Util
-
-  before do
-    page.driver.headers = { 'User-Agent' => user_agent }
-  end
 
   shared_examples_for '文字コードフィルタが動作しているとき' do
     it 'はhtml以外は変換しないこと' do

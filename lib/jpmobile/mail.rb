@@ -632,22 +632,4 @@ module Mail
     alias_method :initialize_without_jpmobile, :initialize
     alias_method :initialize, :initialize_with_jpmobile
   end
-
-  class Sendmail
-    def self.call(path, arguments, destinations, mail)
-      encoded_mail = if mail.respond_to?(:encoded)
-                       mail.encoded
-                     else
-                       mail
-                     end
-      if Jpmobile::Util.jis?(encoded_mail)
-        encoded_mail = Jpmobile::Util.ascii_8bit(encoded_mail)
-      end
-
-      IO.popen("#{path} #{arguments} #{destinations}", 'w+') do |io|
-        io.puts encoded_mail.gsub("\r\r\n", "\n").to_lf
-        io.flush
-      end
-    end
-  end
 end

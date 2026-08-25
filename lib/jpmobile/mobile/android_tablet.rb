@@ -3,8 +3,6 @@
 module Jpmobile::Mobile
   # ==AndroidTablet
   class AndroidTablet < Tablet
-    include Jpmobile::Mobile::GoogleEmoticon
-
     # 対応するUser-Agentの正規表現
     USER_AGENT_REGEXP = Regexp.union(/^(?!.+Mobile).+(?=Android).+$/, /Android.+SC-01C/)
 

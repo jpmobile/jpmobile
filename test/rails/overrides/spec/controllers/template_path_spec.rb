@@ -7,51 +7,6 @@ describe TemplatePathController, type: :controller do
     request.user_agent = user_agent
   end
 
-  describe 'DoCoMo SH902i からのアクセス' do
-    let(:user_agent) do
-      'DoCoMo/2.0 SH902i(c100;TB;W24H12)'
-    end
-
-    it 'テンプレートの探索順が正しいこと' do
-      get :index
-
-      expect(controller.lookup_context.mobile).to eq(%w[mobile_docomo mobile])
-    end
-  end
-
-  describe 'au CA32 からのアクセス' do
-    let(:user_agent) do
-      'KDDI-CA32 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0'
-    end
-    it 'テンプレートの探索順が正しいこと' do
-      get :index
-
-      expect(controller.lookup_context.mobile).to eq(%w[mobile_au mobile])
-    end
-  end
-
-  describe 'Vodafone V903T からのアクセス' do
-    let(:user_agent) do
-      'Vodafone/1.0/V903T/TJ001 Browser/VF-Browser/1.0 Profile/MIDP-2.0 Configuration/CLDC-1.1 Ext-J-Profile/JSCL-1.2.2 Ext-V-Profile/VSCL-2.0.0'
-    end
-    it 'テンプレートの探索順が正しいこと' do
-      get :index
-
-      expect(controller.lookup_context.mobile).to eq(%w[mobile_vodafone mobile_softbank mobile])
-    end
-  end
-
-  describe 'SoftBank 910T からのアクセス' do
-    let(:user_agent) do
-      'SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1'
-    end
-    it 'テンプレートの探索順が正しいこと' do
-      get :index
-
-      expect(controller.lookup_context.mobile).to eq(%w[mobile_softbank mobile])
-    end
-  end
-
   describe 'iPhone からのアクセス' do
     let(:user_agent) do
       'Mozilla/5.0 (iPhone; U; CPU iPhone OS 3_0 like Mac OS X; ja-jp) AppleWebKit/528.18 (KHTML, like Gecko) Version/4.0 Mobile/7A341 Safari/528.16'

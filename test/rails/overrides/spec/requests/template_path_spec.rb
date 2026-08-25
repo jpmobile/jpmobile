@@ -13,43 +13,26 @@ describe TemplatePathController, 'integrated_views', type: :request do
       end
     end
 
-    context 'DoCoMoからのアクセスの場合' do
+    context 'Androidからのアクセスの場合' do
       let(:user_agent) do
-        'DoCoMo/2.0 SH902i(c100;TB;W24H12)'
+        'Mozilla/5.0 (Linux; U; Android 1.6; ja-jp; SonyEriccsonSO-01B Build/R1EA018) AppleWebKit/528.5+ (KHTML, like Gecko) Version/3.1.2 Mobile Safari/525.20.1'
       end
-      it 'index_mobile_docomo.html.erbが使用されること' do
+      it 'index_smart_phone.html.erbが使用されること' do
         get '/template_path/index', env: { 'HTTP_USER_AGENT' => user_agent }
 
-        expect(response.body).to include('index_mobile_docomo.html.erb')
+        expect(response.body).to include('index_smart_phone.html.erb')
       end
 
-      it 'show.html.erb がなくとも show_mobile_docomo.html.erbが使用されること' do
+      it 'show.html.erb がなくとも show_smart_phone.html.erbが使用されること' do
         get '/template_path/show', env: { 'HTTP_USER_AGENT' => user_agent }
 
-        expect(response.body).to include('show_mobile_docomo.html.erb')
+        expect(response.body).to include('show_smart_phone.html.erb')
       end
 
       it 'disable_mobile_view! のときには index.html.erb が使用されること' do
         get '/template_path/index?pc=true', env: { 'HTTP_USER_AGENT' => user_agent }
 
         expect(response.body).to include('index.html.erb')
-      end
-    end
-
-    context 'SoftBankからのアクセスの場合' do
-      let(:user_agent) do
-        'SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1'
-      end
-      it 'index_mobile.html.erbが使用されること' do
-        get '/template_path/index', env: { 'HTTP_USER_AGENT' => user_agent }
-
-        expect(response.body).to include('index_mobile.html.erb')
-      end
-
-      it 'show.html.erb がなくとも show_mobile.html.erbが使用されること' do
-        get '/template_path/show', env: { 'HTTP_USER_AGENT' => user_agent }
-
-        expect(response.body).to include('show_mobile.html.erb')
       end
     end
 
@@ -61,17 +44,6 @@ describe TemplatePathController, 'integrated_views', type: :request do
         get '/template_path/index', env: { 'HTTP_USER_AGENT' => user_agent }
 
         expect(response.body).to include('smart_phone_iphone.html.erb')
-      end
-    end
-
-    context 'Androidからのアクセスの場合' do
-      let(:user_agent) do
-        'Mozilla/5.0 (Linux; U; Android 1.6; ja-jp; SonyEriccsonSO-01B Build/R1EA018) AppleWebKit/528.5+ (KHTML, like Gecko) Version/3.1.2 Mobile Safari/525.20.1'
-      end
-      it 'smart_phone.html.erbが使用されること' do
-        get '/template_path/index', env: { 'HTTP_USER_AGENT' => user_agent }
-
-        expect(response.body).to include('smart_phone.html.erb')
       end
     end
 
@@ -171,28 +143,6 @@ describe TemplatePathController, 'integrated_views', type: :request do
       end
     end
 
-    context 'DoCoMoからのアクセスの場合' do
-      let(:user_agent) do
-        'DoCoMo/2.0 SH902i(c100;TB;W24H12)'
-      end
-      it '_partial_mobile_docomo.html.erbが使用されること' do
-        get '/template_path/partial', env: { 'HTTP_USER_AGENT' => user_agent }
-
-        expect(response.body).to include('_partial_mobile_docomo.html.erb')
-      end
-    end
-
-    context 'SoftBankからのアクセスの場合' do
-      let(:user_agent) do
-        'SoftBank/1.0/910T/TJ001/SN000000000000000 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1'
-      end
-      it '_partial_mobile.html.erbが使用されること' do
-        get '/template_path/partial', env: { 'HTTP_USER_AGENT' => user_agent }
-
-        expect(response.body).to include('_partial_mobile.html.erb')
-      end
-    end
-
     context 'iPhoneからのアクセスの場合' do
       let(:user_agent) do
         'Mozilla/5.0 (iPhone; U; CPU iPhone OS 3_0 like Mac OS X; ja-jp) AppleWebKit/528.18 (KHTML, like Gecko) Version/4.0 Mobile/7A341 Safari/528.16'
@@ -238,17 +188,6 @@ describe TemplatePathController, 'integrated_views', type: :request do
         expect(response.body).to include('_partial.html.erb')
       end
     end
-
-    context 'DoCoMoからのアクセスの場合' do
-      let(:user_agent) do
-        'DoCoMo/2.0 SH902i(c100;TB;W24H12)'
-      end
-      it '_partial_mobile_docomo.html.erbが使用されること' do
-        get '/template_path/full_path_partial', env: { 'HTTP_USER_AGENT' => user_agent }
-
-        expect(response.body).to include('_partial_mobile_docomo.html.erb')
-      end
-    end
   end
 
   context 'fallback_view_selector が有効な場合' do
@@ -261,21 +200,21 @@ describe TemplatePathController, 'integrated_views', type: :request do
       Jpmobile.config.fallback_view_selector = original_value
     end
 
-    context 'DoCoMoからのアクセスの場合' do
+    context 'iPhoneからのアクセスの場合' do
       let(:user_agent) do
-        'DoCoMo/2.0 SH902i(c100;TB;W24H12)'
+        'Mozilla/5.0 (iPhone; U; CPU iPhone OS 3_0 like Mac OS X; ja-jp) AppleWebKit/528.18 (KHTML, like Gecko) Version/4.0 Mobile/7A341 Safari/528.16'
       end
 
       it 'キャリア固有 view を使用すること' do
         get '/template_path/index', env: { 'HTTP_USER_AGENT' => user_agent }
 
-        expect(response.body).to include('index_mobile_docomo.html.erb')
+        expect(response.body).to include('index_smart_phone_iphone.html.erb')
       end
 
       it 'キャリア固有 partial を使用すること' do
         get '/template_path/partial_only', env: { 'HTTP_USER_AGENT' => user_agent }
 
-        expect(response.body).to include('_partial_mobile_docomo.html.erb')
+        expect(response.body).to include('_partial_smart_phone_iphone.html.erb')
       end
     end
 

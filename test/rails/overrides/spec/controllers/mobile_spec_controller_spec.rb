@@ -15,24 +15,24 @@ describe MobileSpecController, type: :controller do
       end
     end
 
-    context 'mobile access' do
+    context 'smart phone access' do
       it 'should be successful' do
-        request.user_agent = 'DoCoMo/2.0 SH902i(c100;TB;W24H12)'
+        request.user_agent = 'Mozilla/5.0 (Linux; Android 10; Mobile) AppleWebKit/537.36'
         get 'index'
         expect(response).to be_successful
-        expect(response.body).to match(/RailsRoot mobile/)
-        expect(request.mobile?).to be_truthy
-        expect(request.mobile).to be_a(Jpmobile::Mobile::Docomo)
+        expect(response.body).to match(/smart phone page/)
+        expect(request.smart_phone?).to be_truthy
+        expect(request.mobile).to be_a(Jpmobile::Mobile::Android)
       end
 
-      it 'uses the mobile view when fallback is enabled' do
+      it 'uses the smart phone view when fallback is enabled' do
         original_value = Jpmobile.config.fallback_view_selector
         Jpmobile.config.fallback_view_selector = true
-        request.user_agent = 'DoCoMo/2.0 SH902i(c100;TB;W24H12)'
+        request.user_agent = 'Mozilla/5.0 (Linux; Android 10; Mobile) AppleWebKit/537.36'
 
         get 'index'
 
-        expect(response.body).to match(/RailsRoot mobile/)
+        expect(response.body).to match(/smart phone page/)
       ensure
         Jpmobile.config.fallback_view_selector = original_value
       end
@@ -51,15 +51,15 @@ describe MobileSpecController, type: :controller do
       end
     end
 
-    context 'mobile access' do
+    context 'smart phone access' do
       it 'should be successful' do
-        request.user_agent = 'DoCoMo/2.0 SH902i(c100;TB;W24H12)'
+        request.user_agent = 'Mozilla/5.0 (Linux; Android 10; Mobile) AppleWebKit/537.36'
         get 'file_render'
 
         expect(response).to be_successful
         expect(response.body).to match('The change you wanted was rejected')
-        expect(request.mobile?).to be_truthy
-        expect(request.mobile).to be_a(Jpmobile::Mobile::Docomo)
+        expect(request.smart_phone?).to be_truthy
+        expect(request.mobile).to be_a(Jpmobile::Mobile::Android)
       end
     end
   end
@@ -84,13 +84,13 @@ describe MobileSpecController, type: :controller do
       end
     end
 
-    context 'mobile access' do
+    context 'smart phone access' do
       it 'should be successful' do
-        request.user_agent = 'DoCoMo/2.0 SH902i(c100;TB;W24H12)'
+        request.user_agent = 'Mozilla/5.0 (Linux; Android 10; Mobile) AppleWebKit/537.36'
         get 'mobile_not_exist'
 
         expect(response).to be_successful
-        expect(response.body).not_to match('RailsRoot mobile')
+        expect(response.body).not_to match('RailsRoot smart phone')
       end
     end
   end

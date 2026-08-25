@@ -24,6 +24,19 @@ describe Jpmobile::Filter do
       end
 
       context 'Content-Type' do
+        it 'が charset のない空の HTML のときに charset を追加しないこと' do
+          res = Rack::MockRequest.env_for(
+            '/',
+            'REQUEST_METHOD' => 'GET',
+            'HTTP_USER_AGENT' => 'DoCoMo/2.0 SH906i(c100;TB;W24H16)',
+            'Content-Type' => 'text/html',
+          )
+          res = Jpmobile::MobileCarrier.new(Jpmobile::Filter.new(UnitApplication.new(''))).call(res)
+
+          expect(res[1]['Content-Type']).to eq('text/html')
+          expect(response_body(res)).to be_empty
+        end
+
         it 'が application/xhtml+xml のときに変換されること' do
           res = Rack::MockRequest.env_for(
             '/',

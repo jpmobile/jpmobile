@@ -44,6 +44,31 @@ describe DocomoGuidAlwaysController, type: :controller do
   it_should_behave_like 'docomo_guid が起動するとき'
 end
 
+describe DocomoGuidNoneController, type: :controller do
+  before do
+    request.user_agent = 'DoCoMo/2.0 SH902i(c100;TB;W24H12)'
+  end
+
+  it 'DoCoMo 端末でも guid=ON を付与しないこと' do
+    get :link
+
+    expect(response.body).not_to include('guid=ON')
+  end
+end
+
+describe DocomoGuidValidIpController, type: :controller do
+  before do
+    request.user_agent = 'DoCoMo/2.0 SH902i(c100;TB;W24H12)'
+    request.env['REMOTE_ADDR'] = '127.0.0.1'
+  end
+
+  it 'DoCoMo の IP アドレス帯域外からは guid=ON を付与しないこと' do
+    get :link
+
+    expect(response.body).not_to include('guid=ON')
+  end
+end
+
 describe DocomoGuidDocomoController, type: :controller do
   before(:each) do
     request.user_agent = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; ja; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 ( .NET CLR 3.5.30729)'

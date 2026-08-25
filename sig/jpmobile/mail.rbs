@@ -269,8 +269,4 @@ module Mail
 
     alias initialize initialize_with_jpmobile
   end
-
-  class Sendmail
-    def self.call: (untyped path, untyped arguments, untyped destinations, untyped mail) -> untyped
-  end
 end

@@ -8,7 +8,7 @@ module Jpmobile
         when Pathname, String
           Jpmobile::Resolver.new path.to_s
         else
-          super
+          super([path]).first
         end
       end
     end

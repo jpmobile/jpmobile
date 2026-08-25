@@ -10,7 +10,7 @@ module Jpmobile
 
           _candidates = lookup_context.mobile.filter_map do |variant|
             target_template = options[:template] + '_' + variant
-            expected_view_file.virtual_path.match(target_template)
+            expected_view_file.identifier.match?(%r{/#{Regexp.escape(target_template)}\.[^/]+\z})
           end
 
           if _candidates.empty?

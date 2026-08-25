@@ -254,6 +254,47 @@ describe TemplatePathController, 'integrated_views', type: :request do
       end
     end
   end
+
+  context 'fallback_view_selector が有効な場合' do
+    around do |example|
+      original_value = Jpmobile.config.fallback_view_selector
+      Jpmobile.config.fallback_view_selector = true
+
+      example.run
+    ensure
+      Jpmobile.config.fallback_view_selector = original_value
+    end
+
+    context 'DoCoMoからのアクセスの場合' do
+      let(:user_agent) do
+        'DoCoMo/2.0 SH902i(c100;TB;W24H12)'
+      end
+
+      it 'キャリア固有 view を使用すること' do
+        visit '/template_path/index'
+
+        expect(page).to have_content('index_mobile_docomo.html.erb')
+      end
+
+      it 'キャリア固有 partial を使用すること' do
+        visit '/template_path/partial_only'
+
+        expect(page).to have_content('_partial_mobile_docomo.html.erb')
+      end
+    end
+
+    context 'Androidからのアクセスの場合' do
+      let(:user_agent) do
+        'Mozilla/5.0 (Linux; U; Android 1.6; ja-jp; SonyEriccsonSO-01B Build/R1EA018) AppleWebKit/528.5+ (KHTML, like Gecko) Version/3.1.2 Mobile Safari/525.20.1'
+      end
+
+      it '利用可能な smart phone view へフォールバックすること' do
+        visit '/template_path/index'
+
+        expect(page).to have_content('index_smart_phone.html.erb')
+      end
+    end
+  end
 end
 
 describe Jpmobile::Resolver::PathParser do

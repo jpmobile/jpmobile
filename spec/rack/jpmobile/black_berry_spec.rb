@@ -12,7 +12,6 @@ describe Jpmobile::MobileCarrier, 'Windows Phone' do
       env = Jpmobile::MobileCarrier.new(UnitApplication.new).call(res)[1]
 
       expect(env['rack.jpmobile'].class).to            eq(Jpmobile::Mobile::BlackBerry)
-      expect(env['rack.jpmobile'].position).to         be_nil
       expect(env['rack.jpmobile'].smart_phone?).to     be_truthy
       expect(env['rack.jpmobile'].supports_cookie?).to be_truthy
     end

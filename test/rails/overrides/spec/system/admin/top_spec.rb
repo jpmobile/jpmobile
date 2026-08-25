@@ -17,14 +17,14 @@ describe Admin::TopController, type: :feature do
       end
     end
 
-    context 'DoCoMoからのアクセスの場合' do
+    context 'iPhoneからのアクセスの場合' do
       let(:user_agent) do
-        'DoCoMo/2.0 SH902i(c100;TB;W24H12)'
+        'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 Mobile/15E148 Safari/604.1'
       end
-      it '_partial_mobile_docomo.html.erbが使用されること' do
+      it '_partial_smart_phone_iphone.html.erbが使用されること' do
         visit '/admin/top/full_path'
 
-        expect(page).to have_content('_partial_mobile_docomo.html.erb')
+        expect(page).to have_content('_partial_smart_phone_iphone.html.erb')
       end
     end
   end

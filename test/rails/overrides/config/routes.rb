@@ -1,4 +1,4 @@
-# rubocop:disable Performance/CollectionLiteralInLoop
+# rubocop:disable-next Performance/CollectionLiteralInLoop
 RailsRoot::Application.routes.draw do
   resources :users
   namespace :admin do
@@ -111,4 +111,3 @@ RailsRoot::Application.routes.draw do
 
   get 'method_less_action_support', to: 'method_less_action_support#index'
 end
-# rubocop:enable Performance/CollectionLiteralInLoop

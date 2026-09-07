@@ -102,7 +102,7 @@ GEM
     ffi (1.17.4-x86_64-linux-gnu)
     fileutils (1.8.0)
     geokit (1.14.0)
-    git (5.2.0)
+    git (5.4.1)
       activesupport (>= 5.0)
       addressable (~> 2.8)
       process_executer (~> 4.1)
@@ -163,7 +163,7 @@ GEM
       prettyprint
     prettyprint (0.2.0)
     prism (1.9.0)
-    process_executer (4.1.0)
+    process_executer (4.1.1)
       track_open_instances (~> 0.1)
     pry (0.16.0)
       coderay (~> 1.1)

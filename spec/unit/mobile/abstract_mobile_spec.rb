@@ -5,6 +5,18 @@ describe Jpmobile::Mobile::AbstractMobile do
     described_class.new({}, request)
   end
 
+  describe 'デフォルトの端末特性' do
+    it 'ガラケー向けフィルターを適用し、スマートフォン・タブレットではないこと' do
+      mobile = build
+
+      expect(mobile.supports_cookie?).to be(false)
+      expect(mobile.smart_phone?).to be(false)
+      expect(mobile.tablet?).to be(false)
+      expect(mobile.apply_filter?).to be(true)
+      expect(mobile.apply_params_filter?).to be(true)
+    end
+  end
+
   describe '#mail_variants' do
     it '2回目以降は memoize した同一オブジェクトを返すこと' do
       mobile = build
@@ -44,6 +56,18 @@ describe Jpmobile::Mobile::AbstractMobile do
   describe '.valid_ip?' do
     it 'IP 帯域定義が無いキャリアでは false を返すこと' do
       expect(described_class.valid_ip?('1.2.3.4')).to be_falsey
+    end
+  end
+
+  describe '.add_user_agent_regexp' do
+    it '既存の User-Agent 判定に正規表現を追加すること' do
+      carrier = Class.new(described_class)
+      carrier.const_set(:USER_AGENT_REGEXP, /BaseAgent/)
+
+      carrier.add_user_agent_regexp(/AddedAgent/)
+
+      expect(carrier.check_carrier('HTTP_USER_AGENT' => 'AddedAgent')).to be_truthy
+      expect(carrier.check_carrier('HTTP_USER_AGENT' => 'OtherAgent')).to be_falsey
     end
   end
 

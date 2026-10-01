@@ -5,45 +5,25 @@ describe Jpmobile::Mobile::AbstractMobile do
     described_class.new({}, request)
   end
 
-  describe '#mail_variants' do
-    it '2回目以降は memoize した同一オブジェクトを返すこと' do
+  describe 'デフォルトの端末特性' do
+    it 'cookie 非対応で、スマートフォン・タブレットではないこと' do
       mobile = build
-      first = mobile.mail_variants
-      expect(mobile.mail_variants).to equal(first)
+
+      expect(mobile.supports_cookie?).to be(false)
+      expect(mobile.smart_phone?).to be(false)
+      expect(mobile.tablet?).to be(false)
     end
   end
 
-  describe '#content_transfer_encoding' do
-    it 'text/plain で 7bit ならその値を返すこと' do
-      headers = { 'Content-Type' => 'text/plain', 'Content-Transfer-Encoding' => '7bit' }
-      expect(build.content_transfer_encoding(headers)).to eq('7bit')
-    end
+  describe '.add_user_agent_regexp' do
+    it '既存の User-Agent 判定に正規表現を追加すること' do
+      carrier = Class.new(described_class)
+      carrier.const_set(:USER_AGENT_REGEXP, /BaseAgent/)
 
-    it 'text/html かつ decorated なら quoted-printable を返すこと' do
-      mobile = build
-      mobile.decorated = true
-      expect(mobile.content_transfer_encoding('Content-Type' => 'text/html')).to eq('quoted-printable')
-    end
+      carrier.add_user_agent_regexp(/AddedAgent/)
 
-    it 'text/html かつ非 decorated で 7bit ならその値を返すこと' do
-      mobile = build
-      mobile.decorated = false
-      headers = { 'Content-Type' => 'text/html', 'Content-Transfer-Encoding' => '7bit' }
-      expect(mobile.content_transfer_encoding(headers)).to eq('7bit')
-    end
-  end
-
-  describe '#utf8_to_mail_encode' do
-    it 'mail_charset が ISO-2022-JP/Shift_JIS 以外ならそのまま返すこと' do
-      mobile = build
-      allow(mobile).to receive(:mail_charset).and_return('UTF-8')
-      expect(mobile.utf8_to_mail_encode('テスト')).to eq('テスト')
-    end
-  end
-
-  describe '.valid_ip?' do
-    it 'IP 帯域定義が無いキャリアでは false を返すこと' do
-      expect(described_class.valid_ip?('1.2.3.4')).to be_falsey
+      expect(carrier.check_carrier('HTTP_USER_AGENT' => 'AddedAgent')).to be_truthy
+      expect(carrier.check_carrier('HTTP_USER_AGENT' => 'OtherAgent')).to be_falsey
     end
   end
 

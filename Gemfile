@@ -3,8 +3,6 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in jpmobile.gemspec
 gemspec
 
-gem 'geokit'
-gem 'git'
 gem 'pry'
 gem 'rails', '~> 8.1.0'
 gem 'rspec'

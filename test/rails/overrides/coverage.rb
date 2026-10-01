@@ -13,11 +13,11 @@ if ENV.fetch('COVERAGE', nil) && gem_root
   SimpleCov.coverage_dir(File.join(gem_root, 'coverage', 'rails'))
   SimpleCov.start do
     command_name launcher ? 'rails-launcher' : 'rails'
-    track_files 'lib/**/*.rb'
+    cover 'lib/**/*.rb'
     # Host-app files cannot be merged with the in-process jpmobile runs.
-    add_filter {|src| !src.filename.include?('/vendor/jpmobile/lib/') }
+    skip {|src| !src.filename.include?('/vendor/jpmobile/lib/') }
     enable_coverage :branch
-    use_merging true
+    merging true
     formatter SimpleCov::Formatter::SimpleFormatter
   end
 end

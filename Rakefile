@@ -2,7 +2,6 @@ require 'bundler/gem_tasks'
 require 'rake/testtask'
 require 'fileutils'
 require 'pathname'
-require 'git'
 
 desc 'Default: run unit tests.'
 task :default => :test
@@ -29,26 +28,5 @@ namespace :rbs do
   task :all => [:validate, :check]
 end
 
-namespace :test do
-  desc 'Preparation of external modules'
-  task :prepare do
-    external_repos = [
-      'jpmobile-ipaddresses',
-      'jpmobile-terminfo',
-    ]
-    github_prefix = 'https://github.com/jpmobile'
-    vendor_path = Pathname.new(Dir.pwd).join('vendor')
-    FileUtils.mkdir_p(vendor_path)
-
-    FileUtils.cd(vendor_path) do
-      external_repos.each do |repos|
-        unless File.directory?("#{repos}/.git")
-          Git.clone("#{github_prefix}/#{repos}.git", repos, { :path => vendor_path })
-        end
-      end
-    end
-  end
-end
-
-task :test => ['test:prepare', 'spec:unit', 'spec:rack', 'test:sinatra', 'test:rails']
+task :test => ['spec:unit', 'spec:rack', 'test:sinatra', 'test:rails']
 load 'lib/tasks/jpmobile_tasks.rake'

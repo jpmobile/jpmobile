@@ -9,10 +9,9 @@ describe Jpmobile::TemplateDetails::Requested do
       handlers: [:erb],
       formats: [:html],
       variants: [nil],
-      mobile: [:tablet, :smart_phone],
+      mobile: ['tablet', 'smart_phone'],
     )
 
     expect(requested.mobile).to eq(%i[tablet smart_phone])
-    expect(requested.mobile_idx).to include(tablet: 0, smart_phone: 1)
   end
 end

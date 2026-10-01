@@ -21,6 +21,10 @@ describe Jpmobile::RequestWithMobile do
       def remote_ip
         '198.51.100.1'
       end
+
+      def ip
+        '192.0.2.1'
+      end
     end
   end
 
@@ -31,7 +35,7 @@ describe Jpmobile::RequestWithMobile do
   end
 
   it 'Rails リクエストでは remote_ip を接続元 IP として返すこと' do
-    request = remote_ip_request_class.new('REMOTE_ADDR' => '192.0.2.1')
+    request = remote_ip_request_class.new({})
 
     expect(request.remote_addr).to eq('198.51.100.1')
   end

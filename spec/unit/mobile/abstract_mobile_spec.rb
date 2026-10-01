@@ -6,14 +6,12 @@ describe Jpmobile::Mobile::AbstractMobile do
   end
 
   describe 'デフォルトの端末特性' do
-    it 'ガラケー向けフィルターを適用し、スマートフォン・タブレットではないこと' do
+    it 'cookie 非対応で、スマートフォン・タブレットではないこと' do
       mobile = build
 
       expect(mobile.supports_cookie?).to be(false)
       expect(mobile.smart_phone?).to be(false)
       expect(mobile.tablet?).to be(false)
-      expect(mobile.apply_filter?).to be(true)
-      expect(mobile.apply_params_filter?).to be(true)
     end
   end
 

@@ -5,6 +5,7 @@ Capybara.register_driver(:cuprite) do |app|
     app,
     window_size: [1200, 800],
     browser_options: {},
+    process_timeout: 30,
     inspector: true,
   )
 end

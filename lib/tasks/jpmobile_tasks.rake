@@ -146,7 +146,8 @@ desc 'Run the full test suite with coverage and emit a merged report'
 task :coverage do
   coverage_dir = File.join(Dir.pwd, 'coverage')
   FileUtils.rm_f(File.join(coverage_dir, '.resultset.json'))
-  FileUtils.rm_f(File.join(coverage_dir, '.resultset.json.lock'))
+  FileUtils.rm_f(File.join(coverage_dir, 'coverage.json'))
+  FileUtils.rm_f(File.join(coverage_dir, 'lcov.info'))
   FileUtils.rm_rf(File.join(coverage_dir, 'rails'))
 
   ENV['COVERAGE'] = '1'

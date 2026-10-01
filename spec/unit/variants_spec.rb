@@ -105,6 +105,15 @@ describe Jpmobile::Mobile::AndroidTablet do
   end
 end
 
+describe Jpmobile::Mobile::Tablet do
+  subject { described_class.new(nil, nil) }
+
+  it 'smart_phone? と tablet? がともに true になること' do
+    expect(subject.smart_phone?).to be(true)
+    expect(subject.tablet?).to be(true)
+  end
+end
+
 describe Jpmobile::Mobile::Iphone do
   subject { Jpmobile::Mobile::Iphone.new(nil, nil) }
 

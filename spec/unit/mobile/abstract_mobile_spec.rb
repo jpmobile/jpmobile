@@ -5,6 +5,28 @@ describe Jpmobile::Mobile::AbstractMobile do
     described_class.new({}, request)
   end
 
+  describe 'デフォルトの端末特性' do
+    it 'cookie 非対応で、スマートフォン・タブレットではないこと' do
+      mobile = build
+
+      expect(mobile.supports_cookie?).to be(false)
+      expect(mobile.smart_phone?).to be(false)
+      expect(mobile.tablet?).to be(false)
+    end
+  end
+
+  describe '.add_user_agent_regexp' do
+    it '既存の User-Agent 判定に正規表現を追加すること' do
+      carrier = Class.new(described_class)
+      carrier.const_set(:USER_AGENT_REGEXP, /BaseAgent/)
+
+      carrier.add_user_agent_regexp(/AddedAgent/)
+
+      expect(carrier.check_carrier('HTTP_USER_AGENT' => 'AddedAgent')).to be_truthy
+      expect(carrier.check_carrier('HTTP_USER_AGENT' => 'OtherAgent')).to be_falsey
+    end
+  end
+
   describe '#params' do
     it 'request が parameters を持つ場合は parameters を参照すること' do
       mobile = build(double('request', parameters: { 'a' => '1' }))

@@ -102,6 +102,12 @@ end
 
 desc 'Run the full test suite with coverage and emit a merged report'
 task :coverage do
+  coverage_dir = File.join(Dir.pwd, 'coverage')
+  FileUtils.rm_f(File.join(coverage_dir, '.resultset.json'))
+  FileUtils.rm_f(File.join(coverage_dir, 'coverage.json'))
+  FileUtils.rm_f(File.join(coverage_dir, 'lcov.info'))
+  FileUtils.rm_rf(File.join(coverage_dir, 'rails'))
+
   ENV['COVERAGE'] = '1'
   coverage_started_at = Time.now
 
@@ -217,10 +223,10 @@ namespace :coverage do
     end
 
     SimpleCov.collate(result_files) do
-      track_files 'lib/**/*.rb'
-      add_filter '/spec/'
-      add_filter '/test/'
-      add_filter '/vendor/'
+      cover 'lib/**/*.rb'
+      skip '/spec/'
+      skip '/test/'
+      skip '/vendor/'
       enable_coverage :branch
       formatter SimpleCov::Formatter::MultiFormatter.new(
         [

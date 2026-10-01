@@ -33,7 +33,7 @@ namespace :test do
       # generate rails app
       FileUtils.rm_rf(rails_root)
       FileUtils.mkdir_p(rails_root)
-      `bundle exec rails new #{rails_root} --skip-bundle --skip-bootsnap --skip-webpack-install --skip-git --skip-spring`
+      `bundle exec rails new #{rails_root} --skip-bundle --skip-bootsnap --skip-webpack-install --skip-git --skip-spring --skip-system-test`
     end
 
     # setup jpmobile
@@ -43,51 +43,9 @@ namespace :test do
       FileUtils.cp_r(file, plugin_path)
     end
 
-    # setup jpmobile-ipaddresses
-    begin
-      plugin_path = File.join(rails_root, 'vendor', 'jpmobile-ipaddresses')
-      FileUtils.mkdir_p(plugin_path)
-      FileList['vendor/jpmobile-ipaddresses/*'].exclude('test').each do |file|
-        FileUtils.cp_r(file, plugin_path)
-      end
-    rescue LoadError
-      puts 'IP Address test requires jpmobile-ipaddresses module'
-    end
-
-    # setup jpmobile-terminfo
-    begin
-      plugin_path = File.join(rails_root, 'vendor', 'jpmobile-terminfo')
-      FileUtils.mkdir_p(plugin_path)
-      FileList['vendor/jpmobile-terminfo/*'].exclude('test').each do |file|
-        FileUtils.cp_r(file, plugin_path)
-      end
-    rescue LoadError
-      puts 'Terminal display information test requires jpmobile-terminfo module'
-    end
-
-    # setup activerecord-session_store
-    begin
-      plugin_path = File.join(rails_root, 'vendor', 'activerecord-session_store')
-      FileUtils.mkdir_p(plugin_path)
-      FileList['../activerecord-session_store/*'].exclude('test').each do |file|
-        FileUtils.cp_r(file, plugin_path)
-      end
-    rescue LoadError
-      puts 'Terminal display information test requires jpmobile-terminfo module'
-    end
-
     # setup tests
     FileList['test/rails/overrides/*'].each do |file|
       FileUtils.cp_r(file, rails_root)
-    end
-
-    unless skip
-      # for cookie_only option
-      config_path = File.join(rails_root, 'config', 'initializers', 'session_store.rb')
-      File.write(config_path, <<-SESSION_CONFIG)
-        Rails.application.config.session_store :active_record_store, :key => '_session_id'
-        Rails.application.config.session_options = { :cookie_only => false }
-      SESSION_CONFIG
     end
 
     unless skip
@@ -144,6 +102,12 @@ end
 
 desc 'Run the full test suite with coverage and emit a merged report'
 task :coverage do
+  coverage_dir = File.join(Dir.pwd, 'coverage')
+  FileUtils.rm_f(File.join(coverage_dir, '.resultset.json'))
+  FileUtils.rm_f(File.join(coverage_dir, 'coverage.json'))
+  FileUtils.rm_f(File.join(coverage_dir, 'lcov.info'))
+  FileUtils.rm_rf(File.join(coverage_dir, 'rails'))
+
   ENV['COVERAGE'] = '1'
   coverage_started_at = Time.now
 
@@ -259,10 +223,10 @@ namespace :coverage do
     end
 
     SimpleCov.collate(result_files) do
-      track_files 'lib/**/*.rb'
-      add_filter '/spec/'
-      add_filter '/test/'
-      add_filter '/vendor/'
+      cover 'lib/**/*.rb'
+      skip '/spec/'
+      skip '/test/'
+      skip '/vendor/'
       enable_coverage :branch
       formatter SimpleCov::Formatter::MultiFormatter.new(
         [

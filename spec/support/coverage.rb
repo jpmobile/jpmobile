@@ -13,12 +13,12 @@ module JpmobileCoverage
   def start(command)
     SimpleCov.start do
       command_name command
-      track_files 'lib/**/*.rb'
-      add_filter '/spec/'
-      add_filter '/test/'
-      add_filter '/vendor/'
+      cover 'lib/**/*.rb'
+      skip '/spec/'
+      skip '/test/'
+      skip '/vendor/'
       enable_coverage :branch
-      use_merging true
+      merging true
       # Defer human-readable reports to the `coverage:report` task.
       formatter SimpleCov::Formatter::SimpleFormatter
     end

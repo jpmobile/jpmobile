@@ -15,8 +15,6 @@ class Guestbook < Jpmobile::Sinatra::Base
   set :environment, :test
 
   use Jpmobile::MobileCarrier
-  use Jpmobile::ParamsFilter
-  use Jpmobile::Filter
 
   def call(env)
     _dup = dup

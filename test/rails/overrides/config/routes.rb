@@ -1,8 +1,5 @@
 RailsRoot::Application.routes.draw do
-  resources :users
   namespace :admin do
-    resources :users
-
     controller :top do
       get 'top/full_path', to: 'top#full_path'
     end

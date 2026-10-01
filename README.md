@@ -30,6 +30,12 @@ Rails](https://github.com/jpmobile/jpmobile/wiki/Version-:-Jpmobile-vs-Rails)
 * `config.jpmobile.smart_phone_emoticon_compatibility`
 * `config.jpmobile.session_store`
 
+また、以下の破壊的変更があります。
+
+* `Jpmobile::Mobile::Docomo`、`Jpmobile::Mobile::Au`、`Jpmobile::Mobile::Softbank` などフィーチャーフォンのキャリアクラスが削除されました。これらを参照すると `NameError` が発生します。`Jpmobile::Mobile.carriers=` に削除済みのキャリア名を設定している場合も、キャリア判定時に `NameError` が発生します。
+* フィーチャーフォンの User-Agent では `request.mobile` が `nil` になり、PC と同じ扱いになります。`request.mobile?` も falsey になります。
+* gemspec の runtime 依存から `mail` と `scanf` が外れました。これらに暗黙に依存していたアプリケーションでは、Gemfile に自分で追加してください。
+
 ## インストール
 
 ### gemでインストールする場合

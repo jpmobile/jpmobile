@@ -32,19 +32,10 @@ Style/BlockDelimiters:
   Exclude:
     # For support original style
     - 'lib/jpmobile/resolver.rb'
-    - 'lib/jpmobile/mail.rb'
   EnforcedStyle: braces_for_chaining
 
 Layout/IndentationConsistency:
   EnforcedStyle: normal
-
-Naming/AccessorMethodName:
-  Exclude:
-    - 'lib/jpmobile/mail.rb'
-
-Naming/ConstantName:
-  Exclude:
-    - 'lib/jpmobile/datum_conv.rb'
 
 Naming/MemoizedInstanceVariableName:
   Enabled: false
@@ -58,93 +49,46 @@ Style/FormatStringToken:
 
 Metrics/AbcSize:
   Exclude:
-    - 'lib/jpmobile/datum_conv.rb'
-    - 'lib/jpmobile/emoticon.rb'
-    - 'lib/jpmobile/helpers.rb'
-    - 'lib/jpmobile/mail.rb'
     - 'lib/jpmobile/mobile/*'
     - 'lib/jpmobile/fallback_view_selector.rb'
     - 'lib/jpmobile/resolver.rb'
-    - 'lib/jpmobile/rack/filter.rb'
-    - 'lib/jpmobile/trans_sid.rb'
 
 Metrics/CyclomaticComplexity:
   Max: 10
   Exclude:
-    - 'lib/jpmobile/emoticon.rb'
-    - 'lib/jpmobile/helpers.rb'
-    - 'lib/jpmobile/mail.rb'
-    - 'lib/jpmobile/mobile/au.rb'
-    - 'lib/jpmobile/mobile/docomo.rb'
     - 'lib/jpmobile/mobile/abstract_mobile.rb'
 
 Metrics/PerceivedComplexity:
   Max: 8
   Exclude:
-    - 'lib/jpmobile/emoticon.rb'
-    - 'lib/jpmobile/helpers.rb'
-    - 'lib/jpmobile/mail.rb'
-    - 'lib/jpmobile/mobile/au.rb'
-    - 'lib/jpmobile/mobile/docomo.rb'
-    - 'lib/jpmobile/trans_sid.rb'
-    - 'lib/jpmobile/filter.rb'
-    - 'lib/jpmobile/rack/filter.rb'
     - 'lib/jpmobile/mobile/abstract_mobile.rb'
 
 Layout/LineLength:
   Max: 160
   Exclude:
     - '**/*_spec.rb'
-    - 'lib/jpmobile/emoticon/z_combine.rb'
-    - 'lib/jpmobile/hook_action_view.rb'
-    - 'lib/jpmobile/mobile/au.rb'
-    - 'lib/jpmobile/mobile/emobile.rb'
-
-Metrics/ModuleLength:
-  Exclude:
-    - 'lib/jpmobile/emoticon.rb'
-    - 'lib/jpmobile/helpers.rb'
-    - 'lib/jpmobile/util.rb'
 
 Metrics/BlockLength:
   Exclude:
     - '**/*_spec.rb'
     - 'jpmobile.gemspec'
-    - 'lib/jpmobile/emoticon.rb'
     - 'lib/tasks/jpmobile_tasks.rake'
     - 'test/rails/overrides/config/routes.rb'
     - 'Steepfile'
 
-Metrics/BlockNesting:
-  Exclude:
-    - 'lib/jpmobile/trans_sid.rb'
-
 Metrics/ClassLength:
   Exclude:
-    - 'lib/jpmobile/filter.rb'
-    - 'lib/jpmobile/mail.rb'
     - 'lib/jpmobile/mobile/abstract_mobile.rb'
-    - 'lib/jpmobile/mobile/docomo.rb'
 
 Metrics/MethodLength:
   Max: 20
   Exclude:
-    - 'lib/jpmobile/emoticon.rb'
-    - 'lib/jpmobile/helpers.rb'
-    - 'lib/jpmobile/mail.rb'
     - 'lib/jpmobile/resolver.rb'
     - 'test/rails/overrides/db/migrate/*'
 
 Lint/SuppressedException:
   Exclude:
-    - 'lib/jpmobile/emoticon.rb'
     - 'lib/jpmobile/fallback_view_selector.rb'
-    - 'lib/jpmobile/position.rb'
-
-Lint/Void:
-  Exclude:
-    - 'lib/jpmobile/filter.rb'
-    - 'lib/jpmobile/util.rb'
 
 Style/StringConcatenation:
   Enabled: false
@@ -193,7 +137,6 @@ Style/SwapValues: # (new in 1.1)
 
 Style/OptionalBooleanParameter:
   Exclude:
-    - 'lib/jpmobile/emoticon.rb'
     - 'lib/jpmobile/path_set.rb'
 
 Metrics/ParameterLists:
@@ -342,8 +285,6 @@ Lint/UselessRescue: # new in 1.43
   Enabled: true
 Metrics/CollectionLiteralLength: # new in 1.47
   Enabled: true
-  Exclude:
-    - 'lib/jpmobile/emoticon/*.rb'
 Style/ArrayIntersect: # new in 1.40
   Enabled: true
 Style/ComparableClamp: # new in 1.44

@@ -21,16 +21,27 @@ describe Jpmobile::HookTemplateDetailsRequested do
   end
 
   it 'mobile を Symbol 配列に変換し、Symbol キーの index を構築すること' do
-    aggregate_failures do
-      expect(requested.mobile).to eq(%i[tablet smart_phone])
-      expect(requested.mobile_idx.keys).to eq(%i[tablet smart_phone] + [nil])
-    end
+    expect(requested.mobile).to eq(%i[tablet smart_phone])
+    expect(requested.mobile_idx).to include(tablet: 0, smart_phone: 1)
   end
 
   it 'TemplateDetails の検索で mobile variant の index を引けること' do
-    template_details = Jpmobile::TemplateDetails.new(:en, :erb, :html, :default, :tablet)
+    template_details = Jpmobile::TemplateDetails.new(:en, :erb, :html, :default, :smart_phone)
 
-    expect(template_details.matches?(requested)).to eq(0)
-    expect(template_details.sort_key_for(requested)).to eq([0, 0, 0, 0, 0])
+    expect(template_details.matches?(requested)).to be_truthy
+    expect(template_details.sort_key_for(requested)).to eq([0, 0, 0, 1, 0])
+  end
+
+  it 'mobile を指定しない TemplateDetails が汎用テンプレートとして最後に一致すること' do
+    template_details = Jpmobile::TemplateDetails.new(:en, :erb, :html, :default, nil)
+
+    expect(template_details.matches?(requested)).to be_truthy
+    expect(template_details.sort_key_for(requested)).to eq([0, 0, 0, 2, 0])
+  end
+
+  it '要求されていない mobile variant の TemplateDetails は一致しないこと' do
+    template_details = Jpmobile::TemplateDetails.new(:en, :erb, :html, :default, :iphone)
+
+    expect(template_details.matches?(requested)).to be_falsey
   end
 end

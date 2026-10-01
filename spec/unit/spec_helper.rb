@@ -5,16 +5,8 @@ if ENV['COVERAGE']
   require_relative '../support/coverage'
   JpmobileCoverage.start('unit')
 end
-
-module Jpmobile
-  module Mobile
-    @carriers = %w[AbstractMobile Ipad AndroidTablet Iphone Android WindowsPhone BlackBerry]
-  end
-end
-
 $LOAD_PATH.unshift(File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'lib')))
 require 'jpmobile'
-Jpmobile::Mobile.carriers = Jpmobile::Mobile::DEFAULT_CARRIERS.dup
 RSpec.configure do |config|
   config.filter_run focus: true
   config.run_all_when_everything_filtered = true

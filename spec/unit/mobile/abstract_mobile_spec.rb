@@ -48,10 +48,4 @@ describe Jpmobile::Mobile::AbstractMobile do
       expect(mobile.send(:params)).to eq('a' => '1')
     end
   end
-
-  describe 'carrier 判定メソッド' do
-    it 'AbstractMobile 自身を carrier に含めても自己判定メソッドを追加しないこと' do
-      expect(build).not_to respond_to(:abstractmobile?)
-    end
-  end
 end

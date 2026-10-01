@@ -26,6 +26,7 @@ describe Jpmobile do
     $LOAD_PATH.reject! {|path| File.expand_path(path) == lib_dir }
     Jpmobile::Mobile.send(:remove_const, :DEFAULT_CARRIERS)
 
+    # jpmobile.rb を再 load するため、トップレベルに一度きりの副作用を足すとここで二重に実行される。
     load File.join(lib_dir, 'jpmobile.rb')
 
     expect($LOAD_PATH).to include(lib_dir)

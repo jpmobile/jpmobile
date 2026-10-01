@@ -102,7 +102,6 @@ module Jpmobile::Mobile
     # XXX: lib/jpmobile.rbのautoloadで先に各キャリアの定数を定義しているから動くのです
     Jpmobile::Mobile.carriers.each do |carrier|
       carrier_class = Jpmobile::Mobile.const_get(carrier)
-      next if carrier_class == self
 
       define_method :"#{carrier.downcase}?" do
         self.is_a?(carrier_class)

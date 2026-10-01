@@ -13,6 +13,16 @@ describe Jpmobile::Mobile::AbstractMobile do
       expect(mobile.smart_phone?).to be(false)
       expect(mobile.tablet?).to be(false)
     end
+
+    it 'デフォルトの文字コードが UTF-8 であること' do
+      expect(build.default_charset).to eq('UTF-8')
+    end
+  end
+
+  describe '.check_client_hints' do
+    it 'Client Hints に対応しない基底クラスでは nil を返すこと' do
+      expect(described_class.check_client_hints({})).to be_nil
+    end
   end
 
   describe '.add_user_agent_regexp' do
@@ -30,6 +40,11 @@ describe Jpmobile::Mobile::AbstractMobile do
   describe '#params' do
     it 'request が parameters を持つ場合は parameters を参照すること' do
       mobile = build(double('request', parameters: { 'a' => '1' }))
+      expect(mobile.send(:params)).to eq('a' => '1')
+    end
+
+    it 'request が parameters を持たない場合は params を参照すること' do
+      mobile = build(double('request', params: { 'a' => '1' }))
       expect(mobile.send(:params)).to eq('a' => '1')
     end
   end

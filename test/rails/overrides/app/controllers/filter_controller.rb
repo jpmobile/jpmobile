@@ -1,2 +1,0 @@
-class FilterController < FilterControllerBase
-end
